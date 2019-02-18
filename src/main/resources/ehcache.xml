@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false" 
+         monitoring="autodetect"
+         dynamicConfig="true">
+    <diskStore path="java.io.tmpdir"/>
+    
+    <!-- shiro -->
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            />
+
+    <cache name="myRealm.authorizationCache" 
+           maxElementsInMemory="10000" 
+           overflowToDisk="true" 
+           eternal="true" 
+           timeToLiveSeconds="0" 
+           timeToIdleSeconds="0" 
+           diskPersistent="true" 
+           diskExpiryThreadIntervalSeconds="600"> 
+    </cache>    
+        
+    <cache name="shiro-activeSessionCache"
+           maxElementsInMemory="10000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"/>
+    
+    <!-- session -->
+    <cache name="SESSION"
+		  maxElementsInMemory="10000"
+		  maxElementsOnDisk="100000000"
+		  eternal="false"
+		  timeToIdleSeconds="3600"
+		  timeToLiveSeconds="0"
+		  overflowToDisk="true"
+		  diskPersistent="true"
+  		 />
+  		 
+  	<cache name="nodelist"
+           maxElementsInMemory="10000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"/>
+           
+    <cache name="nodeapilist"
+           maxElementsInMemory="10000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"/>
+           
+    <!-- wechat -->
+    <cache name="__lambkit_wechat_access_tokens"
+           maxElementsInMemory="10000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"/>
+</ehcache>

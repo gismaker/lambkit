@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册-UPMS</title>
+
+    <link href="#(ctx)/lambkit/assets/upms/plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="#(ctx)/lambkit/assets/upms/plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet"/>
+    <link href="#(ctx)/lambkit/assets/upms/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
+    <link href="#(ctx)/lambkit/assets/upms/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
+    <link href="#(ctx)/lambkit/assets/upms/plugins/checkbix/css/checkbix.min.css" rel="stylesheet"/>
+    <link href="#(ctx)/lambkit/assets/upms/css/login.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="login-title"></div>
+<div id="login-window">
+    <div class="input-group m-b-20">
+        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+        <div class="fg-line">
+            <input id="username" type="text" class="form-control" name="username" placeholder="帐号" required autofocus>
+        </div>
+    </div>
+    <div class="input-group m-b-20">
+        <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
+        <div class="fg-line">
+            <input id="password" type="password" class="form-control" name="password" placeholder="密码" required>
+        </div>
+    </div>
+    <div class="input-group m-b-20">
+        <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
+        <div class="fg-line">
+            <input id="respass" type="password" class="form-control" name="respass" placeholder="密码" required>
+        </div>
+    </div>
+    <div class="input-group m-b-20">
+        <span class="input-group-addon"><i class="zmdi zmdi-shield-check"></i></span>
+        <div class="fg-line">
+            <input id="captcha" type="text" class="form-control" name="captcha" placeholder="验证码" required value="">
+            <img src="#(ctx)/sso/captcha" alt="" id="verifyImg" style="height: 30px;position: absolute;top: 11px;" onclick="javascript:this.src='#(ctx)/sso/captcha?'+Math.random();">
+        </div>
+    </div>
+    <div class="clearfix">
+    </div>
+    <a id="regitst-bt" href="javascript:;" class="waves-effect waves-button waves-float"><i class="zmdi zmdi-plus"></i></a>
+</div>
+<script src="#(ctx)/lambkit/assets/upms/plugins/jquery.1.12.4.min.js"></script>
+<script src="#(ctx)/lambkit/assets/upms/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<script src="#(ctx)/lambkit/assets/upms/plugins/waves-0.7.5/waves.min.js"></script>
+<script src="#(ctx)/lambkit/assets/upms/plugins/checkbix/js/checkbix.min.js"></script>
+<script>var BASE_PATH = '#(ctx)';</script>
+<script>var BACK_URL = '#(backurl)';</script>
+<script src="#(ctx)/lambkit/assets/upms/js/regist.js"></script>
+</body>
+</html>

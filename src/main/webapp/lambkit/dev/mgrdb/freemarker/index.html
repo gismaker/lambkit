@@ -1,0 +1,64 @@
+ <!doctype html>
+ <html lang="zh-CN">
+ <head>
+   <meta charset="UTF-8">
+   <!-- 
+   <link rel="stylesheet" href="${ctx!}/lambkit/assets/mgrdb/css/common.css">
+   <link rel="stylesheet" href="${ctx!}/lambkit/assets/mgrdb/css/main.css">
+   --> 
+   <link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/css/pages_style.css">
+   <link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/css/list_style.css">
+   <link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/libs/font-awesome/css/font-awesome.min.css">
+   
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/jquery.min.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/colResizable-1.3.min.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/common.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/libs/layer/layer.js"></script>
+   <#assign templatePath="/lambkit/dev/mgrdb/freemarker">
+   <script type="text/javascript">
+      $().ready(function() {
+  		resizeView();
+  		$(window).resize(function() {
+  			resizeView();
+        });
+  	});
+
+
+      function resizeView() {
+    		if($(window).width() < 1024) {
+  	  			$('.search_terms_right').find("span").hide();
+  	  			$('.search_terms_right').find("i").bind('mouseover', function(){
+  	  	  	  		var that = this;
+  	  		  	  	layer.tips($(that).next().text(), that,{
+  	  	  				tips: [3,'#78BA32']
+  	  	  			});
+  	  	  	  	});
+  	  		} else {
+  	  			$('.search_terms_right').find("span").show();
+  	  			$('.search_terms_right').find("i").unbind('mouseover');
+  	  	  	}
+    	  	}
+   </script>
+ </head>
+ <body>
+ 
+ <div id="topToolbar">
+<div class="search_terms">
+    <div class="search_terms_left">${(mgrdb.tbcnn)!}</div>
+    <div class="search_terms_right">
+    	<a href="javascript:void(0);" style="color:#d0d0d0;"><i class="fa fa-home fa-fw"></i><span>主&nbsp;页</span></a>|
+    	<a href="javascript:void(0);" onclick="navto('${ctx!}${url!'/lambkit/mgrdb'}/list')"><i class="fa fa-table fa-fw"></i><span>表&nbsp;格</span></a>|
+    	<a href="javascript:void(0);" onclick="navto('${ctx!}${url!'/lambkit/mgrdb'}/chart')"><i class="fa fa-bar-chart fa-fw"></i><span>图&nbsp;表</span></a>|
+    </div>
+  </div>
+ </div>
+<form id="mysearchform" action="${ctx!}${url!'/lambkit/mgrdb'}/list" method="post">
+	<input type="hidden" name="tag" value="${(tag)!}">
+	<#include templatePath + "/field.html"/> 
+	<input type="hidden" name="totalRow" value="${page.totalRow}">
+	<input type="hidden" name="orderby" value="${(orderby)!}">
+</form>
+	
+	
+</body>
+</html>

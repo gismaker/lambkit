@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>#(mgrdb.model.title??)</title>
+		<link href="#(ctx)/lambkit/assets/libs/bootstrap/css/bootstrap.min.css" title="" rel="stylesheet" />
+		<link title="" href="#(ctx)/lambkit/assets/default/css/style.css" rel="stylesheet" type="text/css" />
+
+		<script src="#(ctx)/lambkit/assets/libs/jquery-1.11.1.min.js" type="text/javascript"></script>
+		<script src="#(ctx)/lambkit/assets/libs/jquery.cookie.js" type="text/javascript"></script>
+		<script src="#(ctx)/lambkit/assets/libs/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/openlayers/ol.css" type="text/css">
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="info-center">
+				<div class="page-header">
+					<div class="pull-left">
+						<h4>#(mgrdb.model.title??)&nbsp;&rsaquo;&nbsp;地图信息</h4>
+					</div>
+					<div class="pull-right datanavlist">
+						<ul class="nav nav-tabs">
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/#(mgrdb.model.id)">主页</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/list/#(mgrdb.model.id)">列表</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/chart/#(mgrdb.model.id)">统计</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/pivot/#(mgrdb.model.id)">分析</a>
+							</li>
+							<li role="presentation" class="active">
+								<a href="#">地图</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="map" style="position: absolute; left: 0; right:0; top:57px;bottom: 0;">
+		</div>
+
+		<script src="#(ctx)/lambkit/assets/libs/openlayers/ol.js"></script>
+
+		<form id="fgdataform" style="display: none;">
+			<input type="hidden" name="tag" value="#(tag)">
+			<input type="hidden" name="pageNum" value="#(page.pageNumber??)" />
+			<input type="hidden" name="numPerPage" value="#(page.pageSize??)" />
+			<input type="hidden" name="totalRow" value="#(page.totalRow??)">
+			<input type="hidden" name="orderby" value="#(orderby)" /> #for(column : mgrdb.fieldList) #if( column.iskey !='Y' && column.isview !='N' && column.ext02 !='N')
+			<input type="hidden" name="#(column.fldname)" value="#(column.val)"> #end #end
+		</form>
+		<script>
+			var map = new ol.Map({
+				target: 'map',
+				layers: [
+					new ol.layer.Tile({
+						source: new ol.source.OSM()
+					})
+				],
+				view: new ol.View({
+					center: ol.proj.fromLonLat([105.41, 30.82]),
+					zoom: 4
+				})
+			});
+
+			function submitApi() {
+				$.ajax({
+					url: "#(ctx)/lambkit/mgrdb/meta/api/page",
+					data: $("#fgdataform").serialize(),
+					success: function(result) {
+						if(result && result.code == 1) {
+							var list = result.data.list;
+							$(".dtable tbody").html("");
+							$.each(list, function(index, item) {
+								var body = getLineDiv(item);
+								$(".dtable tbody").append(body);
+							});
+							dataTablePagination(result.data);
+						}
+					}
+				});
+			}
+
+			$(function() {});
+		</script>
+	</body>
+
+</html>

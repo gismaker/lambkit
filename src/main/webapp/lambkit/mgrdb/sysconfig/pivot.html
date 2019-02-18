@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>#(mgrdb.model.title??)</title>
+		<link href="#(ctx)/lambkit/assets/libs/bootstrap/css/bootstrap.min.css" title="" rel="stylesheet" />
+		<link title="" href="#(ctx)/lambkit/assets/default/css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css" media="all">
+
+		<script src="#(ctx)/lambkit/assets/libs/jquery-1.11.1.min.js" type="text/javascript"></script>
+		<script src="#(ctx)/lambkit/assets/libs/jquery.cookie.js" type="text/javascript"></script>
+		<script src="#(ctx)/lambkit/assets/libs/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="info-center">
+				<div class="page-header">
+					<div class="pull-left">
+						<h4>#(mgrdb.model.title??)&nbsp;&rsaquo;&nbsp;统计信息</h4>
+					</div>
+					<div class="pull-right datanavlist">
+						<ul class="nav nav-tabs">
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/sysconfig/#(mgrdb.model.id)">主页</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/sysconfig/list/#(mgrdb.model.id)">列表</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/sysconfig/chart/#(mgrdb.model.id)">统计</a>
+							</li>
+							<li role="presentation" class="active">
+								<a href="#">分析</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/sysconfig/map/#(mgrdb.model.id)">地图</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!----content-list---->
+				<div class="content-list">
+
+					<div class="row">
+						<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">数据筛选</div>
+							<div class="panel-body">
+								<div class="search_chart">
+									<ul>
+										<li class="form-group">
+											<label class="yunstitle">筛选条件：</label>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						</div>
+
+						<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">数据分组</div>
+							<div class="panel-body">
+								<div class="search_chart">
+									<ul>
+										<li class="form-group">
+											<label class="clstitle">分组项：</label>
+										</li>
+										<li class="form-group">
+											<label class="seriastitle">统计项：</label>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+							<ul class="layui-tab-title">
+								<li class="layui-this">统计表格</li>
+								<li>数据可视化</li>
+							</ul>
+							<div class="layui-tab-content" style="height: 100px;">
+								<div class="layui-tab-item layui-show">
+									<table class="table table-bordered table-header dtable">
+									</table>
+								</div>
+								<div class="layui-tab-item">
+									<!-- hashboard -->
+									<div class="row">
+										<div class="col-md-3">
+											<div class="panel panel-default">
+												<div class="panel-heading">可视化条件</div>
+												<div class="panel-body">
+													<div class="search_chart">
+														<ul>
+															<li class="form-group">
+																<label class="clstitle">数据项：</label>
+																<select id="chartCls" class="form-control chartCls" name="cls">
+																</select>
+															</li>
+															<li class="form-group">
+																<label class="seriastitle">数据值：</label>
+																<select id="chartSerias" class="form-control chartSerias" name="serias">
+																</select>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											
+											<div class="panel panel-default">
+												<div class="panel-heading">可视化配置</div>
+												<div class="panel-body">
+													<div class="search_chart">
+														<ul>
+															<li class="form-group">
+																<label class="typetitle">图表类型：</label>
+																<select id="chartType" class="form-control chartType" name="type">
+																	<option value="pie">饼图</option>
+																	<option value="circular">环状图</option>
+																	<option value="bar">柱状图</option>
+																	<option value="line">折线图</option>
+																</select>
+															</li>
+															<li class="form-group">
+																<label class="themetitle">颜色主题：</label>
+																<select id="chartTheme" class="form-control chartTheme" name="theme">
+																	<option value="default">默认</option>
+																	<option value="macarons">马卡龙</option>
+																	<!-- selected="true"  -->
+																	<option value="infographic">信息图</option>
+																	<option value="shine">亮色</option>
+																	<option value="dark">暗色</option>
+																	<option value="blue">蓝色</option>
+																	<option value="green">绿色</option>
+																	<option value="red">红色</option>
+																	<option value="gray">灰色</option>
+																	<option value="helianthus">向日葵</option>
+																	<option value="roma">罗马</option>
+																	<option value="macarons2">马卡龙2</option>
+																	<option value="sakura">樱花</option>
+																</select>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="col-md-9">
+											<div class="panel panel-default">
+												<div class="panel-heading">可视化图表</div>
+												<div class="panel-body">
+													<div class="mychart" style="height: 380px;"></div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+									<!-- hashboard end -->
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-------footer-----
+					<div class="row newslist">
+						<div class="col-md-12">
+							<div class="content">
+								<p class="text-center">www.lambkit.com</p>
+							</div>
+						</div>
+					</div>
+					-->
+					<!-------footer end------->
+				</div>
+				<!----content-list end---->
+			</div>
+		</div>
+
+		<form id="fgdataform" style="display: none;">
+			<input type="hidden" name="tag" value="#(tag)">
+			<input type="hidden" name="pageNum" value="#(page.pageNumber??)" />
+			<input type="hidden" name="numPerPage" value="#(page.pageSize??)" />
+			<input type="hidden" name="totalRow" value="#(page.totalRow??)">
+			<input type="hidden" name="orderby" value="#(orderby)" /> #for(column : mgrdb.fieldList) #if( column.iskey !='Y' && column.isview !='N' && column.ext02 !='N')
+			<input type="hidden" name="#(column.fldname)" value="#(column.val)"> #end #end
+		</form>
+
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+		<script>
+			layui.use('element', function() {
+				var $ = layui.jquery,
+					element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+			});
+
+			$(function() {});
+		</script>
+	</body>
+
+</html>

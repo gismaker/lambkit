@@ -1,0 +1,22 @@
+.lambkit-iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+html {
+	background-color: #f2f2f2;
+}
+.lambkit-fluid {
+	padding: 15px;
+}
+
+.lambkit-box {
+	padding: 2px;
+	border: 1px solid #e2e2e2;
+	background-color: #f2f2f2;
+	margin-right: 2px;
+}

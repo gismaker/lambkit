@@ -1,0 +1,37 @@
+<!-- 
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:13px; ">
+        <tr>
+          <td width="60%" align="right"><b class="triangle"></b>共<span style="padding:0 5px;">${(page.totalRow)!}</span>条记录，每页
+          <input type="text" name="numPerPage" value="${page.pageSize}" id="textfield" class="ipt" onchange="formaction()">
+          <!-- <span style="padding:0 5px;">${page.pageSize}</span> --条</td>
+          <td td width="20%" align="center">
+          <a href="javascript:void(0);" onclick="paginate(${page.pageSize}, 1)" class="go_home">首页</a>
+          <a href="javascript:void(0);" <#if page.pageNumber gt 1>
+                onclick="paginate(${page.pageSize}, ${page.pageNumber-1})"</#if> class="go_pre"><b></b></a>
+                ${page.pageNumber}/${page.totalPage}页
+          <a href="javascript:void(0);" <#if page.totalPage-page.pageNumber gte 1>
+                onclick="paginate(${page.pageSize}, ${page.pageNumber+1})"</#if> class="go_next"><b></b></a>
+          <a href="javascript:void(0);" onclick="paginate(${page.pageSize}, ${page.totalPage})" class="go_last">尾页</a></td>
+          <td width="20%" align="left">转到第<input type="text" name="pageNum" value="${page.pageNumber}" id="textfield" class="ipt">
+                  <span style="padding:0 5px;">页</span><a href="javascript:void(0);" class="goto" onclick="formaction()"><b></b>转</a></td>
+        </tr>
+      </table>
+ -->
+ 
+ <div class="search_terms">
+    <div class="search_terms_left">
+    <b class="triangle"></b>共<span style="padding:0 5px;">${(page.totalRow)!}</span>条记录，每页
+          <input type="text" name="numPerPage" value="${page.pageSize}" id="textfield" class="ipt" onchange="formaction()">
+    </div>
+    <div class="search_terms_right">
+    <a href="javascript:void(0);" onclick="paginate(${page.pageSize}, 1)" class="go_home">首页</a>
+          <a href="javascript:void(0);" <#if page.pageNumber gt 1>
+                onclick="paginate(${page.pageSize}, ${page.pageNumber-1})"</#if> class="go_pre"><b></b></a>
+                ${page.pageNumber}/${page.totalPage}页
+          <a href="javascript:void(0);" <#if page.totalPage-page.pageNumber gte 1>
+                onclick="paginate(${page.pageSize}, ${page.pageNumber+1})"</#if> class="go_next"><b></b></a>
+          <a href="javascript:void(0);" onclick="paginate(${page.pageSize}, ${page.totalPage})" class="go_last">尾页</a></td>
+          <td width="20%" align="left">转到第<input type="text" name="pageNum" value="${page.pageNumber}" id="textfield" class="ipt">
+                  <span style="padding:0 5px;">页</span><a href="javascript:void(0);" class="goto" onclick="formaction()"><b></b>转</a>
+    </div>
+  </div>

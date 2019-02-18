@@ -1,0 +1,231 @@
+ <!doctype html>
+ <html lang="zh-CN">
+ <head>
+   <meta charset="UTF-8">
+   <!-- 
+   <link rel="stylesheet" href="${ctx!}/lambkit/assets/mgrdb/css.css">
+   <link rel="stylesheet" href="${ctx!}/lambkit/assets/mgrdb/css/main.css">
+   --> 
+   <link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/css/pages_style.css">
+   <link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/css/list_style.css">
+   <link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/libs/font-awesome/css/font-awesome.min.css">
+   
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/jquery.min.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/colResizable-1.3.min.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/common.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/libs/layer/layer.js"></script>
+   <#assign templatePath="/lambkit/dev/mgrdb/freemarker">
+   <script type="text/javascript">
+      $(function(){  
+        $(".list_table").colResizable({
+          liveDrag:true,
+          gripInnerHtml:"<div class='grip'></div>", 
+          draggingClass:"dragging", 
+          minWidth:30
+        }); 
+      }); 
+
+      function searchAction() {
+    	  formaction();
+      }
+      
+      $().ready(function() {
+          //导出excel
+  		$("#btn_export").click(function(){
+  			if(excelmaxnum > 0 && $("input[name='totalRow']").val() > excelmaxnum) {
+  				alert("数据太大，请减小数据量！");
+  				return;
+  			}
+  			window.open("${ctx!}${url!'/lambkit/mgrdb'}/excel?"+$("#mysearchform").serialize());                 //在另外新建窗口中打开窗口
+  		});
+  		$("#container_table").height($(window).height() - $("#bottomToolbar").height() - $("#topToolbar").height() - 20);
+  		$(".table-body").height($("#container_table").height()-$(".table-foot").height()-$(".table-head").height());
+
+  		resizeView();
+  		$(window).resize(function() {
+  			resizeView();
+  			$("#container_table").height($(window).height() - $("#bottomToolbar").height() - $("#topToolbar").height() - 20);
+  			$(".table-body").height($("#container_table").height()-$(".table-foot").height()-$(".table-head").height());
+        });
+        
+  		<#if orderby??>
+  		var orderby = '${orderby}';
+  		var ordername = orderby.split(' ')[0];
+  		var ordermethod = orderby.split(' ')[1];
+  		if($.trim(ordername).length > 0) {
+  			if(ordermethod=='desc') {
+  				$("#zydatatable #"+ordername).addClass("desc")
+  	  			$("#zydatatable #"+ordername+" span").html("&darr;");
+  	  		} else {
+  	  		  	$("#zydatatable #"+ordername).addClass("asc")
+	  			$("#zydatatable #"+ordername+" span").html("&uarr;");
+  	  		}
+  		}
+  		</#if>
+  	});
+
+      function orderby(target, ordername) {
+    	  	if(target==null) return;
+    	  	if(ordername=='') {
+    	  	$("#zydatatable th span").html("");
+    	  $("#zydatatable th").removeClass("asc");
+  	  	$("#zydatatable th").removeClass("desc");
+  	  	var odb = $("input[name='orderby']").val();
+  	  	if(odb!='') {
+  	  		$("input[name='orderby']").val('');
+  	  		searchAction();
+  		  	}
+    	  	  	} else {
+    	  	  	$("#zydatatable th span").html("");
+    	  	  if($(target).hasClass("asc")) {
+    	  		$("#zydatatable th").removeClass("asc");
+    	  	  	$("#zydatatable th").removeClass("desc");
+    	  	  	$(target).addClass("desc")
+    	  		$(target).find("span").html("&darr;");
+    	  	  $("input[name='orderby']").val(ordername + " desc");
+    	  	  } else {
+    	  		$("#zydatatable th").removeClass("asc");
+    	  	  	$("#zydatatable th").removeClass("desc");
+    	  	  	$(target).addClass("asc")
+    	  		$(target).find("span").html("&uarr;");
+    	  		$("input[name='orderby']").val(ordername + " asc");
+    	  	  }
+    		searchAction();
+    	  	  	  	}
+    	}
+
+      function resizeView() {
+    		if($(window).width() < 1024) {
+  	  			$('.search_terms_right').find("span").hide();
+  	  			$('.search_terms_right').find("i").bind('mouseover', function(){
+  	  	  	  		var that = this;
+  	  		  	  	layer.tips($(that).next().text(), that,{
+  	  	  				tips: [3,'#78BA32']
+  	  	  			});
+  	  	  	  	});
+  	  		} else {
+  	  			$('.search_terms_right').find("span").show();
+  	  			$('.search_terms_right').find("i").unbind('mouseover');
+  	  	  	}
+    	  	}
+   </script>
+ </head>
+ <body>
+ 
+ <div id="topToolbar">
+<div class="search_terms">
+    <!-- <div class="search_terms_left">搜索条件</div>  -->
+    <div class="search_terms_right">
+    	<a href="javascript:void(0);" onclick="searchDialog()"><i class="fa fa-search fa-fw"></i><span>检&nbsp;索</span></a>|
+    	<!-- <a href="javascript:void(0);" onclick="formreset()">重&nbsp;置</a>| -->
+    	<a href="${ctx!}${url!'/lambkit/mgrdb'}/list?tid=${tid!}"><i class="fa fa-reply fa-fw"></i><span>重&nbsp;置</span></a>|
+    	<a href="javascript:void(0);" id="btn_export"><i class="fa fa-file-excel-o fa-fw"></i><span>导&nbsp;出</span></a>|
+    	<a href="javascript:void(0);" onclick="navto('${ctx!}/lambkit/mgrdb')"><i class="fa fa-home fa-fw"></i><span>主&nbsp;页</span></a>|
+    	<a href="javascript:void(0);" style="color:#d0d0d0;"><i class="fa fa-table fa-fw"></i><span>表&nbsp;格</span></a>|
+    	<a href="javascript:void(0);" onclick="navto('${ctx!}${url!'/lambkit/mgrdb'}/chart')"><i class="fa fa-bar-chart fa-fw"></i><span>图&nbsp;表</span></a>|
+    </div>
+  </div>
+ </div>
+  <#include templatePath + "/search.html"/>
+<form id="mysearchform" action="${ctx!}${url!'/lambkit/mgrdb'}/list" method="post">
+	<input type="hidden" name="tag" value="${(tag)!}">
+	<#include templatePath + "/field.html"/> 
+	<input type="hidden" name="totalRow" value="${page.totalRow}">
+	<input type="hidden" name="orderby" value="${(orderby)!}">
+  
+  <div id="container_table">
+    <div class="table-head">
+      <table id="zydatatable" cellpadding="3" cellspacing="0" class="h_tab_3" style="text-align:center;">
+          <colgroup><col style="width: 80px;" />
+          <#list mgrdb.fieldList as column>
+			<#if column.iskey !='Y' && column.isview !='N'>
+			<#if column.fldname =='orgcode'>
+			<col style="width: 80px;" />
+			<#if column.ext04 !='province'>
+			<col style="width: 80px;" />
+			</#if>
+			<#else>
+			<col style="width: 80px;" />
+			</#if>
+			</#if>
+			</#list>
+          </colgroup>
+          <thead>
+		<tr>
+			<th align="center" onclick="orderby(this, '')">序号</th>
+			<#list mgrdb.fieldList as column>
+			<#if column.iskey !='Y' && column.isview !='N'>
+			<#if column.fldname =='orgcode'>
+			<th align="center">省名</th>
+			<#if column.ext04 !='province'>
+			<th align="center" onclick="orderby(this, 'orgcode')" id="orgcode">县名<span></span></th>
+			</#if>
+			<#else>
+			<th align="center" onclick="orderby(this, '${column.fldname}')" id="${column.fldname}">${column.fldcnn}<span></span></th>
+			</#if>
+			</#if>
+			</#list>
+		</tr>
+		   </thead>
+     </table>
+     </div>
+     <div class="table-body">
+     <table cellpadding="3" cellspacing="0" class="h_tab_3" style="text-align:center;">
+		 <colgroup><col style="width: 80px;" />
+          <#list mgrdb.fieldList as column>
+			<#if column.iskey !='Y' && column.isview !='N'>
+			<#if column.fldname =='orgcode'>
+			<col style="width: 80px;" />
+			<#if column.ext04 !='province'>
+			<col style="width: 80px;" />
+			</#if>
+			<#else>
+			<col style="width: 80px;" />
+			</#if>
+			</#if>
+			</#list></colgroup>
+         <tbody>
+<#list page.getList() as tr>
+		<tr class="tr">
+			<td class="tcenter">${(tr_index + 1 + ((page.pageNumber - 1)*page.pageSize))}</td>
+			<#list mgrdb.fieldList as column>
+			<#if column.iskey !='Y' && column.isview !='N'>
+			<#if column.fldname =='orgcode'>
+			<@dicdistrict CODE="${(tr.orgcode)!}">
+            <#if entity??>
+            <td class="tcenter">${(entity.PRVNAME)!}</td>
+            <#if column.ext04 !='province'>
+            <td class="tcenter">${(entity.NAME)!}</td>
+            </#if>
+			<#else>
+			<td class="tcenter"></td>
+			<#if column.ext04 !='province'>
+            <td class="tcenter"></td>
+            </#if>
+            </#if>
+            </@dicdistrict>
+            <#else>
+            <#if column.ext05 =='imagelink'>
+			<td class="tcenter"><#if (tr["${column.fldname}"])??><a href="javascript:void(0);" onclick="imageshow('${(tr["${column.fldname}"])!}')">${(tr["${column.fldname}"])!}</a></#if></td>
+			<#elseif column.ext05 =='days'>
+			<td class="tcenter"><#if (tr["${column.fldname}"])??>${(days2cnn(tr["${column.fldname}"]))}</#if></td>
+			<#elseif column.ext05 =='%'>
+			<td class="tcenter"><#if (tr["${column.fldname}"])??>${(percent(tr["${column.fldname}"]))}</#if></td>
+			<#else>
+			<td class="tcenter">${(tr["${column.fldname}"])!}</td>
+			</#if>
+            </#if>
+			</#if>
+			</#list>
+		</tr>
+</#list>
+      </tbody>
+      </table>
+      </div>
+    </div>
+  <div id="bottomToolbar">
+  <#include templatePath + "/pagination.html" />
+  </div>
+	</form>
+</body>
+</html>

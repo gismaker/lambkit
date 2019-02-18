@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>MetaApp-lambkit</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/css/style.css">
+	</head>
+
+	<body>
+		<div class="lambkit-fluid">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">数据库信息</div>
+						<div class="layui-card-body">
+							<p>名称: #(model.dbname ??)</p>
+							<p>类型: #(model.dbtype ??)</p>
+							<p>地址: #(model.dburl ??)</p>
+							<p>用户名: #(model.user ??)</p>
+							<p>密码: #(model.password ??)</p>
+						</div>
+					</div>
+					<div class="layui-card">
+						<div class="layui-card-header">表格信息</div>
+						<div class="layui-card-body">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>名称</th>
+										<th>标题</th>
+										<th>主键</th>
+										<th>创建时间</th>
+									</tr>
+								</thead>
+								<tbody>
+									#for(x:tables)
+									<tr>
+										<td>#(for.count)</td>
+										<td><div class="layui-table-cell"><span><a href="#(ctx)/lambkit/mgrdb/meta/store/db/table/#(x.id)" class="layui-table-link">#(x.name)</a></span></div></td>
+										<td>#(x.title)</td>
+										<td>#(x.keyname)</td>
+										<td>#(x.created)</td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+		<script>
+		</script>
+	</body>
+
+</html>

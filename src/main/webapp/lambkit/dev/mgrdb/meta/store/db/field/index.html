@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>MetaApp-lambkit</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/css/style.css">
+	</head>
+
+	<body>
+		<div class="lambkit-fluid">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">字段信息</div>
+						<div class="layui-card-body">
+							<p>名称: #(model.name ??)</p>
+							<p>标题: #(model.title ??)</p>
+							<p>类型: #(model.datatype ??)</p>
+						</div>
+					</div>
+					<div class="layui-card">
+						<div class="layui-card-header">列表信息</div>
+						<div class="layui-card-body">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>主题</th>
+										<th>显示名称</th>
+									</tr>
+								</thead>
+								<tbody>
+									#for(x:fldlist)
+									<tr>
+										<td>#(for.count)</td>
+										<td>#(x.tmid)</td>
+										<td>#(x.viewname)</td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header">编辑信息</div>
+						<div class="layui-card-body">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>主题</th>
+										<th>编辑类型</th>
+										<th>检查类型</th>
+									</tr>
+								</thead>
+								<tbody>
+									#for(x:fldedit)
+									<tr>
+										<td>#(for.count)</td>
+										<td>#(x.tmid)</td>
+										<td>#(x.edittype)</td>
+										<td>#(x.checktype)</td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header">关联信息</div>
+						<div class="layui-card-body">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>关系</th>
+										<th>对应表</th>
+										<th>对应字段</th>
+									</tr>
+								</thead>
+								<tbody>
+									#for(x:fldrelation)
+									<tr>
+										<td>#(for.count)</td>
+										<td>#(x.relation)</td>
+										<td>#(x.rtbid)</td>
+										<td>#(x.rfldid)</td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header">维度信息</div>
+						<div class="layui-card-body">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>类型</th>
+										<th>字典表</th>
+										<th>字典字段</th>
+										<th>字典类型</th>
+										<th>层级类型</th>
+									</tr>
+								</thead>
+								<tbody>
+									#for(x:flddimession)
+									<tr>
+										<td>#(for.count)</td>
+										<td>#(x.dtype)</td>
+										<td>#(x.rtbid)</td>
+										<td>#(x.rfldid)</td>
+										<td>#(x.rtype)</td>
+										<td>#(x.levelType)</td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header">度量信息</div>
+						<div class="layui-card-body">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>名称</th>
+										<th>类型</th>
+										<th>聚合</th>
+									</tr>
+								</thead>
+								<tbody>
+									#for(x:fldmeasure)
+									<tr>
+										<td>#(for.count)</td>
+										<td>#(x.name)</td>
+										<td>#(x.type)</td>
+										<td>#(x.agg)</td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header">地图信息</div>
+						<div class="layui-card-body">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>地图类型</th>
+										<th>SRID</th>
+										<th>图元类型</th>
+									</tr>
+								</thead>
+								<tbody>
+									#for(x:fldmap)
+									<tr>
+										<td>#(for.count)</td>
+										<td>#(x.mtype)</td>
+										<td>#(x.srid)</td>
+										<td>#(x.geotype)</td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+		<script>
+		</script>
+	</body>
+
+</html>

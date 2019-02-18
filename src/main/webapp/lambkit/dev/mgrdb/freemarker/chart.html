@@ -1,0 +1,398 @@
+ <!doctype html>
+ <html lang="zh-CN">
+ <head>
+   <meta charset="UTF-8">
+   <!-- 
+   <link rel="stylesheet" href="${ctx!}/lambkit/assets/mgrdb/css.css">
+   <link rel="stylesheet" href="${ctx!}/lambkit/assets/mgrdb/css/main.css">
+   --> 
+   <link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/css/pages_style.css">
+   <link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/libs/font-awesome/css/font-awesome.min.css">
+   
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/jquery.min.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/colResizable-1.3.min.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/js/common.js"></script>
+   <script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/libs/layer/layer.js"></script>
+   <#assign templatePath="/lambkit/dev/mgrdb/freemarker">
+   <script type="text/javascript">
+      $(function(){  
+        $(".list_table").colResizable({
+          liveDrag:true,
+          gripInnerHtml:"<div class='grip'></div>", 
+          draggingClass:"dragging", 
+          minWidth:30
+        }); 
+      }); 
+
+      function searchAction() {
+    	  refreshECharts();
+      }
+      
+      $().ready(function() {
+          //导出excel
+  		$(".btn_export").click(function(){
+  			if($("input[name='totalRow']").val() > 1000) {
+  				alert("数据太大，请减小数据量！");
+  				return;
+  			}
+  			window.open("${ctx!}${url!'/lambkit/mgrdb'}/excel?"+$("#mysearchform").serialize());                 //在另外新建窗口中打开窗口
+  		});
+
+  		setChartHeight();
+  		resizeView();
+  		$(".search_terms_left span").addClass("son");
+  		//resizeSelect();
+  		$(window).resize(function() {
+  			setChartHeight();
+  			//resizeSelect();
+  			resizeView();
+        });
+
+  		//////图表参数 start///////
+  		$("#chartCls").change(function() {
+  			refreshECharts();
+        });
+  		$("#chartSerias").change(function() {
+  			setYunsOption();
+  			refreshECharts();
+        });
+  		$("#chartYuns").change(function() {
+  			refreshECharts();
+        });
+  		$("#chartType").change(function() {
+  			refreshECharts();
+        });
+  		/////图表参数 end/////
+  	});
+
+    function initParam() {
+    		var cls = "${(cls)!}";
+      	if(isValue(cls)) {
+      	  $("#chartCls option[value='"+ cls +"']").attr("selected", true);
+      	}
+
+      	var serias = "${(serias)!}";
+      	if(isValue(serias)) {
+      	  $("#chartSerias option[value='"+ serias +"']").attr("selected", true);
+      	}
+
+      	var yuns = "${(yuns)!}";
+      	if(isValue(yuns)) {
+      	  $("#chartYuns option[value='"+ yuns +"']").attr("selected", true);
+      	}
+
+      	var ctype = "${(type)!}";
+      	if(isValue(ctype)) {
+      	  $("#chartType option[value='"+ ctype +"']").attr("selected", true);
+      	}
+
+      	var theme = "${(theme)!}";
+      	if(isValue(theme)) {
+      	  $("#chartTheme option[value='"+ theme +"']").attr("selected", true);
+      	}
+
+      	setYunsOption();
+    }
+
+
+    function resizeView() {
+  		if($(window).width() < 1024) {
+	  			$('.search_terms_right').find("span").hide();
+	  			$('.search_terms_right').find("i").bind('mouseover', function(){
+	  	  	  		var that = this;
+	  		  	  	layer.tips($(that).next().text(), that,{
+	  	  				tips: [3,'#78BA32']
+	  	  			});
+	  	  	  	});
+	  		} else {
+	  			$('.search_terms_right').find("span").show();
+	  			$('.search_terms_right').find("i").unbind('mouseover');
+	  	  	}
+  	  	}
+      
+  	function setChartHeight() {
+  		$("#main").height($(window).height()-$(".search_terms").height()-20);
+  	 }
+
+	 function setYunsOption() {
+		 var ct_serias = $("#chartSerias").val(); 
+		 if(ct_serias=='' || ct_serias==null) addYunsNumberOption();
+		 <#list mgrdb.fieldList as column>
+		 <#if column.iskey =='Y' || column.fldname=='id' || column.fldname=='ID'>
+		else if(ct_serias=="${column.fldname}") $("#chartYuns").html('<option value="COUNT">计数</option>');
+		</#if>
+		<#if column.iskey !='Y' && column.isview !='N' && column.ext02 !='N' && column.fldname!='orgcode'>
+		<#if column.datatype?starts_with('float') || column.datatype?starts_with('number')
+				|| column.datatype?starts_with('numeric')|| column.datatype?starts_with('int')>
+		else if(ct_serias=="${column.fldname}") addYunsNumberOption();
+		<#else>
+		else if(ct_serias=="${column.fldname}") $("#chartYuns").html('<option value="COUNT">计数</option>');
+		</#if>
+		</#if>
+		</#list>
+		 }
+	 function addYunsNumberOption() {
+		 $("#chartYuns").html('<option value="SUM">求和</option><option value="AVG">平均值</option><option value="MAX">最大值</option><option value="MIN">最小值</option><option value="COUNT">计数</option>');
+		 }
+
+	 function resizeSelect() {
+		 $(".search_terms_left").css("width", $(".search_terms").width() - $(".search_terms_right").width() - 5 + "px" );
+		  	if($(".search_terms_left").height() > 50) {
+		  		$(".search_terms_left span.son:last").addClass("soff");
+		  		$(".search_terms_left span.son:last").removeClass("son");
+			  	} else {
+			  		$(".search_terms_left span.soff:first").addClass("son");
+			  		$(".search_terms_left span.soff:first").removeClass("soff");
+				  	}
+
+		  	if($(".search_terms_left").height() > 50) {
+		  		$(".search_terms_left span.son:last").addClass("soff");
+		  		$(".search_terms_left span.son:last").removeClass("son");
+			  	} else {
+			  		$(".search_terms_left span.soff:first").addClass("son");
+			  		$(".search_terms_left span.soff:first").removeClass("soff");
+				  	}
+	 }
+
+	 function showLayer() {
+			layer.open({
+				type:1,
+				shade:false,
+				title:false,
+				shift:5,
+				content:$(".search_chart"),
+				offset:['40px', '10px']
+			});
+		}
+   </script>
+   <title>Document</title>
+   <style type="text/css">
+    .search_terms {
+	border-bottom:1px solid #ddd;
+	}
+   .soff {
+   	display: none;
+   }
+  .search_terms_left a {
+   text-decoration: none;
+   color:#000;
+	} 
+   </style>
+ </head>
+ <body>
+ 
+<div class="container">
+<form id="mysearchform" action="${ctx!}${url!'/lambkit/mgrdb'}/chart" method="post">
+	<input type="hidden" name="tag" value="${(tag)!}">
+	<#include templatePath + "/field.html"/> 
+  <div class="search_terms">
+    <div class="search_terms_left">
+  	<a href="javascript:void(0);" onclick="showLayer()"><i class="fa fa-cog fa-fw"></i>图表设置</a>
+  	</div>
+  	<div class="search_chart" style="margin-right:30px; display:none">
+  	<ul>
+  		<li>
+    	<span class="clstitle">行值选择：</span>
+    	<select id="chartCls" class="chartCls" name="cls">
+    	<#list mgrdb.fieldList as column>
+    	<#if column.iskey !='Y' && column.isview !='N' && column.ext02 !='N' && 
+    	column.fldname!='orgcode' && column.datatype?contains('varchar')>
+    	<option value="${column.fldname}">${column.fldcnn}</option>
+    	</#if>
+    	</#list>
+    	</select>
+    	</li><li>
+    	<span class="seriastitle">列值选择：</span>
+    	<select id="chartSerias" class="chartSerias" name="serias">
+    	<#list mgrdb.fieldList as column>
+		 <#if column.iskey =='Y' || column.fldname=='id' || column.fldname=='ID'>
+		<option value="${column.fldname}">总数</option>
+		</#if>
+		<#if column.iskey !='Y' && column.isview !='N' && column.ext02 !='N' && 
+    	column.fldname!='orgcode'>
+    	<#if column.datatype?starts_with('float') || column.datatype?starts_with('number')
+			|| column.datatype?starts_with('numeric')|| column.datatype?starts_with('int')>
+    	<option value="${column.fldname}">${column.fldcnn}</option>
+    	</#if>
+    	</#if>
+    	</#list>
+    	</select>
+    	</li><li>
+    	<span class="yunstitle">列值运算：</span>
+    	<select id="chartYuns" class="chartYuns" name="yuns">
+    	<option value="COUNT">计数</option>
+    	<option value="SUM">求和</option>
+    	<option value="AVG">平均值</option>
+    	<option value="MAX">最大值</option>
+    	<option value="MIN">最小值</option>
+    	</select>
+    	</li><li>
+    	<span class="typetitle">图形选择：</span>
+    	<select id="chartType" class="chartType" name="type">
+    	<option value="pie">饼图</option>
+    	<option value="circular">环状图</option>
+    	<option value="bar">柱状图</option>
+    	<option value="line">折线图</option>
+    	</select>
+    	</li><li>
+    	<span class="themetitle">颜色主题：</span>
+    	<select id="chartTheme" class="chartTheme" name="theme">
+    	<option value="default">默认</option>
+    	<option value="macarons">马卡龙</option><!-- selected="true"  -->
+    	<option value="infographic">信息图</option>
+    	<option value="shine">亮色</option>
+    	<option value="dark">暗色</option>
+    	<option value="blue">蓝色</option>
+    	<option value="green">绿色</option>
+    	<option value="red">红色</option>
+    	<option value="gray">灰色</option>
+    	<option value="helianthus">向日葵</option>
+    	<option value="roma">罗马</option>
+    	<option value="macarons2">马卡龙2</option>
+    	<option value="sakura">樱花</option>
+    	</select>
+    	</li>
+    	</ul>
+    </div>
+    <div class="search_terms_right">
+    	<a href="javascript:void(0);" onclick="searchDialog()"><i class="fa fa-search fa-fw"></i><span>检&nbsp;索</span></a>|
+    	<!-- <a href="javascript:void(0);" onclick="formreset()">重&nbsp;置</a>| -->
+    	<a href="${ctx!}${url!'/lambkit/mgrdb'}/chart"><i class="fa fa-reply fa-fw"></i><span>重&nbsp;置</span></a>|
+    	<a href="javascript:void(0);" onclick="navto('${ctx!}/lambkit/mgrdb')"><i class="fa fa-home fa-fw"></i><span>主&nbsp;页</span></a>|
+    	<a href="javascript:void(0);" onclick="navto('${ctx!}${url!'/lambkit/mgrdb'}/list')"><i class="fa fa-table fa-fw"></i><span>表&nbsp;格</span></a>|
+    	<a href="javascript:void(0);" style="color:#d0d0d0;"><i class="fa fa-bar-chart fa-fw"></i><span>图&nbsp;表</span></a>|
+    </div>
+  </div>
+  <div id="table" class="mt10">
+    <div class="box span10 oh">
+    	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:400px"></div>
+    </div>
+  </div>
+	</form>
+</div>
+
+<!-- ECharts单文件引入 -->
+    <script src="${ctx!}/lambkit/assets/mgrdb/libs/ec/echarts.js"></script>
+    <script type="text/javascript">
+ // 路径配置
+    require.config({
+        paths: {
+            echarts: '${ctx!}/lambkit/assets/mgrdb/libs/ec'
+        }
+    });
+    var myChart;
+    var curTheme;
+    require([
+                'echarts',
+                'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/pie',
+                'echarts/chart/funnel',
+                'echarts/chart/line'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                 myChart = ec.init(document.getElementById('main')); 
+                 window.onresize = myChart.resize;
+                 initParam();
+                 refreshECharts();
+                 //myChart.setOption(option, true); 
+                 //myChart.hideLoading();
+            });
+
+    $("#chartTheme").change(function() {
+    	var theme = $("#chartTheme").val();
+    	refreshThemeSelect(theme);
+	});
+
+	function refreshThemeSelect(theme) {
+		myChart.showLoading();
+    	if (theme != 'default') {
+            require(['${ctx!}/lambkit/assets/mgrdb/libs/ec/theme/' + theme], function(tarTheme){
+                curTheme = tarTheme;
+                setTimeout(refreshTheme, 500);
+            });
+        }
+        else {
+            curTheme = {};
+            setTimeout(refreshTheme, 500);
+        }
+	}
+
+    function refreshTheme(){
+        myChart.hideLoading();
+        myChart.setTheme(curTheme);
+    }
+    
+    function refreshECharts() {
+    	/*
+        var type = $("#chartType").val();
+        type = isValue(type) ? type : "pie";
+        var cls = $("#chartCls").val(); 
+        var serias = $("#chartSerias").val(); 
+        */
+    	myChart.clear();
+    	setChartHeight();
+    	myChart = require("echarts").init(document.getElementById('main')); 
+    	window.onresize = myChart.resize;
+    	myChart.showLoading({text: '正在努力的读取数据中...',effect:'bubble'});
+    	var theme = $("#chartTheme").val();
+    	if (theme != 'default') {
+            require(['${ctx!}/lambkit/assets/mgrdb/libs/ec/theme/' + theme], function(tarTheme){
+                curTheme = tarTheme;
+                setTimeout(refreshTheme, 500);
+            });
+        }
+        else {
+            curTheme = {};
+        }
+    	ajaxECharts(0);
+    }
+
+    function ajaxECharts(getall) {
+        var aurl = "${ctx!}${url!'/lambkit/mgrdb'}/echart";
+        if(getall==1) aurl += "?getall=1";
+    	$.ajax({url:aurl,
+        	data: $("#mysearchform").serializeArray(),
+        	type:'post',
+        	dataType:"json",
+        	success:function(data){
+        		console.log(data);
+        		if(data['flag']) {
+                 	//console.log(data['option']);
+                 	var option = data['option'];
+                	// 为echarts对象加载数据 
+                    myChart.setOption(echartsAxisLabel(option, $('#main').width()), true); 
+                    myChart.hideLoading();
+                    myChart.setTheme(curTheme);
+                } else if(data['flag']==false) {
+                	//alert("失败");
+                	if(data['status']=='100') {
+                		//alert(data['msg']);
+                		//询问框
+                		layer.confirm(data['msg'] + '<br/>当分类值过多时，加载和渲染速度都会很慢！', {
+                		    btn: ['继续','放弃']
+                		}, function(index){
+                			layer.close(index);
+                			ajaxECharts(1);
+                		}, function(index){
+                			layer.close(index);
+                		});
+                    }
+                } else {
+                	myChart.setOption(echartsAxisLabel(data, $('#main').width()), true); 
+                    myChart.hideLoading();
+                    myChart.setTheme(curTheme);
+                }
+        	},error:function(data) {
+        		alert("失败");
+            }
+    	});
+    }
+    </script>
+    
+    
+    <#include templatePath + "/search.html"/>
+</body>
+</html>
+  

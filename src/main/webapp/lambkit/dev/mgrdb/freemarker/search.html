@@ -1,0 +1,163 @@
+<!-- about search 搜索功能 -->
+<!-- dialog start -->
+<!--[if gte IE 7]><!-->
+<link id="artDialog-skin" href="${ctx!}/lambkit/assets/mgrdb/libs/aui/skin/green.css" rel="stylesheet" />
+<!--<![endif]-->
+<!--[if lt IE 7]>
+<link id="artDialog-skin" href="${ctx!}/lambkit/assets/mgrdb/libs/aui/skin/default.css" rel="stylesheet" />
+<![endif]-->
+<script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/libs/aui/artDialog.js"></script>
+<script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/libs/aui/artDialog.plugins.js"></script>
+<!-- dialog end --> 
+<script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/libs/juicer/juicer.js"></script>
+
+<link rel="stylesheet" type="text/css" href="${ctx!}/lambkit/assets/mgrdb/libs/jauto/jquery.autocomplete.css"></link>
+<script type="text/javascript" src="${ctx!}/lambkit/assets/mgrdb/libs/jauto/jquery.autocomplete.js"></script>
+<#assign templatePath="/lambkit/dev/mgrdb/freemarker">
+	
+<script type="text/javascript">
+$(document).ready(function(){
+	<#list mgrdb.fieldList as column>
+	<#if column.iskey !='Y' && column.isview !='N' && column.ext02 !='N'>
+	<#if column.datatype?starts_with('float') || column.datatype?starts_with('number')
+			|| column.datatype?starts_with('numeric')|| column.datatype?starts_with('int')>
+	initBetween('${column.fldname}');
+	<#elseif column.datatype?starts_with('date')>
+	<#else>
+	$('#searchContent #${column.fldname}').AutoComplete({
+		'data': "${ctx!}${url!'/lambkit/mgrdb'}/autoc?tag=${tag}&fldname=${column.fldname}",
+	    'ajaxDataType': 'json',
+	    'listStyle': 'custom',
+	    'emphasis': false,
+	    'createItemHandler': function(index, data){
+	        return "<span>" + data["value"] + "</span>";  // 文本显示为绿色，并在前后使用'--'包裹
+	    },
+	    'matchHandler': function(keyword, data){
+	        return true;  // 匹配规则: 以输入框中的值开头且大小写敏感
+	    },
+	    'onerror': function(msg){alert(msg);}
+	});
+</#if>
+</#if>
+</#list>
+});
+</script>
+<#include templatePath + '/component/edit/between.html'/>
+<div id="searchContent" style="padding: 10px 10px; display: none;">
+<input type="hidden" name="orgrole" value="${(orgrole)!}">
+<input type="hidden" name="orgtype" value="${(orgtype)!}">
+<input type="hidden" name="orgprv" value="${(orgprv)!}">
+	<table width="100%" border="0" cellpadding="3" cellspacing="1" style="font-size:12px;">
+      <tr>
+<#assign forid = 0>
+<#list mgrdb.fieldList as column>
+<#if column.iskey !='Y' && column.isview !='N' && column.ext02 !='N'>
+<#if forid%2==0><tr></#if>
+<#assign forid = forid+1>
+			<td align="right">${column.fldcnn}：</td><td align="left"><input id="${column.fldname}" type="text" name="${column.fldname}" ></td>
+<#if forid%2==0></tr></#if>
+</#if>
+</#list>
+    </table>
+    <script type="text/javascript">
+    function searchDialog() {
+        var osf = $("#mysearchform input[name=orgsf]").val();
+  	  if(isValue(osf)) {
+  	  	  $("#select_orgsf option[value='"+ osf +"']").attr("selected", true);
+  	  	refreshOrgxj(osf);
+  	  }
+  	var osm = $("#mysearchform input[name=orgsm]").val();
+  	$("#select_orgsm option[value='"+ osm +"']").attr("selected", true);
+
+  	<#list mgrdb.fieldList as column>
+  	<#if column.iskey !='Y' && column.isview !='N' && column.ext02 !='N'>	
+$("#searchContent input[name=${column.fldname}]").val($("#mysearchform input[name=${column.fldname}]").val());
+</#if>
+</#list>
+  		art.dialog({
+  		    title: '检索',
+  		    content: document.getElementById('searchContent'),
+  		    ok: function () {
+      		    $("#mysearchform input[name=orgsf]").val($("#searchContent select[name=orgsf]").children('option:selected').val());
+      			$("#mysearchform input[name=orgxj]").val($("#searchContent select[name=orgxj]").children('option:selected').val());
+      			$("#mysearchform input[name=orgsm]").val($("#searchContent select[name=orgsm]").children('option:selected').val());
+      			<#list mgrdb.fieldList as column>
+      			<#if column.iskey !='Y' && column.isview !='N' && column.ext02 !='N'>
+				$("#mysearchform input[name=${column.fldname}]").val($("#searchContent input[name=${column.fldname}]").val());
+				</#if>
+				</#list>     			
+      		    //formaction();
+				searchAction();
+  		    }
+  		});
+  	  	}
+
+  	function refreshOrgxj(p1) {
+  		var orgtype = $("input[name=orgtype]").val();
+	  	if(isValue(orgtype) && orgtype==3) {
+		  	return;
+	  	}
+    	if(p1==undefined || p1=="" || p1==null){  
+    		$("#select_orgxj").html("<option value=\"\">县级</option>");
+		  	}else{
+		  		$.post("${ctx!}${url!'/lambkit/mgrdb'}/orgxj", {preorg:p1},function(data){
+					if(data) {
+						var tpl = document.getElementById('zy_orgxj_tpl').innerHTML;
+						$("#select_orgxj").html(juicer(tpl, data));
+						var oxj = $("input[name=orgxj]").val();
+				  	  if(isValue(oxj)) {
+				  	  	  $("#select_orgxj option[value='"+ oxj +"']").attr("selected", true);
+				  	  }
+	        	    }
+				});
+		  	}
+  	  	}
+	  	
+    $().ready(function() {
+    	$("#select_orgsf").change(function() {
+    		var p1=$(this).children('option:selected').val();//这就是selected的值 ;
+    		refreshOrgxj(p1);
+        });
+    	<#if orgtype?? && orgtype gt 0>
+    	initOrg();
+    	</#if>
+    });
+
+    function initOrg() {
+    	var osf = $("#mysearchform input[name=orgsf]").val();
+    	  if(isValue(osf)) {
+    	  	  $("#select_orgsf option[value='"+ osf +"']").attr("selected", true);
+    	  	  var orgtype = $("input[name=orgtype]").val();
+    	  	if(isValue(orgtype) && orgtype==3) {
+				//不更新
+        	}else {
+    	  		refreshOrgxj(osf);
+        	}
+
+    	  	var oxj = $("#mysearchform input[name=orgxj]").val();
+    	  	if(isValue(oxj)) {
+    	  		$("#select_orgxj option[value='"+ oxj +"']").attr("selected", true);
+    	  	}else {
+    	  		$("#mysearchform input[name=orgxj]").val($("#searchContent select[name=orgxj]").children('option:selected').val());
+        	 }
+    	  } else {
+    		  $("#mysearchform input[name=orgsf]").val($("#searchContent select[name=orgsf]").children('option:selected').val());
+        	 }
+    	var osm = $("#mysearchform input[name=orgsm]").val();
+    	if(isValue(osm)) {
+    		$("#select_orgsm option[value='"+ osm +"']").attr("selected", true);
+    	} else {
+    		$("#mysearchform input[name=orgsm]").val($("#searchContent select[name=orgsm]").children('option:selected').val());
+        	}
+        }
+    </script>
+    <#noparse>
+    <script id="zy_orgxj_tpl" type="text/template">
+	<option value="">县级</option>
+	{@each list as tr}
+	<option value="${tr.CODE}">${tr.NAME}</option>
+	{@/each}
+	</script>
+	</#noparse>
+</div>
+<!-- about search 搜索功能 end -->

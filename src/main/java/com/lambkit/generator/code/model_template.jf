@@ -1,0 +1,14 @@
+package #(modelPackageName);
+
+import com.lambkit.db.annotation.Table;
+import #(baseModelPackageName).Base#(tableMeta.ModelName);
+
+//@Table(tableName = "#(tableMeta.name)", primaryKey = "#(tableMeta.primaryKey)")
+public class #(tableMeta.modelName) extends Base#(tableMeta.ModelName)<#(tableMeta.modelName)> {
+	#if(generateDaoInModel)
+	public static final #(tableMeta.modelName) dao = new #(tableMeta.modelName)().dao();
+	#else
+	
+	#end
+}
+

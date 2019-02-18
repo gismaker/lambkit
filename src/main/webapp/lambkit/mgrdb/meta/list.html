@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>#(mgrdb.model.title??)</title>
+		<link href="#(ctx)/lambkit/assets/libs/bootstrap/css/bootstrap.min.css" title="" rel="stylesheet" />
+		<link title="" href="#(ctx)/lambkit/assets/default/css/style.css" rel="stylesheet" type="text/css" />
+
+		<script src="#(ctx)/lambkit/assets/libs/jquery-1.11.1.min.js" type="text/javascript"></script>
+		<script src="#(ctx)/lambkit/assets/libs/jquery.cookie.js" type="text/javascript"></script>
+		<script src="#(ctx)/lambkit/assets/libs/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="info-center">
+				<div class="page-header">
+					<div class="pull-left">
+						<h4>#(mgrdb.model.title??)&nbsp;&rsaquo;&nbsp;列表信息</h4>
+					</div>
+					<div class="pull-right datanavlist">
+						<ul class="nav nav-tabs">
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/#(mgrdb.model.id)">主页</a>
+							</li>
+							<li role="presentation" class="active">
+								<a href="#">列表</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/chart/#(mgrdb.model.id)">统计</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/pivot/#(mgrdb.model.id)">分析</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/map/#(mgrdb.model.id)">地图</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!----content-list---->
+				<div class="content-list">
+
+					<!-- hashboard -->
+					<div class="row">
+							<div class="row">
+								<div class="info-center-title dorder" style="margin-top: 0;">
+									<!--
+									<span class="padding-large-right manage-title pull-left">
+										<a class="active" href="javascript:;" order="created desc">最新</a></span>
+									<span class="padding-large-right pull-left">
+										<a href="javascript:;" order="view_count desc">热门</a></span>
+									-->
+									<span class="padding-large-right pull-left form-inline">
+										<div class="input-group">
+      									<input type="text" class="form-control dsearchText" placeholder="Search for...">
+      										<span class="input-group-btn">
+        									<button class="btn btn-default dsearch" type="button">搜索</button>
+      										</span></div>
+								</span>
+							</div>
+							<nav class="dtoppage" aria-label="...">
+								<ul class="pagination" style="margin: 0; float:right;">
+									<li class="disabled">
+										<span><span aria-hidden="true">&lsaquo;</span>
+										</span>
+									</li>
+									<li class="disabled">
+										<span><span aria-hidden="true">&rsaquo;</span>
+										</span>
+									</li>
+								</ul>
+							</nav>
+							<div class="clearfix"></div>
+							<!--table-->
+							<div class="table-margin">
+								<table class="table table-bordered table-header dtable">
+									<thead>
+										<tr>
+											#for(column : mgrdb.fieldList)
+											#set(cols=for.size)
+											#if( column.iskey !='Y' && column.isview !='N' && column.ext02 !='N')
+											<td>#(column.title)</td>
+											#end
+											#end
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="#(cols)">
+												<div class="pull-right">
+													<nav class="dtbpage" aria-label="...">
+														<ul class="pagination" style="margin: 0; float:right;">
+															<li class="disabled">
+																<span><span aria-hidden="true">&laquo;</span>
+																</span>
+															</li>
+															<li class="active">
+																<span>1 <span class="sr-only">(current)</span></span>
+															</li>
+															<li class="disabled">
+																<span><span aria-hidden="true">&raquo;</span>
+																</span>
+															</li>
+														</ul>
+													</nav>
+												</div>
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+							<!--table end-->
+
+						</div>
+
+				</div>
+				<!-- hashboard end -->
+
+				<!-------footer-----
+					<div class="row newslist">
+						<div class="col-md-12">
+							<div class="content">
+								<p class="text-center">www.lambkit.com</p>
+							</div>
+						</div>
+					</div>
+					-->
+				<!-------footer end------->
+			</div>
+			<!----content-list end---->
+		</div>
+		</div>
+		
+		<form id="fgdataform" style="display: none;">
+			<input type="hidden" name="tag" value="#(tag)">
+			<input type="hidden" name="pageNum" value="#(page.pageNumber??)"/>
+			<input type="hidden" name="numPerPage" value="#(page.pageSize??)"/>
+			<input type="hidden" name="totalRow" value="#(page.totalRow??)">
+			<input type="hidden" name="orderby" value="#(orderby)"/>
+			#for(column : mgrdb.fieldList)
+			#if( column.iskey !='Y' && column.isview !='N' && column.ext02 !='N')
+			<input type="hidden" name="#(column.name)" value="#(column.val)">
+			#end
+			#end
+		</form>
+		<script>
+			function dataTablePagination(data) {
+				$(".dtbpage ul").html("");
+				var vpage = $(".dtbpage ul");
+				if(data.firstPage) {
+					vpage.append('<li class="disabled"><span><span aria-hidden="true">&laquo;</span></span></li>');
+				} else {
+					var vp = data.pageNumber-1;
+					vpage.append('<li><a href="javascript:;" onclick="refreshTable('+vp+','+ data.pageSize
+					+')" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+				}
+				var startPage = 1;
+				var endPage = data.totalPage;
+				if(data.totalPage > 15) {
+					if(data.pageNumber > 5) {
+						startPage = data.pageNumber - 5;
+						endPage = data.pageNumber + 5;
+					} else {
+						startPage = 1;
+						endPage = 10;
+					}
+					if(endPage>data.totalPage) {
+						startPage = data.totalPage - 10;
+						endPage = data.totalPage;
+					}
+				}
+				if(startPage > 1) {
+					vpage.append('<li class="disabled"><span><span aria-hidden="true">...</span></span></li>');
+				}
+				for(var i=startPage; i<=endPage; i++) {
+					if(i==data.pageNumber) {
+						vpage.append('<li class="active"><span>'+i+' <span class="sr-only">(current)</span></span></li>');
+					}else {
+						vpage.append('<li><a href="javascript:;" onclick="refreshTable('+i+','+ data.pageSize+')" >'+i+'</a></li>');
+					}
+				}
+				if(endPage<data.totalPage) {
+					vpage.append('<li class="disabled"><span><span aria-hidden="true">...</span></span></li>');
+				}
+				//pageNumber 1
+				//pageSize 10
+				//totalPage 7
+				//totalRow 61
+				if(data.lastPage) {
+					vpage.append('<li class="disabled"><span><span aria-hidden="true">&raquo;</span></span></li>');
+				} else {
+					var vp = data.pageNumber+1;
+					vpage.append('<li><a href="javascript:;" onclick="refreshTable('+vp+','+ data.pageSize
+					+')" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
+				}
+				
+				/*******/
+				var dtoppage = $(".dtoppage ul");
+				dtoppage.html("");
+				if(data.firstPage) {
+					dtoppage.append('<li class="disabled"><span><span aria-hidden="true">&lsaquo;</span></span></li>');
+				} else {
+					var vp = data.pageNumber-1;
+					dtoppage.append('<li><a href="javascript:;" onclick="refreshTable('+vp+','+ data.pageSize
+					+')" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a></li>');
+				}
+				if(data.lastPage) {
+					dtoppage.append('<li class="disabled"><span><span aria-hidden="true">&rsaquo;</span></span></li>');
+				} else {
+					var vp = data.pageNumber+1;
+					dtoppage.append('<li><a href="javascript:;" onclick="refreshTable('+vp+','+ data.pageSize
+					+')" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a></li>');
+				}
+			}
+			
+			function getLineDiv(model) {
+				var body = $('<tr></tr>');
+			#for(column : mgrdb.fieldList)
+			#if( column.iskey !='Y' && column.isview !='N' && column.ext02 !='N')
+			var #(column.name) = $('<td></td>');
+			#(column.name).append(model.#(column.name));
+				body.append(#(column.name));
+			#end
+			#end
+				return body;
+			}
+			
+			function refreshTable(pn, ps) {
+				if(pn) $("#fgdataform input[name=pageNum]").val(pn);
+				if(ps) $("#fgdataform input[name=numPerPage]").val(ps);
+				submitApi();
+			}
+			
+			function submitApi() {
+				$.ajax({
+					url: "#(ctx)/lambkit/mgrdb/meta/api/page",
+					data: $("#fgdataform").serialize(),
+					success: function(result) {
+						if(result && result.code == 1) {
+							var list = result.data.list;
+							$(".dtable tbody").html("");
+							$.each(list, function(index, item) {
+								var body = getLineDiv(item);
+								$(".dtable tbody").append(body);
+							});
+							dataTablePagination(result.data);
+						}
+					}
+				});
+			}
+			
+			function search(text) {
+				#set(i=0)
+				#for(column : mgrdb.fieldList)
+			#if( column.iskey !='Y' && column.isview !='N' && column.ext02 !='N')
+			#if(i==0)
+				$("#fgdataform input[name=#(column.name)]").val(text);
+				#set(i=for.count)
+			#end
+			#end
+			#end
+				submitApi();
+			}
+
+			$(function() {
+				refreshTable(1, 15);
+				
+				$(".dsearchText").on('keypress', function(event) {
+					if(event.keyCode == 13) {
+						var ds = $(".dsearchText").val();
+						search(ds);
+					}
+				});
+
+				$(".dsearch").click(function() {
+					var ds = $(".dsearchText").val();
+					search(ds);
+				});
+				/*
+				$(".dorder a").click(function() {
+					var va = $(this);
+					if(!va.hasClass("active")) {
+						$(".dorder .active").removeClass("active");
+						va.addClass("active");
+						thisOrderBy = va.attr("order");
+						refreshTable(1, 15, thisOrderBy);
+					}
+				});
+				*/
+			});
+		</script>
+	</body>
+
+</html>

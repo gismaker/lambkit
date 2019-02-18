@@ -1,0 +1,946 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>#(mgrdb.model.title??)</title>
+		<link href="#(ctx)/lambkit/assets/libs/bootstrap/css/bootstrap.min.css" title="" rel="stylesheet" />
+		<link title="" href="#(ctx)/lambkit/assets/default/css/style.css" rel="stylesheet" type="text/css" />
+		<link href="#(ctx)/lambkit/assets/default/css/templatecss.css" rel="stylesheet" title="" type="text/css" />
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css" media="all">
+
+		<script src="#(ctx)/lambkit/assets/libs/jquery-1.11.1.min.js" type="text/javascript"></script>
+		<script src="#(ctx)/lambkit/assets/libs/jquery.cookie.js" type="text/javascript"></script>
+		<script src="#(ctx)/lambkit/assets/libs/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<style>
+			.model_name {
+				font-weight: bold;
+				font-size: 1.6em;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="manage account-manage info-center">
+				<div class="page-header">
+					<div class="pull-left">
+						<h4>#(mgrdb.model.title??)&nbsp;&rsaquo;&nbsp;详细信息</h4>
+					</div>
+					<div class="pull-right datanavlist">
+						<ul class="nav nav-tabs">
+							<li role="presentation" class="active">
+								<a href="#">主页</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/list/#(mgrdb.model.id)">列表</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/chart/#(mgrdb.model.id)">统计</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/pivot/#(mgrdb.model.id)">分析</a>
+							</li>
+							<li role="presentation">
+								<a href="#(ctx)/lambkit/mgrdb/meta/map/#(mgrdb.model.id)">地图</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<dl class="account-basic clearfix">
+					<dt class="pull-left">
+						<p class="account-head">
+							<img src="#(ctx)/lambkit/assets/default/img/data.png">
+						</p>
+						</dt>
+					<dd id="dtinfo" class="pull-left margin-large-left margin-small-top">
+						<p class="text-small">
+							<span class="model_name">#(mgrdb.model.title??)</span>
+						</p>
+						<p class="text-small">
+							<span class="show pull-left base-name">数据量</span>:<span class="margin-left model_dataSize"></span>
+						</p>
+						<p class="text-small">
+							<span class="show pull-left base-name">更新时间</span>:<span class="margin-left model_modified">2015-01-12 11:50:22</span>
+						</p>
+					</dd>
+				</dl>
+				<div class="account-basic clearfix">
+					<div class="bund-class">接口</div>
+					<table class="table table-bordered table-header">
+						<thead>
+							<tr>
+								<th>请求方式</th>
+								<th>url</th>
+								<th>中文说明</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>GET POST</td>
+								<td><code>/api/#(mgrdb.model.id)-:id</code></td>
+								<td>详细</td>
+							</tr>
+							<tr>
+								<td>GET POST</td>
+								<td><code>/api/list/#(mgrdb.model.id)-:page</code></td>
+								<td>列表</td>
+							</tr>
+							<tr>
+								<td>GET POST</td>
+								<td><code>/api/geo/#(mgrdb.model.id)-:id</code></td>
+								<td>地图详细</td>
+							</tr>
+							<tr>
+								<td>GET POST</td>
+								<td><code>/api/ogc/#(mgrdb.model.id)</code></td>
+								<td>地图列表</td>
+							</tr>
+							<tr>
+								<td>GET POST</td>
+								<td><code>/api/autoc/#(mgrdb.model.id)-:name-:keword</code></td>
+								<td>自动补全</td>
+							</tr>
+							<tr>
+								<td>GET POST</td>
+								<td><code>/api/excel/#(mgrdb.model.id)</code></td>
+								<td>导出</td>
+							</tr>
+							<tr>
+								<td>GET POST</td>
+								<td><code>/api/chart/#(mgrdb.model.id)</code></td>
+								<td>图表</td>
+							</tr>
+							<tr>
+								<td>GET POST</td>
+								<td><code>/api/pivot/#(mgrdb.model.id)</code></td>
+								<td>透视表</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+					<ul class="layui-tab-title">
+						<li class="layui-this">详细接口说明</li>
+						<li>列表接口说明</li>
+						<li>地图详细接口说明</li>
+						<li>地图列表接口说明</li>
+						<li>自动补全接口说明</li>
+						<li>导出接口说明</li>
+						<li>图表接口说明</li>
+						<li>透视表接口说明</li>
+					</ul>
+					<div class="layui-tab-content" style="height: 100px;">
+						<div class="layui-tab-item layui-show">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div class="panel-heading">详细接口
+								</div>
+								<div class="panel-body">
+									<ul class="account-list">
+										<li><span>接口地址：</span> <code>/api/#(mgrdb.model.id)-:id</code>
+										</li>
+										<li><span>支持格式：</span>JSON</li>
+										<li><span>请求方式：</span>GET POST</li>
+										<li><span>请求事例：</span> /api/#(mgrdb.model.id)-1
+										</li>
+										<li><span>请求事例：</span> /api?tag=#(mgrdb.model.id)&id=1
+										</li>
+
+										<li>
+											<div>请求参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>必填</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>tag</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据表格主键</td>
+													</tr>
+													<tr>
+														<td>id</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据主键</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+										<li>
+											<div>返回参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>code</td>
+														<td>数字</td>
+														<td>错误码，1表示成功，0表示失败</td>
+													</tr>
+													<tr>
+														<td>message</td>
+														<td>文本</td>
+														<td>错误信息</td>
+													</tr>
+													<tr>
+														<td>data</td>
+														<td>随数据而定</td>
+														<td>具体返回的数据</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+
+										<li>
+											<div>data参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													#for(column : mgrdb.fieldList) #if( column.iskey !='Y' && column.isview !='N' && column.ext02 !='N')
+													<tr>
+														<td>#(column.name)</td>
+														<td>#(column.datatype)</td>
+														<td>#(column.title)</td>
+													</tr>
+													#end #end
+												</tbody>
+											</table>
+										</li>
+									</ul>
+								</div>
+								<!--panel-body end-->
+							</div>
+							<!--panel end-->
+						</div>
+						<div class="layui-tab-item">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div class="panel-heading">列表接口
+								</div>
+								<div class="panel-body">
+									<ul class="account-list">
+										<li><span>接口地址：</span> <code>/api/list/#(mgrdb.model.id)-:page</code>
+										</li>
+										<li><span>支持格式：</span>JSON</li>
+										<li><span>请求方式：</span>GET POST</li>
+										<li><span>请求事例：</span> /api/list/#(mgrdb.model.id)-15-1
+										</li>
+										<li><span>请求事例：</span> /api/page/?tag=#(mgrdb.model.id)&numPerPage=15&pageNum=1
+										</li>
+
+										<li>
+											<div>请求参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>必填</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>tag</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据表格主键</td>
+													</tr>
+													<tr>
+														<td>numPerPage</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>每页数据数量</td>
+													</tr>
+													<tr>
+														<td>pageNum</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>页码</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+										<li>
+											<div>返回参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>code</td>
+														<td>数字</td>
+														<td>错误码，1表示成功，0表示失败</td>
+													</tr>
+													<tr>
+														<td>message</td>
+														<td>文本</td>
+														<td>错误信息</td>
+													</tr>
+													<tr>
+														<td>data</td>
+														<td>随数据而定</td>
+														<td>具体返回的数据</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+
+										<li>
+											<div>data参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													#for(column : mgrdb.fieldList) #if( column.iskey !='Y' && column.isview !='N' && column.ext02 !='N')
+													<tr>
+														<td>#(column.name)</td>
+														<td>#(column.datatype)</td>
+														<td>#(column.title)</td>
+													</tr>
+													#end #end
+												</tbody>
+											</table>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="layui-tab-item">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div class="panel-heading">地图详细接口
+								</div>
+								<div class="panel-body">
+									<ul class="account-list">
+										<li><span>接口地址：</span> <code>/api/geo/#(mgrdb.model.id)-:id</code>
+										</li>
+										<li><span>支持格式：</span>JSON</li>
+										<li><span>请求方式：</span>GET POST</li>
+										<li><span>请求事例：</span> /api/geo/#(mgrdb.model.id)-1
+										</li>
+										<li><span>请求事例：</span> /api/geo?tag=#(mgrdb.model.id)-1
+										</li>
+
+										<li>
+											<div>请求参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>必填</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>tag</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据表格主键</td>
+													</tr>
+													<tr>
+														<td>id</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据主键</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+										<li>
+											<div>返回参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>code</td>
+														<td>数字</td>
+														<td>错误码，1表示成功，0表示失败</td>
+													</tr>
+													<tr>
+														<td>message</td>
+														<td>文本</td>
+														<td>错误信息</td>
+													</tr>
+													<tr>
+														<td>data</td>
+														<td>随数据而定</td>
+														<td>GeoJson数据格式</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+									</ul>
+								</div>
+								<!--panel-body end-->
+							</div>
+							<!--panel end-->
+						</div>
+						<div class="layui-tab-item">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div class="panel-heading">地图列表接口
+								</div>
+								<div class="panel-body">
+									<ul class="account-list">
+										<li><span>接口地址：</span> <code>/api/map/#(mgrdb.model.id)</code>
+										</li>
+										<li><span>支持格式：</span>JSON</li>
+										<li><span>请求方式：</span>GET POST</li>
+										<li><span>请求事例：</span> /api/map/#(mgrdb.model.id)
+										</li>
+										<li><span>请求事例：</span> /api/map?tag=#(mgrdb.model.id)
+										</li>
+
+										<li>
+											<div>请求参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>必填</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>tag</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据表格主键</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+										<li>
+											<div>返回参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>code</td>
+														<td>数字</td>
+														<td>错误码，1表示成功，0表示失败</td>
+													</tr>
+													<tr>
+														<td>message</td>
+														<td>文本</td>
+														<td>错误信息</td>
+													</tr>
+													<tr>
+														<td>data</td>
+														<td>随数据而定</td>
+														<td>GeoJson数据格式</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+									</ul>
+								</div>
+								<!--panel-body end-->
+							</div>
+							<!--panel end-->
+						</div>
+						<div class="layui-tab-item">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div class="panel-heading">自动补全接口
+								</div>
+								<div class="panel-body">
+									<ul class="account-list">
+										<li><span>接口地址：</span> <code>/api/autoc/#(mgrdb.model.id)-:name-:keword</code>
+										</li>
+										<li><span>支持格式：</span>JSON</li>
+										<li><span>请求方式：</span>GET POST</li>
+										<li><span>请求事例：</span> /api/autoc/#(mgrdb.model.id)-tbname-tb_
+										</li>
+										<li><span>请求事例：</span> /api/autoc?tag=#(mgrdb.model.id)&name=tbname&keyword=tb_
+										</li>
+
+										<li>
+											<div>请求参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>必填</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>tag</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据表格主键</td>
+													</tr>
+													<tr>
+														<td>name</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>表格字段名称</td>
+													</tr>
+													<tr>
+														<td>keword</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>需要补全的值</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+										<li>
+											<div>返回参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>code</td>
+														<td>数字</td>
+														<td>错误码，1表示成功，0表示失败</td>
+													</tr>
+													<tr>
+														<td>message</td>
+														<td>文本</td>
+														<td>错误信息</td>
+													</tr>
+													<tr>
+														<td>data</td>
+														<td>列表</td>
+														<td>补全列表</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+									</ul>
+								</div>
+								<!--panel-body end-->
+							</div>
+							<!--panel end-->
+						</div>
+						
+						<div class="layui-tab-item">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div class="panel-heading">导出接口
+								</div>
+								<div class="panel-body">
+									<ul class="account-list">
+										<li><span>接口地址：</span> <code>/api/excel/#(mgrdb.model.id)</code>
+										</li>
+										<li><span>支持格式：</span>JSON</li>
+										<li><span>请求方式：</span>GET POST</li>
+										<li><span>请求事例：</span> /api/excel/#(mgrdb.model.id)
+										</li>
+										<li><span>请求事例：</span> /api/excel?tag=#(mgrdb.model.id)
+										</li>
+
+										<li>
+											<div>请求参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>必填</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>tag</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据表格主键</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+										<li>
+											<div>返回参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>xls</td>
+														<td>文件</td>
+														<td>Excel文件</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+									</ul>
+								</div>
+								<!--panel-body end-->
+							</div>
+							<!--panel end-->
+						</div>
+						<div class="layui-tab-item">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div class="panel-heading">图表接口
+								</div>
+								<div class="panel-body">
+									<ul class="account-list">
+										<li><span>接口地址：</span> <code>/api/chart/#(mgrdb.model.id)</code>
+										</li>
+										<li><span>支持格式：</span>JSON</li>
+										<li><span>请求方式：</span>GET POST</li>
+										<li><span>请求事例：</span> /api/chart?tag=1&cls=datatype&serias=id&yuns=count
+										</li>
+
+										<li>
+											<div>请求参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>必填</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>tag</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据表格主键</td>
+													</tr>
+													<tr>
+														<td>cls</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>分组项</td>
+													</tr>
+													<tr>
+														<td>serias</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>统计项</td>
+													</tr>
+													<tr>
+														<td>yuns</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>统计项的计算方法</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+										<li>
+											<div>返回参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>code</td>
+														<td>数字</td>
+														<td>错误码，1表示成功，0表示失败</td>
+													</tr>
+													<tr>
+														<td>message</td>
+														<td>文本</td>
+														<td>错误信息</td>
+													</tr>
+													<tr>
+														<td>data</td>
+														<td>随数据而定</td>
+														<td>具体返回的数据</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+
+										<li>
+											<div>data参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>cls</td>
+														<td>文本</td>
+														<td>分组项</td>
+													</tr>
+													<tr>
+														<td>serias</td>
+														<td>数字</td>
+														<td>统计值</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+									</ul>
+								</div>
+								<!--panel-body end-->
+							</div>
+							<!--panel end-->
+						</div>
+						<div class="layui-tab-item">
+							<div class="panel panel-default">
+								<!-- Default panel contents -->
+								<div class="panel-heading">透视表接口
+								</div>
+								<div class="panel-body">
+									<ul class="account-list">
+										<li><span>接口地址：</span> <code>/api/pivot/#(mgrdb.model.id)</code>
+										</li>
+										<li><span>支持格式：</span>JSON</li>
+										<li><span>请求方式：</span>GET POST</li>
+										<li><span>请求事例：</span> /api/pivot?tag=1&row=datatype&measure=count(id)&column=
+										</li>
+
+										<li>
+											<div>请求参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>必填</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>tag</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>数据表格主键</td>
+													</tr>
+													<tr>
+														<td>row</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>分组项</td>
+													</tr>
+													<tr>
+														<td>measure</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>统计项</td>
+													</tr>
+													<tr>
+														<td>column</td>
+														<td>系统参数</td>
+														<td>是</td>
+														<td>统计项的分组</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+										<li>
+											<div>返回参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>code</td>
+														<td>数字</td>
+														<td>错误码，1表示成功，0表示失败</td>
+													</tr>
+													<tr>
+														<td>message</td>
+														<td>文本</td>
+														<td>错误信息</td>
+													</tr>
+													<tr>
+														<td>data</td>
+														<td>随数据而定</td>
+														<td>具体返回的数据</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+
+										<li>
+											<div>data参数</div>
+											<table class="table table-bordered table-header dtable">
+												<thead>
+													<tr>
+														<td>名称</td>
+														<td>类型</td>
+														<td>说明</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>rows</td>
+														<td>文本列表</td>
+														<td>分组维度</td>
+													</tr>
+													<tr>
+														<td>measures</td>
+														<td>数字列表</td>
+														<td>统计值</td>
+													</tr>
+													<tr>
+														<td>columns</td>
+														<td>文本列表</td>
+														<td>统计值分组</td>
+													</tr>
+													<tr>
+														<td>rowHead</td>
+														<td>文本列表</td>
+														<td>分组维度的表头</td>
+													</tr>
+													<tr>
+														<td>colHead</td>
+														<td>文本列表</td>
+														<td>统计值分组的表头</td>
+													</tr>
+													<tr>
+														<td>rowlen</td>
+														<td>数字</td>
+														<td>表头的行数</td>
+													</tr>
+													<tr>
+														<td>data</td>
+														<td>列表</td>
+														<td>统计数据</td>
+													</tr>
+													<tr>
+														<td>rowCategory</td>
+														<td>文本列表</td>
+														<td>分组项的所有分类</td>
+													</tr>
+													<tr>
+														<td>colCategory</td>
+														<td>文本列表</td>
+														<td>统计分组项的所有分类</td>
+													</tr>
+												</tbody>
+											</table>
+										</li>
+									</ul>
+								</div>
+								<!--panel-body end-->
+							</div>
+							<!--panel end-->
+						</div>
+						<!--layui-tab-item end-->
+					</div>
+					<!--layui-tab-content end-->
+				</div>
+				<!--layui-tab end-->
+			</div>
+		</div>
+		<form id="fgdataform" style="display: none;">
+			<input type="hidden" name="tag" value="1035" />
+			<input type="hidden" name="id" value="#(id)" />
+		</form>
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+		<script>
+			layui.use('element', function() {
+				var $ = layui.jquery,
+					element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+			});
+
+			function refreshValue(profix, target, value) {
+				$("." + profix + target).val(value);
+			}
+
+			function refreshView(profix, target, value) {
+				$("." + profix + target).html(value);
+			}
+
+			function refreshInfo(id) {
+				if(id) $("#fgdataform input[name=id]").val(id);
+				$.ajax({
+					url: "#(ctx)#(center??" / center ")/data/info",
+					data: $("#fgdataform").serialize(),
+					success: function(result) {
+						if(result && result.code == 1) {
+							var data = result.data;
+							for(var key in data) {
+								console.log(key, data[key]);
+								refreshView("model_", key, data[key]);
+							}
+						}
+					}
+				});
+			}
+			$(function() {
+				//refreshInfo();
+			});
+		</script>
+	</body>
+
+</html>

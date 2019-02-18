@@ -1,0 +1,94 @@
+<style>
+#eidt_between {
+	font-size: 10px;
+	color: #888;
+	display: none;
+}
+#eidt_between ul {
+	/*margin: 10px auto;*/
+	padding: 0 10px;
+	margin-bottom: 5px;
+}
+#eidt_between ul li {
+	list-style-type:none;
+	line-height: 20px;
+}
+</style>
+
+<div id="eidt_between">
+<ul>
+<li><input id="input_start"><span>-</span><input id="input_end"></li>
+<li>请输入数值区间！</li>
+</ul>
+</div>
+<script type="text/javascript">
+var lastIndex = 0;
+var rebind = true;
+function initBetween(target) {
+	$('#'+target).bind("focus",function(){
+		if(lastIndex>0) {
+			rebind = false;
+			layer.close(lastIndex);
+			$("#eidt_between #input_start").unbind("input propertychange");
+			$("#eidt_between #input_end").unbind("input propertychange");
+			$(document).unbind("click");
+		}
+		inputBetween(target);
+	});
+}
+
+function closeBetween(index, target) {
+	if(rebind) {
+		$("#eidt_between #input_start").unbind("input propertychange");
+		$("#eidt_between #input_end").unbind("input propertychange");
+		//$('#'+target).unbind("focus");
+		//$('#'+target).unbind("blur");
+		$(document).unbind("click");
+	}
+	//console.log("layer.index", index);
+	if(index > 0) {
+		layer.close(index);
+	}
+}
+
+function inputBetween(target) {
+	var tval = $.trim($('#'+target).val());
+	var ti = tval.substr(0,1);
+	if(ti=='@') tval = tval.substr(1,tval.length-1);
+	if(tval.length > 0) {
+		var newtval = tval.split("-");
+		$("#eidt_between #input_start").val(newtval[0]);
+		if(tval.indexOf("-") > 0) $("#eidt_between #input_end").val(newtval[1]);
+	} else {
+		$("#eidt_between #input_start").val("");
+		$("#eidt_between #input_end").val("");
+	}
+	$("#eidt_between #input_start").bind("input propertychange",function(){
+		$('#'+target).val("@" + $("#eidt_between #input_start").val() + "-" + $("#eidt_between #input_end").val());
+	});
+	$("#eidt_between #input_end").bind("input propertychange",function(){
+		$('#'+target).val("@" + $("#eidt_between #input_start").val() + "-" + $("#eidt_between #input_end").val());
+	});
+	var offs = $("#"+target).offset();
+	var oh =  $("#"+target).outerHeight();
+	//console.log(offs, oh);
+	$("#eidt_between").show();
+	var index = layer.open({
+		type:1,
+		title:false,
+		shade:false,
+		shift:5,
+		offset:[offs.top + oh + 2 +'px', offs.left+'px'],
+		closeBtn:0,
+		content: $("#eidt_between")
+	});
+	lastIndex = index;
+	$(document).bind("click",function(e){
+		var tgt = $(e.target);
+		//console.log(tgt);
+		if(tgt.closest("#eidt_between").length==0 && tgt.closest("#" + target).length==0) {
+			closeBetween(index, target);
+		}
+	});
+}
+</script>

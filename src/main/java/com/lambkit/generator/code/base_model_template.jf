@@ -1,0 +1,38 @@
+package #(baseModelPackageName);
+
+import com.jfinal.plugin.activerecord.IBean;
+
+import com.lambkit.common.dao.BaseModel;
+
+#if (generateChainSetter)
+@SuppressWarnings({"serial", "unchecked"})
+#else
+@SuppressWarnings("serial")
+#end
+public abstract class Base#(tableMeta.modelName)<M extends Base#(tableMeta.modelName)<M>> extends BaseModel<M> implements IBean {
+
+	public String getTableName() {
+		return "#(tableMeta.name)";
+	}
+	
+#set(b = generateChainSetter)
+#for(cm : tableMeta.columnMetas)
+	#set(argName = javaKeyword.contains(cm.attrName) ? '_' + cm.attrName : cm.attrName)
+	public #(b ? 'M' : 'void') set#(firstCharToUpperCase(cm.attrName))(#(cm.javaType) #(argName)) {
+		set("#(cm.name)", #(argName));
+		#if(b)
+		return (M)this;
+		#end
+	}
+	
+	#set(getterOfModel = getterTypeMap.get(cm.javaType))
+	#if(isBlank(getterOfModel))
+		#set(getterOfModel = 'get')
+	#end
+	public #(cm.javaType) get#(firstCharToUpperCase(cm.attrName))() {
+		return #(getterOfModel)("#(cm.name)");
+	}
+
+#end
+}
+

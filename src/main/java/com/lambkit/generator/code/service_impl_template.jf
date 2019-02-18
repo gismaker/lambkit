@@ -1,0 +1,14 @@
+package #(serviceImplPackageName);
+
+import #(servicePackageName).#(tableMeta.modelName)Service;
+import #(modelPackageName).#(tableMeta.modelName);
+import com.lambkit.common.service.BaseModelServiceImpl;
+
+public class #(tableMeta.modelName)ServiceImpl extends BaseModelServiceImpl<#(tableMeta.modelName)> implements #(tableMeta.modelName)Service {
+
+	protected final #(tableMeta.modelName) DAO = new #(tableMeta.modelName)();
+	
+	public #(tableMeta.modelName) dao() {
+		return DAO;
+	}
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>路由-lambkit</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/css/style.css">
+	</head>
+
+	<body>
+		<div class="lambkit-fluid">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">路由信息</div>
+						<div class="layui-card-body">
+							<table class="layui-hide" id="test"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+		
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+  
+  table.render({
+    elem: '#test'
+    ,url:'#(ckey)/route/table/layui'
+    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+    ,cols: [[
+      {field:'controllerKey', title: '控制器地址', templet: '#titleTpl', sort: true}
+      ,{field:'controllerClass', title: '控制器类名称', templet: '#clazzTpl', sort: true}
+      //,{field:'viewPath', title: 'view地址', sort: true} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+    ]]
+  });
+});
+</script>
+
+<script type="text/html" id="titleTpl">
+	<span><a href="#(ckey)/route?name={{d.controllerKey}}" class="layui-table-link">{{d.controllerKey}}</a></span>
+</script>
+
+<script type="text/html" id="clazzTpl">
+      <span><a href="#(ckey)/clazz?name={{d.controllerClass}}" class="layui-table-link">{{d.controllerClass}}</a></span>
+</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>控制器-lambkit</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/css/style.css">
+	</head>
+
+	<body>
+		<div class="lambkit-fluid">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">控制器Controller信息</div>
+						<div class="layui-card-body">
+							<table class="layui-hide" id="test"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+		
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+  
+  table.render({
+    elem: '#test'
+    ,url:'#(ckey)/route/actions/layui'
+    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+    ,cols: [[
+      {field:'actionKey', title: '接口', sort: true}
+      ,{field:'controllerKey', title: '控制器地址', sort: true}
+      ,{field:'controllerClass', title: '控制器类名称', templet: '#clazzTpl', sort: true}
+      /*
+      ,{field:'methodName', title: 'methodName', sort: true}
+      ,{field:'viewPath', title: 'viewPath', sort: true} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+      ,{field:'interceptors', title: 'interceptors', templet: '#titleTpl'}
+      */
+     ,{field:'count', title: '访问次数(次)', sort: true}
+     ,{field:'avgTime', title: '平均耗时(ms)', sort: true}
+     ,{field:'lastTime', title: '最近耗时(ms)', sort: true}
+    ]]
+  });
+});
+</script>
+
+<script type="text/html" id="titleTpl">
+	{{#  layui.each(d.interceptors, function(index, item){ }}
+      <span><a href="#(ckey)/interceptors?akey={{d.actionKey}}" class="layui-table-link">{{item.name}}</a></span>
+  {{#  }); }}
+</script>
+
+<script type="text/html" id="clazzTpl">
+      <span><a href="#(ckey)/clazz?name={{d.controllerClass}}" class="layui-table-link">{{d.controllerClass}}</a></span>
+</script>
+
+	</body>
+
+</html>
