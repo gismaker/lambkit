@@ -16,6 +16,10 @@ import com.lambkit.db.mgr.MgrdbService;
 import com.lambkit.module.sysconfig.SysconfigModule;
 import com.lambkit.server.LambkitServer;
 
+/**
+ * Sysconfig表格配置初始化
+ * @author yangyong
+ */
 public class SysconfigInitTest {
 	public static void main(String[] args) {
 		Lambkit.setBootArg("lambkit.server.type", "applicaiton");
@@ -27,9 +31,12 @@ public class SysconfigInitTest {
 		MgrdbService service = MgrdbManager.me().getService();
 
 		Map<String, Object> options = Maps.newHashMap();
+		//标题中需要去掉的前缀
 		options.put("tableRemovePrefixes", "cms_");
+		//不包含如下数据表
 		options.put("excludedTables", "meta_correlation, bak_user,sys_fieldconfig, sys_tableconfig");
 		/*
+		//仅包含如下数据表
 		options.put("includedTables",
 				"meta_app, meta_app_api, meta_app_store, meta_correlation, meta_doc, meta_field, meta_field_edit, meta_field_join, meta_field_list, meta_field_map, meta_field_olap, meta_map, meta_resource_level, meta_store_db, meta_store_resource, meta_table, meta_theme");
 		*/

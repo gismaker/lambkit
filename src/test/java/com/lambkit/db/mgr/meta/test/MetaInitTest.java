@@ -15,6 +15,11 @@ import com.lambkit.db.mgr.MgrdbService;
 import com.lambkit.module.meta.MetaMgrModule;
 import com.lambkit.server.LambkitServer;
 
+/**
+ * Meta表格配置初始化
+ * @author yangyong
+ *
+ */
 public class MetaInitTest {
 	public static void main(String[] args) {
 		Lambkit.setBootArg("lambkit.server.type", "applicaiton");
@@ -26,9 +31,12 @@ public class MetaInitTest {
 		MgrdbService service = MgrdbManager.me().getService();
 
 		Map<String, Object> options = Maps.newHashMap();
+		//标题中需要去掉的前缀
 		options.put("tableRemovePrefixes", "cms_");
+		//不包含的表格
 		options.put("excludedTables", "meta_correlation, bak_user,sys_fieldconfig, sys_tableconfig");
 		/*
+		//仅包含的表格
 		options.put("includedTables",
 				"meta_app, meta_app_api, meta_app_store, meta_correlation, meta_doc, meta_field, meta_field_edit, meta_field_join, meta_field_list, meta_field_map, meta_field_olap, meta_map, meta_resource_level, meta_store_db, meta_store_resource, meta_table, meta_theme");
 		*/
