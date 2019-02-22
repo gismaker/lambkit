@@ -3,6 +3,7 @@ lambkit-0.1-alpha4：
 
 新增：增加meta的管理Controller，新增“com.lambkit.module.meta.web.controller.manage”包。
 新增：增加meta页面，webapp/lambkit/mgrdb/dev/meta
+修复：修改RpcKit"检测端口占用"功能使用不当导致的service无法注册问题。
 
 -----------------------------
 lambkit-0.1-alpha3：

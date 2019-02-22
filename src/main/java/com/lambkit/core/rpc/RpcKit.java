@@ -103,7 +103,7 @@ public class RpcKit {
 	public static <T> boolean serviceExport(Class<T> interfaceClass, Object object) {
 		Rpc rpc = RpcManager.me().getRpc();
 		RpcConfig rpcConfig = ConfigManager.me().get(RpcConfig.class);
-		if(rpc!=null && !isLocalPortUsing(rpcConfig.getDefaultPort())) {
+		if(rpc!=null) {
 			return rpc.serviceExport(interfaceClass, object, rpcConfig.getDefaultGroup(), rpcConfig.getDefaultVersion(), rpcConfig.getDefaultPort());
 		}
 		return false;
@@ -120,7 +120,7 @@ public class RpcKit {
 	 */
 	public static <T> boolean serviceExport(Class<T> interfaceClass, Object object, String group, String version, int port) {
 		Rpc rpc = RpcManager.me().getRpc();
-		if(rpc!=null && !isLocalPortUsing(port)) {
+		if(rpc!=null) {
 			return rpc.serviceExport(interfaceClass, object, group, version, port);
 		}
 		return false;
