@@ -3,14 +3,43 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.lambkit</groupId>
 	<artifactId>lambkit</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.4</version>
 	<name>lambkit</name>
 	<url>http://maven.apache.org</url>
 
+	<parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+    
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 	</properties>
+	
+	<licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/gismaker/lambkit.git</connection>
+        <developerConnection>scm:git:ssh://github.com:gismaker/lambkit.git</developerConnection>
+        <url>http://github.com/gismaker/lambkit/tree/master</url>
+    </scm>
+    
+    <developers>
+        <developer>
+            <name>Henry</name>
+            <email>gismail@foxmail.com</email>
+            <organization>http://www.lambkit.com</organization>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
 
 	<!-- 使用阿里 maven 库 -->
 	<repositories>
@@ -68,7 +97,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.9.5.1</version>
+			<version>0.9.5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -139,7 +168,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.4.3</version>
+			<version>2.9.1</version>
 		</dependency>
 
 		<dependency>
@@ -436,4 +465,17 @@
 
 		</plugins>
 	</build>
+	
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
 </project>
