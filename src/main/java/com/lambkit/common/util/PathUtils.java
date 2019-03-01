@@ -69,7 +69,7 @@ public class PathUtils {
 			// 处理文件夹地址模板
 			String newPath = processDir(templateModel, dir);
 			if(newPath==null) continue;
-			String newdir = newPath.replaceAll(replacePath(folderpath),
+			String newdir = newPath.replace(replacePath(folderpath),
 					(String) templateModel.get("outRootDir"));
 			File filePath = new File(newdir);
 			createFilePath(filePath);

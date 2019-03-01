@@ -18,6 +18,7 @@ package com.lambkit.db.mgr;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.kit.StrKit;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.mgr.MgrdbManager;
@@ -44,26 +45,42 @@ public class Chart {
 		seriasSQL = "";
 	}
 	
+	private IFieldDao getFieldDao() {
+		return MgrdbManager.me().getService().getFieldDao();
+	}
+	
 	public void setClassifyName(Object tbid, String classifyName) {
-		IField fldm = MgrdbManager.me().getService().getFieldDao().findFirstByTbid(tbid, MgrConstants.NONE, "fldname", classifyName);
+		if(tbid==null) return;
+		IFieldDao fdao = getFieldDao();
+		if(fdao==null) return;
+		IField fldm = fdao.findFirstByTbid(tbid, MgrConstants.NONE, "fldname", classifyName);
 		classifyName = fldm==null ? classifyName : fldm.getTitle();
 		setClassifyName(classifyName);
 	}
 	
 	public void setClassifyName(String tbname, String classifyName) {
-		IField fldm = MgrdbManager.me().getService().getFieldDao().findFirstByTbName(tbname, MgrConstants.NONE, "fldname", classifyName);
+		if(StrKit.isBlank(tbname)) return;
+		IFieldDao fdao = getFieldDao();
+		if(fdao==null) return;
+		IField fldm = fdao.findFirstByTbName(tbname, MgrConstants.NONE, "fldname", classifyName);
 		classifyName = fldm==null ? classifyName : fldm.getTitle();
 		setClassifyName(classifyName);
 	}
 	
 	public void addSerias(Object tbid, String serias_name) {
-		IField fldserias = MgrdbManager.me().getService().getFieldDao().findFirstByTbid(tbid, MgrConstants.NONE, "fldname", serias_name);
+		if(tbid==null) return;
+		IFieldDao fdao = getFieldDao();
+		if(fdao==null) return;
+		IField fldserias = fdao.findFirstByTbid(tbid, MgrConstants.NONE, "fldname", serias_name);
 		serias_name = fldserias!=null ? fldserias.getTitle() : serias_name;
 		addSerias(serias_name);
 	}
 	
 	public void addSerias(String tbname, String serias_name) {
-		IField fldserias = MgrdbManager.me().getService().getFieldDao().findFirstByTbName(tbname, MgrConstants.NONE, "fldname", serias_name);
+		if(StrKit.isBlank(tbname)) return;
+		IFieldDao fdao = getFieldDao();
+		if(fdao==null) return;
+		IField fldserias = fdao.findFirstByTbName(tbname, MgrConstants.NONE, "fldname", serias_name);
 		serias_name = fldserias!=null ? fldserias.getTitle() : serias_name;
 		addSerias(serias_name);
 	}
@@ -189,11 +206,18 @@ public class Chart {
 	 */
 	public String getOneSerias(MgrTable tbc, String serias, String yuns, String prefix) {
 		serias = serias.trim();
-		String serias_type = MgrdbManager.me().getService().getColumnType(tbc.getModel().getId(), serias);
-		if(serias_type=="") {
-			return null;
+		String serias_type = "";
+		IField fld = null;
+		if(tbc!=null && tbc.getModel()!=null && tbc.getModel().getId()!=null) {
+			serias_type = MgrdbManager.me().getService().getColumnType(tbc.getModel().getId(), serias);
+			if(serias_type=="") {
+				return null;
+			}
+			IFieldDao fdao = getFieldDao();
+			if(fdao!=null) {
+				fld = fdao.findFirstByTbid(tbc.getModel().getId(), MgrConstants.NONE, "fldname", serias);
+			}
 		}
-		IField fld = MgrdbManager.me().getService().getFieldDao().findFirstByTbid(tbc.getModel().getId(), MgrConstants.NONE, "fldname", serias);
 		if(fld!=null && fld.getIskey().equals("Y")) {
 			yuns = "COUNT";
 		} else if(serias_type.endsWith("Integer") ||
