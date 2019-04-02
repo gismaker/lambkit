@@ -3,6 +3,9 @@ lambkit-0.1-alpha4：
 
 新增：增加meta的管理Controller，新增“com.lambkit.module.meta.web.controller.manage”包。
 新增：增加meta页面，webapp/lambkit/mgrdb/dev/meta
+新增：增加jwt权限管理机制JwtKit，查看com.lambkit.plugin.jwt。
+新增：增加网易云信im服务端操作工具NimKit，查看com.lambkit.plugin.nim。
+新增：增加网易云信短信服务工具NimMessageKit，查看com.lambkit.plugin.nim。
 修复：修改RpcKit"检测端口占用"功能使用不当导致的service无法注册问题。
 
 -----------------------------
