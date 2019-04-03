@@ -16,12 +16,9 @@
 package com.lambkit.module.upms.client.shiro.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jfinal.aop.Enhancer;
-import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.redis.Redis;
 import com.lambkit.common.util.RedisUtil;
 import com.lambkit.core.config.ConfigManager;
-import com.lambkit.module.upms.client.shiro.ShiroRedisSessionDao;
 import com.lambkit.module.upms.common.UpmsConfig;
 import com.lambkit.module.upms.common.UpmsConstant;
 import com.lambkit.web.RequestParameterUtil;
@@ -67,7 +64,7 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
     // 单点同一个code所有局部会话key
     private final static String LAMBKIT_UPMS_CLIENT_SESSION_IDS = "lambkit-upms-client-session-ids";
 
-    private ShiroRedisSessionDao upmsSessionDao = Enhancer.enhance(ShiroRedisSessionDao.class);
+    //private ShiroRedisSessionDao upmsSessionDao = ClassNewer.newInstance(ShiroRedisSessionDao.class);
     
     private UpmsConfig upmsConfig = ConfigManager.me().get(UpmsConfig.class);
 

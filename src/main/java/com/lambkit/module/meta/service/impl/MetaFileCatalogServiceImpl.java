@@ -20,10 +20,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.beust.jcommander.internal.Lists;
-import com.jfinal.aop.Enhancer;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.meta.service.MetaFileCatalogService;
@@ -45,7 +45,7 @@ public class MetaFileCatalogServiceImpl extends BaseModelServiceImpl<MetaFileCat
 	
 	public MetaFileCatalog dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaFileCatalog.class.getName(), MetaFileCatalog.class);
+			DAO = ClassNewer.singleton(MetaFileCatalog.class);
 		}
 		return DAO;
 	}

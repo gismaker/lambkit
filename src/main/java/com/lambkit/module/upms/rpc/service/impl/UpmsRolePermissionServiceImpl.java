@@ -20,8 +20,8 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsRolePermissionService;
 import com.lambkit.module.upms.rpc.model.UpmsRolePermission;
@@ -42,7 +42,7 @@ public class UpmsRolePermissionServiceImpl extends BaseModelServiceImpl<UpmsRole
 	
 	public UpmsRolePermission dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(UpmsRolePermission.class.getName(), UpmsRolePermission.class);
+			DAO = ClassNewer.singleton(UpmsRolePermission.class);
 		}
 		return DAO;
 	}

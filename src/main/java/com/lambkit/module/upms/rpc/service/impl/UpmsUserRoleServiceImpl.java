@@ -18,8 +18,8 @@ package com.lambkit.module.upms.rpc.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserRoleService;
 import com.lambkit.module.upms.rpc.model.UpmsUserRole;
@@ -39,7 +39,7 @@ public class UpmsUserRoleServiceImpl extends BaseModelServiceImpl<UpmsUserRole> 
 	
 	public UpmsUserRole dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(UpmsUserRole.class.getName(), UpmsUserRole.class);
+			DAO = ClassNewer.singleton(UpmsUserRole.class);
 		}
 		return DAO;
 	}

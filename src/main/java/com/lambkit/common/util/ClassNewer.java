@@ -15,11 +15,8 @@
  */
 package com.lambkit.common.util;
 
+import com.jfinal.aop.Enhancer;
 import com.jfinal.log.Log;
-
-import java.lang.reflect.Constructor;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 类实例创建者创建者
@@ -27,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClassNewer {
 
     public static Log log = Log.getLog(ClassNewer.class);
-    private static final Map<Class, Object> singletons = new ConcurrentHashMap<>();
 
     /**
      * 获取单例
@@ -37,23 +33,7 @@ public class ClassNewer {
      * @return
      */
     public static <T> T singleton(Class<T> clazz) {
-        Object object = singletons.get(clazz);
-        if (object == null) {
-            synchronized (clazz) {
-                object = singletons.get(clazz);
-                if (object == null) {
-                    object = newInstance(clazz);
-                    if (object != null) {
-                        singletons.put(clazz, object);
-                    } else {
-                        Log.getLog(clazz).error("cannot new newInstance!!!!");
-                    }
-
-                }
-            }
-        }
-
-        return (T) object;
+    	return Enhancer.enhance(clazz.getName(), clazz);
     }
 
     /**
@@ -72,15 +52,7 @@ public class ClassNewer {
         if (createdByGuice) {
             return null;
         } else {
-            try {
-                Constructor constructor = clazz.getDeclaredConstructor();
-                constructor.setAccessible(true);
-                return (T) constructor.newInstance();
-            } catch (Exception e) {
-                log.error("can not newInstance class:" + clazz + "\n" + e.toString(), e);
-            }
-
-            return null;
+            return Enhancer.enhance(clazz);
         }
     }
 
@@ -93,7 +65,8 @@ public class ClassNewer {
      */
     public static <T> T newInstance(String clazzName) {
         try {
-            Class<T> clazz = (Class<T>) Class.forName(clazzName, false, Thread.currentThread().getContextClassLoader());
+            @SuppressWarnings("unchecked")
+			Class<T> clazz = (Class<T>) Class.forName(clazzName, false, Thread.currentThread().getContextClassLoader());
             return newInstance(clazz);
         } catch (Exception e) {
             log.error("can not newInstance class:" + clazzName + "\n" + e.toString(), e);

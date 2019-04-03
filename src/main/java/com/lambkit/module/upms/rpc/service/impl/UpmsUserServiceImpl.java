@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserService;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
@@ -37,7 +37,7 @@ public class UpmsUserServiceImpl extends BaseModelServiceImpl<UpmsUser> implemen
 	
 	public UpmsUser dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(UpmsUser.class.getName(), UpmsUser.class);
+			DAO = ClassNewer.singleton(UpmsUser.class);
 		}
 		return DAO;
 	}

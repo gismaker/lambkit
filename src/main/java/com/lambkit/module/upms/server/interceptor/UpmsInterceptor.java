@@ -15,13 +15,13 @@
  */
 package com.lambkit.module.upms.server.interceptor;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 
@@ -37,7 +37,7 @@ public class UpmsInterceptor implements Interceptor {
     private static final String LAMBKIT_OSS_ALIYUN_OSS_POLICY = PropKit.get("lambkit.oss.aliyun.oss.policy");
 
     ////@Autowired
-    UpmsApiService upmsApiService = Enhancer.enhance(UpmsApiServiceImpl.class);
+    UpmsApiService upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
     
 	public void intercept(Invocation inv) {
 		// TODO Auto-generated method stub

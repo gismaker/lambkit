@@ -15,9 +15,9 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.plugin.activerecord.Db;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.meta.service.MetaFileService;
 import com.lambkit.module.meta.model.MetaFile;
 
@@ -35,7 +35,7 @@ public class MetaFileServiceImpl extends BaseModelServiceImpl<MetaFile> implemen
 	
 	public MetaFile dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaFile.class.getName(), MetaFile.class);
+			DAO = ClassNewer.singleton(MetaFile.class);
 		}
 		return DAO;
 	}

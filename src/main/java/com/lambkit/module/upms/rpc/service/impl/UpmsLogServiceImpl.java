@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.upms.rpc.api.UpmsLogService;
 import com.lambkit.module.upms.rpc.model.UpmsLog;
 
@@ -34,7 +34,7 @@ public class UpmsLogServiceImpl extends BaseModelServiceImpl<UpmsLog> implements
 	
 	public UpmsLog dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(UpmsLog.class.getName(), UpmsLog.class);
+			DAO = ClassNewer.singleton(UpmsLog.class);
 		}
 		return DAO;
 	}

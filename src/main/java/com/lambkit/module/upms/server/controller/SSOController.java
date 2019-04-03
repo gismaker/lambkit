@@ -16,12 +16,12 @@
 package com.lambkit.module.upms.server.controller;
 
 import com.jfinal.aop.Clear;
-import com.jfinal.aop.Enhancer;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.redis.Redis;
 import com.lambkit.web.controller.BaseController;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.RedisUtil;
@@ -69,7 +69,7 @@ import java.util.UUID;
 public class SSOController extends BaseController {
 
     private final static Logger _log = LoggerFactory.getLogger(SSOController.class);
-    protected ShiroRedisSessionDao upmsSessionDao = Enhancer.enhance(ShiroRedisSessionDao.class);
+    protected ShiroRedisSessionDao upmsSessionDao = ClassNewer.newInstance(ShiroRedisSessionDao.class);
 
     @ApiOperation(url = "/sso", tag = "sso", httpMethod = "get", description = "认证中心首页")
     @Clear
@@ -274,7 +274,7 @@ public class SSOController extends BaseController {
 		Subject subject = SecurityUtils.getSubject();
 		String username = (String) subject.getPrincipal();
 		
-		UpmsApiService upmsApiService = Enhancer.enhance(UpmsApiServiceImpl.class);
+		UpmsApiService upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
 		UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
 		if(upmsUser==null) {
 			// shiro退出登录
@@ -346,7 +346,7 @@ public class SSOController extends BaseController {
 			
 			public boolean run() throws SQLException {
 				// TODO Auto-generated method stub
-				UpmsUserService upmsUserService = Enhancer.enhance(UpmsUserServiceImpl.class);
+				UpmsUserService upmsUserService = ClassNewer.newInstance(UpmsUserServiceImpl.class);
 				UpmsUser upmsUser = getModel(UpmsUser.class, "user");
 				upmsUser.setUsername(username);
 				upmsUser.setSalt(StrKit.getRandomUUID());

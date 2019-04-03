@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.upms.rpc.api.UpmsTagService;
 import com.lambkit.module.upms.rpc.model.UpmsTag;
 
@@ -34,7 +34,7 @@ public class UpmsTagServiceImpl extends BaseModelServiceImpl<UpmsTag> implements
 	
 	public UpmsTag dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(UpmsTag.class.getName(), UpmsTag.class);
+			DAO = ClassNewer.singleton(UpmsTag.class);
 		}
 		return DAO;
 	}

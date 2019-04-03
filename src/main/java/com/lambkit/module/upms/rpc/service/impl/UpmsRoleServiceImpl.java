@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.upms.rpc.api.UpmsRoleService;
 import com.lambkit.module.upms.rpc.model.UpmsRole;
 
@@ -35,7 +35,7 @@ public class UpmsRoleServiceImpl extends BaseModelServiceImpl<UpmsRole> implemen
 	
 	public UpmsRole dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(UpmsRole.class.getName(), UpmsRole.class);
+			DAO = ClassNewer.singleton(UpmsRole.class);
 		}
 		return DAO;
 	}

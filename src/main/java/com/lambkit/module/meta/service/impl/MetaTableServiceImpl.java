@@ -18,10 +18,10 @@ package com.lambkit.module.meta.service.impl;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.mgr.ITable;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaTableService;
@@ -41,7 +41,7 @@ public class MetaTableServiceImpl extends BaseModelServiceImpl<MetaTable> implem
 	
 	public MetaTable dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaTable.class.getName(), MetaTable.class);
+			DAO = ClassNewer.singleton(MetaTable.class);
 		}
 		return DAO;
 	}

@@ -2,10 +2,10 @@ package com.lambkit.core.hearbeat;
 
 import java.util.Set;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.cron4j.Cron4jPlugin;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.ClassUtils;
 import com.lambkit.core.hearbeat.annotation.HeartBeatTask;
 
@@ -15,7 +15,7 @@ public class HeartBeatManager {
 	
 	public static HeartBeatManager me() {
 		if(manager==null) {
-			manager = Enhancer.enhance(HeartBeatManager.class.getName(), HeartBeatManager.class);
+			manager = ClassNewer.singleton(HeartBeatManager.class);
 		}
 		return manager;
 	}
@@ -35,7 +35,7 @@ public class HeartBeatManager {
             for (Class<?> clazz : ctrlClassSet) {
             	HeartBeatTask task = clazz.getAnnotation(HeartBeatTask.class);
                 if (task != null) {
-                	addTask(task.frequency(), (HeartBeat) Enhancer.enhance(clazz));
+                	addTask(task.frequency(), (HeartBeat) ClassNewer.newInstance(clazz));
                 }
             }
     	}

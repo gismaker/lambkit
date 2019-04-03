@@ -9,7 +9,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 
-import com.jfinal.aop.Enhancer;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
@@ -35,7 +35,7 @@ public class UpmsJwtUserService implements IJwtUserService {
 			if ("client".equals(upmsConfig.getType())) {
 				upmsApiService = RpcKit.obtain(UpmsApiService.class);
 			} else {
-				upmsApiService = Enhancer.enhance(UpmsApiServiceImpl.class);
+				upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
 			}
 		}
 		return upmsApiService;

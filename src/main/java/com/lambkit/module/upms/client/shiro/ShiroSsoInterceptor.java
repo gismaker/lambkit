@@ -72,7 +72,7 @@ public class ShiroSsoInterceptor implements Interceptor {
     // 单点同一个code所有局部会话key
     private final static String LAMBKIT_UPMS_CLIENT_SESSION_IDS = "lambkit-upms-client-session-ids";
 
-    //private ShiroRedisSessionDao upmsSessionDao = Enhancer.enhance(ShiroRedisSessionDao.class);
+    //private ShiroRedisSessionDao upmsSessionDao = ClassNewer.newInstance(ShiroRedisSessionDao.class);
     
     private UpmsConfig upmsConfig = ConfigManager.me().get(UpmsConfig.class);
     

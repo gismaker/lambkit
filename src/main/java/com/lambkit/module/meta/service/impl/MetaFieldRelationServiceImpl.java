@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaFieldRelationService;
 import com.lambkit.module.meta.model.MetaFieldRelation;
@@ -35,7 +35,7 @@ public class MetaFieldRelationServiceImpl extends BaseModelServiceImpl<MetaField
 	
 	public MetaFieldRelation dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaFieldRelation.class.getName(), MetaFieldRelation.class);
+			DAO = ClassNewer.singleton(MetaFieldRelation.class);
 		}
 		return DAO;
 	}

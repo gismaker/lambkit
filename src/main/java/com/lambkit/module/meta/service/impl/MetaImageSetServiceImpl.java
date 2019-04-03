@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.meta.service.MetaImageSetService;
 import com.lambkit.module.meta.model.MetaImageSet;
 
@@ -34,7 +34,7 @@ public class MetaImageSetServiceImpl extends BaseModelServiceImpl<MetaImageSet> 
 	
 	public MetaImageSet dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaImageSet.class.getName(), MetaImageSet.class);
+			DAO = ClassNewer.singleton(MetaImageSet.class);
 		}
 		return DAO;
 	}

@@ -26,9 +26,9 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.base.BaseResult;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
@@ -47,7 +47,7 @@ import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 
 public class UpmsAuthServiceImpl implements AuthService {
 	
-	ShiroRedisSessionDao upmsSessionDao = Enhancer.enhance(ShiroRedisSessionDao.class);
+	ShiroRedisSessionDao upmsSessionDao = ClassNewer.newInstance(ShiroRedisSessionDao.class);
 
 	private UmpsAuthRoleServiceImpl roleService;
 	
@@ -59,7 +59,7 @@ public class UpmsAuthServiceImpl implements AuthService {
     		if("client".equals(upmsConfig.getType())) {
     			upmsApiService = RpcKit.obtain(UpmsApiService.class);
     		} else {
-    			upmsApiService = Enhancer.enhance(UpmsApiServiceImpl.class);
+    			upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
     		}
     	}
     	return upmsApiService;

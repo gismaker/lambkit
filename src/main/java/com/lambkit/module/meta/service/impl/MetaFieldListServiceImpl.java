@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Columns;
 import com.lambkit.module.meta.service.MetaFieldListService;
 import com.lambkit.module.meta.model.MetaFieldList;
@@ -35,7 +35,7 @@ public class MetaFieldListServiceImpl extends BaseModelServiceImpl<MetaFieldList
 	
 	public MetaFieldList dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaFieldList.class.getName(), MetaFieldList.class);
+			DAO = ClassNewer.singleton(MetaFieldList.class);
 		}
 		return DAO;
 	}

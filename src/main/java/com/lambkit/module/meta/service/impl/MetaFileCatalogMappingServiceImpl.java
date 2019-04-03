@@ -15,9 +15,9 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.plugin.activerecord.Db;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.meta.service.MetaFileCatalogMappingService;
 import com.lambkit.module.meta.model.MetaFile;
@@ -39,7 +39,7 @@ public class MetaFileCatalogMappingServiceImpl extends BaseModelServiceImpl<Meta
 	
 	public MetaFileCatalogMapping dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaFileCatalogMapping.class.getName(), MetaFileCatalogMapping.class);
+			DAO = ClassNewer.singleton(MetaFileCatalogMapping.class);
 		}
 		return DAO;
 	}

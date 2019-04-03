@@ -15,7 +15,7 @@
  */
 package com.lambkit.distributed.node.manager;
 
-import com.jfinal.aop.Enhancer;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.web.controller.BaseController;
@@ -32,7 +32,7 @@ public class ManagerNodeController extends BaseController {
 		setAttr("type", NodeManager.me().getNode().getType());
 		setAttr("major", NodeManager.me().getMajorManagerId());
 
-		ManagerNodeService service = Enhancer.enhance(ManagerNodeServiceImp.class);
+		ManagerNodeService service = ClassNewer.newInstance(ManagerNodeServiceImp.class);
 		setAttr("token", service.getToken());
 		renderJson();
 	}

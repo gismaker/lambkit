@@ -17,8 +17,8 @@ package com.lambkit.module.meta.service.impl;
 
 import java.util.List;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaFieldMeasureService;
 import com.lambkit.module.meta.model.MetaFieldMeasure;
@@ -37,7 +37,7 @@ public class MetaFieldMeasureServiceImpl extends BaseModelServiceImpl<MetaFieldM
 	
 	public MetaFieldMeasure dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaFieldMeasure.class.getName(), MetaFieldMeasure.class);
+			DAO = ClassNewer.singleton(MetaFieldMeasure.class);
 		}
 		return DAO;
 	}

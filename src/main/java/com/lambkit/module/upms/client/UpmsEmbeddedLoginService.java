@@ -23,11 +23,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.redis.Redis;
 import com.lambkit.common.base.BaseResult;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.RedisUtil;
 import com.lambkit.component.shiro.session.ShiroSession;
 import com.lambkit.plugin.auth.AuthManager;
@@ -108,7 +108,7 @@ public class UpmsEmbeddedLoginService implements LoginService {
             	return (UpmsResult) result;
             }
             // 更新session状态
-            ShiroRedisSessionDao upmsSessionDao = Enhancer.enhance(ShiroRedisSessionDao.class);
+            ShiroRedisSessionDao upmsSessionDao = ClassNewer.newInstance(ShiroRedisSessionDao.class);
             upmsSessionDao.updateStatus(sessionId, ShiroSession.OnlineStatus.on_line);
             // 全局会话sessionId列表，供会话管理
             Redis.use().lpush(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_IDS, sessionId.toString());

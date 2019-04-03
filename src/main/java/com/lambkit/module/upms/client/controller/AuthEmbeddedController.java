@@ -21,21 +21,17 @@ import java.util.UUID;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import com.jfinal.aop.Clear;
-import com.jfinal.aop.Enhancer;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.redis.Redis;
 import com.lambkit.common.base.BaseResult;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.RedisUtil;
@@ -134,7 +130,7 @@ public class AuthEmbeddedController extends BaseController {
             	return (UpmsResult) result;
             }
             // 更新session状态
-            ShiroRedisSessionDao upmsSessionDao = Enhancer.enhance(ShiroRedisSessionDao.class);
+            ShiroRedisSessionDao upmsSessionDao = ClassNewer.newInstance(ShiroRedisSessionDao.class);
             upmsSessionDao.updateStatus(sessionId, ShiroSession.OnlineStatus.on_line);
             // 全局会话sessionId列表，供会话管理
             Redis.use().lpush(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_IDS, sessionId.toString());
@@ -185,7 +181,7 @@ public class AuthEmbeddedController extends BaseController {
 		Subject subject = SecurityUtils.getSubject();
 		String username = (String) subject.getPrincipal();
 		
-		UpmsApiService upmsApiService = Enhancer.enhance(UpmsApiServiceImpl.class);
+		UpmsApiService upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
 		UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
 		if(upmsUser==null) {
 			// shiro退出登录
@@ -258,7 +254,7 @@ public class AuthEmbeddedController extends BaseController {
 			
 			public boolean run() throws SQLException {
 				// TODO Auto-generated method stub
-				UpmsUserService upmsUserService = Enhancer.enhance(UpmsUserServiceImpl.class);
+				UpmsUserService upmsUserService = ClassNewer.newInstance(UpmsUserServiceImpl.class);
 				UpmsUser upmsUser = getModel(UpmsUser.class, "user");
 				upmsUser.setUsername(username);
 				upmsUser.setSalt(StrKit.getRandomUUID());

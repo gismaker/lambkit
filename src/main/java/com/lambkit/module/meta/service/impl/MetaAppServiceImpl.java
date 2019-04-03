@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.meta.service.MetaAppService;
 import com.lambkit.module.meta.model.MetaApp;
 
@@ -34,7 +34,7 @@ public class MetaAppServiceImpl extends BaseModelServiceImpl<MetaApp> implements
 	
 	public MetaApp dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaApp.class.getName(), MetaApp.class);
+			DAO = ClassNewer.singleton(MetaApp.class);
 		}
 		return DAO;
 	}

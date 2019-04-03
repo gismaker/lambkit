@@ -2,8 +2,9 @@
 #parse("/template/java_copyright.include")
 package $!{basepackage}.rpc.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
+
 import $!{basepackage}.rpc.api.${classname}Service;
 import $!{basepackage}.rpc.model.${classname};
 
@@ -14,7 +15,7 @@ public class ${classname}ServiceImpl extends BaseModelServiceImpl<${classname}> 
 	
 	public ${classname} dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(${classname}.class.getName(), ${classname}.class);
+			DAO = ClassNewer.singleton(${classname}.class);
 		}
 		return DAO;
 	}

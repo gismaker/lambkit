@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaFieldDimessionService;
 import com.lambkit.module.meta.model.MetaFieldDimession;
@@ -35,7 +35,7 @@ public class MetaFieldDimessionServiceImpl extends BaseModelServiceImpl<MetaFiel
 	
 	public MetaFieldDimession dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaFieldDimession.class.getName(), MetaFieldDimession.class);
+			DAO = ClassNewer.singleton(MetaFieldDimession.class);
 		}
 		return DAO;
 	}

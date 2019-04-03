@@ -17,11 +17,11 @@ package com.lambkit.module.meta.service.impl;
 
 import java.util.List;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.lambkit.common.service.BaseModelServiceImpl;
 import com.lambkit.common.service.ServiceKit;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.meta.ColumnMeta;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.mgr.ITable;
@@ -47,7 +47,7 @@ public class MetaFieldServiceImpl extends BaseModelServiceImpl<MetaField> implem
 	
 	public MetaField dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(MetaField.class.getName(), MetaField.class);
+			DAO = ClassNewer.singleton(MetaField.class);
 		}
 		return DAO;
 	}

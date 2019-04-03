@@ -19,8 +19,8 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jfinal.aop.Enhancer;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.model.UpmsRolePermission;
 import com.lambkit.module.upms.rpc.model.UpmsSystem;
@@ -45,13 +45,13 @@ public class UpmsPermissionServiceImpl extends BaseModelServiceImpl<UpmsPermissi
 	
 	//protected final UpmsPermission DAO = new UpmsPermission();
 	
-	UpmsApiService upmsApiService = Enhancer.enhance(UpmsApiServiceImpl.class);
+	UpmsApiService upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
 
 	private UpmsPermission DAO = null;
 	
 	public UpmsPermission dao() {
 		if(DAO==null) {
-			DAO = Enhancer.enhance(UpmsPermission.class.getName(), UpmsPermission.class);
+			DAO = ClassNewer.singleton(UpmsPermission.class);
 		}
 		return DAO;
 	}

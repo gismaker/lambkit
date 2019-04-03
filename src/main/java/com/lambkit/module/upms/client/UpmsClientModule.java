@@ -28,9 +28,9 @@ import com.lambkit.module.upms.client.shiro.ShiroClientInterceptor;
 import com.lambkit.module.upms.common.UpmsConfig;
 import com.lambkit.module.upms.common.UpmsManager;
 
-public class UpmsModule extends LambkitModule {
+public class UpmsClientModule extends LambkitModule {
 
-	public UpmsModule() {
+	public UpmsClientModule() {
 		// TODO Auto-generated constructor stub
 		AuthManager.me().init(UserCache.class, UpmsAuthServiceImpl.class);
 	}
@@ -68,7 +68,8 @@ public class UpmsModule extends LambkitModule {
 	
 	@Override
 	public void afterJFinalStart() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub\
+		UpmsManager.me().addTag(this);
 		UpmsConfig config = ConfigManager.me().get(UpmsConfig.class);
 		UpmsManager.me().registerService(config.getRpcGroup(), config.getRpcVersion(), config.getRpcPort());
 	}

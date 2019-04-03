@@ -18,9 +18,9 @@ package com.lambkit.module.upms.client.auth;
 import java.io.Serializable;
 import java.util.List;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Model;
+import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.config.ConfigManager;
@@ -129,7 +129,7 @@ public class UpmsClientUser implements IUser, Serializable {
 		if("client".equals(upmsConfig.getType())) {
 			return RpcKit.obtain(UpmsApiService.class);
 		} else {
-			return Enhancer.enhance(UpmsApiServiceImpl.class);
+			return ClassNewer.newInstance(UpmsApiServiceImpl.class);
 		}
     }
 
