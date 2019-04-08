@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaThemeService;
 import com.lambkit.module.meta.model.MetaTheme;
@@ -35,7 +35,7 @@ public class MetaThemeServiceImpl extends BaseModelServiceImpl<MetaTheme> implem
 	
 	public MetaTheme dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(MetaTheme.class);
+			DAO = AopKit.singleton(MetaTheme.class);
 		}
 		return DAO;
 	}

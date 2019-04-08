@@ -13,26 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.server.app;
+package com.lambkit.common.app;
 
 import com.jfinal.config.Plugins;
 import com.jfinal.plugin.IPlugin;
 import com.lambkit.Lambkit;
 import com.lambkit.common.util.TimeUtils;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.server.LambkitServer;
 
 /**
  * JFinal数据库等部分插件脱离web独立使用
  * @author yangyong
  */
-public class AppServer extends LambkitServer {
+public class DefaultApplication extends LambkitApplication {
 
 	Plugins plugins;
 	
-	public AppServer() {
+	public DefaultApplication() {
 		// TODO Auto-generated constructor stub
-		Lambkit.me().setModule(new AppModule());
+		Lambkit.me().setModule(new DefaultApplicationModule());
 		plugins = new Plugins();
 	}
 	

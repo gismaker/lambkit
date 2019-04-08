@@ -20,8 +20,8 @@ import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Directive;
 import com.jfinal.template.Engine;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ArrayUtils;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.ClassUtils;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.component.shiro.processer.*;
@@ -79,7 +79,7 @@ public class ShiroAnnotionManager {
         	JFinalDirective jDirective = clazz.getAnnotation(JFinalDirective.class);
         	if (jDirective != null) {
                 @SuppressWarnings("unchecked")
-				Directive directive = ClassNewer.newInstance((Class<Directive>) clazz);
+				Directive directive = AopKit.newInstance((Class<Directive>) clazz);
                 if (directive != null) {
                 	System.out.println("directive: " + jDirective.value());
                     me.removeDirective(jDirective.value());

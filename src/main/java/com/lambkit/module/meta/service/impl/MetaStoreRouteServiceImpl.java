@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.meta.service.MetaStoreRouteService;
 import com.lambkit.module.meta.model.MetaStoreRoute;
 
@@ -34,7 +34,7 @@ public class MetaStoreRouteServiceImpl extends BaseModelServiceImpl<MetaStoreRou
 	
 	public MetaStoreRoute dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(MetaStoreRoute.class);
+			DAO = AopKit.singleton(MetaStoreRoute.class);
 		}
 		return DAO;
 	}

@@ -1,13 +1,13 @@
 package test.method;
 import java.lang.reflect.Method;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ArrayUtils;
-import com.lambkit.common.util.ClassNewer;
 
 public class TestMethod {
 
 	public static void main(String[] args) {
-		TestMethodObj obj = ClassNewer.newInstance(TestMethodObj.class);
+		TestMethodObj obj = AopKit.newInstance(TestMethodObj.class);
 		
         Method[] methods = obj.getClass().getMethods();
         if (ArrayUtils.isNotEmpty(methods)) {

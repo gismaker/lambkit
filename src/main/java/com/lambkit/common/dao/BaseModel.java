@@ -108,7 +108,7 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
 	public M copy() {
         M m = null;
         try {
-            m = (M) getUsefulClass().newInstance();
+            m = (M) _getUsefulClass().newInstance();
             m._setAttrs(this._getAttrs());
         } catch (Throwable e) {
             e.printStackTrace();
@@ -126,10 +126,10 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
     public M copyModel() {
         M m = null;
         try {
-            m = (M) getUsefulClass().newInstance();
-            Table table = TableMapping.me().getTable(getUsefulClass());
+            m = (M) _getUsefulClass().newInstance();
+            Table table = TableMapping.me().getTable(_getUsefulClass());
             if (table == null) {
-                throw new LambkitException("can't get table of " + getUsefulClass() + " , maybe config incorrect");
+                throw new LambkitException("can't get table of " + _getUsefulClass() + " , maybe config incorrect");
             }
             Set<String> attrKeys = table.getColumnTypeMap().keySet();
             for (String attrKey : attrKeys) {
@@ -324,7 +324,6 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
      * @param idValue the id value of the model
      * @return
      */
-    @Override
     public boolean deleteById(Object... idValue) {
     	boolean deleted = super.deleteById(idValue);
     	 if (deleted) {
@@ -793,9 +792,9 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
 
     public String tableName() {
         if (table == null) {
-            table = TableMapping.me().getTable(getUsefulClass());
+            table = TableMapping.me().getTable(_getUsefulClass());
             if (table == null) {
-                throw new LambkitException(String.format("table for class[%s] is null! \n maybe cannot connection to database，please check your propertie files.", getUsefulClass()));
+                throw new LambkitException(String.format("table for class[%s] is null! \n maybe cannot connection to database，please check your propertie files.", _getUsefulClass()));
             }
         }
         return table.getName();
@@ -840,27 +839,27 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
 
     public Class<?> getPrimaryType() {
         if (primaryType == null) {
-            primaryType = TableMapping.me().getTable(getUsefulClass()).getColumnType(getPrimaryKey());
+            primaryType = TableMapping.me().getTable(_getUsefulClass()).getColumnType(getPrimaryKey());
         }
         return primaryType;
     }
 
     protected String[] getPrimaryKeys() {
-        Table t = TableMapping.me().getTable(getUsefulClass());
+        Table t = TableMapping.me().getTable(_getUsefulClass());
         if (t == null) {
-            throw new RuntimeException("can't get table of " + getUsefulClass() + " , maybe install incorrect");
+            throw new RuntimeException("can't get table of " + _getUsefulClass() + " , maybe install incorrect");
         }
         return t.getPrimaryKey();
     }
 
     protected boolean hasColumn(String columnLabel) {
-        return TableMapping.me().getTable(getUsefulClass()).hasColumnLabel(columnLabel);
+        return TableMapping.me().getTable(_getUsefulClass()).hasColumnLabel(columnLabel);
     }
 
     // -----------------------------Override----------------------------
     /*
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	private Class<? extends BaseModel> getUsefulClass() {
+	private Class<? extends BaseModel> _getUsefulClass() {
 		Class c = getClass();
 		return c.getName().indexOf("EnhancerByCGLIB") == -1 ? c : c.getSuperclass();
 	}

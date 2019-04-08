@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.client.shiro;
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
@@ -53,7 +53,7 @@ public class UpmsRealm extends AuthorizingRealm {
     		if("client".equals(upmsConfig.getType())) {
     			upmsApiService = RpcKit.obtain(UpmsApiService.class);
     		} else {
-    			upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
+    			upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
     		}
     	}
     	return upmsApiService;

@@ -15,7 +15,7 @@
  */
 package com.lambkit;
 
-import com.jfinal.core.JFinal;
+import com.jfinal.server.undertow.UndertowServer;
 
 public class DevStarter {
 	/**
@@ -29,7 +29,14 @@ public class DevStarter {
 		/**
 		 * 特别注意：Eclipse 之下建议的启动方式
 		 */
-		JFinal.start("src/main/webapp", 8080, "/", 5);
+		//JFinal.start("src/main/webapp", 8080, "/", 5);
+		UndertowServer.create(DefaultJFinalConfig.class).configWeb(builder->{
+			builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
+			builder.addFilter("shiro", "org.apache.shiro.web.servlet.ShiroFilter");
+			builder.addFilterUrlMapping("shiro", "/*");
+		}).addHotSwapClassPrefix("org.apache.shiro").start(); 
+		
+		//UndertowServer.start(DefaultJFinalConfig.class);
 		
 		/**
 		 * 特别注意：IDEA 之下建议的启动方式，仅比 eclipse 之下少了最后一个参数

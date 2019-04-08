@@ -8,38 +8,38 @@
 	<url>http://maven.apache.org</url>
 
 	<parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
-    
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 	</properties>
-	
-	<licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
-    <scm>
-        <connection>scm:git:git://github.com/gismaker/lambkit.git</connection>
-        <developerConnection>scm:git:ssh://github.com:gismaker/lambkit.git</developerConnection>
-        <url>http://github.com/gismaker/lambkit/tree/master</url>
-    </scm>
-    
-    <developers>
-        <developer>
-            <name>Henry</name>
-            <email>gismail@foxmail.com</email>
-            <organization>http://www.lambkit.com</organization>
-            <timezone>+8</timezone>
-        </developer>
-    </developers>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git://github.com/gismaker/lambkit.git</connection>
+		<developerConnection>scm:git:ssh://github.com:gismaker/lambkit.git</developerConnection>
+		<url>http://github.com/gismaker/lambkit/tree/master</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>Henry</name>
+			<email>gismail@foxmail.com</email>
+			<organization>http://www.lambkit.com</organization>
+			<timezone>+8</timezone>
+		</developer>
+	</developers>
 
 	<!-- 使用阿里 maven 库 -->
 	<repositories>
@@ -64,11 +64,11 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-		<!--jfinal依赖 -->
+		<!--jfinal -->
 		<dependency>
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal</artifactId>
-			<version>3.3</version>
+			<version>3.8</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jfinal</groupId>
@@ -81,53 +81,79 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>com.jfinal</groupId>
+			<artifactId>cos</artifactId>
+			<version>2017.5</version>
+		</dependency>
+
+		<!-- server -->
+		<dependency>
+			<groupId>com.jfinal</groupId>
+			<artifactId>jfinal-undertow</artifactId>
+			<version>1.6</version>
+		</dependency>
 		<dependency>
 			<groupId>com.jfinal</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>8.1.8</version>
+			<version>2019.3</version>
+			<scope>provided</scope>
 		</dependency>
-		<!-- dependency> <groupId>javax.servlet</groupId> <artifactId>javax.servlet-api</artifactId> 
-			<version>3.1.0</version> </dependency -->
-		<!-- jsp support by jetty -->
+
+		<!-- websocket for server -->
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jsp</artifactId>
-			<version>8.1.8.v20121106</version>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-core</artifactId>
+			<version>2.0.7</version>
 		</dependency>
 		<dependency>
-			<groupId>com.mchange</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.5.3</version>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-server</artifactId>
+			<version>9.4.12.v20180830</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.undertow</groupId>
+			<artifactId>undertow-websockets-jsr</artifactId>
+			<version>2.0.19.Final</version>
+		</dependency>
+
+		<!-- db plugin -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>1.0.29</version>
 		</dependency>
 		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.31</version>
-		</dependency>
-		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP-java6</artifactId>
 			<version>2.3.13</version>
 		</dependency>
+
+		<!-- cache -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 			<version>2.6.6</version>
 		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.7.2</version>
+		</dependency>
+
+		<!-- template -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>2.3.20</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
@@ -135,62 +161,31 @@
 			<version>1.7</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity-tools</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<!-- cos -->
-		<dependency>
-			<groupId>com.jfinal</groupId>
-			<artifactId>cos</artifactId>
-			<version>2017.5</version>
-		</dependency>
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib-nodep</artifactId>
-			<version>3.2.5</version>
-		</dependency>
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>2.7.2</version>
-		</dependency>
-		<dependency>
-			<groupId>de.ruedigermoeller</groupId>
-			<artifactId>fst</artifactId>
-			<version>2.29</version>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.20</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.9.1</version>
+			<groupId>com.ibeetl</groupId>
+			<artifactId>beetl</artifactId>
+			<version>2.7.22</version>
 		</dependency>
 
+		<!-- task -->
 		<dependency>
 			<groupId>it.sauronsoftware.cron4j</groupId>
 			<artifactId>cron4j</artifactId>
 			<version>2.2.5</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.zxing</groupId>
-			<artifactId>javase</artifactId>
-			<version>3.2.1</version>
-		</dependency>
-		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-webmvc</artifactId> 
-			<version>4.3.8.RELEASE</version> </dependency> -->
 
-		<!--lambkit add -->
+		<!-- log -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.1</version>
+			<artifactId>slf4j-nop</artifactId>
+			<version>1.7.25</version>
+			<!-- 打包前改成 provided，此处使用 compile 仅为支持 IDEA -->
+			<scope>compile</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
 
 		<!--4.shiro -->
 		<dependency>
@@ -268,48 +263,43 @@
 			</exclusions>
 		</dependency>
 
-		<!-- lambkit websocket -->
+		<!-- json -->
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-websocket</artifactId>
-			<version>8.1.8.v20121106</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.31</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.websocket</groupId>
-			<artifactId>javax.websocket-api</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-core</artifactId>
-			<version>2.0.7</version>
+			<groupId>de.ruedigermoeller</groupId>
+			<artifactId>fst</artifactId>
+			<version>2.43</version>
 		</dependency>
-
-
-		<!-- JsonUtils -->
+		<!-- json for JsonUtils -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20160810</version>
 		</dependency>
-
-		<!-- JXLExcelUtils -->
-		<dependency>
-			<groupId>net.sourceforge.jexcelapi</groupId>
-			<artifactId>jxl</artifactId>
-			<version>2.6.12</version>
-		</dependency>
-
-		<!-- GJsonRender -->
+		<!-- json for GJsonRender -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
 		</dependency>
 
+		<!-- Excel for JXLExcelUtils -->
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6.12</version>
+		</dependency>
 
-		<!-- UeditorController -->
+		<!-- Ueditor for UeditorController -->
 		<dependency>
 			<groupId>cn.songxinqiang</groupId>
 			<artifactId>com.baidu.ueditor</artifactId>
@@ -323,162 +313,109 @@
 			<version>1.5.6</version>
 		</dependency>
 
-		<!-- beetl -->
-		<dependency>
-			<groupId>com.ibeetl</groupId>
-			<artifactId>beetl</artifactId>
-			<version>2.7.22</version>
-		</dependency>
-		
 		<!-- sharding-jdbc -->
 		<dependency>
-    		<groupId>io.shardingsphere</groupId>
-    		<artifactId>sharding-jdbc-core</artifactId>
-    		<version>3.0.0.M4</version>
+			<groupId>io.shardingsphere</groupId>
+			<artifactId>sharding-jdbc-core</artifactId>
+			<version>3.0.0.M4</version>
 		</dependency>
-		
+
 		<!-- jwt -->
 		<dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>3.2.0</version>
-        </dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.2.0</version>
+		</dependency>
 		<dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.6.0</version>
-        </dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.6.0</version>
+		</dependency>
+
+		<!-- 二维码 -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+		<!-- database -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.20</version>
+		</dependency>
 
 	</dependencies>
 
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<!-- **/* 写法，可以将各级子目录下的资源文件被打包 -->
-					<include>**/*.jf</include>
-				</includes>
-				<filtering>false</filtering>
-			</resource>
-
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*</include>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-		</resources>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>
+					<!-- java8 保留参数名编译参数 -->
+					<compilerArgument>-parameters</compilerArgument>
+					<compilerArguments>
+						<verbose />
+					</compilerArguments>
 				</configuration>
 			</plugin>
 
-
+			<!-- jar 包中的配置文件优先级高于 config 目录下的 "同名文件" 因此，打包时需要排除掉 jar 包中来自 src/main/resources 
+				目录的 配置文件，否则部署时 config 目录中的同名配置文件不会生效 -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>1.10</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<excludes>
+						<exclude>*.txt</exclude>
+						<exclude>*.xml</exclude>
+						<exclude>*.properties</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 
+			<!-- 使用 mvn clean package 打包 更多配置可参考官司方文档：http://maven.apache.org/plugins/maven-assembly-plugin/single-mojo.html -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
-						<id>package</id>
+						<id>make-assembly</id>
+						<phase>package</phase>
 						<goals>
-							<goal>generate-daemons</goal>
+							<goal>single</goal>
 						</goals>
+
+						<configuration>
+							<!-- 打包生成的文件名 -->
+							<finalName>${project.artifactId}</finalName>
+							<!-- jar 等压缩文件在被打包进入 zip、tar.gz 时是否压缩，设置为 false 可加快打包速度 -->
+							<recompressZippedFiles>false</recompressZippedFiles>
+							<!-- 打包生成的文件是否要追加 release.xml 中定义的 id 值 -->
+							<appendAssemblyId>true</appendAssemblyId>
+							<!-- 指向打包描述文件 package.xml -->
+							<descriptors>
+								<descriptor>package.xml</descriptor>
+							</descriptors>
+							<!-- 打包结果输出的基础目录 -->
+							<outputDirectory>${project.build.directory}/</outputDirectory>
+						</configuration>
 					</execution>
 				</executions>
-
-				<configuration>
-
-
-					<!-- 根目录 -->
-					<assembleDirectory>${project.build.directory}/app</assembleDirectory>
-					<!-- 打包的jar，以及maven依赖的jar放到这个目录里面 -->
-					<repositoryName>lib</repositoryName>
-					<!-- 可执行脚本的目录 -->
-					<binFolder>bin</binFolder>
-					<!-- 配置classpath 或 webroot目录 -->
-					<configurationDirectory>conf</configurationDirectory>
-					<!-- 拷贝配置文件到上面的目录中 -->
-					<copyConfigurationDirectory>true</copyConfigurationDirectory>
-					<!-- 从哪里拷贝配置文件 (默认src/main/config) -->
-					<configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
-					<!-- lib目录中jar的存放规则，默认是${groupId}/${artifactId}的目录格式，flat表示直接把jar放到lib目录 -->
-					<repositoryLayout>flat</repositoryLayout>
-					<encoding>UTF-8</encoding>
-					<logsDirectory>logs</logsDirectory>
-					<tempDirectory>tmp</tempDirectory>
-
-					<programs>
-						<!--程序打包 mvn package appassembler:assemble -->
-						<program>
-							<mainClass>com.lambkit.Lambkit</mainClass>
-							<id>lambkit</id>
-							<platforms>
-								<platform>windows</platform>
-								<platform>unix</platform>
-							</platforms>
-						</program>
-					</programs>
-
-					<daemons>
-						<!-- 后台程序打包：mvn clean package appassembler:generate-daemons -->
-						<daemon>
-							<mainClass>com.lambkit.Lambkit</mainClass>
-							<id>lambkit</id>
-							<platforms>
-								<platform>jsw</platform>
-							</platforms>
-							<generatorConfigurations>
-								<generatorConfiguration>
-									<generator>jsw</generator>
-									<includes>
-										<include>linux-x86-32</include>
-										<include>linux-x86-64</include>
-										<include>macosx-universal-32</include>
-										<include>macosx-universal-64</include>
-										<include>windows-x86-32</include>
-										<include>windows-x86-64</include>
-									</includes>
-									<configuration>
-										<property>
-											<name>configuration.directory.in.classpath.first</name>
-											<value>conf</value>
-										</property>
-										<property>
-											<name>wrapper.ping.timeout</name>
-											<value>120</value>
-										</property>
-										<property>
-											<name>set.default.REPO_DIR</name>
-											<value>lib</value>
-										</property>
-										<property>
-											<name>wrapper.logfile</name>
-											<value>logs/wrapper.log</value>
-										</property>
-									</configuration>
-								</generatorConfiguration>
-							</generatorConfigurations>
-						</daemon>
-					</daemons>
-
-				</configuration>
 			</plugin>
 
 		</plugins>
 	</build>
-	
-	
+
+
 	<distributionManagement>
 		<snapshotRepository>
 			<id>oss</id>

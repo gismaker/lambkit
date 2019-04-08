@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.upms.rpc.api.UpmsOrganizationService;
 import com.lambkit.module.upms.rpc.model.UpmsOrganization;
 
@@ -34,7 +34,7 @@ public class UpmsOrganizationServiceImpl extends BaseModelServiceImpl<UpmsOrgani
 	
 	public UpmsOrganization dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(UpmsOrganization.class);
+			DAO = AopKit.singleton(UpmsOrganization.class);
 		}
 		return DAO;
 	}

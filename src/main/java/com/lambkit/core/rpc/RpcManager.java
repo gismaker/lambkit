@@ -15,7 +15,7 @@
  */
 package com.lambkit.core.rpc;
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.motan.MotanRpc;
 import com.lambkit.core.rpc.zbus.ZbusRpc;
@@ -25,18 +25,18 @@ public class RpcManager {
 
     public static RpcManager me() {
         if (manager == null) {
-            manager = ClassNewer.singleton(RpcManager.class);
+            manager = AopKit.singleton(RpcManager.class);
         }
         return manager;
     }
 
 
-    private RpcPlugin rpc;
+    private RpcPlugin rpc = null;
     private RpcConfig config = ConfigManager.me().get(RpcConfig.class);
 
 
     public Rpc getRpc() {
-    	return getPlugin();
+    	return rpc;
     }
     
     public RpcPlugin getPlugin() {
@@ -53,7 +53,7 @@ public class RpcManager {
             case RpcConfig.TYPE_ZBUS:
                 return new ZbusRpc();
             default:
-            	return new ZbusRpc();
+            	return new MotanRpc();
         }
     }
 }

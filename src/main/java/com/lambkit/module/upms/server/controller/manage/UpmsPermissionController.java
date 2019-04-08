@@ -18,7 +18,7 @@ package com.lambkit.module.upms.server.controller.manage;
 import com.alibaba.fastjson.JSONArray;
 import com.jfinal.plugin.activerecord.Page;
 import com.lambkit.web.controller.BaseController;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.common.UpmsResult;
 import com.lambkit.module.upms.common.UpmsResultConstant;
@@ -44,9 +44,9 @@ public class UpmsPermissionController extends BaseController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsPermissionController.class);
 
-    private UpmsPermissionService upmsPermissionService = ClassNewer.newInstance(UpmsPermissionServiceImpl.class);
+    private UpmsPermissionService upmsPermissionService = AopKit.newInstance(UpmsPermissionServiceImpl.class);
 
-    private UpmsSystemService upmsSystemService = ClassNewer.newInstance(UpmsSystemServiceImpl.class);
+    private UpmsSystemService upmsSystemService = AopKit.newInstance(UpmsSystemServiceImpl.class);
 
     ////@ApiOperation(value = "权限首页")
     @RequiresPermissions("upms:permission:read")

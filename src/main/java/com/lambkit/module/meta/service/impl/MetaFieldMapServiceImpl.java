@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaFieldMapService;
 import com.lambkit.module.meta.model.MetaFieldMap;
@@ -35,7 +35,7 @@ public class MetaFieldMapServiceImpl extends BaseModelServiceImpl<MetaFieldMap> 
 	
 	public MetaFieldMap dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(MetaFieldMap.class);
+			DAO = AopKit.singleton(MetaFieldMap.class);
 		}
 		return DAO;
 	}

@@ -18,7 +18,7 @@ package com.lambkit.distributed.node.service;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
@@ -40,7 +40,7 @@ public class ServiceNodeSystem {
 
 	public static ServiceNodeSystem me() {
 		if (me == null) {
-			me = ClassNewer.singleton(ServiceNodeSystem.class);
+			me = AopKit.singleton(ServiceNodeSystem.class);
 		}
 		return me;
 	}

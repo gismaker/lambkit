@@ -40,8 +40,10 @@ public class MgrdbSysconfigServiceImpl extends BaseMgrdbService {
 		ITable model = getTableDao().getAddOrEditModel(tbc.getName());
 		if(model==null) System.out.println("model is null");
 		model.setAttr("tbname", tbc.getName());
-		if(StrKit.notBlank(tbc.getTitle())) model.setAttr("tbcnn", tbc.getTitle());
-		else model.setAttr("tbcnn", tbc.getName());
+		if(StrKit.isBlank(model.getTitle())) {
+			if(StrKit.notBlank(tbc.getTitle())) model.setAttr("tbcnn", tbc.getTitle());
+			else model.setAttr("tbcnn", tbc.getName());
+		}
 		if(model.getId() !=null ) model.update();
 		else model.save();
 		for(ColumnMeta col : tbc.getColumnMetas()) {
@@ -53,11 +55,11 @@ public class MgrdbSysconfigServiceImpl extends BaseMgrdbService {
 		IField model = getFieldDao().findFirstByTbName(tbname, MgrConstants.NONE, "fldname", col.getName());
 		if(model!=null) {
 			FieldconfigModel fld = (FieldconfigModel) model;
-			fld.setDatatype(col.getType());
-			fld.setIskey(col.isPrimaryKey() ? "Y" : "N");
-			fld.setIsunsigned(col.isSigned() ? "N" : "Y");
-			fld.setIsai(col.isAutoInctement() ? "Y" : "N");
-			fld.setIsnullable(col.getIsNullableType()==1 ? "Y" : "N");
+			if(StrKit.isBlank(fld.getDatatype())) fld.setDatatype(col.getType());
+			if(StrKit.isBlank(fld.getIskey())) fld.setIskey(col.isPrimaryKey() ? "Y" : "N");
+			if(StrKit.isBlank(fld.getIsunsigned())) fld.setIsunsigned(col.isSigned() ? "N" : "Y");
+			if(StrKit.isBlank(fld.getIsai())) fld.setIsai(col.isAutoInctement() ? "Y" : "N");
+			if(StrKit.isBlank(fld.getIsnullable())) fld.setIsnullable(col.getIsNullableType()==1 ? "Y" : "N");
 			fld.update();
 		} else {
 			IField field = getFieldDao().getAddOrEditModel(null, MgrConstants.NONE);

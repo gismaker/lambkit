@@ -19,7 +19,7 @@ import com.jfinal.config.Plugins;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.redis.RedisPlugin;
 import com.lambkit.Lambkit;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 
 public class RedisManager {
 	private static RedisManager manager;
@@ -28,7 +28,7 @@ public class RedisManager {
 
     public static RedisManager me() {
         if (manager == null) {
-            manager = ClassNewer.singleton(RedisManager.class);
+            manager = AopKit.singleton(RedisManager.class);
         }
         return manager;
     }

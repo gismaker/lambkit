@@ -30,8 +30,8 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.redis.Redis;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.base.BaseResult;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.RedisUtil;
@@ -130,7 +130,7 @@ public class AuthEmbeddedController extends BaseController {
             	return (UpmsResult) result;
             }
             // 更新session状态
-            ShiroRedisSessionDao upmsSessionDao = ClassNewer.newInstance(ShiroRedisSessionDao.class);
+            ShiroRedisSessionDao upmsSessionDao = AopKit.newInstance(ShiroRedisSessionDao.class);
             upmsSessionDao.updateStatus(sessionId, ShiroSession.OnlineStatus.on_line);
             // 全局会话sessionId列表，供会话管理
             Redis.use().lpush(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_IDS, sessionId.toString());
@@ -181,7 +181,7 @@ public class AuthEmbeddedController extends BaseController {
 		Subject subject = SecurityUtils.getSubject();
 		String username = (String) subject.getPrincipal();
 		
-		UpmsApiService upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
+		UpmsApiService upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
 		UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
 		if(upmsUser==null) {
 			// shiro退出登录
@@ -254,7 +254,7 @@ public class AuthEmbeddedController extends BaseController {
 			
 			public boolean run() throws SQLException {
 				// TODO Auto-generated method stub
-				UpmsUserService upmsUserService = ClassNewer.newInstance(UpmsUserServiceImpl.class);
+				UpmsUserService upmsUserService = AopKit.newInstance(UpmsUserServiceImpl.class);
 				UpmsUser upmsUser = getModel(UpmsUser.class, "user");
 				upmsUser.setUsername(username);
 				upmsUser.setSalt(StrKit.getRandomUUID());

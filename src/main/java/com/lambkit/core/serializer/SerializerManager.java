@@ -18,7 +18,7 @@ package com.lambkit.core.serializer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.exception.LambkitAssert;
 
 
@@ -33,7 +33,7 @@ public class SerializerManager {
 
     public static SerializerManager me() {
         if (me == null) {
-            me = ClassNewer.singleton(SerializerManager.class);
+            me = AopKit.singleton(SerializerManager.class);
         }
         return me;
     }
@@ -64,7 +64,7 @@ public class SerializerManager {
          */
         if (serializerString != null && serializerString.contains(".")) {
 
-            ISerializer serializer = ClassNewer.newInstance(serializerString);
+            ISerializer serializer = AopKit.newInstance(serializerString);
 
             if (serializer != null) {
                 return serializer;

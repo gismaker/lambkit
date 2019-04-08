@@ -20,7 +20,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 
 public class RpcKit {
@@ -91,7 +91,7 @@ public class RpcKit {
 	public static <T> T enhance(Class<T> serviceClass, Class<T> serviceClassMock, String group, String version) {
 		Rpc rpc = RpcManager.me().getRpc();
 		T service = rpc.serviceObtain(serviceClass, group, version);
-		return service==null ? ClassNewer.newInstance(serviceClassMock) : service;
+		return service==null ? AopKit.newInstance(serviceClassMock) : service;
 	}
 	
 	/**

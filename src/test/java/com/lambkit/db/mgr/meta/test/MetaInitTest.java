@@ -8,12 +8,13 @@ import com.beust.jcommander.internal.Maps;
 import com.jfinal.plugin.activerecord.Config;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.lambkit.Lambkit;
+import com.lambkit.common.app.DefaultApplication;
+import com.lambkit.common.app.LambkitApplication;
 import com.lambkit.db.meta.MetaBuilder;
 import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.db.mgr.MgrdbService;
 import com.lambkit.module.meta.MetaMgrModule;
-import com.lambkit.server.LambkitServer;
 
 /**
  * Meta表格配置初始化
@@ -23,7 +24,7 @@ import com.lambkit.server.LambkitServer;
 public class MetaInitTest {
 	public static void main(String[] args) {
 		Lambkit.setBootArg("lambkit.server.type", "applicaiton");
-		LambkitServer server = Lambkit.me().getServer();
+		LambkitApplication server = new DefaultApplication();
 		Lambkit.me().addModule(new MetaMgrModule());
 		server.run();
 

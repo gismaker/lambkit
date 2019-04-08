@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 
 public class WidgetManager {
 
@@ -27,7 +27,7 @@ public class WidgetManager {
 	
 	public static WidgetManager me() {
 		if (manager == null) {
-            manager = ClassNewer.singleton(WidgetManager.class);
+            manager = AopKit.singleton(WidgetManager.class);
 		}
 		return manager;
 	}

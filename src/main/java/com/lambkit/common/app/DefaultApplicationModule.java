@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.server.app;
+package com.lambkit.common.app;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.ConfigurationFactory;
 import net.sf.ehcache.config.DiskStoreConfiguration;
 
-public class AppModule extends LambkitModule {
+public class DefaultApplicationModule extends LambkitModule {
 
 	private List<LambkitModule> modules = null;
 	

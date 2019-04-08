@@ -17,7 +17,7 @@ package com.lambkit.module.upms.server.controller;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.web.controller.BaseController;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.component.swagger.annotation.Api;
 import com.lambkit.component.swagger.annotation.ApiOperation;
 import com.lambkit.db.sql.column.Example;
@@ -41,7 +41,7 @@ import java.util.List;
 public class ManageController extends BaseController {
 
 	//private static Logger _log = LoggerFactory.getLogger(ManageController.class);
-	private UpmsApiService upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
+	private UpmsApiService upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
 
 	@ApiOperation(url = "/manage/index", tag = "manage", httpMethod = "get", description = "后台首页")
 	public void index() {

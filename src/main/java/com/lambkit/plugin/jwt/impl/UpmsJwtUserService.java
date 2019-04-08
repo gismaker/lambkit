@@ -1,4 +1,18 @@
-package com.lambkit.plugin.jwt.impl;
+/**
+ * Copyright (c) 2015-2017, Henry Yang 杨勇 (gismail@foxmail.com).
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */package com.lambkit.plugin.jwt.impl;
 
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +23,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
@@ -35,7 +49,7 @@ public class UpmsJwtUserService implements IJwtUserService {
 			if ("client".equals(upmsConfig.getType())) {
 				upmsApiService = RpcKit.obtain(UpmsApiService.class);
 			} else {
-				upmsApiService = ClassNewer.newInstance(UpmsApiServiceImpl.class);
+				upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
 			}
 		}
 		return upmsApiService;

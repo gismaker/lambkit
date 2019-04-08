@@ -25,8 +25,6 @@ public class TestController extends BaseController {
 		};
 		Lambkit.me().addModule(config);
 		
-		Lambkit.setBootArg("lambkit.server.webAppDir", "src/main/webapp");
-		Lambkit.setBootArg("lambkit.server.port", 9090);
-		Lambkit.run(args);
+		Lambkit.run(null);
 	}
 }

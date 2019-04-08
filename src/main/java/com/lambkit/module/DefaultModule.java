@@ -21,14 +21,12 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Set;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
-import com.jfinal.core.Controller;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.json.FastJsonFactory;
 import com.jfinal.json.JsonManager;
@@ -38,13 +36,10 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
-import com.jfinal.template.Directive;
 import com.jfinal.template.Engine;
 import com.jfinal.template.ext.directive.NowDirective;
 import com.lambkit.Lambkit;
-import com.lambkit.LambkitConfig;
 import com.lambkit.common.base.Consts;
-import com.lambkit.common.util.ClassUtils;
 import com.lambkit.common.util.TimeUtils;
 import com.lambkit.component.ehcache.EhcacheConfig;
 import com.lambkit.component.redis.RedisConfig;
@@ -65,10 +60,7 @@ import com.lambkit.system.SystemManager;
 import com.lambkit.system.controller.HelpIndexController;
 import com.lambkit.system.monitor.ApiMontiorHandler;
 import com.lambkit.web.ControllerManager;
-import com.lambkit.web.WebConfig;
 import com.lambkit.web.cache.ActionCacheHandler;
-import com.lambkit.web.controller.annotation.RequestMapping;
-import com.lambkit.web.directive.annotation.JFinalDirective;
 import com.lambkit.web.handler.LambkitHandler;
 import com.lambkit.web.interceptor.CommonInterceptor;
 
@@ -119,7 +111,7 @@ public class DefaultModule extends LambkitModule {
         	routes.add(swaggerConfig.getUrl(), SwaggerController.class, swaggerConfig.getPath());
         }
         //自动扫描加入RequestMapping
-        autoRegisterRequestMapping(routes);
+        //autoRegisterRequestMapping(routes);
         
         for (Routes.Route route : routes.getRouteItemList()) {
             ControllerManager.me().setMapping(route.getControllerKey(), route.getControllerClass());
@@ -142,8 +134,9 @@ public class DefaultModule extends LambkitModule {
          * 查看：EngineConfig
          */
         addDirective(engine, "now", NowDirective.class);
+        addDirective(engine, "long2date", com.lambkit.web.directive.DateDirective.class);
         //自动扫描加入JFinalDirective
-        autoRegisterEngine(engine);
+        //autoRegisterEngine(engine);
         
 		for (LambkitModule module : modules) {
 			module.configEngine(engine);

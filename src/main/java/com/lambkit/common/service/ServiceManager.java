@@ -1,9 +1,23 @@
-package com.lambkit.common.service;
+/**
+ * Copyright (c) 2015-2017, Henry Yang 杨勇 (gismail@foxmail.com).
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */package com.lambkit.common.service;
 
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcConfig;
 import com.lambkit.core.rpc.RpcKit;
@@ -14,24 +28,24 @@ public class ServiceManager {
 
     public static ServiceManager me() {
         if (manager == null) {
-            manager = ClassNewer.singleton(ServiceManager.class);
+            manager = AopKit.singleton(ServiceManager.class);
         }
         return manager;
     }
     
-    private Map<String, Service> services;
+    private Map<String, ServiceObject> services;
     
-    public Map<String, Service> getServices() {
+    public Map<String, ServiceObject> getServices() {
     	if(services==null) {
     		services = Maps.newHashMap();
     	}
     	return services;
     }
-    public <T> void put(Service service) {
+    public <T> void put(ServiceObject service) {
     	getServices().put(service.getInterfaceClass().getName(), service);
     }
     
-    public Service get(Class<?> interfaceClass) {
+    public ServiceObject get(Class<?> interfaceClass) {
     	return getServices().get(interfaceClass.getName());
     }
     /**
@@ -39,10 +53,10 @@ public class ServiceManager {
      * @param interfaceClass
      * @return
      */
-    protected Service getOrNew(Class<?> interfaceClass) {
-    	Service service = getServices().get(interfaceClass.getName());
+    protected ServiceObject getOrNew(Class<?> interfaceClass) {
+    	ServiceObject service = getServices().get(interfaceClass.getName());
     	if(service==null) {
-    		service = new Service(interfaceClass);
+    		service = new ServiceObject(interfaceClass);
     	}
     	return service;
     }
@@ -84,7 +98,7 @@ public class ServiceManager {
      * @return
      */
     public <T> boolean mapping(Class<?> interfaceClass, Class<?> implementClass, Class<?> mockClass, String group, String version, int port) {
-    	Service service = new Service(interfaceClass, implementClass, mockClass, group, version, port);
+    	ServiceObject service = new ServiceObject(interfaceClass, implementClass, mockClass, group, version, port);
     	put(service);
     	if(implementClass!=null) {
     		return RpcKit.serviceExport(interfaceClass, service.inject(), group, version, port);
@@ -99,8 +113,8 @@ public class ServiceManager {
      */
     public <T> void remote(Class<?> interfaceClass, Class<?> mockClass) {
     	RpcConfig rpcConfig = ConfigManager.me().get(RpcConfig.class);
-    	Service service = new Service(interfaceClass, null, mockClass, rpcConfig.getDefaultGroup(), rpcConfig.getDefaultVersion(), rpcConfig.getDefaultPort());
-    	service.setType(Service.CLIENT);
+    	ServiceObject service = new ServiceObject(interfaceClass, null, mockClass, rpcConfig.getDefaultGroup(), rpcConfig.getDefaultVersion(), rpcConfig.getDefaultPort());
+    	service.setType(ServiceObject.CLIENT);
     	put(service);
 	}
     
@@ -113,8 +127,8 @@ public class ServiceManager {
      * @param port
      */
     public <T> void remote(Class<?> interfaceClass, Class<?> mockClass, String group, String version, int port) {
-    	Service service = new Service(interfaceClass, null, mockClass, group, version, port);
-    	service.setType(Service.CLIENT);
+    	ServiceObject service = new ServiceObject(interfaceClass, null, mockClass, group, version, port);
+    	service.setType(ServiceObject.CLIENT);
     	put(service);
 	}
     
@@ -124,7 +138,7 @@ public class ServiceManager {
      * @return
      */
     public <T> T inject(Class<?> interfaceClass) {
-    	Service service = getServices().get(interfaceClass.getName());
+    	ServiceObject service = getServices().get(interfaceClass.getName());
     	if(service!=null) {
     		return service.inject();
     	}
@@ -137,11 +151,11 @@ public class ServiceManager {
      * @return
      */
     public <T> T inject(Class<?> interfaceClass, Class<?> defaultClass) {
-    	Service service = getServices().get(interfaceClass.getName());
+    	ServiceObject service = getServices().get(interfaceClass.getName());
     	if(service!=null) {
     		return service.inject();
     	} else {
-    		return (T) ClassNewer.singleton(defaultClass);
+    		return (T) AopKit.singleton(defaultClass);
     	}
     }
 

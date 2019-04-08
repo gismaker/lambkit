@@ -2,7 +2,7 @@ package com.lambkit.node.test;
 
 import com.jfinal.config.Routes;
 import com.lambkit.Lambkit;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.manager.ManagerNodeServiceImp;
@@ -21,7 +21,7 @@ public class ManagerNodeServer extends BaseController {
 		setAttr("type", NodeManager.me().getNode().getType());
 		setAttr("major", NodeManager.me().getMajorManagerId());
 
-		ManagerNodeService service = ClassNewer.newInstance(ManagerNodeServiceImp.class);
+		ManagerNodeService service = AopKit.newInstance(ManagerNodeServiceImp.class);
 		setAttr("token", service.getToken());
 		renderJson();
 	}

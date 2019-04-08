@@ -17,7 +17,6 @@ package com.lambkit.component.shiro;
 
 import java.io.IOException;
 
-import org.apache.jasper.security.SecurityUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.util.WebUtils;
 

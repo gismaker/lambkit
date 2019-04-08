@@ -26,7 +26,7 @@ import javax.sql.DataSource;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.db.TableMapping;
 import com.lambkit.db.TableMappingManager;
@@ -103,7 +103,7 @@ public class ActiveRecordBuilder {
         }
 
         if (tableInfo.getKeyGeneratorClass() != KeyGenerator.class) {
-            tableRuleConfig.setKeyGenerator(ClassNewer.newInstance(tableInfo.getKeyGeneratorClass()));
+            tableRuleConfig.setKeyGenerator(AopKit.newInstance(tableInfo.getKeyGeneratorClass()));
         }
 
         if (StrKit.notBlank(tableInfo.getKeyGeneratorColumnName())) {
@@ -111,18 +111,18 @@ public class ActiveRecordBuilder {
         }
 
         if (tableInfo.getDatabaseShardingStrategyConfig() != ShardingStrategyConfiguration.class) {
-            tableRuleConfig.setDatabaseShardingStrategyConfig(ClassNewer.newInstance(tableInfo.getDatabaseShardingStrategyConfig()));
+            tableRuleConfig.setDatabaseShardingStrategyConfig(AopKit.newInstance(tableInfo.getDatabaseShardingStrategyConfig()));
         }
 
         if (tableInfo.getTableShardingStrategyConfig() != ShardingStrategyConfiguration.class) {
-            tableRuleConfig.setTableShardingStrategyConfig(ClassNewer.newInstance(tableInfo.getTableShardingStrategyConfig()));
+            tableRuleConfig.setTableShardingStrategyConfig(AopKit.newInstance(tableInfo.getTableShardingStrategyConfig()));
         }
 
         return tableRuleConfig;
     }
     
     private DataSource createDataSource(Plugins plugin, DataSourceConfig dataSourceConfig) {
-        DataSourceFactory factory = ClassNewer.newInstance(dataSourceConfig.getFactory());
+        DataSourceFactory factory = AopKit.newInstance(dataSourceConfig.getFactory());
         if (factory == null) {
             factory = new DruidDataSourceFactory();
         }
@@ -133,7 +133,7 @@ public class ActiveRecordBuilder {
     private ActiveRecordPlugin createRecordPlugin(Plugins plugin, DataSourceConfig dataSourceConfig) {
         DataSourceFactory factory = null;
         if(StrKit.notBlank(dataSourceConfig.getFactory())) {
-        	ClassNewer.newInstance(dataSourceConfig.getFactory());
+        	AopKit.newInstance(dataSourceConfig.getFactory());
         }
         if (factory == null) {
             factory = new DruidDataSourceFactory();

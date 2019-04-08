@@ -42,8 +42,9 @@ public class ScanJarStringSource implements ISource {
     public boolean isModified() {
         return true;
     }
-
-    public String getKey() {
+    
+    @Override
+	public String getCacheKey() {
         return this.fileName;
     }
 
@@ -86,4 +87,6 @@ public class ScanJarStringSource implements ISource {
         }
         return out;
     }
+
+	
 }

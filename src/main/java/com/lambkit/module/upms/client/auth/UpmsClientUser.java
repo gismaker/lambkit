@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Model;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.config.ConfigManager;
@@ -129,7 +129,7 @@ public class UpmsClientUser implements IUser, Serializable {
 		if("client".equals(upmsConfig.getType())) {
 			return RpcKit.obtain(UpmsApiService.class);
 		} else {
-			return ClassNewer.newInstance(UpmsApiServiceImpl.class);
+			return AopKit.newInstance(UpmsApiServiceImpl.class);
 		}
     }
 

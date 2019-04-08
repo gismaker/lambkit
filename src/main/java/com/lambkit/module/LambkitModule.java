@@ -30,7 +30,7 @@ import com.jfinal.template.Directive;
 import com.jfinal.template.Engine;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitConfig;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ClassUtils;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.module.annotation.Module;
@@ -104,7 +104,7 @@ public abstract class LambkitModule {
             for (Class<?> clazz : ctrlClassSet) {
             	Module module = clazz.getAnnotation(Module.class);
                 if (module != null) {
-                	addModule(ClassNewer.newInstance((Class<? extends LambkitModule>)clazz));
+                	addModule(AopKit.newInstance((Class<? extends LambkitModule>)clazz));
                 }
             }
     	}

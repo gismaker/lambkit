@@ -15,26 +15,21 @@
  */
 package com.lambkit.web.websocket.jetty;
 
+import javax.servlet.annotation.WebServlet;
 
-import javax.servlet.http.HttpServletRequest;
+import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
+import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
-import org.eclipse.jetty.websocket.WebSocket;
-import org.eclipse.jetty.websocket.WebSocketServlet;
-
-
+@SuppressWarnings("serial")
+@WebServlet(name = "MyEcho WebSocket Servlet", urlPatterns = { "/echo" })
 public class WebSocketAction extends WebSocketServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	@Override
-	public WebSocket doWebSocketConnect(HttpServletRequest request,
-			String protocol) {
-		// TODO Auto-generated method stub
-		System.out.println("url=" + request.getRequestURL() + ",protocol="+ protocol);
-		String sessionid = request.getSession().getId();
-		return new WebSocketJettyMsg(sessionid);
+	public void configure(WebSocketServletFactory factory) {
+		// set a 10 second timeout
+		factory.getPolicy().setIdleTimeout(10000);
+
+		// register MyEchoSocket as the WebSocket to create on Upgrade
+		factory.register(ListenerEchoSocket.class);
 	}
 }

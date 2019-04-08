@@ -16,7 +16,7 @@
 package com.lambkit.generator;
 
 import com.lambkit.Lambkit;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.generator.impl.CommonGenerator;
 import com.lambkit.generator.impl.DatabaseGenerator;
 import com.lambkit.generator.impl.MgrdbGenerator;
@@ -34,7 +34,7 @@ public class GeneratorManager {
 	
 	public static GeneratorManager me() {
 		if(manager==null) {
-			manager = ClassNewer.singleton(GeneratorManager.class);
+			manager = AopKit.singleton(GeneratorManager.class);
 		}
 		return manager;
 	}

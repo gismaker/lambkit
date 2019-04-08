@@ -16,8 +16,8 @@
 package com.lambkit.module.meta.service.impl;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.meta.service.MetaFileCatalogMappingService;
 import com.lambkit.module.meta.model.MetaFile;
@@ -39,7 +39,7 @@ public class MetaFileCatalogMappingServiceImpl extends BaseModelServiceImpl<Meta
 	
 	public MetaFileCatalogMapping dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(MetaFileCatalogMapping.class);
+			DAO = AopKit.singleton(MetaFileCatalogMapping.class);
 		}
 		return DAO;
 	}
@@ -81,7 +81,7 @@ public class MetaFileCatalogMappingServiceImpl extends BaseModelServiceImpl<Meta
 	@Override
 	public MetaFileCatalogMapping findById(Long fileId, Long catelogId) {
 		// TODO Auto-generated method stub
-		return dao().findById(catelogId, fileId);
+		return dao().findByIds(catelogId, fileId);
 		/*
 		MetaFileCatalogMappingExample example = new MetaFileCatalogMappingExample();
 		example.createCriteria().andCatalogIdEqualTo(catelogId).andFileIdEqualTo(fileId);

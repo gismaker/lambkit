@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.component.shiro.processer.AuthorizeResult;
 import com.lambkit.component.shiro.processer.IShiroAuthorizeProcesser;
 import com.lambkit.component.shiro.processer.ShiroRequiresAuthenticationProcesser;
@@ -49,7 +49,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     private static Logger _log = LoggerFactory.getLogger(UpmsApiServiceImpl.class);
 
-    UpmsApiQuery upmsApiQuery = ClassNewer.newInstance(UpmsApiQuery.class);
+    UpmsApiQuery upmsApiQuery = AopKit.newInstance(UpmsApiQuery.class);
     
     /**
      * 根据用户id获取所拥有的权限

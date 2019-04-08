@@ -20,12 +20,10 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.jfinal.aop.Before;
-import com.jfinal.ext.interceptor.NotAction;
+import com.jfinal.core.NotAction;
 import com.jfinal.kit.StrKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
@@ -56,7 +54,7 @@ import com.lambkit.web.controller.BaseController;
  */
 public class MgrdbApiController extends BaseController {
 
-	private final static Logger _log = LoggerFactory.getLogger(MgrdbApiController.class);
+	private final static Log _log = Log.getLog(MgrdbApiController.class);
 
 	/**
 	 * 获取一条记录
@@ -193,7 +191,6 @@ public class MgrdbApiController extends BaseController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		_log.info(tbc.getModel().getName(), "excel", "导出Excel");
 		renderNull();
 	}
 
@@ -223,7 +220,6 @@ public class MgrdbApiController extends BaseController {
 		try {
 			flag = Db.save(tbc.getName(), idname, m);
 			if (flag) {
-				_log.info(tbc.getModel().getName(), m.get(tbc.getModel().getPrimaryKey()), "save", "保存数据");
 				MgrdbService tcs = MgrdbManager.me().getService();
 				IField geomfld = tcs.getFieldDao().findGeomField(tbc.getModel().getId(), MgrConstants.MAP);
 				if (geomfld != null && StringUtils.hasText(getPara("model.lon"))
@@ -244,7 +240,7 @@ public class MgrdbApiController extends BaseController {
 				}
 			}
 		} catch (Exception ex) {
-			_log.error(tbc.getModel().getName(), "save", "保存数据异常：" + ex.getMessage());
+			_log.error(tbc.getModel().getName()+ "保存数据异常", ex);
 		}
 		if (flag) {
 			renderJson(new ResultJson(0, "fail", "data is not find."));
@@ -253,7 +249,7 @@ public class MgrdbApiController extends BaseController {
 		}
 	}
 
-	@Before(NotAction.class)
+	@NotAction
 	private void setRecord(Record m, List<? extends IField> flds, boolean bsave) {
 		for (int i = 0; i < flds.size(); i++) {
 			IField fld = flds.get(i);
@@ -341,7 +337,6 @@ public class MgrdbApiController extends BaseController {
 		}
 		boolean flag = Db.update(tbc.getName(), tbc.getModel().getPrimaryKey(), m);
 		if (flag) {
-			_log.info(tbc.getModel().getName(),m.get(tbc.getModel().getPrimaryKey()), "update", "更新数据");
 			MgrdbService tcs = MgrdbManager.me().getService();
 			IField geomfld = tcs.getFieldDao().findGeomField(tbc.getModel().getId(), MgrConstants.MAP);
 			if (geomfld != null && StringUtils.hasText(getPara("model.lon"))
@@ -374,7 +369,6 @@ public class MgrdbApiController extends BaseController {
 		int model_id = getParaToInt("id");
 		boolean del = Db.deleteById(tbc.getName(), tbc.getModel().getPrimaryKey(), model_id);
 		if (del) {
-			_log.info(tbc.getModel().getName(), model_id, "delete", "删除数据");
 			renderJson(new ResultJson(0, "fail", "data is not find."));
 		} else {
 			renderJson(new ResultJson(1, "success", null));
@@ -392,9 +386,6 @@ public class MgrdbApiController extends BaseController {
 		boolean del = false;
 		for (String model_id : ids) {
 			del = Db.deleteById(tbc.getName(), tbc.getModel().getPrimaryKey(), Integer.parseInt(model_id));
-			if (del) {
-				_log.info(tbc.getModel().getName(), model_id, "delete", "批量删除数据");
-			}
 		}
 		if (del) {
 			renderJson(new ResultJson(0, "fail", "data is not find."));

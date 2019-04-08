@@ -20,8 +20,8 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.lambkit.Lambkit;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ArrayUtils;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.cache.CacheManager;
 import com.lambkit.db.datasource.ActiveRecordBuilder;
@@ -53,7 +53,7 @@ public class DbManager {
 
     public static DbManager me() {
         if (manager == null) {
-            manager = ClassNewer.singleton(DbManager.class);
+            manager = AopKit.singleton(DbManager.class);
         }
         return manager;
     }

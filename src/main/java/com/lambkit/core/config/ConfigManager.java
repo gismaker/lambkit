@@ -18,8 +18,8 @@ package com.lambkit.core.config;
 import com.jfinal.kit.*;
 import com.jfinal.log.Log;
 import com.lambkit.Lambkit;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ArrayUtils;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.config.annotation.PropertieConfig;
 import com.lambkit.exception.LambkitException;
@@ -95,7 +95,7 @@ public class ConfigManager {
             return obj;
         }
 
-        obj = ClassNewer.newInstance(clazz);
+        obj = AopKit.newInstance(clazz);
 
         List<Method> setMethods = new ArrayList<>();
 

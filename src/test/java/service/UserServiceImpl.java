@@ -15,7 +15,7 @@
  */
 package service;
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.exception.LambkitException;
 
 public class UserServiceImpl implements UserService {
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
         System.out.println("UserServiceImpl hello invoked!!!");
 
-        return ClassNewer.newInstance(CategoryServiceImpl.class).hello(name);
+        return AopKit.newInstance(CategoryServiceImpl.class).hello(name);
     }
 
 

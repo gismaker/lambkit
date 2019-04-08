@@ -17,7 +17,7 @@ package com.lambkit.distributed.node.manager;
 
 import java.util.List;
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
@@ -45,7 +45,7 @@ public class ManagerNodeSystem {
 
 	public static ManagerNodeSystem me() {
 		if (me == null) {
-			me = ClassNewer.singleton(ManagerNodeSystem.class);
+			me = AopKit.singleton(ManagerNodeSystem.class);
 		}
 		return me;
 	}

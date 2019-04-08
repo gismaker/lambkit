@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionException;
 import com.jfinal.core.Controller;
-import com.jfinal.ext.interceptor.NotAction;
+import com.jfinal.core.NotAction;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
@@ -88,7 +88,7 @@ public abstract class BaseController extends Controller {
      *
      * @return
      */
-    @Before(NotAction.class)
+	@NotAction
     public String getBaseUrl() {
         HttpServletRequest req = getRequest();
         int port = req.getServerPort();
@@ -102,7 +102,7 @@ public abstract class BaseController extends Controller {
 	 * 获取mgrdb配置
 	 * @return
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	public MgrTable getBase(int type, boolean attr, String orderby) {
 		//convert tbid type (int) to Long
 		Long tbid=getParaToLong(0) == null ? getParaToLong("tag", null) : getParaToLong(0);
@@ -112,32 +112,32 @@ public abstract class BaseController extends Controller {
 		return null;
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public MgrTable getBase(boolean attr) {
 		return getBase(MgrConstants.NONE, attr, null);
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public MgrTable getBase(int type, boolean attr) {
 		return getBase(type, attr, null);
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public MgrTable getBase() {
 		return getBase(MgrConstants.NONE, true, null);
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public MgrTable getBase(int type) {
 		return getBase(type, true, null);
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public MgrTable getBase(String orderby) {
 		return getBase(MgrConstants.NONE, true, orderby);
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public MgrTable getBase(int type, String orderby) {
 		return getBase(type, true, orderby);
 	}
@@ -328,7 +328,7 @@ public abstract class BaseController extends Controller {
         }
     }
 	
-	@Before(NotAction.class)
+	@NotAction
 	public BigInteger[] getParaValuesToBigInteger(String name) {
 		String[] values = getRequest().getParameterValues(name);
 		if (values == null)
@@ -339,27 +339,27 @@ public abstract class BaseController extends Controller {
 		return result;
 	}
 
-	@Before(NotAction.class)
+	@NotAction
 	public BigInteger getParaToBigInteger() {
 		return toBigInteger(getPara(), null);
 	}
 
-	@Before(NotAction.class)
+	@NotAction
 	public BigInteger getParaToBigInteger(int index) {
 		return toBigInteger(getPara(index), null);
 	}
 
-	@Before(NotAction.class)
+	@NotAction
 	public BigInteger getParaToBigInteger(int index, BigInteger defaultValue) {
 		return toBigInteger(getPara(index), defaultValue);
 	}
 
-	@Before(NotAction.class)
+	@NotAction
 	public BigInteger getParaToBigInteger(String name) {
 		return toBigInteger(getRequest().getParameter(name), null);
 	}
 
-	@Before(NotAction.class)
+	@NotAction
 	public BigInteger getParaToBigInteger(String name, BigInteger defaultValue) {
 		return toBigInteger(getRequest().getParameter(name), defaultValue);
 	}
@@ -389,7 +389,7 @@ public abstract class BaseController extends Controller {
 	 * @param name
 	 * @return
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	public String getParaTrans(String name) {
 		String param  = this.getPara(name);
 		if(param!=null && param.trim().length() > 0) {
@@ -398,7 +398,7 @@ public abstract class BaseController extends Controller {
 		return null;
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public String getParaTrans(String name, String defaultvalue) {
 		String param  = this.getPara(name);
 		if(param!=null && param.trim().length() > 0) {
@@ -412,12 +412,12 @@ public abstract class BaseController extends Controller {
 	 * @param prefix
 	 * @return
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	public String getOrderBySQL(String prefix) {
 		return getOrderBySQL(prefix, "");
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public String getOrderBySQL(String prefix, String defaultstr) {
 		String orderby = getParaTrans("orderby");
 		if(StringUtils.hasText(orderby)) {
@@ -554,7 +554,7 @@ public abstract class BaseController extends Controller {
 	 * @param modelClass
 	 * @return
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	public <T> List<T> getModels(Class<T> modelClass) {
 		return getModels(modelClass, StrKit.firstCharToLowerCase(modelClass.getSimpleName()));
 	}
@@ -562,7 +562,7 @@ public abstract class BaseController extends Controller {
 	/**
 	 * 获取前端传来的数组对象并响应成Model列表
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	public <T> List<T> getModels(Class<T> modelClass, String modelName) {
 		List<String> indexes = getIndexes(modelName);
 		List<T> list = new ArrayList<T>();
@@ -595,7 +595,7 @@ public abstract class BaseController extends Controller {
 		return list;
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public boolean keepPara(String attr) {
 		boolean kp = getParaToBoolean("kp", true);
 		if(kp) {
@@ -609,7 +609,7 @@ public abstract class BaseController extends Controller {
 		return false;
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public WidgetResult operateWidget() {
 		String akey = getPara(0)==null ? getPara("request") : getPara(0);
 		if(StrKit.notBlank(akey)) {
@@ -621,12 +621,12 @@ public abstract class BaseController extends Controller {
 		return null;
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public void renderWidget() {
 		WidgetManager.me().render(this);
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public void renderWidget(String templatePath) {
 		WidgetManager.me().render(this, templatePath);
 	}
@@ -635,7 +635,7 @@ public abstract class BaseController extends Controller {
 	 * 通过p参数render
 	 * @param flag
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	public boolean renderOfPage(String syspath) {
 		String html = getPara("p");
 		if(StrKit.notBlank(html)) {
@@ -645,17 +645,17 @@ public abstract class BaseController extends Controller {
 		return false;
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public boolean renderOfPageAtInf() {
 		return renderOfPage("/WEB-INF/");
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public boolean renderOfPageAtRoot() {
 		return renderOfPage("/");
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public boolean renderOfPageAtApp() {
 		return renderOfPage("/WEB-INF/app/");
 	}
@@ -664,7 +664,7 @@ public abstract class BaseController extends Controller {
 	 * 通过at参数render
 	 * @param flag
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	public void renderAt(boolean flag) {
 		String at = getPara("at");
 		if(!StringUtils.hasText(at) || at.equalsIgnoreCase("json")) {
@@ -674,7 +674,7 @@ public abstract class BaseController extends Controller {
 		}
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public void renderAt(Object obj) {
 		String at = getPara("at");
 		if(!StringUtils.hasText(at) || at.equalsIgnoreCase("json")) {
@@ -684,7 +684,7 @@ public abstract class BaseController extends Controller {
 		}
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public void renderAt(boolean flag, String type, String info) {
 		String at = getPara("at");
 		if(!StringUtils.hasText(at) || at.equalsIgnoreCase("json")) {
@@ -694,24 +694,24 @@ public abstract class BaseController extends Controller {
 		}
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public void renderProxy(String targetName, String targetUri) {
 		render(ProxyKit.render(targetName, targetUri));
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public void renderResultJson(int code, String message, Object data) {
 		renderJson(new ResultJson(code, message, data));
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public void renderResultJson(int code, String type, String message, Object data) {
 		renderJson(new ResultJson(code, type, message, data));
 	}
 	/**
 	 * 跳转错误页
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	public void renderError(String url, String msg, Integer... time) {
 		this.setAttr("url", url);
 		this.setAttr("error", msg);
@@ -746,7 +746,7 @@ public abstract class BaseController extends Controller {
 		super.renderJson();
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public boolean autoList(MgrTable tbc) {
 		if (tbc == null) {
 			return false;
@@ -791,7 +791,7 @@ public abstract class BaseController extends Controller {
      *
      * @return
      */
-    @Before(NotAction.class)
+    @NotAction
     public boolean isMultipartRequest() {
         return RequestUtils.isMultipartRequest(getRequest());
     }
@@ -801,12 +801,12 @@ public abstract class BaseController extends Controller {
      *
      * @return
      */
-    @Before(NotAction.class)
+    @NotAction
     public boolean isAjaxRequest() {
         return RequestUtils.isAjaxRequest(getRequest());
     }
 	
-	@Before(NotAction.class)
+	@NotAction
 	public String getSystemPath() {
 		return "http://" + getRequest().getRemoteHost() + ":"
 				+ getRequest().getLocalPort() + getRequest().getContextPath();

@@ -17,7 +17,7 @@ package com.lambkit.module.wechat.controller;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
-import com.jfinal.ext.interceptor.NotAction;
+import com.jfinal.core.NotAction;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.weixin.sdk.api.*;
@@ -125,7 +125,7 @@ public abstract class WechatController extends BaseController {
         redirect(gotoUrl);
     }
 
-    @Before(NotAction.class)
+    @NotAction
     public void clearWechatSession() {
         //移除脏数据后，再次进入授权页面
         removeSessionAttr(SESSION_WECHAT_OPEN_ID);
@@ -134,7 +134,7 @@ public abstract class WechatController extends BaseController {
     }
 
 
-    @Before(NotAction.class)
+    @NotAction
     public void initJsSdkConfig() {
 
         WechatConfig config = Lambkit.config(WechatConfig.class);
@@ -189,7 +189,7 @@ public abstract class WechatController extends BaseController {
         return RequestUtils.isWechatBrowser(req);
     }
 
-    @Before(NotAction.class)
+    @NotAction
     public void doNotAlloVisitRedirect() {
         /**
          * 一般情况下，此方法是为了调整到其他页面，比如让用户扫描二维码之类的

@@ -13,26 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.server;
+package com.lambkit.common.service;
 
-import javax.servlet.ServletContextListener;
-import java.util.LinkedList;
-import java.util.List;
+import java.lang.annotation.*;
 
-
-public class ContextListeners {
-
-    List<Class<? extends ServletContextListener>> listeners = new LinkedList<>();
-
-    public List<Class<? extends ServletContextListener>> getListeners() {
-        return listeners;
-    }
-
-    public void setListeners(List<Class<? extends ServletContextListener>> listeners) {
-        this.listeners = listeners;
-    }
-
-    public void addListener(Class<? extends ServletContextListener> clazz) {
-        listeners.add(clazz);
-    }
+@Inherited
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface ServiceMock {
+	Class<?> value();
 }

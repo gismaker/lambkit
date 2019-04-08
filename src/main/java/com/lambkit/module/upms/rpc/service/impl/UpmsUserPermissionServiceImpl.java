@@ -17,8 +17,8 @@ package com.lambkit.module.upms.rpc.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserPermissionService;
 import com.lambkit.module.upms.rpc.model.UpmsUserPermission;
@@ -39,7 +39,7 @@ public class UpmsUserPermissionServiceImpl extends BaseModelServiceImpl<UpmsUser
 	
 	public UpmsUserPermission dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(UpmsUserPermission.class);
+			DAO = AopKit.singleton(UpmsUserPermission.class);
 		}
 		return DAO;
 	}

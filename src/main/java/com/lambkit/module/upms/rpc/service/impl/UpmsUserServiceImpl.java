@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserService;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
@@ -37,7 +37,7 @@ public class UpmsUserServiceImpl extends BaseModelServiceImpl<UpmsUser> implemen
 	
 	public UpmsUser dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(UpmsUser.class);
+			DAO = AopKit.singleton(UpmsUser.class);
 		}
 		return DAO;
 	}

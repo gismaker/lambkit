@@ -34,7 +34,7 @@ public class RpcConfig {
     public static final String REGISTRY_TYPE_ZOOKEEPER = "zookeeper";
     public static final String REGISTRY_TYPE_ZBUS = "zbus";
 
-    private String type = TYPE_MOTAN;
+    private String type;
     private int requestTimeOut = 5000;
 
     /**

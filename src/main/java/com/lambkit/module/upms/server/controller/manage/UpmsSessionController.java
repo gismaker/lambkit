@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.server.controller.manage;
 
 import com.lambkit.web.controller.BaseController;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.module.upms.client.shiro.ShiroRedisSessionDao;
 import com.lambkit.module.upms.common.UpmsResult;
 import com.lambkit.module.upms.common.UpmsResultConstant;
@@ -31,7 +31,7 @@ public class UpmsSessionController extends BaseController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsSessionController.class);
 
-    private ShiroRedisSessionDao sessionDAO = ClassNewer.newInstance(ShiroRedisSessionDao.class);
+    private ShiroRedisSessionDao sessionDAO = AopKit.newInstance(ShiroRedisSessionDao.class);
 
     ////@ApiOperation(value = "会话首页")
     @RequiresPermissions("upms:session:read")

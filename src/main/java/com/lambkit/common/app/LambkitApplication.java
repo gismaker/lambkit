@@ -13,14 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.service.annotation;
+package com.lambkit.common.app;
 
-import java.lang.annotation.*;
+import com.lambkit.Lambkit;
+import com.lambkit.module.LambkitModule;
 
-@Inherited
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Service {
-	Class<?> value();
+public abstract class LambkitApplication {
+
+	public LambkitModule getModule() {
+		return Lambkit.me().getModule();
+	}
+
+	public boolean run() {
+		if (start()) {
+			return startAfter();
+		}
+		return false;
+	}
+
+	public abstract boolean start();
+
+	public abstract boolean startAfter();
+
+	public abstract boolean restart();
+
+	public abstract boolean stop();
 }

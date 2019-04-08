@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.upms.rpc.api.UpmsFavoritesService;
 import com.lambkit.module.upms.rpc.model.UpmsFavorites;
 
@@ -34,7 +34,7 @@ public class UpmsFavoritesServiceImpl extends BaseModelServiceImpl<UpmsFavorites
 	
 	public UpmsFavorites dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(UpmsFavorites.class);
+			DAO = AopKit.singleton(UpmsFavorites.class);
 		}
 		return DAO;
 	}

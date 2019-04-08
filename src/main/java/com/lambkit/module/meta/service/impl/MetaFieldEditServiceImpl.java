@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.sql.column.Columns;
 import com.lambkit.module.meta.service.MetaFieldEditService;
 import com.lambkit.module.meta.model.MetaFieldEdit;
@@ -35,7 +35,7 @@ public class MetaFieldEditServiceImpl extends BaseModelServiceImpl<MetaFieldEdit
 	
 	public MetaFieldEdit dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(MetaFieldEdit.class);
+			DAO = AopKit.singleton(MetaFieldEdit.class);
 		}
 		return DAO;
 	}

@@ -16,7 +16,7 @@
 package com.lambkit.core.mq;
 
 import com.jfinal.config.Plugins;
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.core.mq.zubs.ZbusMq;
 import com.lambkit.core.mq.zubs.ZbusReceiver;
 import com.lambkit.module.LambkitModule;
@@ -27,7 +27,7 @@ public class MqManager extends LambkitModule {
 
     public static MqManager me() {
         if (manager == null) {
-            manager = ClassNewer.singleton(MqManager.class);
+            manager = AopKit.singleton(MqManager.class);
         }
         return manager;
     }

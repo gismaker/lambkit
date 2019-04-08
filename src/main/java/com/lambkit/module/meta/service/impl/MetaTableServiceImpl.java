@@ -20,8 +20,8 @@ import java.util.List;
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.db.mgr.ITable;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaTableService;
@@ -41,7 +41,7 @@ public class MetaTableServiceImpl extends BaseModelServiceImpl<MetaTable> implem
 	
 	public MetaTable dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(MetaTable.class);
+			DAO = AopKit.singleton(MetaTable.class);
 		}
 		return DAO;
 	}

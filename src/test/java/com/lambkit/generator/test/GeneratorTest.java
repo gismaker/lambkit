@@ -4,10 +4,11 @@ import java.util.Map;
 
 import com.beust.jcommander.internal.Maps;
 import com.lambkit.Lambkit;
+import com.lambkit.common.app.DefaultApplication;
+import com.lambkit.common.app.LambkitApplication;
 import com.lambkit.generator.GeneratorType;
 import com.lambkit.generator.GeneratorManager;
 import com.lambkit.generator.IGenerator;
-import com.lambkit.server.LambkitServer;
 
 public class GeneratorTest {
 
@@ -23,7 +24,7 @@ public class GeneratorTest {
 		Lambkit.setBootArg("lambkit.generator.mgrdb", "normal");
 		//处理引擎
 		Lambkit.setBootArg("lambkit.generator.processer", "db");
-		LambkitServer server = Lambkit.me().getServer();
+		LambkitApplication server = new DefaultApplication();
 		//初始化生成工具
 		GeneratorManager.me().init();
 		server.start();

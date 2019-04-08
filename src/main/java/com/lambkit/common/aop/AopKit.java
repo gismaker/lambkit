@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.util;
+package com.lambkit.common.aop;
 
 import com.jfinal.aop.Enhancer;
 import com.jfinal.log.Log;
@@ -21,10 +21,11 @@ import com.jfinal.log.Log;
 /**
  * 类实例创建者创建者
  */
-public class ClassNewer {
+public class AopKit {
 
-    public static Log log = Log.getLog(ClassNewer.class);
+    private static Log log = Log.getLog(AopKit.class);
 
+    private static LambkitAopFactory aopFactory = new LambkitAopFactory();
     /**
      * 获取单例
      *
@@ -33,7 +34,7 @@ public class ClassNewer {
      * @return
      */
     public static <T> T singleton(Class<T> clazz) {
-    	return Enhancer.enhance(clazz.getName(), clazz);
+    	return aopFactory.getSingleton(clazz);
     }
 
     /**
@@ -71,7 +72,6 @@ public class ClassNewer {
         } catch (Exception e) {
             log.error("can not newInstance class:" + clazzName + "\n" + e.toString(), e);
         }
-
         return null;
     }
 

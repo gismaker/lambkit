@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.module.meta.service.MetaStoreDbService;
 import com.lambkit.module.meta.model.MetaStoreDb;
 
@@ -34,7 +34,7 @@ public class MetaStoreDbServiceImpl extends BaseModelServiceImpl<MetaStoreDb> im
 	
 	public MetaStoreDb dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(MetaStoreDb.class);
+			DAO = AopKit.singleton(MetaStoreDb.class);
 		}
 		return DAO;
 	}

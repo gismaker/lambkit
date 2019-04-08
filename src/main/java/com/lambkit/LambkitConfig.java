@@ -21,7 +21,7 @@ import com.lambkit.core.config.annotation.PropertieConfig;
 public class LambkitConfig {
 
 	private String name = "";
-    private String version = "0.1-alpha4";
+    private String version = "0.2-alpha1";
     private String mode = LambkitMode.DEV.getValue();
     private boolean bannerEnable = true;
     private String bannerFile = "banner.txt";

@@ -16,8 +16,8 @@
 package com.lambkit.module.upms.common;
 
 import com.lambkit.Lambkit;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.ServiceManager;
-import com.lambkit.common.util.ClassNewer;
 import com.lambkit.common.util.ScanJarStringSource;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
@@ -200,7 +200,7 @@ public class UpmsManager {
 		if("client".equals(upmsConfig.getType())) {
 			return RpcKit.obtain(UpmsApiService.class);
 		} else {
-			return ClassNewer.newInstance(UpmsApiServiceImpl.class);
+			return AopKit.newInstance(UpmsApiServiceImpl.class);
 		}
     }
 }

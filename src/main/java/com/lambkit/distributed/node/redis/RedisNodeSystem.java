@@ -16,7 +16,7 @@
 package com.lambkit.distributed.node.redis;
 
 
-import com.lambkit.common.util.ClassNewer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.distributed.node.NodeRedisManager;
 import com.lambkit.distributed.node.info.Node;
 import com.lambkit.distributed.node.info.NodeBuilder;
@@ -33,7 +33,7 @@ public class RedisNodeSystem {
 
 	public static RedisNodeSystem me() {
 		if (me == null) {
-			me = ClassNewer.singleton(RedisNodeSystem.class);
+			me = AopKit.singleton(RedisNodeSystem.class);
 		}
 		return me;
 	}

@@ -27,7 +27,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
-import com.jfinal.ext.interceptor.NotAction;
+import com.jfinal.core.NotAction;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -174,13 +174,13 @@ public class CommonController extends BaseController {
 		renderJson();
 	} 
 	
-	@Before(NotAction.class)
+	@NotAction
 	private String getSelectSQLOfView(MgrTable tbc) {
 		return "select " + MgrdbManager.me().getService().getSelectNamesOfView(tbc, "");
 		
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	private String getSearchSQL(MgrTable tbc) { 
 		return " from " + tbc.getName() + " " + getThisSearchWhereSQL(tbc, "") + getOrderBy(tbc.getModel().getPrimaryKey());
 	} 
@@ -190,7 +190,7 @@ public class CommonController extends BaseController {
 	 * @param fid 字段名称
 	 * @return
 	 */
-	@Before(NotAction.class)
+	@NotAction
 	private String getOrderBy(String fid)
 	{
 		String orderby = getParaTrans("orderby");
@@ -200,7 +200,7 @@ public class CommonController extends BaseController {
 		return " ORDER BY " + fid +" ";
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	public String getSearchWhereSQL(String para, String prefixAndName, String stype) {
 		String sql = "";
 		if(StringUtils.hasText(getParaTrans(para))) {
@@ -283,7 +283,7 @@ public class CommonController extends BaseController {
 		return sql;
 	}
 
-	@Before(NotAction.class)
+	@NotAction
 	private String getThisSearchWhereSQL(MgrTable tbc, String prefix) {
 		String sql = " where 1=1 "; 
 		List<? extends IField> flds = tbc.getFieldList();
@@ -589,7 +589,7 @@ public class CommonController extends BaseController {
 		renderAt(flag);
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	private void setRecord(Record m,List<? extends IField> flds, boolean bsave)
 	{
 		for(int i=0; i<flds.size(); i++) {
@@ -810,7 +810,7 @@ public class CommonController extends BaseController {
 		}
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	private void getTableChart(Chart chart, int borg) {
 		String lname = "行政区划";
 		if(borg==0) {
@@ -852,7 +852,7 @@ public class CommonController extends BaseController {
 		renderJson();
 	}
 	
-	@Before(NotAction.class)
+	@NotAction
 	private void getMapDataChart(Chart chart, int borg) {
 		if(borg==0) {
 			setAttr("flag", false);

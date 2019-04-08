@@ -5,11 +5,11 @@ import java.util.List;
 import com.jfinal.kit.Kv;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
-import com.lambkit.Lambkit;
+import com.lambkit.common.app.DefaultApplication;
+import com.lambkit.common.app.LambkitApplication;
 import com.lambkit.generator.code.CodeGenerator;
 import com.lambkit.generator.code.CodeMeta;
 import com.lambkit.generator.code.CodeMetaBuilder;
-import com.lambkit.server.LambkitServer;
 
 public class CodeGeneratorTest {
 	public void generate(String basePackage, Kv data) {
@@ -51,8 +51,7 @@ public class CodeGeneratorTest {
 	}
 	
 	public static void main(String[] args) {
-		Lambkit.setBootArg("lambkit.server.type", "applicaiton");
-		LambkitServer server = Lambkit.me().getServer();
+		LambkitApplication server = new DefaultApplication();
 		server.start();
 		
 		Kv data = Kv.by("tableRemovePrefixes", "upms_");
