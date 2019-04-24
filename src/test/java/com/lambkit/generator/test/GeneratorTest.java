@@ -7,8 +7,8 @@ import com.lambkit.Lambkit;
 import com.lambkit.common.app.DefaultApplication;
 import com.lambkit.common.app.LambkitApplication;
 import com.lambkit.generator.GeneratorType;
+import com.lambkit.generator.Generator;
 import com.lambkit.generator.GeneratorManager;
-import com.lambkit.generator.IGenerator;
 
 public class GeneratorTest {
 
@@ -42,11 +42,9 @@ public class GeneratorTest {
 		
 		//options.put("includedTables", "meta_image, meta_store_image_set, meta_store_route");
 		//选择一种处理引擎
-		IGenerator g = GeneratorManager.me().createGenerator(GeneratorType.DB);
-		//GeneratorConfig config = new GeneratorConfig();
-		//Generator g = GeneratorManager.me().createGenerator(config);
+		Generator g = GeneratorManager.me().getDefaultGenerator(GeneratorType.DB);
 		//执行
-		g.generate(GeneratorManager.me().getGeneratorContext(), templatePath, options);
+		g.generate(templatePath, options);
 		System.out.println("-------over-------");
 		
 		server.stop();

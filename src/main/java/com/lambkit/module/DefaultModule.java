@@ -28,8 +28,8 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
-import com.jfinal.json.FastJsonFactory;
 import com.jfinal.json.JsonManager;
+import com.jfinal.json.MixedJsonFactory;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
@@ -82,7 +82,7 @@ public class DefaultModule extends LambkitModule {
 		me.setMaxPostSize(1024 * 1024 * 2000);
 		me.setReportAfterInvocation(false);
         //me.setControllerFactory(ControllerManager.me());
-		me.setJsonFactory(new FastJsonFactory());
+		me.setJsonFactory(new MixedJsonFactory());
 		me.setError404View("/lambkit/errors/404.html");
 		me.setError500View("/lambkit/errors/500.html");
 		//RequiresGuest，RequiresAuthentication，RequiresUser验证异常，返回HTTP401状态码
@@ -90,11 +90,10 @@ public class DefaultModule extends LambkitModule {
 		//RequiresRoles，RequiresPermissions授权异常,返回HTTP403状态码
 		me.setErrorView(403, PropKit.get("permissionUrl", "/needPermission"));
 		if(modules==null) modules = new ArrayList<LambkitModule>();
-		if(Lambkit.me().isDevMode()) {
-			modules.add(new DevelopModule());
-		}
 		//自动扫描加入module
-		//autoRegisterModule();
+		if(StrKit.notBlank(Lambkit.me().getLambkitConfig().getAutoRegisterModulePackages())) {
+			autoRegisterModule();
+		}
 		for (LambkitModule module : modules) {
 			module.configConstant(me);
 		}
@@ -111,7 +110,9 @@ public class DefaultModule extends LambkitModule {
         	routes.add(swaggerConfig.getUrl(), SwaggerController.class, swaggerConfig.getPath());
         }
         //自动扫描加入RequestMapping
-        //autoRegisterRequestMapping(routes);
+        if(StrKit.notBlank(Lambkit.me().getLambkitConfig().getAutoRegisterControllerPackages())) {
+        	autoRegisterRequestMapping(routes);
+        }
         
         for (Routes.Route route : routes.getRouteItemList()) {
             ControllerManager.me().setMapping(route.getControllerKey(), route.getControllerClass());
@@ -136,8 +137,9 @@ public class DefaultModule extends LambkitModule {
         addDirective(engine, "now", NowDirective.class);
         addDirective(engine, "long2date", com.lambkit.web.directive.DateDirective.class);
         //自动扫描加入JFinalDirective
-        //autoRegisterEngine(engine);
-        
+        if(StrKit.notBlank(Lambkit.me().getLambkitConfig().getAutoRegisterTagPackages())) {
+        	autoRegisterEngine(engine);
+        }
 		for (LambkitModule module : modules) {
 			module.configEngine(engine);
 		}
@@ -238,6 +240,8 @@ public class DefaultModule extends LambkitModule {
 		addTag("shiro", new ShiroTags());
 		JsonManager.me().setDefaultDatePattern("yyyy-MM-dd HH:mm:ss");
 		SystemManager.me().init();
+		
+		
 		
 		TimeUtils.endTime("start lambkit default module");
 		/**

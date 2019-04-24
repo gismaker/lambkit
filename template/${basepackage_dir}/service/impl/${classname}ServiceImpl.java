@@ -2,9 +2,8 @@
 #parse("/template/java_copyright.include")
 package $!{basepackage}.service.impl;
 
-import com.jfinal.aop.Enhancer;
+import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
-import com.lambkit.common.util.ClassNewer;
 
 import $!{basepackage}.service.${classname}Service;
 import $!{basepackage}.model.${classname};
@@ -16,7 +15,7 @@ public class ${classname}ServiceImpl extends BaseModelServiceImpl<${classname}> 
 	
 	public ${classname} dao() {
 		if(DAO==null) {
-			DAO = ClassNewer.singleton(${classname}.class);
+			DAO = AopKit.singleton(${classname}.class);
 		}
 		return DAO;
 	}

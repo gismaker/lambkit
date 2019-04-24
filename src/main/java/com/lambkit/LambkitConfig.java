@@ -27,11 +27,11 @@ public class LambkitConfig {
     private String bannerFile = "banner.txt";
     private String jfinalConfig = DefaultJFinalConfig.class.getName();
     
-    private String ctrlPackages = "com.lambkit";
-    private String tagPackages = "com.lambkit";
-    private String eventPackages = "com.lambkit";
-    private String modulePackages = "com.lambkit";
-    private String servicePackages = "com.lambkit";
+    private String autoRegisterControllerPackages;
+    private String autoRegisterTagPackages;
+    private String autoRegisterEventPackages;
+    private String autoRegisterModulePackages;
+    private String autoRegisterServicePackages;
     
     private String encryptKey = "e607857331855d81593b568a03c070d0";
 
@@ -83,30 +83,6 @@ public class LambkitConfig {
                 '}';
     }
 
-	public String getCtrlPackages() {
-		return ctrlPackages;
-	}
-
-	public void setCtrlPackages(String ctrlPackages) {
-		this.ctrlPackages = ctrlPackages;
-	}
-
-	public String getEventPackages() {
-		return eventPackages;
-	}
-
-	public void setEventPackages(String eventPackages) {
-		this.eventPackages = eventPackages;
-	}
-
-	public String getTagPackages() {
-		return tagPackages;
-	}
-
-	public void setTagPackages(String tagPackages) {
-		this.tagPackages = tagPackages;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -123,19 +99,43 @@ public class LambkitConfig {
 		this.encryptKey = encryptKey;
 	}
 
-	public String getModulePackages() {
-		return modulePackages;
+	public String getAutoRegisterControllerPackages() {
+		return autoRegisterControllerPackages;
 	}
 
-	public void setModulePackages(String modulePackages) {
-		this.modulePackages = modulePackages;
+	public void setAutoRegisterControllerPackages(String autoRegisterControllerPackages) {
+		this.autoRegisterControllerPackages = autoRegisterControllerPackages;
 	}
 
-	public String getServicePackages() {
-		return servicePackages;
+	public String getAutoRegisterTagPackages() {
+		return autoRegisterTagPackages;
 	}
 
-	public void setServicePackages(String servicePackages) {
-		this.servicePackages = servicePackages;
+	public void setAutoRegisterTagPackages(String autoRegisterTagPackages) {
+		this.autoRegisterTagPackages = autoRegisterTagPackages;
+	}
+
+	public String getAutoRegisterEventPackages() {
+		return autoRegisterEventPackages;
+	}
+
+	public void setAutoRegisterEventPackages(String autoRegisterEventPackages) {
+		this.autoRegisterEventPackages = autoRegisterEventPackages;
+	}
+
+	public String getAutoRegisterModulePackages() {
+		return autoRegisterModulePackages;
+	}
+
+	public void setAutoRegisterModulePackages(String autoRegisterModulePackages) {
+		this.autoRegisterModulePackages = autoRegisterModulePackages;
+	}
+
+	public String getAutoRegisterServicePackages() {
+		return autoRegisterServicePackages;
+	}
+
+	public void setAutoRegisterServicePackages(String autoRegisterServicePackages) {
+		this.autoRegisterServicePackages = autoRegisterServicePackages;
 	}
 }

@@ -45,7 +45,18 @@ public class MgrdbSysconfigServiceImpl extends BaseMgrdbService {
 			else model.setAttr("tbcnn", tbc.getName());
 		}
 		if(model.getId() !=null ) model.update();
-		else model.save();
+		else {
+			model.setAttr("isdelete", "N");
+			model.setAttr("isedit", "Y");
+			model.setAttr("ispages", "Y");
+			model.setAttr("isallsel", "Y");
+			model.setAttr("isorder", "Y");
+			model.setAttr("isdiycol", "N");
+			model.setAttr("tborder", 0);
+			model.setAttr("tbrole", 1);
+			model.setAttr("tbnavtypeid", 0);
+			model.save();
+		}
 		for(ColumnMeta col : tbc.getColumnMetas()) {
 			columnToMgrdb(col, tbc.getName(), model.getId(), tbc.getPrimaryKey());
 		}

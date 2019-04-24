@@ -16,21 +16,29 @@
 package com.lambkit.generator.impl;
 
 import java.util.Map;
-import com.lambkit.generator.GeneratorContext;
-import com.lambkit.generator.IGenerator;
 
-public class CommonGenerator implements IGenerator {
-	@Override
-	public void generate(GeneratorContext g, String templatePath, Map<String, Object> options) {
-		// TODO Auto-generated method stub
-		Map<String, Object> templateModel = g.createTemplateModel();
-		templateModel.putAll(options);
-		g.generate(templateModel, templatePath);
+import com.lambkit.generator.Generator;
+import com.lambkit.generator.GeneratorContext;
+
+public class CommonGenerator extends Generator {
+	
+	public CommonGenerator(GeneratorContext context) {
+		super(context);
 	}
 
 	@Override
-	public Object execute(GeneratorContext g, String templateFilePath, Map<String, Object> options) {
+	public void generate(String templatePath, Map<String, Object> options) {
 		// TODO Auto-generated method stub
-		return g.execute(options, templateFilePath);
+		if(context==null) return;
+		Map<String, Object> templateModel = context.createTemplateModel();
+		templateModel.putAll(options);
+		context.generate(templateModel, templatePath);
+	}
+
+	@Override
+	public Object execute(String templateFilePath, Map<String, Object> options) {
+		// TODO Auto-generated method stub
+		if(context==null) return null;
+		else return context.execute(options, templateFilePath);
 	}
 }

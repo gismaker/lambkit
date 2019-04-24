@@ -64,4 +64,12 @@ public class UpmsUserRoleServiceImpl extends BaseModelServiceImpl<UpmsUserRole> 
         }
         return result;
     }
+	
+	@Override
+	public boolean hasRole(Long userId, Integer roleId) {
+		Example upmsUserRoleExample = UpmsUserRoleCriteria.create()
+                .andUserIdEqualTo(userId).andRoleIdEqualTo(roleId).example();
+		UpmsUserRole urole = UpmsUserRole.service().findFirst(upmsUserRoleExample);
+		return urole !=null ? true : false;
+	}
 }

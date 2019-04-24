@@ -21,6 +21,7 @@ import com.jfinal.template.Engine;
 import com.lambkit.common.base.Consts;
 import com.lambkit.core.event.EventKit;
 import com.lambkit.db.mgr.MgrdbManager;
+import com.lambkit.module.DevelopModule;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.module.upms.server.UpmsModule;
 
@@ -36,6 +37,9 @@ public class DefaultJFinalConfig extends JFinalConfig {
     	if(module!=null) {
     		Lambkit.me().addModule(module);
     	}
+    	if(Lambkit.me().isDevMode()) {
+    		Lambkit.me().addModule(new DevelopModule());
+		}
     	/**
 		 * 发送初始化通知
 		 */

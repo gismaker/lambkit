@@ -36,4 +36,7 @@ public interface UpmsUserRoleService extends BaseService<UpmsUserRole> {
      * @return
      */
 	int role(String[] roleIds, Long id);
+	
+	boolean hasRole(Long userId, Integer roleId);
+	
 }

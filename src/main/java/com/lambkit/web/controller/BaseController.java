@@ -20,10 +20,10 @@ import org.apache.shiro.session.InvalidSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jfinal.aop.Before;
 import com.jfinal.core.ActionException;
 import com.jfinal.core.Controller;
 import com.jfinal.core.NotAction;
+import com.jfinal.kit.Kv;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
@@ -49,6 +49,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.DataFormatException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -82,6 +83,24 @@ public abstract class BaseController extends Controller {
 			render("/error/error.html");
 		}
 	}
+	
+	/**
+     * <获取参数map>
+     * 
+     * @return 参数map
+     * @throws Exception 
+     */
+    protected Kv getParameterMap() {
+        Kv resultMap = Kv.create();
+        Map<String, String[]> tempMap = getRequest().getParameterMap();
+        Set<String> keys = tempMap.keySet();
+        for (String key : keys) {
+            //byte source [] = getRequest().getParameter(key).getBytes("iso8859-1");
+            //String modelname = new String (source,"UTF-8");
+            resultMap.set(key, getPara(key));
+        }
+        return resultMap;
+    }
 	
 	/**
      * 获取当前网址
@@ -244,6 +263,39 @@ public abstract class BaseController extends Controller {
 		}
 	}
 	
+	protected void keepTable(MgrTable tbc, Model model) {
+		if (tbc == null) return;
+		if(model==null) return;
+		List fields = tbc.getFieldList();
+		for (int i = 0; i < fields.size(); i++) {
+			IField fld = (IField) fields.get(i);
+			Object val = model.get(fld.getName());
+			fld.putAttr("val", val);
+		}
+	}
+
+	protected void setTableAttr(MgrTable tbc, Record model) {
+		if (tbc == null) return;
+		if(model==null) return;
+		List fields = tbc.getFieldList();
+		for (int i = 0; i < fields.size(); i++) {
+			IField fld = (IField) fields.get(i);
+			Object val = model.get(fld.getName());
+			fld.putAttr("val", val);
+		}
+	}
+
+	protected void setTableAttr(MgrTable tbc, Map<String, Object> model) {
+		if (tbc == null) return;
+		if(model==null) return;
+		List fields = tbc.getFieldList();
+		for (int i = 0; i < fields.size(); i++) {
+			IField fld = (IField) fields.get(i);
+			Object val = model.get(fld.getName());
+			fld.putAttr("val", val);
+		}
+	}
+	
 	protected MgrTable getTable(String tbname, int type, String attrName) {
 		if(StrKit.notBlank(tbname)) {
 			MgrTable tbc = getTableConfigService() !=null ? getTableConfigService().createTable(tbname, type) : null;
@@ -382,6 +434,74 @@ public abstract class BaseController extends Controller {
 		else if(value instanceof BigInteger) return value==null ? defaultValue : (BigInteger) value;
 		else if(value instanceof Long) return value==null ? defaultValue : BigInteger.valueOf((Long)value);
 		return toBigInteger(value.toString(), defaultValue);
+	}
+	
+	@NotAction
+	public Float getParaToFloat(int index) {
+		return toFloat(getPara(index), null);
+	}
+
+	@NotAction
+	public Float getParaToFloat(int index, Float defaultValue) {
+		return toFloat(getPara(index), defaultValue);
+	}
+
+	@NotAction
+	public Float getParaToFloat(String name) {
+		return toFloat(getRequest().getParameter(name), null);
+	}
+
+	@NotAction
+	public Float getParaToFloat(String name, Float defaultValue) {
+		return toFloat(getRequest().getParameter(name), defaultValue);
+	}
+	
+	private Float toFloat(String value, Float defaultValue) {
+		try {
+			if (StrKit.isBlank(value))
+				return defaultValue;
+			value = value.trim();
+			if (value.startsWith("N") || value.startsWith("n"))
+				return -Float.parseFloat(value.substring(1));
+			return Float.parseFloat(value);
+		}
+		catch (Exception e) {
+			throw new ActionException(400, "Can not parse the parameter \"" + value + "\" to Float value.");
+		}
+	}
+	
+	@NotAction
+	public Double getParaToDouble(int index) {
+		return toDouble(getPara(index), null);
+	}
+
+	@NotAction
+	public Double getParaToDouble(int index, Double defaultValue) {
+		return toDouble(getPara(index), defaultValue);
+	}
+
+	@NotAction
+	public Double getParaToDouble(String name) {
+		return toDouble(getRequest().getParameter(name), null);
+	}
+
+	@NotAction
+	public Double getParaToDouble(String name, Double defaultValue) {
+		return toDouble(getRequest().getParameter(name), defaultValue);
+	}
+	
+	private Double toDouble(String value, Double defaultValue) {
+		try {
+			if (StrKit.isBlank(value))
+				return defaultValue;
+			value = value.trim();
+			if (value.startsWith("N") || value.startsWith("n"))
+				return -Double.parseDouble(value.substring(1));
+			return Double.parseDouble(value);
+		}
+		catch (Exception e) {
+			throw new ActionException(400, "Can not parse the parameter \"" + value + "\" to Double value.");
+		}
 	}
 	
 	/**

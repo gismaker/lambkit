@@ -27,12 +27,17 @@ import com.lambkit.module.sysconfig.TableconfigModel;
 
 public class MgrdbGenerator extends DatabaseGenerator {
 
+	public MgrdbGenerator(GeneratorContext context) {
+		super(context);
+	}
+
 	@Override
-	public void generate(GeneratorContext g, String templatePath, Map<String, Object> options) {
+	public void generate(String templatePath, Map<String, Object> options) {
 		// TODO Auto-generated method stub
+		if(context==null) return;
 		List<TableconfigModel> tables = TableconfigModel.dao.find("select * from sys_tableconfig " + options.get("where"));
 		if(tables==null) return;
-		Map<String, Object> templateModel = g.createTemplateModel();
+		Map<String, Object> templateModel = context.createTemplateModel();
 		templateModel.put("tables", tables);
 		templateModel.putAll(options);
 		boolean genMgrTable = true;
@@ -55,17 +60,18 @@ public class MgrdbGenerator extends DatabaseGenerator {
 			templateModel.put("tablename", mgrtb.getMeta().getName());
 			templateModel.put("primaryKey", mgrtb.getMeta().getPrimaryKey());
 			templateModel.put("title", tb.getTitle());
-			g.generate(templateModel, templatePath);
+			context.generate(templateModel, templatePath);
 		}
 	}
 	
 	@Override
-	public Object execute(GeneratorContext g, String templateFilePath, Map<String, Object> options) {
+	public Object execute(String templateFilePath, Map<String, Object> options) {
 		// TODO Auto-generated method stub
+		if(context==null) return null;
 		Map<String, TableMeta> tableMetas = getTableMetas(options);
-		Map<String, Object> templateModel = g.createTemplateModel();
+		Map<String, Object> templateModel = context.createTemplateModel();
 		templateModel.put("tables", tableMetas.values());
 		templateModel.putAll(options);
-		return g.execute(options, templateFilePath);
+		return context.execute(options, templateFilePath);
 	}
 }

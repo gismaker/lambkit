@@ -18,6 +18,6 @@ package com.lambkit.generator;
 import java.util.Map;
 
 public interface IGenerator {
-	void generate(GeneratorContext g, String templatePath, Map<String, Object> options);
-	Object execute(GeneratorContext g, String templateFilePath, Map<String, Object> options);
+	void generate(String templatePath, Map<String, Object> options);
+	Object execute(String templateFilePath, Map<String, Object> options);
 }

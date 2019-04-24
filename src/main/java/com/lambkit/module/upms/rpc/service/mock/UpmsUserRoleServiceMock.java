@@ -35,4 +35,10 @@ public class UpmsUserRoleServiceMock extends BaseServiceMock<UpmsUserRole> imple
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public boolean hasRole(Long userId, Integer roleId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

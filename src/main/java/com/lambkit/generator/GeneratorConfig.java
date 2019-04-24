@@ -31,7 +31,8 @@ public class GeneratorConfig {
 	private String basepackage = "com.lambkit.demo";
 	private String webpages = "pages";
 	private String mgrdb = "none";
-	private String processer = "common";
+	private String type = "common";
+	private boolean hasMgrdb = false;
 
 	public String getOutRootDir() {
 		return outRootDir;
@@ -70,14 +71,27 @@ public class GeneratorConfig {
 	}
 
 	public void setMgrdb(String mgrdb) {
+		if("normal".equals(mgrdb)) {
+			hasMgrdb = true;
+		} else if("meta".equals(mgrdb)) {
+			hasMgrdb = true;
+		}
 		this.mgrdb = mgrdb;
 	}
 
-	public String getProcesser() {
-		return processer;
+	public boolean isHasMgrdb() {
+		return hasMgrdb;
 	}
 
-	public void setProcesser(String processer) {
-		this.processer = processer;
+	public void setHasMgrdb(boolean hasMgrdb) {
+		this.hasMgrdb = hasMgrdb;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

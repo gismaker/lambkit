@@ -25,22 +25,30 @@ import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.mgr.MgrdbManager;
+import com.lambkit.generator.Generator;
 import com.lambkit.generator.GeneratorContext;
-import com.lambkit.generator.IGenerator;
 
-public class DatabaseGenerator implements IGenerator {
+public class DatabaseGenerator extends Generator {
+
+	public DatabaseGenerator(GeneratorContext context) {
+		super(context);
+	}
 
 	@Override
-	public void generate(GeneratorContext g, String templatePath, Map<String, Object> options) {
+	public void generate(String templatePath, Map<String, Object> options) {
 		// TODO Auto-generated method stub
+		if(context==null) return;
 		Map<String, TableMeta> tableMetas = getTableMetas(options);
-		Map<String, Object> templateModel = g.createTemplateModel();
+		Map<String, Object> templateModel = context.createTemplateModel();
 		templateModel.put("tables", tableMetas);
 		templateModel.putAll(options);
 		boolean hasMgrTable = false;
 		boolean genMgrTable = true;
 		if(options.containsKey("hasMgrTable") && options.get("hasMgrTable").equals("true")) hasMgrTable = true;
 		if(options.containsKey("genMgrTable") && options.get("genMgrTable").equals("false")) genMgrTable = false;
+		if(!context.getConfig().isHasMgrdb() && hasMgrTable) {
+			hasMgrTable = false;
+		}
 		for (TableMeta tableMeta : tableMetas.values()) {
 			String tableName = tableMeta.getName();
 			if(!genMgrTable) {
@@ -62,18 +70,19 @@ public class DatabaseGenerator implements IGenerator {
 				templateModel.put("model", mgrtb);
 				templateModel.put("title", mgrtb.getModel().getTitle());
 			}
-			g.generate(templateModel, templatePath);
+			context.generate(templateModel, templatePath);
 		}
 	}
 	
 	@Override
-	public Object execute(GeneratorContext g, String templateFilePath, Map<String, Object> options) {
+	public Object execute(String templateFilePath, Map<String, Object> options) {
 		// TODO Auto-generated method stub
+		if(context==null) return null;
 		Map<String, TableMeta> tableMetas = getTableMetas(options);
-		Map<String, Object> templateModel = g.createTemplateModel();
+		Map<String, Object> templateModel = context.createTemplateModel();
 		templateModel.put("tables", tableMetas.values());
 		templateModel.putAll(options);
-		return g.execute(options, templateFilePath);
+		return context.execute(options, templateFilePath);
 	}
 	
 	public Map<String, TableMeta> getTableMetas(Map<String, Object> options) {

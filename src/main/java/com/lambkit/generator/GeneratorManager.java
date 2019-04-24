@@ -39,8 +39,26 @@ public class GeneratorManager {
 		return manager;
 	}
 	
+	private GeneratorContext context;
+	private boolean hasInit = false;
+	
+	/**
+	 * 初始化，应用启动之前
+	 */
 	public void init() {
 		GeneratorConfig config = Lambkit.config(GeneratorConfig.class);
+		init(config);
+	}
+	
+	/**
+	 * 初始化，应用启动之前
+	 * @param config
+	 */
+	public void init(GeneratorConfig config) {
+		if(hasInit) return;
+		if(context==null) {
+			context = new GeneratorContext(config);
+		}
 		String mgrdb = config.getMgrdb();
 		switch (mgrdb) {
         case "normal":
@@ -50,12 +68,53 @@ public class GeneratorManager {
         	Lambkit.me().addModule(new MetaMgrModule());
         	break;
         default:
-        	Lambkit.me().addModule(new SysconfigModule());
         	break;
 		}
+		hasInit = true;
 	}
 	
-	private GeneratorContext generator;
+	/**
+	 * 获取默认配置的生成器
+	 * @return
+	 */
+	public Generator getDefaultGenerator() {
+		GeneratorConfig config = Lambkit.config(GeneratorConfig.class);
+		return createGenerator(GeneratorType.valueOf(config.getType().toUpperCase()), context);
+	}
+	
+	public Generator getDefaultGenerator(GeneratorType type) {
+		GeneratorConfig config = context.getConfig();
+		if(!config.isHasMgrdb() && type==GeneratorType.MGRDB) {
+			return null;
+		}
+		return createGenerator(type, context);
+	}
+	
+	/**
+	 * 获取指定配置的生成器
+	 * @param config
+	 * @return
+	 */
+	public Generator createGenerator(GeneratorConfig config) {
+		if(config.isHasMgrdb()) {
+			return null;
+		}
+		GeneratorContext gc = new GeneratorContext(config);
+		return createGenerator(GeneratorType.valueOf(config.getType().toUpperCase()), gc);
+	}
+	
+	public Generator createGenerator(GeneratorType type, GeneratorContext context) {
+		switch (type) {
+        case COMMON:
+        	return new CommonGenerator(context);
+        case DB:
+        	return new DatabaseGenerator(context);
+        case MGRDB:
+        	return new MgrdbGenerator(context);
+        default:
+            return new CommonGenerator(context);
+		}
+	}
 	
 	public TemplateEngine buildTemplateEngine(String type) {
 		switch (type) {
@@ -72,38 +131,13 @@ public class GeneratorManager {
 		}
 	}
 	
-	public GeneratorContext createGeneratorContext(GeneratorConfig config) {
-		return new GeneratorContext(config);
+	
+	public GeneratorContext getDefaultContext() {
+		return context;
 	}
 	
-	public IGenerator createGenerator(GeneratorType type) {
-		switch (type) {
-        case COMMON:
-        	return new CommonGenerator();
-        case DB:
-        	return new DatabaseGenerator();
-        case MGRDB:
-        	return new MgrdbGenerator();
-        default:
-            return new CommonGenerator();
-		}
-	}
-	
-	public IGenerator getDefaultGenerator() {
-		GeneratorConfig config = Lambkit.config(GeneratorConfig.class);
-		return createGenerator(GeneratorType.valueOf(config.getProcesser()));
-	}
-
-	public GeneratorContext getGeneratorContext() {
-		if(generator==null) {
-			GeneratorConfig config = Lambkit.config(GeneratorConfig.class);
-			generator = new GeneratorContext(config);
-		}
-		return generator;
-	}
-	
-	public void setGeneratorContext(GeneratorContext generator) {
-		this.generator = generator;
+	public void setDefaultContext(GeneratorContext generator) {
+		this.context = generator;
 	}
 	
 	/*

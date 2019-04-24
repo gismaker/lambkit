@@ -16,6 +16,9 @@
 package com.lambkit.common.dao;
 
 import com.jfinal.core.JFinal;
+import com.jfinal.core.converter.TypeConverter;
+import com.jfinal.kit.Kv;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
@@ -37,6 +40,9 @@ import com.lambkit.db.sql.condition.ConditionQuery;
 import com.lambkit.exception.LambkitAssert;
 import com.lambkit.exception.LambkitException;
 
+import io.zbus.kit.JsonKit;
+
+import java.text.ParseException;
 import java.util.*;
 
 @SuppressWarnings("serial")
@@ -241,6 +247,37 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
         return cacheTime;
     }
 
+    public BaseModel setAttrs(Kv para, String modelName) {
+    	modelName = StrKit.notBlank(modelName) ? modelName + "." : "";
+    	if (table == null) {
+            table = TableMapping.me().getTable(_getUsefulClass());
+            if (table == null) {
+                throw new LambkitException(String.format("table for class[%s] is null! \n maybe cannot connection to database，please check your propertie files.", _getUsefulClass()));
+            }
+        }
+		Set<String> attrs = table.getColumnTypeMap().keySet();
+		TypeConverter converter = TypeConverter.me();
+		try {
+			for (String attr : attrs) {
+				String paraValue = para.getStr(modelName + attr);
+				Class<?> colType = table.getColumnType(attr);
+				Object value = paraValue != null ? converter.convert(colType, paraValue) : null;
+				set(attr, value);
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return this;
+    }
+    
+    public BaseModel setAttrs(String jsonString) {
+    	return (BaseModel) JsonKit.parseObject(jsonString, _getUsefulClass());
+    }
+    
+    /*
+    public BaseModel create(Record record) {
+    }
+    */
 
     /**
      * 更新或者保存
