@@ -39,7 +39,7 @@ public class VelocityTemplateEngine extends TemplateEngine {
 	 * @param filepathModel
 	 */
 	public void generate(Map<String, Object> templateModel, Map<String, Object> filepathModel, String outRootDir) {
-		System.out.println("--------Velocity模板引擎处理开始-----------");
+		//System.out.println("--------Velocity模板引擎处理开始-----------");
 		@SuppressWarnings("unchecked")
 		List<String> fileList = (List<String>) filepathModel.get("filelist");
 		String folderpath = (String) filepathModel.get("folderpath");
@@ -48,13 +48,13 @@ public class VelocityTemplateEngine extends TemplateEngine {
 			// 处理文件地址模板
 			String newPath = PathUtils.processDir(templateModel, path);
 			String newdir = newPath.replaceAll(PathUtils.replacePath(folderpath), outRootDir);
-			println("转换地址" + path + " 为：", newdir);
+			//println("转换地址" + path + " 为：", newdir);
 			// 读取文件
 			File filetmp = new File(newdir);
 			try {
 				FileWriter fw = new FileWriter(filetmp);
 				String fwpath = PathUtils.replacePath(path).replace(folderpath, "");
-				println("所处理模板的地址为: ", templatePath + fwpath);
+				//println("所处理模板的地址为: ", templatePath + fwpath);
 				// 模板转换并写文件
 				fw.write(createCode(fwpath, templateModel, templatePath));
 				fw.flush();
@@ -66,16 +66,16 @@ public class VelocityTemplateEngine extends TemplateEngine {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("--------Velocity模板引擎处理完毕over!-----------");
+		//System.out.println("--------Velocity模板引擎处理完毕over!-----------");
 	}
 	
 	@Override
 	public Object execute(Map<String, Object> templateModel, String templateFilePath) {
 		// TODO Auto-generated method stub
-		System.out.println("--------Velocity模板引擎处理开始-----------");
+		//System.out.println("--------Velocity模板引擎处理开始-----------");
 		String folderpath = getFolderPath(templateFilePath);
 		String newcode = createCode(templateFilePath, templateModel, folderpath);
-		System.out.println("--------Velocity模板引擎处理完毕over!-----------");
+		//System.out.println("--------Velocity模板引擎处理完毕over!-----------");
 		return newcode;
 	}
 	/**

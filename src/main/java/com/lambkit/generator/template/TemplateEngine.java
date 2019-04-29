@@ -49,7 +49,7 @@ public abstract class TemplateEngine {
 	 * @param info
 	 */
 	public void showInfo(String info) {
-		System.out.println("创建文件：" + info + "成功！");
+		System.out.println("生成文件：" + info);
 	}
 	
 	public void println(String title, String content) {

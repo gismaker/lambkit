@@ -52,7 +52,7 @@ public class CodeGeneratorTest {
 	
 	public static void main(String[] args) {
 		LambkitApplication server = new DefaultApplication();
-		server.start();
+		server.run();
 		
 		Kv data = Kv.by("tableRemovePrefixes", "upms_");
 		data.set("includedTables", "upms_log");

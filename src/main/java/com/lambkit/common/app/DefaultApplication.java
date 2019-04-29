@@ -47,6 +47,7 @@ public class DefaultApplication extends LambkitApplication {
 		for(IPlugin plugin : plugins.getPluginList()) {
 			plugin.start();
 		}
+		startAfter();
 		return true;
 	}
 

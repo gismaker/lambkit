@@ -27,7 +27,7 @@ public class GeneratorTest {
 		LambkitApplication server = new DefaultApplication();
 		//初始化生成工具
 		GeneratorManager.me().init();
-		server.start();
+		server.run();
 		
 		//模板地址，根目录是项目文件夹
 		String templatePath = "/template";

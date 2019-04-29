@@ -85,7 +85,7 @@ public class PathUtils {
 		// 模板文件夹位置
 		String folderpath = flag ? System.getProperty("user.dir") + templatePath : templatePath;
 		folderpath = PathUtils.replacePath(folderpath);
-		System.out.println("模板所在文件夹绝对路径为: " + folderpath);
+		//System.out.println("模板所在文件夹绝对路径为: " + folderpath);
 		// 遍历文件夹template
 		List<String> fileList = new ArrayList<String>();
 		List<String> folderList = new ArrayList<String>();
@@ -178,10 +178,9 @@ public class PathUtils {
 	 */
 	public static void createFilePath(File file) {
 		if (!file.exists()) {
-			System.out.println("创建[" + file.getAbsolutePath() + "]情况："
-					+ file.mkdirs());
+			System.out.println("创建[" + file.getAbsolutePath() + "]情况：" + file.mkdirs());
 		} else {
-			System.out.println("存在目录：" + file.getAbsolutePath());
+			//System.out.println("存在目录：" + file.getAbsolutePath());
 		}
 	}
 	

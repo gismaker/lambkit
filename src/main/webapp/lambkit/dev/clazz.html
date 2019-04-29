@@ -43,22 +43,16 @@
 							<table class="layui-table layui-text">
 								<tbody>
 									<tr>
-										<th>返回类型</th>
+										<!--
+                                        <th>返回类型</th>
 										<th>方法名称</th>
 										<th>参数</th>
+                                        -->
 									</tr>
 									#if(method)
 									#for(x : method) 
 									<tr>
-										<td>#(x.returnType)</td>
-										<td>#(x.name)</td>
-										<td>
-											#if(x.parameterTypes)
-											#for(y : x.parameterTypes) 
-											<span class="lambkit-box">#(y)</span>
-											#end
-											#end
-										</td>
+										<td>#(x)</td>
 									</tr>
 									#end
 									#end

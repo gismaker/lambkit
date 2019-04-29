@@ -31,9 +31,9 @@ public abstract class LambkitApplication {
 		return false;
 	}
 
-	public abstract boolean start();
+	protected abstract boolean start();
 
-	public abstract boolean startAfter();
+	protected abstract boolean startAfter();
 
 	public abstract boolean restart();
 

@@ -38,13 +38,13 @@ public class FreemarkerTemplateEngine extends TemplateEngine {
 	@Override
 	public void generate(Map<String, Object> templateModel,	Map<String, Object> filepathModel, String outRootDir) {
 		// TODO Auto-generated method stub
-		System.out.println("--------Freemarker模板引擎处理开始-----------");
+		//System.out.println("--------Freemarker模板引擎处理开始-----------");
 		@SuppressWarnings("unchecked")
 		List<String> fileList = (List<String>) filepathModel.get("filelist");
 		//templatePath的绝对路径
 		String folderpath = (String) filepathModel.get("folderpath");
 		//String templatePath = (String) filepathModel.get("templatePath");
-		println("所处理模板的地址为: ", folderpath);
+		//println("所处理模板的地址为: ", folderpath);
 		try {
 			// Freemarker配置
 			Configuration config = new Configuration();
@@ -58,13 +58,13 @@ public class FreemarkerTemplateEngine extends TemplateEngine {
 				// 处理文件地址模板
 				String newPath = PathUtils.processDir(templateModel, path);
 				String newdir = newPath.replaceAll(PathUtils.replacePath(folderpath), outRootDir);
-				println("转换地址" + path + " 为：", newdir);
+				//println("转换地址" + path + " 为：", newdir);
 				// 读取文件
 				File filetmp = new File(newdir);
 
 				FileWriter fw = new FileWriter(filetmp);
 				String fwpath = PathUtils.replacePath(path).replace(folderpath, "");
-				println("所处理模板的名称为: ", fwpath);
+				//println("所处理模板的名称为: ", fwpath);
 				// 获取模板,并设置编码方式，这个编码必须要与页面中的编码格式一致
 				// 否则会出现乱码
 				// templatePath:ftl文件名称（template.ftl）
@@ -80,12 +80,12 @@ public class FreemarkerTemplateEngine extends TemplateEngine {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("--------Freemarker模板引擎处理完毕over!-----------");
+		//System.out.println("--------Freemarker模板引擎处理完毕over!-----------");
 	}
 
 	@Override
 	public Object execute(Map<String, Object> templateModel, String templateFilePath) {
-		System.out.println("--------Freemarker模板引擎处理开始-----------");
+		//System.out.println("--------Freemarker模板引擎处理开始-----------");
 		String res = null;
 		try {
 			// Freemarker配置
@@ -107,7 +107,7 @@ public class FreemarkerTemplateEngine extends TemplateEngine {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("--------Freemarker模板引擎处理完毕over!-----------");
+		//System.out.println("--------Freemarker模板引擎处理完毕over!-----------");
 		return res;
 	}
 }

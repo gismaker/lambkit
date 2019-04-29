@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.jfinal.config.Routes.Route;
+import com.jfinal.json.FastJson;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.base.ResultKit;
 import com.lambkit.system.SystemManager;
@@ -99,7 +100,7 @@ public class RouteController extends BaseController {
 	 */
 	public void actions() {
 		ActionMapping am = SystemManager.me().getInfo().getActionMapping();
-		renderJson(ResultKit.page(getPara(0, getPara("jt")), 1, "success", am.getMapping().size(), am.getMapping().values()));
+		renderJson(FastJson.getJson().toJson(ResultKit.page(getPara(0, getPara("jt")), 1, "success", am.getMapping().size(), am.getMapping().values())));
 	}
 	
 	/**
@@ -107,6 +108,6 @@ public class RouteController extends BaseController {
 	 */
 	public void table() {
 		ActionMapping am = SystemManager.me().getInfo().getActionMapping();
-		renderJson(ResultKit.page(getPara(0, getPara("jt")), 1, "success", am.getRoutes().size(), am.getRoutes()));
+		renderJson(FastJson.getJson().toJson(ResultKit.page(getPara(0, getPara("jt")), 1, "success", am.getRoutes().size(), am.getRoutes())));
 	}
 }

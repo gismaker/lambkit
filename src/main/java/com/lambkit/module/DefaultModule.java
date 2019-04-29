@@ -28,6 +28,7 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
+import com.jfinal.json.FastJsonFactory;
 import com.jfinal.json.JsonManager;
 import com.jfinal.json.MixedJsonFactory;
 import com.jfinal.kit.PathKit;

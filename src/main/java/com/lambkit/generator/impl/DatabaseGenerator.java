@@ -44,9 +44,9 @@ public class DatabaseGenerator extends Generator {
 		templateModel.putAll(options);
 		boolean hasMgrTable = false;
 		boolean genMgrTable = true;
-		if(options.containsKey("hasMgrTable") && options.get("hasMgrTable").equals("true")) hasMgrTable = true;
-		if(options.containsKey("genMgrTable") && options.get("genMgrTable").equals("false")) genMgrTable = false;
-		if(!context.getConfig().isHasMgrdb() && hasMgrTable) {
+		if(options.containsKey("hasMgrTable") && options.get("hasMgrTable").toString().equals("true")) hasMgrTable = true;
+		if(options.containsKey("genMgrTable") && options.get("genMgrTable").toString().equals("false")) genMgrTable = false;
+		if(!context.getConfig().isHasMgrdb()) {
 			hasMgrTable = false;
 		}
 		for (TableMeta tableMeta : tableMetas.values()) {
