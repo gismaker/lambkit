@@ -22,6 +22,7 @@ public class Example implements IExample{
 	private List<Columns> oredColumns;
 	private String loadColumns = "*";
 	private String tableName;
+	//暂未实现，等待完善
 	private SqlJoinOn joinOn;
 	private String orderBy;
 	//private int pageSize = 0;

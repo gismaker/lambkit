@@ -23,7 +23,7 @@ import com.lambkit.module.upms.common.UpmsResult;
 import com.lambkit.module.upms.common.UpmsResultConstant;
 import com.lambkit.module.upms.rpc.model.UpmsRole;
 import com.lambkit.module.upms.rpc.model.UpmsRolePermission;
-import com.lambkit.module.upms.rpc.sql.UpmsRoleCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsRoleCriteria;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

@@ -23,7 +23,7 @@ import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.common.UpmsResult;
 import com.lambkit.module.upms.common.UpmsResultConstant;
 import com.lambkit.module.upms.rpc.model.UpmsOrganization;
-import com.lambkit.module.upms.rpc.sql.UpmsOrganizationCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsOrganizationCriteria;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

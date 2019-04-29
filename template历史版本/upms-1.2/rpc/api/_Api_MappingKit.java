@@ -3,10 +3,8 @@
 package $!{basepackage}.rpc.api;
 
 #foreach ($table in $tables)
-import $!{basepackage}.rpc.service.mock.${table.modelName}ServiceMock;
-#end##
-#foreach ($table in $tables)
 import $!{basepackage}.rpc.service.impl.${table.modelName}ServiceImpl;
+import $!{basepackage}.rpc.service.impl.${table.modelName}ServiceMock;
 #end##
 
 import com.lambkit.common.service.ServiceManager;

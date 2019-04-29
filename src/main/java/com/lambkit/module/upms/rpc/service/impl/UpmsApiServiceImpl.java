@@ -26,7 +26,7 @@ import com.lambkit.component.shiro.processer.ShiroRequiresUserProcesser;
 import com.lambkit.db.sql.QueryParas;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.model.*;
-import com.lambkit.module.upms.rpc.sql.*;
+import com.lambkit.module.upms.rpc.model.sql.*;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;

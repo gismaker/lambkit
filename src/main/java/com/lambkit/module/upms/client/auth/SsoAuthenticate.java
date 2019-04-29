@@ -29,7 +29,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.redis.Redis;
 import com.lambkit.common.util.RedisUtil;
 import com.lambkit.core.config.ConfigManager;
-import com.lambkit.core.http.proxy.ProxyRender;
+import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.module.upms.common.UpmsConfig;
 import com.lambkit.module.upms.common.UpmsConstant;
@@ -40,7 +40,7 @@ public class SsoAuthenticate {
 
 	public static boolean validate(Controller c) {
 		UpmsConfig upmsConfig = ConfigManager.me().get(UpmsConfig.class);
-	    ProxyRender proxy = new ProxyRender("client", upmsConfig.getSsoServerUrl() + "/sso/authenticate");
+	    GatewayRender proxy = new GatewayRender("client", upmsConfig.getSsoServerUrl() + "/sso/authenticate");
     	Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         String sessionId = session.getId().toString();

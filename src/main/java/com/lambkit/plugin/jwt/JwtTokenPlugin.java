@@ -27,7 +27,7 @@ public class JwtTokenPlugin implements IPlugin {
      * @param userService       登录方法的接口实现
      */
     public JwtTokenPlugin(IJwtUserService userService) {
-        this(JwtKit.secret,JwtKit.expiration,userService);
+        this(JwtKit.secret,JwtKit.expirationSecond,userService);
     }
 
     /**
@@ -62,7 +62,7 @@ public class JwtTokenPlugin implements IPlugin {
         JwtKit.secret = secret;
         if (!StrKit.notNull(expiration) || StrKit.isBlank(expiration.toString()))
             throw new TokenConfigException("失效时间", "空/null");
-        JwtKit.expiration = expiration;
+        JwtKit.expirationSecond = expiration;
         if (userService == null)
             throw new TokenConfigException("userService", "空/null");
         JwtKit.userService = userService;

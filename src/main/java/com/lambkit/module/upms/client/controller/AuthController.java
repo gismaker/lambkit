@@ -23,7 +23,7 @@ import org.apache.shiro.subject.Subject;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Clear;
 import com.lambkit.common.base.BaseResult;
-import com.lambkit.core.http.proxy.ProxyRender;
+import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.module.upms.client.auth.SsoAuthenticate;
 import com.lambkit.module.upms.common.UpmsResult;
@@ -50,13 +50,13 @@ public class AuthController extends BaseController {
             	renderTemplate("login.html");
             }
     	} else {
-    		render(new ProxyRender("auth/login", "http://localhost:8080/sso/login"));
+    		render(new GatewayRender("auth/login", "http://localhost:8080/sso/login"));
     		//renderJson(doLogin());
     	}
     }
 	
 	private UpmsResult doLogin() {
-		ProxyRender pr = new ProxyRender("auth/login", "http://localhost:8080/sso/login");
+		GatewayRender pr = new GatewayRender("auth/login", "http://localhost:8080/sso/login");
 		JSONObject result = JSONObject.parseObject(pr.accessStr(getRequest()));
 		System.out.println("result:"+result.getIntValue("code") + ", data:" + result.getString("data"));
         if(result!=null) {
@@ -93,12 +93,12 @@ public class AuthController extends BaseController {
     
     @Clear
     public void captcha() {
-    	render(new ProxyRender("captcha", "http://localhost:8080/sso/captcha"));
+    	render(new GatewayRender("captcha", "http://localhost:8080/sso/captcha"));
     }
 
     //@RequestMapping(value = "/logout", method = RequestMethod.GET)
     public void logout() {
-    	ProxyRender pr = new ProxyRender("login", "http://localhost:8080/sso/ajaxLogout");
+    	GatewayRender pr = new GatewayRender("login", "http://localhost:8080/sso/ajaxLogout");
     	pr.accessStr(getRequest());
 		BaseResult result = AuthManager.me().getService().logout(this.getRequest());
         String redirectUrl = result.getData().toString();
@@ -110,7 +110,7 @@ public class AuthController extends BaseController {
     
     @RequiresAuthentication
     public void repswd() {
-    	render(new ProxyRender("repswd", "http://localhost:8080/sso/repswd"));
+    	render(new GatewayRender("repswd", "http://localhost:8080/sso/repswd"));
     }
     
     /**
@@ -126,7 +126,7 @@ public class AuthController extends BaseController {
 	}
 
 	private UpmsResult doRegist() {
-		ProxyRender pr = new ProxyRender("regist", "http://localhost:8080/sso/regist");
+		GatewayRender pr = new GatewayRender("regist", "http://localhost:8080/sso/regist");
 		JSONObject result = JSONObject.parseObject(pr.accessStr(getRequest()));
 		System.out.println("result:"+result.getIntValue("code") + ", data:" + result.getString("data"));
         if(result == null || 0 == result.getIntValue("code")) {

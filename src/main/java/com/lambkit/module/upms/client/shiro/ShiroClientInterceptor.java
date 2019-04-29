@@ -25,7 +25,7 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.lambkit.core.config.ConfigManager;
-import com.lambkit.core.http.proxy.ProxyRender;
+import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.component.shiro.ShiroConfig;
 import com.lambkit.component.shiro.ShiroManager;
 import com.lambkit.component.shiro.processer.AuthorizeResult;
@@ -43,7 +43,7 @@ public class ShiroClientInterceptor implements Interceptor {
 
     private UpmsConfig upmsConfig = ConfigManager.me().get(UpmsConfig.class);
     
-    private ProxyRender proxy = null;
+    private GatewayRender proxy = null;
     
     @Override
     public void intercept(Invocation inv) {
@@ -60,7 +60,7 @@ public class ShiroClientInterceptor implements Interceptor {
             return;
         }
         if(proxy==null) {
-    		proxy = new ProxyRender("client", upmsConfig.getSsoServerUrl() + "/sso/authenticate");
+    		proxy = new GatewayRender("client", upmsConfig.getSsoServerUrl() + "/sso/authenticate");
     	}
     	boolean flag = SsoAuthenticate.validate(inv.getController());
     	 /*

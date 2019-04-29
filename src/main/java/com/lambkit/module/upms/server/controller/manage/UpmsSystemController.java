@@ -21,7 +21,7 @@ import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.common.UpmsResult;
 import com.lambkit.module.upms.common.UpmsResultConstant;
 import com.lambkit.module.upms.rpc.model.UpmsSystem;
-import com.lambkit.module.upms.rpc.sql.UpmsSystemCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsSystemCriteria;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

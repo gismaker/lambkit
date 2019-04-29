@@ -2,7 +2,7 @@ package com.lambkit.http.proxy.test;
 
 import com.jfinal.config.Routes;
 import com.lambkit.Lambkit;
-import com.lambkit.core.http.proxy.ProxyRender;
+import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.web.controller.BaseController;
 
@@ -21,11 +21,11 @@ public class TestProxyController extends BaseController {
 	}
 	
 	public void proxy_hello() {
-		render(new ProxyRender("proxy_hello", "http://127.0.0.1:9090/hello"));
+		render(new GatewayRender("proxy_hello", "http://127.0.0.1:9090/hello"));
 	}
 	
 	public void proxy_say() {
-		render(new ProxyRender("proxy_say", "http://127.0.0.1:9090/say"));
+		render(new GatewayRender("proxy_say", "http://127.0.0.1:9090/say"));
 	}
 	
 	public static void main(String[] args) {

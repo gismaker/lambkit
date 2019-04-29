@@ -23,7 +23,7 @@ import com.lambkit.common.service.BaseModelServiceImpl;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserOrganizationService;
 import com.lambkit.module.upms.rpc.model.UpmsUserOrganization;
-import com.lambkit.module.upms.rpc.sql.UpmsUserOrganizationCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsUserOrganizationCriteria;
 
 /**
  * @author yangyong 

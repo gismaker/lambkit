@@ -23,7 +23,7 @@ import com.lambkit.common.service.BaseModelServiceImpl;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserRoleService;
 import com.lambkit.module.upms.rpc.model.UpmsUserRole;
-import com.lambkit.module.upms.rpc.sql.UpmsUserRoleCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsUserRoleCriteria;
 
 /**
  * @author yangyong 

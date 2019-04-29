@@ -36,11 +36,11 @@ import com.lambkit.module.upms.common.UpmsResultConstant;
 import com.lambkit.module.upms.rpc.model.UpmsSystem;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
 import com.lambkit.module.upms.rpc.model.UpmsUserRole;
+import com.lambkit.module.upms.rpc.model.sql.UpmsSystemCriteria;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
 import com.lambkit.module.upms.rpc.api.UpmsUserService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 import com.lambkit.module.upms.rpc.service.impl.UpmsUserServiceImpl;
-import com.lambkit.module.upms.rpc.sql.UpmsSystemCriteria;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;

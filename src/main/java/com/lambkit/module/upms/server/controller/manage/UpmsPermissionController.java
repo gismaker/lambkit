@@ -23,12 +23,12 @@ import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.common.UpmsResult;
 import com.lambkit.module.upms.common.UpmsResultConstant;
 import com.lambkit.module.upms.rpc.model.*;
+import com.lambkit.module.upms.rpc.model.sql.UpmsPermissionCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsSystemCriteria;
 import com.lambkit.module.upms.rpc.api.UpmsPermissionService;
 import com.lambkit.module.upms.rpc.api.UpmsSystemService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsPermissionServiceImpl;
 import com.lambkit.module.upms.rpc.service.impl.UpmsSystemServiceImpl;
-import com.lambkit.module.upms.rpc.sql.UpmsPermissionCriteria;
-import com.lambkit.module.upms.rpc.sql.UpmsSystemCriteria;
 
 import java.util.List;
 

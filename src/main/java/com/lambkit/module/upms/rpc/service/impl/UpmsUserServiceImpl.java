@@ -20,7 +20,7 @@ import com.lambkit.common.service.BaseModelServiceImpl;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserService;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
-import com.lambkit.module.upms.rpc.sql.UpmsUserCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsUserCriteria;
 
 /**
  * @author yangyong 

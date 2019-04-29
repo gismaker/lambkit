@@ -32,7 +32,7 @@ public class JwtKit {
     public static String header = "Authorization";  // 默认请求头标识符
     public static String tokenPrefix = "Lambkit ";    // 默认token前缀
     public static String secret = "default";         // 默认私钥
-    public static Long expiration = 604800L;          // 默认失效时间(秒)
+    public static Long expirationSecond = 604800L;          // 默认失效时间(秒)
     public static IJwtUserService userService = null;//  需要注入的服务参数
     public static String cacheName = "jwtcache";
 
@@ -236,7 +236,7 @@ public class JwtKit {
      * @return
      */
     private static Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 1000);
+        return new Date(System.currentTimeMillis() + expirationSecond * 1000);
     }
 
 

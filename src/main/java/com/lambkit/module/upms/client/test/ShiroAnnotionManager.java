@@ -26,7 +26,7 @@ import com.lambkit.common.util.ClassUtils;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.component.shiro.processer.*;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
-import com.lambkit.module.upms.rpc.service.mock.UpmsApiServiceMock;
+import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceMock;
 import com.lambkit.web.directive.annotation.JFinalDirective;
 
 import java.lang.annotation.Annotation;

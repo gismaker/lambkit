@@ -9,7 +9,7 @@ import com.lambkit.module.upms.common.UpmsConfig;
 import com.lambkit.module.upms.common.UpmsManager;
 
 import $!{basepackage}.rpc.model.base.Base${classname};
-import $!{basepackage}.rpc.sql.${classname}Criteria;
+import $!{basepackage}.rpc.model.sql.${classname}Criteria;
 import $!{basepackage}.rpc.api.${classname}Service;
 import $!{basepackage}.rpc.service.impl.${classname}ServiceImpl;
 

@@ -22,7 +22,7 @@ import com.lambkit.common.service.BaseModelServiceImpl;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserPermissionService;
 import com.lambkit.module.upms.rpc.model.UpmsUserPermission;
-import com.lambkit.module.upms.rpc.sql.UpmsUserPermissionCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsUserPermissionCriteria;
 
 /**
  * @author yangyong 

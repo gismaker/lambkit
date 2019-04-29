@@ -21,7 +21,7 @@ import org.apache.shiro.subject.Subject;
 import com.jfinal.core.Controller;
 import com.lambkit.Lambkit;
 import com.lambkit.common.util.StringUtils;
-import com.lambkit.core.http.proxy.ProxyRender;
+import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.module.upms.client.auth.SsoAuthenticate;
 import com.lambkit.module.upms.common.UpmsConfig;
@@ -32,7 +32,7 @@ import com.lambkit.web.WebConfig;
 public class UpmsLoginService implements LoginService {
 	public void captcha(Controller c) {
 		UpmsConfig config = Lambkit.config(UpmsConfig.class);
-		c.render(new ProxyRender("center/captcha", config.getSsoServerUrl() + "/sso/captcha"));
+		c.render(new GatewayRender("center/captcha", config.getSsoServerUrl() + "/sso/captcha"));
 	}
 	
     public void login(Controller c) {
@@ -60,13 +60,13 @@ public class UpmsLoginService implements LoginService {
 		}
 		
 		UpmsConfig config = Lambkit.config(UpmsConfig.class);
-		c.render(new ProxyRender("center/login", config.getSsoServerUrl() + "/sso/login"));
+		c.render(new GatewayRender("center/login", config.getSsoServerUrl() + "/sso/login"));
 	}
 	
 	public void logout(Controller c) {
 		UpmsConfig config = Lambkit.config(UpmsConfig.class);
 		AuthManager.me().getService().logout(c.getRequest());
-		c.render(new ProxyRender("center/logout", config.getSsoServerUrl() + "/sso/logout"));
+		c.render(new GatewayRender("center/logout", config.getSsoServerUrl() + "/sso/logout"));
 	}
     
     public void ajaxLogout(Controller c) {

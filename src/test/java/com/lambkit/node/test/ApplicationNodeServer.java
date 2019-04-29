@@ -2,7 +2,7 @@ package com.lambkit.node.test;
 
 import com.jfinal.config.Routes;
 import com.lambkit.Lambkit;
-import com.lambkit.core.http.proxy.ProxyRender;
+import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
@@ -33,15 +33,15 @@ public class ApplicationNodeServer extends BaseController {
 			Node node = service.getNode(api.getNodeId());
 			System.out.println("api: " + node.getId() + ", url:" + node.getIp()+":"+node.getPort());
 			String url = "http://"+node.getIp()+":"+node.getPort()+"/"+api.getUrl();
-			render(new ProxyRender("hello", url));
+			render(new GatewayRender("hello", url));
 		} else {
 			System.out.println("api is null");
-			render(new ProxyRender("hello", "http://127.0.0.1:9090/hello"));
+			render(new GatewayRender("hello", "http://127.0.0.1:9090/hello"));
 		}
 	}
 	
 	public void say() {
-		render(new ProxyRender("say", "http://127.0.0.1:9090/say"));
+		render(new GatewayRender("say", "http://127.0.0.1:9090/say"));
 	}
 	
 	public void apis() {

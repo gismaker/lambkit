@@ -22,7 +22,7 @@ import com.lambkit.component.swagger.annotation.Api;
 import com.lambkit.component.swagger.annotation.ApiOperation;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.model.*;
-import com.lambkit.module.upms.rpc.sql.UpmsSystemCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsSystemCriteria;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 

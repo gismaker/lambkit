@@ -33,7 +33,7 @@ import com.lambkit.common.base.ResultJson;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.RequestUtils;
 import com.lambkit.common.util.StringUtils;
-import com.lambkit.core.http.proxy.ProxyKit;
+import com.lambkit.core.gateway.GatewayKit;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrdbManager;
@@ -816,7 +816,7 @@ public abstract class BaseController extends Controller {
 	
 	@NotAction
 	public void renderProxy(String targetName, String targetUri) {
-		render(ProxyKit.render(targetName, targetUri));
+		render(GatewayKit.render(targetName, targetUri));
 	}
 	
 	@NotAction

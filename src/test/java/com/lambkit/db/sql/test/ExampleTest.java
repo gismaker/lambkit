@@ -7,7 +7,7 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.lambkit.db.dialect.IModelDialect;
 import com.lambkit.db.dialect.LambkitPostgreSqlDialect;
 import com.lambkit.db.sql.column.Example;
-import com.lambkit.module.upms.rpc.sql.UpmsRolePermissionCriteria;
+import com.lambkit.module.upms.rpc.model.sql.UpmsRolePermissionCriteria;
 
 public class ExampleTest {
 	public static void main(String[] args) {

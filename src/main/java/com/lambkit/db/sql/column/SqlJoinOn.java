@@ -21,23 +21,62 @@ public class SqlJoinOn extends Columns {
 	
 	private SqlJoinMode type = SqlJoinMode.INNER_JOIN;
 	private String tableName;
+	private String onMainTableField;
+	private String onMyTableField;
+	
+	public SqlJoinOn(String tableName, Columns cols) {
+		this.tableName = tableName;
+		this.addAll(cols.getList());
+	}
 	
 	public SqlJoinOn(String tableName) {
 		this.tableName = tableName;
 	}
 	
+	public SqlJoinOn on(String mainTableField, String myTableField) {
+		this.onMainTableField = mainTableField;
+		this.onMyTableField = myTableField;
+		return this;
+	}
+	
+	public SqlJoinOn mode(SqlJoinMode type) {
+		this.type = type;
+		return this;
+	}
+	
 	public String getTableName() {
 		return tableName;
 	}
-	public void setTableName(String tableName) {
+	
+	public SqlJoinOn setTableName(String tableName) {
 		this.tableName = tableName;
+		return this;
 	}
 
 	public SqlJoinMode getType() {
 		return type;
 	}
 
-	public void setType(SqlJoinMode type) {
+	public SqlJoinOn setType(SqlJoinMode type) {
 		this.type = type;
+		return this;
+	}
+
+	public String getOnMainTableField() {
+		return onMainTableField;
+	}
+
+	public SqlJoinOn setOnMainTableField(String onMainTableField) {
+		this.onMainTableField = onMainTableField;
+		return this;
+	}
+
+	public String getOnMyTableField() {
+		return onMyTableField;
+	}
+
+	public SqlJoinOn setOnMyTableField(String onMyTableField) {
+		this.onMyTableField = onMyTableField;
+		return this;
 	}
 }
