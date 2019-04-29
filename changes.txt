@@ -7,6 +7,7 @@ lambkit-0.2-alpha1：
 新增：增加网易云信短信服务工具NimMessageKit，查看com.lambkit.plugin.nim。
 新增：UpmsUserRoleService的hasRole方法
 新增：BaseController的getParameterMap、getParaToDouble和getParaToFloat方法
+新增：MSCH模型，结合代码生成器和MSCH模板生成lambkit最佳实践代码。
 优化：升级JFianl到3.8。
 优化：优化启动方式，默认使用Undertow。
 优化：BaseModel增加setAttrs方法可以接收kv和json数据。
@@ -14,6 +15,7 @@ lambkit-0.2-alpha1：
 优化：优化代码生成器Generator，方便使用，减少代码量。
 优化：优化自动注册Module、Controller、Tag的机制。
 优化：优化DevelopModule的位置，放到DefaultJFinalConfig，防止二次开发因缺少数据库而出错。
+优化：优化微服务网关功能。
 移除：删除com.lambkit.server及相关内容。
 
 -----------------------------
