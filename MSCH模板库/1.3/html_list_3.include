@@ -1,0 +1,5 @@
+#for(column : mgrdb.fieldList)
+													#if(column.iskey !="Y" && column.isedit !="N")
+													"#(column.fldname)": res.data.#(column.fldname),
+													#end
+													#end

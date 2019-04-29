@@ -1,0 +1,8 @@
+#[[
+		<script type="text/html" id="statusTpl">
+			{{#  if(d.status==0){ }} 禁用
+			{{#  } else if(d.status==1){ }} 正常
+  			{{#  } else { }}  未激活
+  			{{#  } }}
+		</script>
+		]]#

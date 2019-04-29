@@ -1,0 +1,17 @@
+#for(column : mgrdb.fieldList)
+						#if(column.fldname=="status")
+						{
+							field: '#(column.fldname)',
+							title: '#(column.fldcnn)',
+							templet: '#statusTpl',
+							width: 100,
+							sort: true
+						},
+						#elseif(column.iskey !="Y" && column.isview !="N")
+						{
+							field: '#(column.fldname)',
+							title: '#(column.fldcnn)',
+							sort: true
+						},
+						#end
+						#end

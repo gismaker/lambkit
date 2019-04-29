@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>${title}列表</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/css/style.css">
+	</head>
+
+	<body>
+		<div class="lambkit-fluid">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">${title}列表</div>
+						<div class="layui-card-body">
+							<!--
+							<div class="layui-row">
+								<button id="addDataBtn" class="layui-btn" style="float: right;"><i class="layui-icon">&#xe608;</i> 新增</button>
+							</div>
+							-->
+							<table class="layui-hide" id="test" lay-filter="test"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-row" id="siteform" style="display: none;">
+			<div class="layui-col-md10" style="margin: 10px 10px;">
+				<form class="layui-form" action="" method="post" id="addEmployeeForm">
+					#include("/template/html_add.include")##
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="layui-row" id="siteEditForm" style="display: none;">
+			<div class="layui-col-md10" style="margin: 10px 10px;">
+				<form class="layui-form" action="" method="post" lay-filter="siteformedit">
+					#include("/template/html_edit.include")##
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button class="layui-btn" lay-submit lay-filter="formDemoEdit">立即提交</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+
+		<script>
+			layui.use(['layer', 'form', 'table'], function() {
+				var table = layui.table;
+				var form = layui.form;
+				var layer = layui.layer;
+				$ = layui.jquery;
+
+				table.render({
+					elem: '#test',
+					url: '#(ckey)/page?rt=layui',
+					toolbar: '#toolbarDemo',
+					cellMinWidth: 80,
+					page: true,
+					cols: [[
+						{
+							type: 'numbers',
+							title:'序号',
+							sort: true
+						},
+						#include("/template/html_list_1.include")##
+						{
+							title:"操作",
+							fixed: 'right',
+							width: 160,
+							align: 'center',
+							toolbar: '#barDemo'
+						},
+						{type: 'checkbox', fixed: 'right'}
+					]]
+				});
+
+				//监听工具条
+				table.on('tool(test)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+					var data = obj.data; //获得当前行数据
+					var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+					var tr = obj.tr; //获得当前行 tr 的DOM对象
+					if(layEvent === 'detail') { //查看
+						showDataForm(data.${primaryKey});
+					} else if(layEvent === 'del') { //删除
+						layer.confirm('真的删除行么', function(index) {
+							layer.close(index);
+							deleteDateForm(data, obj);
+						});
+					} else if(layEvent === 'edit') { //编辑
+						editDataAction(data, obj);
+					}
+				});
+				
+				//头工具栏事件
+				table.on('toolbar(test)', function(obj) {
+					var checkStatus = table.checkStatus(obj.config.id);
+					switch(obj.event) {
+						case 'onAdd':
+							addDataForm();
+							break;
+						case 'onEdit':
+							var data = checkStatus.data;
+							if(data.length > 0) {
+								editDataAction(data[0], obj);
+							} else {
+								layer.msg('请选择一行！');
+							}
+							break;
+						case 'onDelete':
+							var data = checkStatus.data;
+							if(data.length > 0) {
+								deleteDataListAction(data, obj);
+							} else {
+								layer.msg('请选择一行及以上！');
+							}
+							break;
+						case 'getCheckData':
+							var data = checkStatus.data;
+							layer.alert(JSON.stringify(data));
+							break;
+						case 'getCheckLength':
+							var data = checkStatus.data;
+							layer.msg('选中了：' + data.length + ' 个');
+							break;
+						case 'isAll':
+							layer.msg(checkStatus.isAll ? '全选' : '未全选');
+							break;
+					};
+				});
+				
+				//监听提交
+				form.on('submit(formDemo)', function(data) {
+					var ttt = parent;
+					$.ajax({              
+						url: '#(ckey)/save',
+						method: 'post',
+						data: data.field,
+						dataType: 'JSON',
+						success: function(res) {                   
+							if(res.code = '1') {                      
+								ttt.closeIframe(res.msg);         
+							}                       
+							else  {
+								alert(res.msg);
+							}                       
+						},
+						error: function(data) {  }                     
+					});      
+					return false;
+				});
+
+
+				function addDataForm() {
+					layer.open({       
+						type: 1,
+						title: "新增",
+						skin: "myclass", //自定样式
+						area: ['80%', '80%'],
+						shadeClose: true,
+						content: $("#siteform").html(),
+						success: function(layero, index) {},
+						yes: function() {       }     
+					});       
+					form.render(); //动态渲染
+				}
+				
+				function deleteDataAction(data, obj) {
+					//向服务端发送删除指令
+					$.ajax({              
+						url: '#(ckey)/delete',
+						method: 'post',
+						data: {
+							id: data.${primaryKey}
+						},
+						dataType: 'JSON',
+						success: function(res) {                   
+							if(res.code = '1') {
+								obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+							}                       
+							else  {
+								alert("无法删除！");
+							}                       
+						},
+						error: function(data) {  }                     
+					}); 
+				}
+
+				function deleteDataListAction(data, obj) {
+					var vids = "";
+					for ( var i = 0; i <data.length; i++){
+    					if(i>0) vids += ",";
+    					vids += data[i].${primaryKey};
+					}
+					//向服务端发送删除指令
+					$.ajax({              
+						url: '#(ckey)/deletes',
+						method: 'post',
+						data: {
+							ids: vids
+						},
+						dataType: 'JSON',
+						success: function(res) {                   
+							if(res.code = '1') {
+								obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+							}                       
+							else  {
+								alert("无法删除！");
+							}                       
+						},
+						error: function(data) {  }                     
+					}); 
+				}
+				
+				function editDataAction(data, obj) {
+					var editLayer = layer.open({       
+						type: 1,
+						title: "编辑",
+						skin: "myclass", //自定样式
+						shadeClose: true,
+						area: ['80%', '80%'],
+						content: $("#siteEditForm").html(),
+						success: function(layero, index) {
+							form.val("siteformedit", {
+								#include("/template/html_list_2.include")##
+							});
+							//监听提交
+							form.on('submit(formDemoEdit)', function(data) {
+								$.ajax({              
+									url: '#(ckey)/update',
+									method: 'post',
+									data: processData(data.field),
+									dataType: 'JSON',
+									success: function(res) {                   
+										if(res.code = '1') {                      
+											layer.close(editLayer); 
+											obj.update({
+												#include("/template/html_list_3.include")##
+											});
+										}                       
+										else  {
+											alert(res.msg);
+										}                       
+									},
+									error: function(data) {  }                     
+								});      
+								return false;
+							});
+						},
+						yes: function() {       }     
+					}); 
+				}
+				
+				function showDataForm(id) {
+					layer.open({
+						type: 2,
+						shadeClose: true,
+						area: ['80%', '80%'],
+						content: 'http://' + location.host + '#(ckey)?id=' + id
+					});
+				}
+
+			});
+		</script>
+
+		#include("/template/html_list_4.include")##
+
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+		
+		<script type="text/html" id="toolbarDemo">
+			<div class="layui-btn-container">
+				<div class="layui-btn-group">
+					<button class="layui-btn layui-btn-sm layui-btn-primary" lay-event="onAdd">
+    					<i class="layui-icon">&#xe654;</i>
+  					</button>
+					<button class="layui-btn layui-btn-sm layui-btn-primary" lay-event="onEdit">
+    					<i class="layui-icon">&#xe642;</i>
+  					</button>
+					<button class="layui-btn layui-btn-sm layui-btn-primary" lay-event="onDelete">
+    					<i class="layui-icon">&#xe640;</i>
+  					</button>
+				</div>
+				<!--
+					<button class="layui-btn layui-btn-sm layui-btn-primary" lay-event="onExport">
+    					<i class="layui-icon">&#xe602;</i>
+  					</button>
+				<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+				<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+				<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+				-->
+			</div>
+		</script>
+	</body>
+
+</html>

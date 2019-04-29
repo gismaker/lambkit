@@ -1,0 +1,8 @@
+#for(column : mgrdb.fieldList)
+									#if(column.iskey =="N" && column.ext03 =="Y")
+									<tr>
+										<td>#(column.fldcnn)</td>
+										<td>#(column.val)</td>
+									</tr>
+									#end
+									#end

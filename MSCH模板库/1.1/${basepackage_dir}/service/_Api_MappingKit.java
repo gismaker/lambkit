@@ -3,10 +3,8 @@
 package $!{basepackage}.service;
 
 #foreach ($table in $tables)
-import $!{basepackage}.service.mock.${table.modelName}ServiceMock;
-#end##
-#foreach ($table in $tables)
 import $!{basepackage}.service.impl.${table.modelName}ServiceImpl;
+import $!{basepackage}.service.impl.${table.modelName}ServiceMock;
 #end##
 
 import com.lambkit.common.service.ServiceManager;

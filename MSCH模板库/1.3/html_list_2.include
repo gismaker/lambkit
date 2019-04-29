@@ -1,0 +1,5 @@
+#for(column : mgrdb.fieldList)
+									#if(column.isedit !="N")
+									"model.#(column.fldname)": data.#(column.fldname),
+									#end
+									#end

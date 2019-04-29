@@ -1,0 +1,12 @@
+#for(column : mgrdb.fieldList)
+					#if(column.iskey =='Y')
+						<input type="hidden" name="model.#(column.fldname)" />
+					#else if( column.iskey !='Y' && column.isedit !='N')
+					<div class="layui-form-item">
+						<label class="layui-form-label">#(column.fldcnn)</label>
+						<div class="layui-input-block">
+							<input type="text" name="model.#(column.fldname)" required lay-verify="required" placeholder="请输入#(column.fldcnn)" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					#end
+					#end
