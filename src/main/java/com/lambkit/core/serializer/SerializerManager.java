@@ -25,7 +25,7 @@ import com.lambkit.exception.LambkitAssert;
 public class SerializerManager {
 
     public static final String FST2 = "fst2";
-    public static final String FASTJSON = "fastjson";
+    //public static final String FASTJSON = "fastjson";
 
     private static SerializerManager me;
 
@@ -75,8 +75,8 @@ public class SerializerManager {
         switch (serializerString) {
             case FST2:
                 return new Fst2Serializer();
-            case FASTJSON:
-                return new FastjsonSerializer();
+           // case FASTJSON:
+           //     return new FastjsonSerializer();
             default:
             	return new Fst2Serializer();
         }

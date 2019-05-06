@@ -18,7 +18,6 @@ package com.lambkit.core.rpc;
 import com.lambkit.common.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.motan.MotanRpc;
-import com.lambkit.core.rpc.zbus.ZbusRpc;
 
 public class RpcManager {
     private static RpcManager manager;
@@ -50,8 +49,8 @@ public class RpcManager {
         switch (config.getType()) {
             case RpcConfig.TYPE_MOTAN:
                 return new MotanRpc();
-            case RpcConfig.TYPE_ZBUS:
-                return new ZbusRpc();
+            //case RpcConfig.TYPE_ZBUS:
+            //    return new ZbusRpc();
             default:
             	return new MotanRpc();
         }

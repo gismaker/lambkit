@@ -27,21 +27,21 @@ public class CacheManager {
     private CacheManager() {
     }
 
-    private ICache cache;
-    private ICache hashCache;
+    private BaseCache cache;
+    private BaseCache hashCache;
 
     public static CacheManager me() {
         return me;
     }
 
-    public ICache getCache() {
+    public BaseCache getCache() {
         if (cache == null) {
             cache = buildCache();
         }
         return cache;
     }
     
-    public ICache getHash() {
+    public BaseCache getHash() {
     	CacheConfig config = Lambkit.config(CacheConfig.class);
     	if(hashCache==null && CacheConfig.TYPE_REDIS.equals(config.getType())) {
     		hashCache = new RedisHashCacheImpl(); 
@@ -49,9 +49,13 @@ public class CacheManager {
     	return hashCache;
     }
 
-    private ICache buildCache() {
+    public BaseCache buildCache() {
         CacheConfig config = Lambkit.config(CacheConfig.class);
-        switch (config.getType()) {
+        return buildCache(config.getType());
+    }
+    
+    public BaseCache buildCache(String type) {
+        switch (type) {
             case CacheConfig.TYPE_EHCACHE:
                 return new EhcacheCacheImpl();
             case CacheConfig.TYPE_REDIS:

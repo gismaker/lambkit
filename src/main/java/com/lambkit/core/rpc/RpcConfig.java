@@ -23,16 +23,16 @@ import com.lambkit.core.config.annotation.PropertieConfig;
 @PropertieConfig(prefix = "lambkit.rpc")
 public class RpcConfig {
 
-    public static final String TYPE_DUBBO = "dubbo";
-    public static final String TYPE_GRPC = "grpc";
+    //public static final String TYPE_DUBBO = "dubbo";
+    //public static final String TYPE_GRPC = "grpc";
     public static final String TYPE_MOTAN = "motan";
-    public static final String TYPE_THRIFT = "thrift";
-    public static final String TYPE_LOCAL = "local";
-    public static final String TYPE_ZBUS = "zbus";
+    //public static final String TYPE_THRIFT = "thrift";
+    //public static final String TYPE_LOCAL = "local";
+    //public static final String TYPE_ZBUS = "zbus";
 
     public static final String REGISTRY_TYPE_CONSUL = "consul";
     public static final String REGISTRY_TYPE_ZOOKEEPER = "zookeeper";
-    public static final String REGISTRY_TYPE_ZBUS = "zbus";
+    //public static final String REGISTRY_TYPE_ZBUS = "zbus";
 
     private String type;
     private int requestTimeOut = 5000;

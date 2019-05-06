@@ -17,6 +17,7 @@ package com.lambkit.db.mgr;
 
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.db.meta.TableMeta;
@@ -84,8 +85,13 @@ public interface MgrdbService {
 	void toExcel(MgrTable tbc, OutputStream os, List<Record> mlist, String selectSQL);
 	
 	/**
-	 * 
-	 * @param tb
+	 * 将表格信息写到管理表中
+	 * @param tbc
 	 */
 	void tableToMgrdb(TableMeta tbc);
+	/**
+	 * 将多个表格信息写到管理表中
+	 * @param options
+	 */
+	void tablesToMgrdb(Map<String, Object> options);
 }

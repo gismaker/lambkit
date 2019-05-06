@@ -17,7 +17,6 @@ package com.lambkit.core.serializer;
 
 import org.nustaq.serialization.FSTConfiguration;
 
-
 public class Fst2Serializer implements ISerializer {
 
     static FSTConfiguration fst = FSTConfiguration.createDefaultConfiguration();

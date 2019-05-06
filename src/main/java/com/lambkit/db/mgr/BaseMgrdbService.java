@@ -19,6 +19,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
@@ -27,6 +29,7 @@ import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.JXLExcelUtils;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.db.meta.MetaKit;
+import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.mgr.IFieldDao;
 import com.lambkit.db.mgr.ITable;
@@ -340,5 +343,13 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		else if(fld.getDatatype().startsWith("varchar")) exl.addCell(c, r, m.getStr(name));
 		else if(fld.getDatatype().startsWith("timestamp")) exl.addCell(c, r, m.getDate(name));
 		else exl.addCell(c, r, m.get(name).toString());
+	}
+	
+	public void tablesToMgrdb(Map<String, Object> options) {
+		MgrdbService service = MgrdbManager.me().getService();
+		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);
+		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
+			service.tableToMgrdb(entry.getValue());
+        }
 	}
 }

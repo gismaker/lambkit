@@ -15,8 +15,12 @@
  */
 package com.lambkit.generator;
 
+import java.util.Map;
+
 import com.lambkit.Lambkit;
 import com.lambkit.common.aop.AopKit;
+import com.lambkit.common.app.DefaultApplication;
+import com.lambkit.common.app.LambkitApplication;
 import com.lambkit.generator.impl.CommonGenerator;
 import com.lambkit.generator.impl.DatabaseGenerator;
 import com.lambkit.generator.impl.MgrdbGenerator;
@@ -151,4 +155,27 @@ public class GeneratorManager {
 		return tempEngine;
 	}
 	*/
+	
+	public void run(String templatePath, Map<String,Object> options) {
+		run(templatePath, options, null);
+	}
+	
+	public void run(String templatePath, Map<String,Object> options, GeneratorConfig config) {
+		if(config==null) {
+			config = Lambkit.config(GeneratorConfig.class);
+		}
+		LambkitApplication server = new DefaultApplication();
+		//初始化生成工具
+		GeneratorManager.me().init(config);
+		//启动应用
+		server.run();
+		//创建生成器
+		Generator g = GeneratorManager.me().getDefaultGenerator();
+		//执行
+		g.generate(templatePath, options);
+		
+		System.out.println("-------over-------");
+		//结束应用
+		server.stop();
+	}
 }

@@ -15,11 +15,13 @@
  */
 package com.lambkit.db.meta;
 
+import java.util.List;
 import java.util.Map;
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Config;
 import com.jfinal.plugin.activerecord.DbKit;
+import com.lambkit.db.datasource.DataSourceConfig;
 
 public class MetaKit {
 
@@ -34,6 +36,44 @@ public class MetaKit {
 			return tableMetas.get(tableName);
 		}
 		return null;
+	}
+	
+	public static Map<String, TableMeta> getTableMetas(Map<String, Object> options) {
+		Config config = DbKit.getConfig();
+		MetaBuilder metaBuilder = new MetaBuilder(config.getDataSource());
+		metaBuilder.setDialect(config.getDialect());
+		metaBuilder.setConfigName(DataSourceConfig.NAME_DEFAULT);
+		if (options.containsKey("tableRemovePrefixes")) {
+			Object trp = options.get("tableRemovePrefixes");
+			if (trp instanceof List) {
+				List<String> tableRemovePrefixes = (List<String>) trp;
+				metaBuilder.setRemovedTableNamePrefixes((String[]) tableRemovePrefixes.toArray());
+			} else {
+				String tableRemovePrefixes = trp.toString();
+				metaBuilder.setRemovedTableNamePrefixes(tableRemovePrefixes.split(","));
+			}
+		}
+		if (options.containsKey("excludedTables")) {
+			Object eto = options.get("excludedTables");
+			if (eto instanceof List) {
+				List<String> excludedTables = (List<String>) eto;
+				metaBuilder.addExcludedTable((String[]) excludedTables.toArray());
+			} else {
+				String excludedTables = eto.toString();
+				metaBuilder.addExcludedTable(excludedTables.split(","));
+			}
+		}
+		if (options.containsKey("includedTables")) {
+			Object eto = options.get("includedTables");
+			if (eto instanceof List) {
+				List<String> includedTables = (List<String>) eto;
+				metaBuilder.addIncludedTable((String[]) includedTables.toArray());
+			} else {
+				String includedTables = eto.toString();
+				metaBuilder.addIncludedTable(includedTables.split(","));
+			}
+		}
+		return metaBuilder.build();
 	}
 	
 }

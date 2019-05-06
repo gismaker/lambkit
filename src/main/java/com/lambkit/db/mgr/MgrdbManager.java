@@ -15,8 +15,16 @@
  */
 package com.lambkit.db.mgr;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.jfinal.kit.StrKit;
+import com.lambkit.Lambkit;
+import com.lambkit.common.app.DefaultApplication;
+import com.lambkit.common.app.LambkitApplication;
 import com.lambkit.core.config.ConfigManager;
+import com.lambkit.db.meta.MetaKit;
+import com.lambkit.db.meta.TableMeta;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.module.meta.MetaMgrModule;
 import com.lambkit.module.sysconfig.SysconfigModule;
@@ -67,9 +75,13 @@ public class MgrdbManager {
 	}
 	
 	public LambkitModule getLambkitModule() {
+		return getLambkitModule(config.getType());
+	}
+	
+	public LambkitModule getLambkitModule(String type) {
 		LambkitModule module = null;
-		if(StrKit.isBlank(config.getType())) return module;
-		switch (config.getType()) {
+		if(StrKit.isBlank(type)) return module;
+		switch (type) {
 		case MgrdbConfig.SYSCONFIG:
 			module = new SysconfigModule();
 			break;
@@ -80,5 +92,21 @@ public class MgrdbManager {
 			break;
 		}
 		return module;
+	}
+	
+	public void run(Map<String, Object> options, String type) {
+		Lambkit.setBootArg("lambkit.server.type", "applicaiton");
+		LambkitApplication server = new DefaultApplication();
+		LambkitModule module = getLambkitModule(type);
+		if(module!=null) Lambkit.me().addModule(module);
+		server.run();
+		MgrdbService service = MgrdbManager.me().getService();
+		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);
+		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
+			System.out.println("table: "+entry.getKey());
+			service.tableToMgrdb(entry.getValue());
+        }
+		System.out.println("-------over-------");
+		server.stop();
 	}
 }
