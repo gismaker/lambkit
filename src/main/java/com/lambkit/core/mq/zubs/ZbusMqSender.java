@@ -20,13 +20,12 @@ import java.io.IOException;
 import com.lambkit.core.mq.MqType;
 
 import io.zbus.mq.Broker;
-import io.zbus.mq.Producer;
 
 /**
  * Mq泛型发送器(通过MQ发送消息)
  * @ClassName: MqSender  
  */
-public class ZbusMqSender<T> extends ZbusSender<T>{
+public class ZbusMqSender<T> extends ZbusSender<T> {
 	
 	/**
 	 * <p>

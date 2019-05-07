@@ -21,9 +21,10 @@ import io.zbus.mq.Message;
 
 /**
  * Topic泛型发送器（通过Topic发送）
+ * @param <T>
  * @ClassName: TopicSender
  */
-public class ZbusTopicSender<T> extends ZbusSender<T>{
+public class ZbusTopicSender<T> extends ZbusSender<T> {
 	
 	/**
 	 * 主题

@@ -16,9 +16,8 @@
 package com.lambkit.core.mq.zubs;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jfinal.log.Log;
 import com.lambkit.component.zbus.ZbusConfig;
@@ -28,7 +27,6 @@ import com.lambkit.core.mq.Receiver;
 import com.lambkit.core.mq.Sender;
 
 import io.zbus.mq.Broker;
-import io.zbus.mq.Consumer;
 import io.zbus.mq.ConsumerConfig;
 import io.zbus.mq.Producer;
 
@@ -41,13 +39,13 @@ public class ZbusMq extends MqPlugin {
 	/**
 	 * MQ消费者配置Map
 	 */
-	private final Map<String, ZbusReceiver<?>> receiverMap = new HashMap<String, ZbusReceiver<?>>();
-
+	private static final ConcurrentHashMap<String, ZbusReceiver<?>> receiverMap = new ConcurrentHashMap<>();
+	
 	/**
 	 * 发送器列表
 	 */
-	private final static Map<String, Sender<?>> senderMap = new HashMap<String, Sender<?>>();
-
+	private static final ConcurrentHashMap<String, ZbusSender<?>> senderMap = new ConcurrentHashMap<>();
+	
 	/**
 	 * broker对象
 	 */
@@ -89,7 +87,7 @@ public class ZbusMq extends MqPlugin {
 	
 	private void startConsumer() throws IOException {
 		// 创建Mq消费者
-		for (Entry<String, ZbusReceiver<?>> entry : this.receiverMap.entrySet()) {
+		for (Entry<String, ZbusReceiver<?>> entry : receiverMap.entrySet()) {
 			String mq = entry.getKey();
 			ZbusReceiver<?> receiver = entry.getValue();
 			if(receiver!=null) {
@@ -97,7 +95,7 @@ public class ZbusMq extends MqPlugin {
 				LOG.info("创建MQ消费者成功(mq=" + mq + ")");
 			}
 		}
-		for (Entry<String, ZbusReceiver<?>> entry : this.receiverMap.entrySet()) {
+		for (Entry<String, ZbusReceiver<?>> entry : receiverMap.entrySet()) {
 			ZbusReceiver<?> receiver = entry.getValue();
 			if(receiver!=null) {
 				receiver.getConsumer().start();
@@ -167,7 +165,9 @@ public class ZbusMq extends MqPlugin {
 		// TODO Auto-generated method stub
 		if (sender == null)
 			return;
-		senderMap.put(sender.getName(), sender);
+		if(sender instanceof ZbusMqSender) {
+			senderMap.put(sender.getName(), (ZbusSender<?>) sender);
+		}
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class ZbusMq extends MqPlugin {
 		// TODO Auto-generated method stub
 		if (receiver == null)
 			return;
-		if (receiver instanceof ZbusReceiver) {
+		if (receiver instanceof ZbusReceiver<?>) {
 			ZbusReceiver<?> msgHandler = (ZbusReceiver<?>) receiver;
 			String mq = msgHandler.getName();
 			if (receiverMap.containsKey(mq)) {
@@ -223,7 +223,7 @@ public class ZbusMq extends MqPlugin {
 	public void removeAllSender() {
 		// TODO Auto-generated method stub
 		try {
-			for (Entry<String, Sender<?>> sender : senderMap.entrySet()) {
+			for (Entry<String, ZbusSender<?>> sender : senderMap.entrySet()) {
 				sender.getValue().close();
 			}
 		} catch (IOException e) {
@@ -236,16 +236,15 @@ public class ZbusMq extends MqPlugin {
 	@Override
 	public void removeReceiver(String name) {
 		// TODO Auto-generated method stub
-		Consumer c = receiverMap.get(name).getConsumer();
-		if (null != c) {
+		Receiver<?> receiver = receiverMap.get(name);
+		if (null != receiver) {
 			try {
-				c.close();
+				receiver.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		c = null;
+		receiver = null;
 		receiverMap.remove(name);
 	}
 
@@ -254,13 +253,13 @@ public class ZbusMq extends MqPlugin {
 		// TODO Auto-generated method stub
 		try {
 			for (Entry<String, ZbusReceiver<?>> c : receiverMap.entrySet()) {
-				if(c.getValue()!=null && c.getValue().getConsumer()!=null) {
-					c.getValue().getConsumer().close();
+				Receiver<?> receiver = c.getValue();
+				if (null != receiver) {
+					receiver.close();
 				}
-				c = null;
+				receiver = null;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		receiverMap.clear();

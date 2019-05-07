@@ -129,6 +129,7 @@ public abstract class ZbusReceiver<T> implements MessageHandler, Receiver<T> {
 	}
 	
 	/**
+	 * @param <T>
 	 * @Title: handle
 	 * @Description: 消费者收到消息后的处理函数，子类需实现此方法
 	 * @param msg
@@ -150,5 +151,18 @@ public abstract class ZbusReceiver<T> implements MessageHandler, Receiver<T> {
 					clazz.getSimpleName() + " not set the actual class on superclass generic parameter");
 		}
 		return (Class<?>) params[0];
+	}
+	
+	@Override
+	public void close() throws IOException {
+		// TODO Auto-generated method stub
+		if (null != consumer) {
+			try {
+				consumer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		consumer = null;
 	}
 }

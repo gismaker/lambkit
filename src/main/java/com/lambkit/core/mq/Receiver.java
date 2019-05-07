@@ -15,12 +15,14 @@
  */
 package com.lambkit.core.mq;
 
+import java.io.Closeable;
+
 /**
  * 接收者，处理消息
  * @author 孤竹行
  *
  */
-public interface Receiver<T> {
+public interface Receiver<T> extends Closeable {
 
 	/**
 	 * 处理消息
