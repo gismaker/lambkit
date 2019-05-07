@@ -232,11 +232,11 @@ public class DefaultModule extends LambkitModule {
 	}
 	
 	@Override
-	public void afterJFinalStart() {
+	public void onStart() {
 		// TODO Auto-generated method stub
 		NodeManager.me().init();
 		for (LambkitModule module : modules) {
-			module.afterJFinalStart();
+			module.onStart();
 		}
 		addTag("shiro", new ShiroTags());
 		JsonManager.me().setDefaultDatePattern("yyyy-MM-dd HH:mm:ss");
@@ -252,7 +252,7 @@ public class DefaultModule extends LambkitModule {
 	}
 	
 	@Override
-	public void beforeJFinalStop() {
+	public void onStop() {
 		// TODO Auto-generated method stub
 		Enumeration<Driver> drivers = DriverManager.getDrivers();
         if (drivers != null) {
@@ -267,7 +267,7 @@ public class DefaultModule extends LambkitModule {
         }
         NodeManager.me().destroy();
 		for (LambkitModule module : modules) {
-			module.beforeJFinalStop();
+			module.onStop();
 		}
 	}
 	

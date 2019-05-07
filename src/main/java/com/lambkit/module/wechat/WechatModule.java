@@ -23,7 +23,7 @@ import com.lambkit.module.LambkitModule;
 public class WechatModule extends LambkitModule {
 
 	@Override
-	public void afterJFinalStart() {
+	public void onStart() {
 		ApiConfig ac = new ApiConfig();
 		WechatConfig config = Lambkit.config(WechatConfig.class);
 		 

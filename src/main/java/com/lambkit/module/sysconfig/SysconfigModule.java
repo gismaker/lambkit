@@ -43,7 +43,7 @@ public class SysconfigModule extends LambkitModule {
 	}
 	
 	@Override
-	public void afterJFinalStart() {
+	public void onStart() {
 		// TODO Auto-generated method stub
 		MgrdbManager.me().init(MgrdbSysconfigServiceImpl.class);
 	}

@@ -84,19 +84,19 @@ public class DefaultApplicationModule extends LambkitModule {
 	}
 	
 	@Override
-	public void afterJFinalStart() {
+	public void onStart() {
 		JsonManager.me().setDefaultDatePattern("yyyy-MM-dd HH:mm:ss");
 		if(modules==null) return;
 		for (LambkitModule module : modules) {
-			module.afterJFinalStart();
+			module.onStart();
 		}
 	}
 	
 	@Override
-	public void beforeJFinalStop() {
+	public void onStop() {
 		if(modules==null) return;
 		for (LambkitModule module : modules) {
-			module.beforeJFinalStop();
+			module.onStop();
 		}
 	}
 	

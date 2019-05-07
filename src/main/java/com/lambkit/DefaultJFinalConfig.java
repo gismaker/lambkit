@@ -21,8 +21,8 @@ import com.jfinal.template.Engine;
 import com.lambkit.common.base.Consts;
 import com.lambkit.core.event.EventKit;
 import com.lambkit.db.mgr.MgrdbManager;
-import com.lambkit.module.DevelopModule;
 import com.lambkit.module.LambkitModule;
+import com.lambkit.module.lms.LambkitManageSystemModule;
 import com.lambkit.module.upms.server.UpmsModule;
 
 public class DefaultJFinalConfig extends JFinalConfig {
@@ -32,13 +32,13 @@ public class DefaultJFinalConfig extends JFinalConfig {
     @Override
     public void configConstant(Constants constants) {
     	//TimeUtils.startTime("start lambkit configConstant");
-    	Lambkit.me().addModule(new UpmsModule());
-    	LambkitModule module = MgrdbManager.me().getLambkitModule();
-    	if(module!=null) {
-    		Lambkit.me().addModule(module);
-    	}
-    	if(Lambkit.me().isDevMode()) {
-    		Lambkit.me().addModule(new DevelopModule());
+    	if(Lambkit.me().getLambkitConfig().isLmsActived()) {
+    		Lambkit.me().addModule(new UpmsModule());
+        	LambkitModule module = MgrdbManager.me().getLambkitModule();
+        	if(module!=null) {
+        		Lambkit.me().addModule(module);
+        	}
+    		Lambkit.me().addModule(new LambkitManageSystemModule());
 		}
     	/**
 		 * 发送初始化通知
@@ -87,17 +87,17 @@ public class DefaultJFinalConfig extends JFinalConfig {
     }
 
     @Override
-    public void afterJFinalStart() {
+    public void onStart() {
     	//TimeUtils.startTime("start lambkit afterJFinalStart");
-        super.afterJFinalStart();
-        Lambkit.me().getModule().afterJFinalStart();
+        super.onStart();
+        Lambkit.me().getModule().onStart();
         //TimeUtils.endTime("start lambkit afterJFinalStart");
     }
 
     @Override
-    public void beforeJFinalStop() {
+    public void onStop() {
     	//TimeUtils.startTime("start lambkit beforeJFinalStop");
-        Lambkit.me().getModule().beforeJFinalStop();
+        Lambkit.me().getModule().onStop();
         //TimeUtils.endTime("start lambkit beforeJFinalStop");
     }
     

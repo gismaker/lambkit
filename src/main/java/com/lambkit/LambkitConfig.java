@@ -23,9 +23,8 @@ public class LambkitConfig {
 	private String name = "";
     private String version = "0.2-alpha1";
     private String mode = LambkitMode.DEV.getValue();
-    private boolean bannerEnable = true;
-    private String bannerFile = "banner.txt";
-    private String jfinalConfig = DefaultJFinalConfig.class.getName();
+    private boolean lmsActived = false;
+    private String encryptKey = "n1gEgB3/NiGrOxdT9IxWxA==";
     
     private String autoRegisterControllerPackages;
     private String autoRegisterTagPackages;
@@ -33,27 +32,10 @@ public class LambkitConfig {
     private String autoRegisterModulePackages;
     private String autoRegisterServicePackages;
     
-    private String encryptKey = "e607857331855d81593b568a03c070d0";
-
     public String getVersion() {
         return version;
     }
 
-    public boolean isBannerEnable() {
-        return bannerEnable;
-    }
-
-    public void setBannerEnable(boolean bannerEnable) {
-        this.bannerEnable = bannerEnable;
-    }
-
-    public String getBannerFile() {
-        return bannerFile;
-    }
-
-    public void setBannerFile(String bannerFile) {
-        this.bannerFile = bannerFile;
-    }
 
     public String getMode() {
 		return mode;
@@ -63,23 +45,12 @@ public class LambkitConfig {
 		this.mode = mode;
 	}
 
-    public String getJfinalConfig() {
-        return jfinalConfig;
-    }
-
-    public void setJfinalConfig(String jfinalConfig) {
-        this.jfinalConfig = jfinalConfig;
-    }
-
-
     @Override
     public String toString() {
         return "LambkitConfig {" +
                 "version='" + version + '\'' +
                 ", mode='" + mode + '\'' +
-                ", bannerEnable=" + bannerEnable +
-                ", bannerFile='" + bannerFile + '\'' +
-                ", jfinalConfig='" + jfinalConfig + '\'' +
+                ", lmsActived=" + lmsActived +
                 '}';
     }
 
@@ -89,14 +60,6 @@ public class LambkitConfig {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getEncryptKey() {
-		return encryptKey;
-	}
-
-	public void setEncryptKey(String encryptKey) {
-		this.encryptKey = encryptKey;
 	}
 
 	public String getAutoRegisterControllerPackages() {
@@ -137,5 +100,25 @@ public class LambkitConfig {
 
 	public void setAutoRegisterServicePackages(String autoRegisterServicePackages) {
 		this.autoRegisterServicePackages = autoRegisterServicePackages;
+	}
+
+
+	public boolean isLmsActived() {
+		return lmsActived;
+	}
+
+
+	public void setLmsActived(boolean lmsActived) {
+		this.lmsActived = lmsActived;
+	}
+
+
+	public String getEncryptKey() {
+		return encryptKey;
+	}
+
+
+	public void setEncryptKey(String encryptKey) {
+		this.encryptKey = encryptKey;
 	}
 }

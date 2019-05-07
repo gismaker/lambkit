@@ -76,7 +76,7 @@ public class UpmsEmbeddedModule extends LambkitModule {
 	}
 	
 	@Override
-	public void afterJFinalStart() {
+	public void onStart() {
 		UpmsManager.me().addTag(this);
 		UpmsConfig config = ConfigManager.me().get(UpmsConfig.class);
 		UpmsManager.me().registerService(config.getRpcGroup(), config.getRpcVersion(), config.getRpcPort());

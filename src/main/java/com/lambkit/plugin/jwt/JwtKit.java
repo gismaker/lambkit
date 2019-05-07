@@ -29,17 +29,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 public class JwtKit {
 
-    public static String header = "Authorization";  // 默认请求头标识符
-    public static String tokenPrefix = "Lambkit ";    // 默认token前缀
-    public static String secret = "default";         // 默认私钥
-    public static Long expirationSecond = 604800L;          // 默认失效时间(秒)
     public static IJwtUserService userService = null;//  需要注入的服务参数
-    public static String cacheName = "jwtcache";
 
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
-
+    
     public static void resetCache(String userName) {
+    	JwtConfig config = Lambkit.config(JwtConfig.class);
+    	String cacheName = config.getCacheName();
     	Lambkit.me().getCache().remove(cacheName, userName);
     	IJwtAble user = userService.getJwtAbleInfo(userName);
     	if(user!=null) {
@@ -59,6 +56,9 @@ public class JwtKit {
             throw new TokenConfigException("userService", "空/null");
         IJwtAble user = userService.login(userName, password);
         if (user == null) return null;
+        JwtConfig config = Lambkit.config(JwtConfig.class);
+        String cacheName = config.getCacheName();
+        String tokenPrefix = config.getTokenPrefix();
         // 构建服务器端储存对象
         Lambkit.me().getCache().put(cacheName, userName, user);// 在服务器端储存jwtBean
         //jwtStore.set(userName, user);
@@ -88,6 +88,9 @@ public class JwtKit {
     public static String refreshToken(String token) {
         if (userService == null)
             throw new TokenConfigException("userService", "空/null");
+        JwtConfig config = Lambkit.config(JwtConfig.class);
+        String cacheName = config.getCacheName();
+        String tokenPrefix = config.getTokenPrefix();
         if (token == null || token.length() < tokenPrefix.length())
             throw new TokenConfigException("token", "被解析");
         String trueToken = token.substring(tokenPrefix.length(), token.length());
@@ -127,6 +130,8 @@ public class JwtKit {
      */
     public static IJwtAble getJwtBean(String jwtUser, Date created) {
         IJwtAble jwtBean = null;
+        JwtConfig config = Lambkit.config(JwtConfig.class);
+        String cacheName = config.getCacheName();
         try {
             jwtBean = (IJwtAble) Lambkit.me().getCache().get(cacheName, jwtUser);
             if (created == null || jwtBean == null || created.before(jwtBean.getLastModifyPasswordTime()))/* 如果创建时间在修改密码之前 **/ {
@@ -192,6 +197,8 @@ public class JwtKit {
      */
     private static Claims getClaimsFromToken(String token) {
         Claims claims;
+        JwtConfig config = Lambkit.config(JwtConfig.class);
+        String secret = config.getSecret();
         try {
             claims = Jwts.parser()
                     .setSigningKey(secret)
@@ -223,6 +230,8 @@ public class JwtKit {
      * @returns
      */
     private static String generateToken(Map<String, Object> claims) {
+    	JwtConfig config = Lambkit.config(JwtConfig.class);
+        String secret = config.getSecret();
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generateExpirationDate())
@@ -236,6 +245,8 @@ public class JwtKit {
      * @return
      */
     private static Date generateExpirationDate() {
+    	JwtConfig config = Lambkit.config(JwtConfig.class);
+        Long expirationSecond = config.getExpirationSecond();
         return new Date(System.currentTimeMillis() + expirationSecond * 1000);
     }
 

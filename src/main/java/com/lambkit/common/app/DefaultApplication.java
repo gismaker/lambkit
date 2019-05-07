@@ -55,7 +55,7 @@ public class DefaultApplication extends LambkitApplication {
 	public boolean startAfter() {
 		// TODO Auto-generated method stub
 		LambkitModule module = Lambkit.me().getModule();
-		module.afterJFinalStart();
+		module.onStart();
 		TimeUtils.endTime("start lambkit app");
 		return true;
 	}
@@ -78,7 +78,7 @@ public class DefaultApplication extends LambkitApplication {
 		}
 		plugins.getPluginList().clear();
 		plugins = null;
-		module.beforeJFinalStop();
+		module.onStop();
 		return true;
 	}
 

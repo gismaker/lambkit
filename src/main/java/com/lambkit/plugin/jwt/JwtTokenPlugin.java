@@ -16,6 +16,7 @@
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.IPlugin;
+import com.lambkit.Lambkit;
 
 /**
  * FOR : 配置插件的接口
@@ -27,7 +28,9 @@ public class JwtTokenPlugin implements IPlugin {
      * @param userService       登录方法的接口实现
      */
     public JwtTokenPlugin(IJwtUserService userService) {
-        this(JwtKit.secret,JwtKit.expirationSecond,userService);
+    	if (userService == null)
+            throw new TokenConfigException("userService", "空/null");
+    	JwtKit.userService = userService;
     }
 
     /**
@@ -38,7 +41,7 @@ public class JwtTokenPlugin implements IPlugin {
      * @param userService       登录方法的接口实现
      */
     public JwtTokenPlugin(String secret, Long expiration, IJwtUserService userService) {
-        this(JwtKit.header,JwtKit.tokenPrefix,secret,expiration,userService);
+        this(null, null, secret, expiration, userService);
     }
 
     /**
@@ -51,25 +54,40 @@ public class JwtTokenPlugin implements IPlugin {
      * @param userService      登录方法的接口实现
      */
     public JwtTokenPlugin(String header, String tokenPrefix, String secret, Long expiration, IJwtUserService userService) {
-        if (StrKit.isBlank(header))
-            throw new TokenConfigException("Header", "空/null");
-        JwtKit.header = header;
-        if (null == tokenPrefix)
-            throw new TokenConfigException("TokenPrefix", "null");
-        JwtKit.tokenPrefix = tokenPrefix;
-        if (StrKit.isBlank(secret))
-            throw new TokenConfigException("私钥", "空/null");
-        JwtKit.secret = secret;
-        if (!StrKit.notNull(expiration) || StrKit.isBlank(expiration.toString()))
-            throw new TokenConfigException("失效时间", "空/null");
-        JwtKit.expirationSecond = expiration;
+        if (StrKit.notBlank(header)) 
+        	Lambkit.setBootArg("lambkit.jwt.header", header);
+        if (StrKit.notBlank(header)) 
+        	Lambkit.setBootArg("lambkit.jwt.tokenPrefix", tokenPrefix);
+        if (StrKit.notBlank(secret))
+        	Lambkit.setBootArg("lambkit.jwt.secret", secret);
+        if (StrKit.notNull(expiration) && StrKit.notBlank(expiration.toString()))
+        	Lambkit.setBootArg("lambkit.jwt.expirationSecond", expiration);
         if (userService == null)
             throw new TokenConfigException("userService", "空/null");
         JwtKit.userService = userService;
     }
+        
+   public void check() {
+	   JwtConfig config = Lambkit.config(JwtConfig.class);
+	   String header = config.getHeader();
+	   String tokenPrefix = config.getTokenPrefix();
+	   String secret = config.getSecret();
+	   Long expiration = config.getExpirationSecond();
+	   if (StrKit.isBlank(header)) 
+           throw new TokenConfigException("Header", "空/null");
+       if (null == tokenPrefix)
+           throw new TokenConfigException("TokenPrefix", "null");
+       if (StrKit.isBlank(secret))
+           throw new TokenConfigException("私钥", "空/null");
+       if (!StrKit.notNull(expiration) || StrKit.isBlank(expiration.toString()))
+           throw new TokenConfigException("失效时间", "空/null");
+       if (JwtKit.userService == null)
+           throw new TokenConfigException("userService", "空/null");
+   }
 
     @Override
     public boolean start() {
+    	check();
         return true;
     }
 

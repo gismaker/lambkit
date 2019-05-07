@@ -67,7 +67,7 @@ public class UpmsClientModule extends LambkitModule {
 	}
 	
 	@Override
-	public void afterJFinalStart() {
+	public void onStart() {
 		// TODO Auto-generated method stub\
 		UpmsManager.me().addTag(this);
 		UpmsConfig config = ConfigManager.me().get(UpmsConfig.class);

@@ -53,7 +53,7 @@ public class MetaMgrModule extends LambkitModule {
 	}
 
 	@Override
-	public void afterJFinalStart() {
+	public void onStart() {
 		// TODO Auto-generated method stub
 		MetaMgrManager.me().addTag(this);
 		MetaMgrManager.me().registerLocalService();

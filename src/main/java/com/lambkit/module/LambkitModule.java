@@ -70,9 +70,9 @@ public abstract class LambkitModule {
 	
 	public void configHandler(Handlers me) {}
 	
-	public void afterJFinalStart(){}
+	public void onStart(){}
 	
-	public void beforeJFinalStop(){}
+	public void onStop(){}
 
 	public void addDirective(Engine engine, String name, Class<? extends Directive> tm) {
 		engine.addDirective(name, tm);
