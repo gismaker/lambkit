@@ -19,8 +19,8 @@ import java.util.Set;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.cron4j.Cron4jPlugin;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ClassUtils;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.hearbeat.annotation.HeartBeatTask;
 
 public class HeartBeatManager {

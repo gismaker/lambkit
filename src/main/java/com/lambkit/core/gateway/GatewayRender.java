@@ -739,7 +739,7 @@ public class GatewayRender extends Render {
 			// "%" characters, to avoid double-encoding
 			uri.append(encodeUriQuery(fragment, false));
 		}
-		if (Lambkit.me().isDevMode()) {
+		if (Lambkit.isDevMode()) {
 			System.out.println("proxy request url: " + uri.toString());
 		}
 		return uri.toString();

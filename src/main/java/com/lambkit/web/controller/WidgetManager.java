@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 
 public class WidgetManager {
 

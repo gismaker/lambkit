@@ -213,7 +213,7 @@ public class MgrDbPro {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			if(Lambkit.me().isDevMode()) System.out.println(sql);
+			if(Lambkit.isDevMode()) System.out.println(sql);
 			pstmt.execute();
 			pstmt.close();
 		} catch (SQLException e) {
@@ -231,7 +231,7 @@ public class MgrDbPro {
 		try {
 			Connection conn = getNewConnection();
 			pstmt = conn.prepareStatement(sql);
-			if(Lambkit.me().isDevMode()) System.out.println(sql);
+			if(Lambkit.isDevMode()) System.out.println(sql);
 			pstmt.execute();
 			pstmt.close();
 		} catch (SQLException e) {

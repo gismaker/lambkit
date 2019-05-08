@@ -12,30 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-package com.lambkit.common.app;
+ */package com.lambkit.core.aop;
 
-import com.lambkit.Lambkit;
-import com.lambkit.module.LambkitModule;
+import com.jfinal.aop.AopFactory;
 
-public abstract class LambkitApplication {
+public class LambkitAopFactory extends AopFactory {
 
-	public LambkitModule getModule() {
-		return Lambkit.me().getModule();
-	}
-
-	public boolean run() {
-		if (start()) {
-			return startAfter();
+	public <T> T getSingleton(Class<T> targetClass) {
+		try {
+			return doGetSingleton(targetClass);
+		} catch (ReflectiveOperationException e) {
+			e.printStackTrace();
+			return null;
 		}
-		return false;
 	}
-
-	protected abstract boolean start();
-
-	protected abstract boolean startAfter();
-
-	public abstract boolean restart();
-
-	public abstract boolean stop();
 }

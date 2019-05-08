@@ -18,7 +18,7 @@ package com.lambkit.core.serializer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.exception.LambkitAssert;
 
 

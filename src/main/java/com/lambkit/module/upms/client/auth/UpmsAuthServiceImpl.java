@@ -27,9 +27,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.base.BaseResult;
 import com.lambkit.common.util.EncryptUtils;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.plugin.auth.AuthManager;

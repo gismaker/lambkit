@@ -1,7 +1,9 @@
 package com.lambkit.test.web.controller;
 
 import com.jfinal.config.Routes;
+import com.lambkit.Application;
 import com.lambkit.Lambkit;
+import com.lambkit.LambkitApplication;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.web.controller.BaseController;
 import com.lambkit.web.controller.annotation.RequestMapping;
@@ -23,8 +25,8 @@ public class TestController extends BaseController {
     			me.add("/", TestController.class, "");
     		}
 		};
-		Lambkit.me().addModule(config);
+		Lambkit.addModule(config);
 		
-		Lambkit.run(null);
+		LambkitApplication.run(Application.class, null);
 	}
 }

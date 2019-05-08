@@ -62,7 +62,7 @@ public class EventManager {
 	}
 	
 	private void initListeners() {
-		LambkitConfig config = Lambkit.me().getLambkitConfig();
+		LambkitConfig config = Lambkit.getLambkitConfig();
 		String packages = config.getAutoRegisterEventPackages();
 		if(StrKit.isBlank(packages)) {
 			packages = "com.lambkit";

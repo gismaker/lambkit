@@ -4,11 +4,7 @@ import java.util.Map;
 
 import com.beust.jcommander.internal.Maps;
 import com.jfinal.kit.PathKit;
-import com.lambkit.Lambkit;
-import com.lambkit.common.app.DefaultApplication;
-import com.lambkit.common.app.LambkitApplication;
 import com.lambkit.generator.GeneratorType;
-import com.lambkit.generator.Generator;
 import com.lambkit.generator.GeneratorConfig;
 import com.lambkit.generator.GeneratorManager;
 

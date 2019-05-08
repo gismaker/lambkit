@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.aop;
+package com.lambkit.core.aop;
 
 import com.jfinal.aop.Enhancer;
 import com.jfinal.log.Log;

@@ -122,7 +122,7 @@ public class GetewayHandler extends Handler {
 				targetHost = URIUtils.extractHost(targetUriObj);
 				targetUri = turl;
 			}
-			if(Lambkit.me().isDevMode()) {
+			if(Lambkit.isDevMode()) {
 				System.out.println();
 				System.out.println("Lambkit http proxy report -------- " + sdf.get().format(new Date()) + " -------------------------");
 				//System.out.println("http-proxy: " + targetName + " from " + sourceUrlpattern + " to " + targetUri);

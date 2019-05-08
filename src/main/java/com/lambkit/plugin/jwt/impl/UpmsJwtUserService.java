@@ -23,8 +23,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.EncryptUtils;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.module.upms.common.UpmsConfig;

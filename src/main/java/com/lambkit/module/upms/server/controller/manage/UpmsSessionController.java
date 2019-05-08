@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.server.controller.manage;
 
 import com.lambkit.web.controller.BaseController;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.upms.client.shiro.ShiroRedisSessionDao;
 import com.lambkit.module.upms.common.UpmsResult;
 import com.lambkit.module.upms.common.UpmsResultConstant;

@@ -1,8 +1,8 @@
 package test.method;
 import java.lang.reflect.Method;
 
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ArrayUtils;
+import com.lambkit.core.aop.AopKit;
 
 public class TestMethod {
 

@@ -74,7 +74,7 @@ public class GatewayManager {
 	
 	public void init(Handlers me) {
 		for (GatewayConfig config : gatewayConfigs.values()) {
-			if(Lambkit.me().isDevMode()) {
+			if(Lambkit.isDevMode()) {
 				System.out.println("Gateway: " + config.getName() + " from " + config.getUrlpattern() + " to " + config.getTargetUri());
 			}
 			me.add(new GetewayHandler(config));

@@ -18,9 +18,9 @@ package com.lambkit.core.config;
 import com.jfinal.kit.*;
 import com.jfinal.log.Log;
 import com.lambkit.Lambkit;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.StringUtils;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.annotation.PropertieConfig;
 import com.lambkit.exception.LambkitException;
 
@@ -54,7 +54,7 @@ public class ConfigManager {
     }
     
     public String getValue(String key) {
-    	String value = Lambkit.getBootArg(key);
+    	String value = Lambkit.getArg(key);
     	if (StringUtils.isBlank(value)) {
     		value = prop.get(key);
     	}
@@ -62,7 +62,7 @@ public class ConfigManager {
     }
     
     public boolean containsKey(String key) {
-    	if(StrKit.notBlank(Lambkit.getBootArg(key))) {
+    	if(StrKit.notBlank(Lambkit.getArg(key))) {
     		return true;
     	}
     	if(prop.containsKey(key)) {
@@ -153,7 +153,7 @@ public class ConfigManager {
      * @return
      */
     private String getValueByKey(String key) {
-    	String value = Lambkit.getBootArg(key);
+    	String value = Lambkit.getArg(key);
     	if (StringUtils.isBlank(value)) {
     		value = prop.get(key);
     	}

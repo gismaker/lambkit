@@ -33,7 +33,7 @@ public class LambkitDruidStatViewHandler extends DruidStatViewHandler {
 	@Override
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 		if (target.startsWith(visitPath)) {
-			if(Lambkit.me().isDevMode()) {
+			if(Lambkit.isDevMode()) {
 				super.handle(target, request, response, isHandled);
 				return;
 			} else if (AuthManager.me().hasUser(request)) {

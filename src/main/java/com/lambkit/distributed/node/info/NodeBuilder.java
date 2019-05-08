@@ -36,7 +36,7 @@ public class NodeBuilder {
 	}
 
 	public Node createNode(NodeType ntype) {
-		String name = Lambkit.me().getLambkitConfig().getName();
+		String name = Lambkit.getLambkitConfig().getName();
 		String host = "127.0.0.1";
 		String ip = host;
 		InetAddress localHost;
@@ -51,7 +51,7 @@ public class NodeBuilder {
 		name = StrKit.isBlank(name) ? node.getType() + "-" + node.getId() : name;
 		node.setName(name);
 		// node.setContexPath(RequestManager.me().contexPath());
-		LambkitConfig config = Lambkit.me().getLambkitConfig();
+		LambkitConfig config = Lambkit.getLambkitConfig();
 		node.setProjectName(config.getName());
 		node.setProjectMode(config.getMode());
 		node.setProjectVersion(config.getVersion());
@@ -62,7 +62,7 @@ public class NodeBuilder {
 	public Node initNode(Node node) {
 		if(node==null) return createNode();
 		if(StrKit.isBlank(node.getName())) {
-			String name = Lambkit.me().getLambkitConfig().getName();
+			String name = Lambkit.getLambkitConfig().getName();
 			name = StrKit.isBlank(name) ? node.getType() + "-" + node.getId() : name;
 			node.setName(name);
 		}
@@ -90,7 +90,7 @@ public class NodeBuilder {
 		if(node.getPort() < 0) {
 			node.setPort(p);
 		}
-		LambkitConfig config = Lambkit.me().getLambkitConfig();
+		LambkitConfig config = Lambkit.getLambkitConfig();
 		node.setProjectName(config.getName());
 		node.setProjectMode(config.getMode());
 		node.setProjectVersion(config.getVersion());

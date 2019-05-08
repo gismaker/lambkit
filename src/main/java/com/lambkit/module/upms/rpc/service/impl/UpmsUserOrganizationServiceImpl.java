@@ -18,8 +18,8 @@ package com.lambkit.module.upms.rpc.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserOrganizationService;
 import com.lambkit.module.upms.rpc.model.UpmsUserOrganization;

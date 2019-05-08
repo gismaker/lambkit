@@ -5,8 +5,8 @@ import java.util.List;
 import com.jfinal.kit.Kv;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
-import com.lambkit.common.app.DefaultApplication;
-import com.lambkit.common.app.LambkitApplication;
+import com.lambkit.Application;
+import com.lambkit.LambkitApplication;
 import com.lambkit.generator.code.CodeGenerator;
 import com.lambkit.generator.code.CodeMeta;
 import com.lambkit.generator.code.CodeMetaBuilder;
@@ -51,15 +51,16 @@ public class CodeGeneratorTest {
 	}
 	
 	public static void main(String[] args) {
-		LambkitApplication server = new DefaultApplication();
-		server.run();
+		LambkitApplication application = new LambkitApplication(Application.class);
+		application.setWebEnvironment(false);
+		application.run(args);
 		
 		Kv data = Kv.by("tableRemovePrefixes", "upms_");
 		data.set("includedTables", "upms_log");
 		CodeGeneratorTest cg = new CodeGeneratorTest();
 		cg.generate("test.generator", data);
 		
-		server.stop();
+		application.stop();
 		System.out.println("-----------------over---------------");
 	}
 }

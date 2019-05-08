@@ -1,8 +1,10 @@
 package com.lambkit.test.node;
 
 import com.jfinal.config.Routes;
+import com.lambkit.Application;
 import com.lambkit.Lambkit;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.LambkitApplication;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.manager.ManagerNodeServiceImp;
@@ -50,13 +52,13 @@ public class ManagerNodeServer extends BaseController {
     			me.add("/", ManagerNodeServer.class, "");
     		}
 		};
-		Lambkit.me().addModule(config);
-		Lambkit.setBootArg("lambkit.server.webAppDir", "src/main/webapp");
-		Lambkit.setBootArg("lambkit.node.use", "true");
-		Lambkit.setBootArg("lambkit.node.major", "lambkit-manager-node");
-		Lambkit.setBootArg("lambkit.node.id", "lambkit-manager-node");
-		Lambkit.setBootArg("lambkit.node.type", "ManagerNode");
-		Lambkit.setBootArg("lambkit.server.port", 9527);
-		Lambkit.run(args);
+		Lambkit.addModule(config);
+		Lambkit.setArg("lambkit.server.webAppDir", "src/main/webapp");
+		Lambkit.setArg("lambkit.node.use", "true");
+		Lambkit.setArg("lambkit.node.major", "lambkit-manager-node");
+		Lambkit.setArg("lambkit.node.id", "lambkit-manager-node");
+		Lambkit.setArg("lambkit.node.type", "ManagerNode");
+		Lambkit.setArg("lambkit.server.port", 9527);
+		LambkitApplication.run(Application.class, args);
 	}
 }

@@ -15,7 +15,7 @@
  */
 package test.service;
 
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.exception.LambkitException;
 
 public class UserServiceImpl implements UserService {

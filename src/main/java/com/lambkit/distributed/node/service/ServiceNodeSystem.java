@@ -18,7 +18,7 @@ package com.lambkit.distributed.node.service;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;

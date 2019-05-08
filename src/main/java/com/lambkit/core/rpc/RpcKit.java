@@ -20,7 +20,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 
 public class RpcKit {

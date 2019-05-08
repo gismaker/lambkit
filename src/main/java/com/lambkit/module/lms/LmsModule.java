@@ -42,7 +42,7 @@ import com.lambkit.system.controller.SystemIndexController;
 import com.lambkit.system.controller.TagController;
 import com.lambkit.web.handler.LambkitDruidStatViewHandler;
 
-public class LambkitManageSystemModule extends LambkitModule {
+public class LmsModule extends LambkitModule {
 
 	@Override
 	public void configRoute(Routes routes) {

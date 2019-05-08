@@ -18,7 +18,7 @@ package com.lambkit.module.upms.server.controller.manage;
 import com.alibaba.fastjson.JSONArray;
 import com.jfinal.plugin.activerecord.Page;
 import com.lambkit.web.controller.BaseController;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.common.UpmsResult;
 import com.lambkit.module.upms.common.UpmsResultConstant;

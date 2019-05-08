@@ -32,18 +32,9 @@ public class LambkitConfig {
     private String autoRegisterModulePackages;
     private String autoRegisterServicePackages;
     
-    public String getVersion() {
-        return version;
+	public boolean isDevMode() {
+        return LambkitMode.DEV.getValue().equals(mode);
     }
-
-
-    public String getMode() {
-		return mode;
-	}
-
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
 
     @Override
     public String toString() {
@@ -53,6 +44,22 @@ public class LambkitConfig {
                 ", lmsActived=" + lmsActived +
                 '}';
     }
+    
+    public String getVersion() {
+        return version;
+    }
+    
+    public void setVersion(String version) {
+		this.version = version;
+	}
+
+    public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
 
 	public String getName() {
 		return name;

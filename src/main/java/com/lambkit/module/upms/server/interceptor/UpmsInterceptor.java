@@ -21,7 +21,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 

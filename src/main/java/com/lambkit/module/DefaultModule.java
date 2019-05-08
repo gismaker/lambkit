@@ -28,7 +28,6 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
-import com.jfinal.json.FastJsonFactory;
 import com.jfinal.json.JsonManager;
 import com.jfinal.json.MixedJsonFactory;
 import com.jfinal.kit.PathKit;
@@ -79,7 +78,7 @@ public class DefaultModule extends LambkitModule {
 	 */
 	public void configConstant(Constants me) {
 		TimeUtils.startTime("start lambkit module");
-		me.setDevMode(Lambkit.me().isDevMode());
+		me.setDevMode(Lambkit.isDevMode());
 		me.setMaxPostSize(1024 * 1024 * 2000);
 		me.setReportAfterInvocation(false);
         //me.setControllerFactory(ControllerManager.me());
@@ -92,7 +91,7 @@ public class DefaultModule extends LambkitModule {
 		me.setErrorView(403, PropKit.get("permissionUrl", "/needPermission"));
 		if(modules==null) modules = new ArrayList<LambkitModule>();
 		//自动扫描加入module
-		if(StrKit.notBlank(Lambkit.me().getLambkitConfig().getAutoRegisterModulePackages())) {
+		if(StrKit.notBlank(Lambkit.getLambkitConfig().getAutoRegisterModulePackages())) {
 			autoRegisterModule();
 		}
 		for (LambkitModule module : modules) {
@@ -111,7 +110,7 @@ public class DefaultModule extends LambkitModule {
         	routes.add(swaggerConfig.getUrl(), SwaggerController.class, swaggerConfig.getPath());
         }
         //自动扫描加入RequestMapping
-        if(StrKit.notBlank(Lambkit.me().getLambkitConfig().getAutoRegisterControllerPackages())) {
+        if(StrKit.notBlank(Lambkit.getLambkitConfig().getAutoRegisterControllerPackages())) {
         	autoRegisterRequestMapping(routes);
         }
         
@@ -138,7 +137,7 @@ public class DefaultModule extends LambkitModule {
         addDirective(engine, "now", NowDirective.class);
         addDirective(engine, "long2date", com.lambkit.web.directive.DateDirective.class);
         //自动扫描加入JFinalDirective
-        if(StrKit.notBlank(Lambkit.me().getLambkitConfig().getAutoRegisterTagPackages())) {
+        if(StrKit.notBlank(Lambkit.getLambkitConfig().getAutoRegisterTagPackages())) {
         	autoRegisterEngine(engine);
         }
 		for (LambkitModule module : modules) {

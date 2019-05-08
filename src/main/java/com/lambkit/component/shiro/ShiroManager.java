@@ -20,10 +20,10 @@ import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Directive;
 import com.jfinal.template.Engine;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.ClassUtils;
 import com.lambkit.component.shiro.processer.*;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.web.directive.annotation.JFinalDirective;
 
 import org.apache.shiro.authz.annotation.*;

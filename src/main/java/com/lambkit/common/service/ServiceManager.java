@@ -17,7 +17,7 @@
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcConfig;
 import com.lambkit.core.rpc.RpcKit;

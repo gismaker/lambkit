@@ -16,10 +16,9 @@
 package com.lambkit.core.mq;
 
 import com.jfinal.config.Plugins;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.mq.activemq.ActiveMQ;
 import com.lambkit.core.mq.zubs.ZbusMq;
-import com.lambkit.core.mq.zubs.ZbusReceiver;
 import com.lambkit.module.LambkitModule;
 
 public class MqManager extends LambkitModule {
@@ -64,19 +63,5 @@ public class MqManager extends LambkitModule {
     	// TODO Auto-generated method stub
     	super.configPlugin(me);
     	me.add(this.getPlugin());
-    }
-    
-    @Override
-    public void test() {
-    	// TODO Auto-generated method stub
-    	Mq mq = getMq();
-		ZbusReceiver<String> zr = new ZbusReceiver<String>("MyTopic") {
-			@Override
-			public void handle(String msg) {
-				// TODO Auto-generated method stub
-				System.out.println("[zbus receiver message]" + msg);
-			}
-		};
-		mq.addReceiver(zr);
     }
 }

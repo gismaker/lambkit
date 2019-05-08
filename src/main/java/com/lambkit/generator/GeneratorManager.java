@@ -17,10 +17,10 @@ package com.lambkit.generator;
 
 import java.util.Map;
 
+import com.lambkit.Application;
 import com.lambkit.Lambkit;
-import com.lambkit.common.aop.AopKit;
-import com.lambkit.common.app.DefaultApplication;
-import com.lambkit.common.app.LambkitApplication;
+import com.lambkit.LambkitApplication;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.generator.impl.CommonGenerator;
 import com.lambkit.generator.impl.DatabaseGenerator;
 import com.lambkit.generator.impl.MgrdbGenerator;
@@ -66,10 +66,10 @@ public class GeneratorManager {
 		String mgrdb = config.getMgrdb();
 		switch (mgrdb) {
         case "normal":
-        	Lambkit.me().addModule(new SysconfigModule());
+        	Lambkit.addModule(new SysconfigModule());
         	break;
         case "meta":
-        	Lambkit.me().addModule(new MetaMgrModule());
+        	Lambkit.addModule(new MetaMgrModule());
         	break;
         default:
         	break;
@@ -164,11 +164,13 @@ public class GeneratorManager {
 		if(config==null) {
 			config = Lambkit.config(GeneratorConfig.class);
 		}
-		LambkitApplication server = new DefaultApplication();
 		//初始化生成工具
 		GeneratorManager.me().init(config);
+		//创建应用
+		LambkitApplication application = new LambkitApplication(Application.class);
+		application.setWebEnvironment(false);
 		//启动应用
-		server.run();
+		application.run(null);
 		//创建生成器
 		Generator g = GeneratorManager.me().getDefaultGenerator();
 		//执行
@@ -176,6 +178,6 @@ public class GeneratorManager {
 		
 		System.out.println("-------over-------");
 		//结束应用
-		server.stop();
+		application.stop();
 	}
 }

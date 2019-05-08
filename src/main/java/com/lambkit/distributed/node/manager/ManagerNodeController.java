@@ -15,7 +15,7 @@
  */
 package com.lambkit.distributed.node.manager;
 
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.web.controller.BaseController;

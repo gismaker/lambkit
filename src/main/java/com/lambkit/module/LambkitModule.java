@@ -30,8 +30,8 @@ import com.jfinal.template.Directive;
 import com.jfinal.template.Engine;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitConfig;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ClassUtils;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.module.annotation.Module;
 import com.lambkit.system.SystemManager;
@@ -49,11 +49,6 @@ import freemarker.template.TemplateModel;
  */
 public abstract class LambkitModule {
 	
-	/**
-	 * 开发的时候测试
-	 */
-	public void test() {}
-
 	public void configConstant(Constants me) {}
 	
 	public void configRoute(Routes me) {}
@@ -86,6 +81,7 @@ public abstract class LambkitModule {
 		FreeMarkerRender.getConfiguration().setSharedVariable(name, tm);
 		SystemManager.me().addTag(name, new TagInfo("freemarker", tm.getClass().getName(), tm.getClass().getSimpleName()));
 	}
+	
 	/**
 	 * 加入其他配置
 	 * @param config
@@ -93,12 +89,12 @@ public abstract class LambkitModule {
 	public void addModule(LambkitModule config) {}
 	
 	public List<LambkitModule> getModules() { return null;}
-	
+
 	/**
 	 * 自动扫描加入module
 	 */
 	public void autoRegisterModule() {
-		LambkitConfig config = Lambkit.me().getLambkitConfig();
+		LambkitConfig config = Lambkit.getLambkitConfig();
     	if(StrKit.notBlank(config.getAutoRegisterModulePackages())) {
     		Set<Class<?>> ctrlClassSet = ClassUtils.scanPackageByAnnotation(config.getAutoRegisterModulePackages(), true, Module.class);
             for (Class<?> clazz : ctrlClassSet) {
@@ -115,9 +111,10 @@ public abstract class LambkitModule {
 	 * @param routes
 	 */
 	public void autoRegisterRequestMapping(Routes routes) {
-		WebConfig web = Lambkit.config(WebConfig.class);
-        LambkitConfig config = Lambkit.me().getLambkitConfig();
+		
+        LambkitConfig config = Lambkit.getLambkitConfig();
     	if(StrKit.notBlank(config.getAutoRegisterControllerPackages())) {
+    		WebConfig web = Lambkit.config(WebConfig.class);
     		Set<Class<?>> ctrlClassSet = ClassUtils.scanPackageByAnnotation(config.getAutoRegisterControllerPackages(), true, RequestMapping.class);
             for (Class<?> clazz : ctrlClassSet) {
             	System.out.println("clazz:"+clazz.getName());
@@ -144,7 +141,7 @@ public abstract class LambkitModule {
 	 * @param engine
 	 */
 	public void autoRegisterEngine(Engine engine) {
-		LambkitConfig config = Lambkit.me().getLambkitConfig();
+		LambkitConfig config = Lambkit.getLambkitConfig();
         if(StrKit.notBlank(config.getAutoRegisterTagPackages())) {
         	Set<Class<?>> directiveClasses = ClassUtils.scanPackageByAnnotation(config.getAutoRegisterTagPackages(), true, JFinalDirective.class);
             for (Class<?> clazz : directiveClasses) {

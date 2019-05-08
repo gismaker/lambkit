@@ -15,7 +15,7 @@
  */
 package com.lambkit.core.rpc;
 
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.motan.MotanRpc;
 

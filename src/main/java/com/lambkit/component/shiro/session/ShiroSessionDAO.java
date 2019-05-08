@@ -70,7 +70,7 @@ public class ShiroSessionDAO extends AbstractSessionDAO {
             LogKit.error("session id is null");
             return null;
         }
-        return Lambkit.me().getCache().get(SHIRO_KEY, serializable);
+        return Lambkit.getCache().get(SHIRO_KEY, serializable);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ShiroSessionDAO extends AbstractSessionDAO {
         if (null == session || null == session.getId()) {
             LogKit.error("session or session id is null");
         } else {
-        	Lambkit.me().getCache().remove(SHIRO_KEY, session.getId());
+        	Lambkit.getCache().remove(SHIRO_KEY, session.getId());
             LogKit.debug("delete success shiro key " + session.getId());
         }
     }
@@ -105,7 +105,7 @@ public class ShiroSessionDAO extends AbstractSessionDAO {
      */
     public Collection<Session> getActiveSessions() {
         Set<Session> sessions = new HashSet<Session>();
-        Map map = Lambkit.me().getCache().getAll(SHIRO_KEY);
+        Map map = Lambkit.getCache().getAll(SHIRO_KEY);
         if (ArrayUtils.isNotEmpty(map)) {
             Set<Map.Entry> entrySet = map.entrySet();
             for (Map.Entry entry : entrySet) {
@@ -125,7 +125,7 @@ public class ShiroSessionDAO extends AbstractSessionDAO {
             LogKit.error("session or session id is null");
             return;
         }
-        Lambkit.me().getCache().put(SHIRO_KEY, session.getId(), session, this.expire);
+        Lambkit.getCache().put(SHIRO_KEY, session.getId(), session, this.expire);
     }
 
 }

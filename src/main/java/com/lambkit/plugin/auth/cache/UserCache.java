@@ -23,7 +23,7 @@ public class UserCache extends UserCacheBase {
 	@Override
 	public ICache getCache() {
 		// TODO Auto-generated method stub
-		return Lambkit.me().getCache();
+		return Lambkit.getCache();
 	}
 
 }

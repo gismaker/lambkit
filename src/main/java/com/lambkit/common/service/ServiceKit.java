@@ -14,7 +14,7 @@
  * limitations under the License.
  */package com.lambkit.common.service;
 
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 
 public class ServiceKit {
 

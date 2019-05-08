@@ -19,7 +19,7 @@ import com.jfinal.config.Plugins;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.redis.RedisPlugin;
 import com.lambkit.Lambkit;
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 
 public class RedisManager {
 	private static RedisManager manager;

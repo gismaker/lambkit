@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Lambkit</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+		<link rel="stylesheet" href="#(ctx)/assets/login/css/bootstrap.css">
+		<link rel="stylesheet" href="#(ctx)/assets/login/iconfont/style.css">
+		<link rel="stylesheet" href="#(ctx)/assets/login/css/style.css">
+	</head>
+
+	<body>
+		<div class="container wrap1" style="height:450px;">
+			<h2 class="text-center">Lambkit 管理平台</h2>
+			<div class="col-sm-8 col-md-5 center-auto pd-sm-50 pd-xs-20 main_content">
+				<!--  <p class="text-center font16">用户登录</p> -->
+				<div class="form-group mg-t20">
+					<i class="icon-user icon_font"></i>
+					<input type="text" class="login_input" id="username" name="username" placeholder="请输入用户名" />
+				</div>
+				<div class="form-group mg-t20">
+					<i class="icon-lock icon_font"></i>
+					<input type="password" class="login_input" id="password" name="password" placeholder="请输入密码" />
+				</div>
+				<div class="form-group mg-t20">
+					<i class="icon-agentpay icon_font"></i>
+					<input type="text" id="captcha" name="captcha" placeholder="请输入验证码" />
+					<img src="#(ctx)/captcha" alt="" id="verifyImg" onclick="javascript:this.src='#(ctx)/captcha?'+Math.random();">
+				</div>
+				<div class="checkbox mg-b25">
+					<label>
+                            <input id="rememberMe" type="checkbox" />记住我的登录信息
+                        </label>
+				</div>
+				<button class="login_btn">登 录</button>
+			</div>
+			<!--row end-->
+		</div>
+		<!--container end-->
+
+		<script type="text/javascript" src="#(ctx)/lambkit/assets/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				// 点击登录按钮
+				$('.login_btn').click(function() {
+					login();
+				});
+				// 回车事件
+				$('#username, #password, #captcha').keypress(function(event) {
+					if(13 == event.keyCode) {
+						login();
+					}
+				});
+			});
+
+			// 登录
+			function login() {
+				$.ajax({
+					url: '#(ctx)/lambkit/login',
+					type: 'POST',
+					data: {
+						username: $('#username').val(),
+						password: $('#password').val(),
+						captcha: $('#captcha').val(),
+						rememberMe: $('#rememberMe').is(':checked'),
+						backurl: '#if(backurl??)#(backurl)#else#(ctx)#end'
+					},
+					beforeSend: function() {
+
+					},
+					success: function(json) {
+						if(json.code == 1) {
+							location.href = "/";
+						} else {
+							alert(json.data);
+							if(10101 == json.code) {
+								$('#username').focus();
+							}
+							if(10102 == json.code) {
+								$('#password').focus();
+							}
+							if(10106 == json.code) {
+								$('#captcha').focus();
+							}
+						}
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

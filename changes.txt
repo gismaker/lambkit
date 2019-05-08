@@ -1,4 +1,14 @@
 -----------------------------
+lambkit-0.2-alpha2：
+
+新增：增加Msch工具类，简化生成器代码
+新增：增加ActiveMQ消息功能支持
+新增：增加Redis集群支持
+优化：优化jwt参数配置方式
+删除：删除DevelopModule，改用LmsModule
+删除：删除部分未实现的类
+
+-----------------------------
 lambkit-0.2-alpha1：
 
 新增：保留原server中的AppServer，更改为DefaultApplication。

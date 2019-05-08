@@ -16,7 +16,7 @@
 package com.lambkit.distributed.node.redis;
 
 
-import com.lambkit.common.aop.AopKit;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.distributed.node.NodeRedisManager;
 import com.lambkit.distributed.node.info.Node;
 import com.lambkit.distributed.node.info.NodeBuilder;

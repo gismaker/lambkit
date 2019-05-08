@@ -16,9 +16,9 @@
 package com.lambkit.module.upms.common;
 
 import com.lambkit.Lambkit;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.ServiceManager;
 import com.lambkit.common.util.ScanJarStringSource;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;

@@ -24,7 +24,6 @@ public class ServerSystemInfo {
 	String javaVersion;
 	String currentTime;
 	
-	
 	public String getName() {
 		return name;
 	}

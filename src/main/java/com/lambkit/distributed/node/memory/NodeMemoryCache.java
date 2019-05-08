@@ -100,7 +100,7 @@ public class NodeMemoryCache implements NodeMemory {
 	}
     
     public ICache getCache() {
-		return Lambkit.me().getCache();
+		return Lambkit.getCache();
 	}
 
 	public String getCacheName() {

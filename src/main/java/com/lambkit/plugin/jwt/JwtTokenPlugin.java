@@ -55,13 +55,13 @@ public class JwtTokenPlugin implements IPlugin {
      */
     public JwtTokenPlugin(String header, String tokenPrefix, String secret, Long expiration, IJwtUserService userService) {
         if (StrKit.notBlank(header)) 
-        	Lambkit.setBootArg("lambkit.jwt.header", header);
+        	Lambkit.setArg("lambkit.jwt.header", header);
         if (StrKit.notBlank(header)) 
-        	Lambkit.setBootArg("lambkit.jwt.tokenPrefix", tokenPrefix);
+        	Lambkit.setArg("lambkit.jwt.tokenPrefix", tokenPrefix);
         if (StrKit.notBlank(secret))
-        	Lambkit.setBootArg("lambkit.jwt.secret", secret);
+        	Lambkit.setArg("lambkit.jwt.secret", secret);
         if (StrKit.notNull(expiration) && StrKit.notBlank(expiration.toString()))
-        	Lambkit.setBootArg("lambkit.jwt.expirationSecond", expiration);
+        	Lambkit.setArg("lambkit.jwt.expirationSecond", expiration);
         if (userService == null)
             throw new TokenConfigException("userService", "空/null");
         JwtKit.userService = userService;

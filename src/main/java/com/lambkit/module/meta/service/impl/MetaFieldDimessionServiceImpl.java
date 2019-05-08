@@ -15,8 +15,8 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaFieldDimessionService;
 import com.lambkit.module.meta.model.MetaFieldDimession;

@@ -1,21 +1,10 @@
 package com.lambkit.test.db.mgr.meta;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.beust.jcommander.internal.Maps;
-import com.jfinal.plugin.activerecord.Config;
-import com.jfinal.plugin.activerecord.DbKit;
-import com.lambkit.Lambkit;
-import com.lambkit.common.app.DefaultApplication;
-import com.lambkit.common.app.LambkitApplication;
-import com.lambkit.db.datasource.DataSourceConfig;
-import com.lambkit.db.meta.MetaBuilder;
-import com.lambkit.db.meta.TableMeta;
+import com.lambkit.db.mgr.MgrdbConfig;
 import com.lambkit.db.mgr.MgrdbManager;
-import com.lambkit.db.mgr.MgrdbService;
-import com.lambkit.module.sysconfig.SysconfigModule;
 
 /**
  * Sysconfig表格配置初始化
@@ -31,14 +20,14 @@ public class SysconfigInitTest {
 		options.put("excludedTables", "meta_correlation, bak_user,sys_fieldconfig, sys_tableconfig");
 		//仅包含如下数据表
 		//options.put("includedTables", "meta_app, meta_app_api, meta_app_store, meta_correlation, meta_doc, meta_field, meta_field_edit, meta_field_join, meta_field_list, meta_field_map, meta_field_olap, meta_map, meta_resource_level, meta_store_db, meta_store_resource, meta_table, meta_theme");
-		MgrdbManager.me().run(options, "sysconfig");
+		MgrdbManager.me().run(options, MgrdbConfig.SYSCONFIG);
 	}
 	/*
 	public static void main(String[] args) {
-		Lambkit.setBootArg("lambkit.server.type", "applicaiton");
-		LambkitApplication server = new DefaultApplication();
-		Lambkit.me().addModule(new SysconfigModule());
-		server.run();
+		LambkitApplication application = new LambkitApplication(Application.class);
+		application.addModule(new MetaMgrModule());
+		application.setWebEnvironment(false);
+		application.run(args);
 
 		SysconfigInitTest metaHelp = new SysconfigInitTest();
 		MgrdbService service = MgrdbManager.me().getService();
@@ -57,7 +46,7 @@ public class SysconfigInitTest {
         }
 		System.out.println("-------over-------");
 
-		server.stop();
+		application.stop();
 	}
 
 	public Map<String, TableMeta> getTableMetas(Map<String, Object> options) {

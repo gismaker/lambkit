@@ -16,8 +16,8 @@
 package com.lambkit.module.meta.service.impl;
 
 import com.jfinal.plugin.activerecord.Db;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.meta.service.MetaFileService;
 import com.lambkit.module.meta.model.MetaFile;
 

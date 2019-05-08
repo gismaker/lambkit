@@ -37,10 +37,10 @@ public class JwtKit {
     public static void resetCache(String userName) {
     	JwtConfig config = Lambkit.config(JwtConfig.class);
     	String cacheName = config.getCacheName();
-    	Lambkit.me().getCache().remove(cacheName, userName);
+    	Lambkit.getCache().remove(cacheName, userName);
     	IJwtAble user = userService.getJwtAbleInfo(userName);
     	if(user!=null) {
-    		Lambkit.me().getCache().put(cacheName, userName, user);// 在服务器端储存jwtBean
+    		Lambkit.getCache().put(cacheName, userName, user);// 在服务器端储存jwtBean
     	}
     }
 
@@ -60,7 +60,7 @@ public class JwtKit {
         String cacheName = config.getCacheName();
         String tokenPrefix = config.getTokenPrefix();
         // 构建服务器端储存对象
-        Lambkit.me().getCache().put(cacheName, userName, user);// 在服务器端储存jwtBean
+        Lambkit.getCache().put(cacheName, userName, user);// 在服务器端储存jwtBean
         //jwtStore.set(userName, user);
         //writeFile();
         // 用userName创建token
@@ -97,7 +97,7 @@ public class JwtKit {
         if (isTokenExpired(trueToken)) { // 如果已经过期
             // 解析出用户名
             String userName = getJwtUser(trueToken);
-            IJwtAble jwtBean = (IJwtAble) Lambkit.me().getCache().get(cacheName, userName);
+            IJwtAble jwtBean = (IJwtAble) Lambkit.getCache().get(cacheName, userName);
             if(jwtBean == null) return token;
             return generateToken(userName); // 在此匹配生成token
         }
@@ -133,7 +133,7 @@ public class JwtKit {
         JwtConfig config = Lambkit.config(JwtConfig.class);
         String cacheName = config.getCacheName();
         try {
-            jwtBean = (IJwtAble) Lambkit.me().getCache().get(cacheName, jwtUser);
+            jwtBean = (IJwtAble) Lambkit.getCache().get(cacheName, jwtUser);
             if (created == null || jwtBean == null || created.before(jwtBean.getLastModifyPasswordTime()))/* 如果创建时间在修改密码之前 **/ {
                 jwtBean = null;
             }

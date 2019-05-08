@@ -20,9 +20,9 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.lambkit.Lambkit;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.StringUtils;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.cache.CacheManager;
 import com.lambkit.db.datasource.ActiveRecordBuilder;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
@@ -101,7 +101,7 @@ public class DbManager {
             if (datasourceConfig.isConfigOk()) {
 
                 ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(plugin, datasourceConfig);
-                activeRecordPlugin.setShowSql(Lambkit.me().isDevMode());
+                activeRecordPlugin.setShowSql(Lambkit.isDevMode());
                 activeRecordPlugin.setCache(CacheManager.me().getCache());
 
                 configSqlTemplate(datasourceConfig, activeRecordPlugin);

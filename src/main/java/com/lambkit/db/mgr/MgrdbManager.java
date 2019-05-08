@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jfinal.kit.StrKit;
+import com.lambkit.Application;
 import com.lambkit.Lambkit;
-import com.lambkit.common.app.DefaultApplication;
-import com.lambkit.common.app.LambkitApplication;
+import com.lambkit.LambkitApplication;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.db.meta.MetaKit;
 import com.lambkit.db.meta.TableMeta;
@@ -95,11 +95,11 @@ public class MgrdbManager {
 	}
 	
 	public void run(Map<String, Object> options, String type) {
-		Lambkit.setBootArg("lambkit.server.type", "applicaiton");
-		LambkitApplication server = new DefaultApplication();
+		LambkitApplication application = new LambkitApplication(Application.class);
+		application.setWebEnvironment(false);
 		LambkitModule module = getLambkitModule(type);
-		if(module!=null) Lambkit.me().addModule(module);
-		server.run();
+		if(module!=null) Lambkit.addModule(module);
+		application.run(null);
 		MgrdbService service = MgrdbManager.me().getService();
 		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);
 		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
@@ -107,6 +107,6 @@ public class MgrdbManager {
 			service.tableToMgrdb(entry.getValue());
         }
 		System.out.println("-------over-------");
-		server.stop();
+		application.stop();
 	}
 }

@@ -17,9 +17,9 @@ package com.lambkit.module.upms.server.controller;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.web.controller.BaseController;
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.component.swagger.annotation.Api;
 import com.lambkit.component.swagger.annotation.ApiOperation;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.model.*;
 import com.lambkit.module.upms.rpc.model.sql.UpmsSystemCriteria;

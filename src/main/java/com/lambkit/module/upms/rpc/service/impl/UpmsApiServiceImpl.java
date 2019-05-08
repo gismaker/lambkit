@@ -15,7 +15,6 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.component.shiro.processer.AuthorizeResult;
 import com.lambkit.component.shiro.processer.IShiroAuthorizeProcesser;
 import com.lambkit.component.shiro.processer.ShiroRequiresAuthenticationProcesser;
@@ -23,6 +22,7 @@ import com.lambkit.component.shiro.processer.ShiroRequiresGuestProcesser;
 import com.lambkit.component.shiro.processer.ShiroRequiresPermissionsProcesser;
 import com.lambkit.component.shiro.processer.ShiroRequiresRolesProcesser;
 import com.lambkit.component.shiro.processer.ShiroRequiresUserProcesser;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.QueryParas;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.model.*;
