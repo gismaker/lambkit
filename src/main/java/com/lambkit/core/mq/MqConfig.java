@@ -15,6 +15,9 @@
  */
 package com.lambkit.core.mq;
 
+import com.lambkit.core.config.annotation.PropertieConfig;
+
+@PropertieConfig(prefix = "lambkit.mq")
 public class MqConfig {
     public static final String TYPE_REDIS = "redis";
     public static final String TYPE_ACTIVEMQ = "activemq";

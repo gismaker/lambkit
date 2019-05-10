@@ -47,7 +47,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.render.Render;
 import com.lambkit.Lambkit;
-import com.lambkit.exception.LambkitException;
+import com.lambkit.common.exception.LambkitException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;

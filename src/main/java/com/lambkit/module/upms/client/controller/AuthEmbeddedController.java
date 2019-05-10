@@ -30,7 +30,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.redis.Redis;
-import com.lambkit.common.base.BaseResult;
+import com.lambkit.common.BaseResult;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.RedisUtil;

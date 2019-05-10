@@ -17,6 +17,11 @@ package com.lambkit.distributed.node.api;
 
 import java.io.Serializable;
 
+/**
+ * Api监控，运行时间和执行时间
+ * @author yangyong
+ *
+ */
 public class NodeApiMonitor implements Serializable {
 
 	/**

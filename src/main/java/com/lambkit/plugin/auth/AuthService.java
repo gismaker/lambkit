@@ -19,7 +19,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.lambkit.common.base.BaseResult;
+import com.lambkit.common.BaseResult;
 import com.lambkit.plugin.auth.IUser;
 
 public interface AuthService {

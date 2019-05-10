@@ -16,15 +16,15 @@
 package com.lambkit.core.rpc;
 
 import com.jfinal.plugin.IPlugin;
-import com.lambkit.system.SystemManager;
-import com.lambkit.system.info.RpcInfo;
+import com.lambkit.common.LambkitManager;
+import com.lambkit.common.info.RpcInfo;
 
 public abstract class RpcPlugin implements IPlugin, Rpc {
 
 	@Override
 	public <T> boolean serviceExport(Class<T> interfaceClass, Object object, String group, String version, int port) {
 		// TODO Auto-generated method stub
-		SystemManager.me().addRpc(new RpcInfo(interfaceClass.getName(), group, version, port));
+		LambkitManager.me().addRpc(new RpcInfo(interfaceClass.getName(), group, version, port));
 		return false;
 	}
 

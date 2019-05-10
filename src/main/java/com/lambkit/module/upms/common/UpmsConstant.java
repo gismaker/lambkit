@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.common;
 
-import com.lambkit.common.base.Consts;
+import com.lambkit.common.Consts;
 
 /**
  * upms系统常量类 

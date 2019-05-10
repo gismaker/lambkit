@@ -29,7 +29,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.common.base.ResultJson;
+import com.lambkit.common.ResultJson;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.RequestUtils;
 import com.lambkit.common.util.StringUtils;

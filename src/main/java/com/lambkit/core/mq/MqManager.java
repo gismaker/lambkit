@@ -16,6 +16,7 @@
 package com.lambkit.core.mq;
 
 import com.jfinal.config.Plugins;
+import com.lambkit.Lambkit;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.mq.activemq.ActiveMQ;
 import com.lambkit.core.mq.zubs.ZbusMq;
@@ -32,23 +33,26 @@ public class MqManager extends LambkitModule {
         return manager;
     }
 
-
     private MqPlugin mq;
 
-    public Mq getMq() {
-    	return getPlugin();
+    public MqPlugin getMq(MqConfig config) {
+    	if(config==null) {
+    		return getPlugin();
+    	} else {
+    		return buildMq(config.getType());
+    	}
     }
     
     public MqPlugin getPlugin() {
         if (mq == null) {
-            mq = buildMq();
+        	 MqConfig config = Lambkit.config(MqConfig.class);
+            mq = buildMq(config.getType());
         }
         return mq;
     }
-
-    private MqPlugin buildMq() {
-        MqConfig config = new MqConfig();
-        switch (config.getType()) {
+    
+    private MqPlugin buildMq(String type) {
+        switch (type) {
             case MqConfig.TYPE_ZBUS:
                 return new ZbusMq();
             case MqConfig.TYPE_ACTIVEMQ:

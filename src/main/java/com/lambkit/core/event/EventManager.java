@@ -31,7 +31,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.lambkit.Lambkit;
-import com.lambkit.LambkitConfig;
+import com.lambkit.common.LambkitConfig;
 import com.lambkit.common.util.ClassUtils;
 import com.lambkit.core.event.annotation.Listener;
 

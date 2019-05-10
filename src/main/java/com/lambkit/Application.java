@@ -18,7 +18,7 @@ package com.lambkit;
 import com.jfinal.config.*;
 import com.jfinal.log.Log;
 import com.jfinal.template.Engine;
-import com.lambkit.common.base.Consts;
+import com.lambkit.common.Consts;
 import com.lambkit.core.event.EventKit;
 import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.module.LambkitModule;

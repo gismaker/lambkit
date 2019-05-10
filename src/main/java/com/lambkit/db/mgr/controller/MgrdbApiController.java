@@ -38,7 +38,7 @@ import com.lambkit.db.mgr.MgrdbValidator;
 import com.lambkit.db.mgr.Pivot;
 import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.db.sql.condition.SqlBuilder;
-import com.lambkit.common.base.ResultJson;
+import com.lambkit.common.ResultJson;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.web.WebConfig;

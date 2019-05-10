@@ -18,11 +18,11 @@ package com.lambkit.core.config;
 import com.jfinal.kit.*;
 import com.jfinal.log.Log;
 import com.lambkit.Lambkit;
+import com.lambkit.common.exception.LambkitException;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.annotation.PropertieConfig;
-import com.lambkit.exception.LambkitException;
 
 import java.lang.reflect.Method;
 import java.util.*;

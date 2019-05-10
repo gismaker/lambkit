@@ -26,11 +26,11 @@ import javax.sql.DataSource;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.lambkit.common.exception.LambkitException;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.aop.AopKit;
-import com.lambkit.db.TableMapping;
-import com.lambkit.db.TableMappingManager;
-import com.lambkit.exception.LambkitException;
+import com.lambkit.db.TableWrapper;
+import com.lambkit.db.TableManager;
 
 import io.shardingsphere.api.config.ShardingRuleConfiguration;
 import io.shardingsphere.api.config.TableRuleConfiguration;
@@ -73,9 +73,9 @@ public class ActiveRecordBuilder {
 
          ShardingRuleConfiguration shardingRuleConfiguration = new ShardingRuleConfiguration();
 
-         List<TableMapping> tableInfos = TableMappingManager.me().getTablesInfos(datasourceConfig.getTable(), datasourceConfig.getExcludeTable());
+         List<TableWrapper> tableInfos = TableManager.me().getTablesInfos(datasourceConfig.getTable(), datasourceConfig.getExcludeTable());
          StringBuilder bindTableGroups = new StringBuilder();
-         for (TableMapping ti : tableInfos) {
+         for (TableWrapper ti : tableInfos) {
              TableRuleConfiguration tableRuleConfiguration = getTableRuleConfiguration(ti);
              shardingRuleConfiguration.getTableRuleConfigs().add(tableRuleConfiguration);
              bindTableGroups.append(ti.getTableName()).append(",");
@@ -94,7 +94,7 @@ public class ActiveRecordBuilder {
          }
     }
     
-    private TableRuleConfiguration getTableRuleConfiguration(TableMapping tableInfo) {
+    private TableRuleConfiguration getTableRuleConfiguration(TableWrapper tableInfo) {
         TableRuleConfiguration tableRuleConfig = new TableRuleConfiguration();
         tableRuleConfig.setLogicTable(tableInfo.getTableName());
 

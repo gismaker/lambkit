@@ -19,9 +19,9 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.core.http.api.Api;
 import com.lambkit.distributed.node.NodeConstants;
 import com.lambkit.distributed.node.NodeManager;
+import com.lambkit.web.api.Api;
 
 /**
  * 节点的api，nodes保存的是map[nodeid, runtime],通过qps选举出最快的api给client端使用

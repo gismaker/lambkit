@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.common;
 
-import com.lambkit.common.base.BaseResult;
+import com.lambkit.common.BaseResult;
 
 /**
  * upms系统常量枚举类

@@ -26,7 +26,7 @@ import org.apache.shiro.subject.Subject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.redis.Redis;
-import com.lambkit.common.base.BaseResult;
+import com.lambkit.common.BaseResult;
 import com.lambkit.common.util.RedisUtil;
 import com.lambkit.component.shiro.session.ShiroSession;
 import com.lambkit.core.aop.AopKit;

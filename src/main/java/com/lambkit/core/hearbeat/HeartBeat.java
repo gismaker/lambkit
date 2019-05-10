@@ -15,7 +15,7 @@
  */
 package com.lambkit.core.hearbeat;
 
-import com.lambkit.core.http.api.FrequencyMonitorLog;
+import com.lambkit.core.api.FrequencyMonitorLog;
 
 /**
  * 心跳监测

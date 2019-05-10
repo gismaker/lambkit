@@ -15,7 +15,7 @@
  */
 package com.lambkit.module;
 
-import com.lambkit.common.base.Consts;
+import com.lambkit.common.Consts;
 import com.lambkit.core.event.Event;
 import com.lambkit.core.event.EventListener;
 import com.lambkit.core.event.annotation.Listener;

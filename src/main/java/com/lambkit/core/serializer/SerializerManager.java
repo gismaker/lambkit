@@ -18,8 +18,8 @@ package com.lambkit.core.serializer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.lambkit.common.exception.LambkitAssert;
 import com.lambkit.core.aop.AopKit;
-import com.lambkit.exception.LambkitAssert;
 
 
 public class SerializerManager {

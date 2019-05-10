@@ -17,7 +17,7 @@ package com.lambkit.distributed.node.controller;
 
 import java.util.List;
 
-import com.lambkit.common.base.ResultKit;
+import com.lambkit.common.ResultKit;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.info.Node;
 import com.lambkit.distributed.node.info.NodeBuilder;

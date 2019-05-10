@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.http.HttpRequest;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.common.base.Consts;
+import com.lambkit.common.Consts;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.info.Node;

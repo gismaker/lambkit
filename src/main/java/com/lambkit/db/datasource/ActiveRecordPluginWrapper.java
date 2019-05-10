@@ -18,8 +18,11 @@ package com.lambkit.db.datasource;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Config;
 import com.jfinal.plugin.activerecord.Model;
-import com.lambkit.system.SystemManager;
-import com.lambkit.system.info.TableMappingInfo;
+import com.lambkit.common.LambkitManager;
+import com.lambkit.common.info.TableMappingInfo;
+import com.lambkit.db.DbManager;
+import com.lambkit.db.TableManager;
+import com.lambkit.db.TableWrapper;
 
 public class ActiveRecordPluginWrapper {
 
@@ -40,13 +43,19 @@ public class ActiveRecordPluginWrapper {
 	
 	public ActiveRecordPluginWrapper addMapping(String tableName, String primaryKey, Class<? extends Model<?>> modelClass) {
 		arp.addMapping(tableName, primaryKey, modelClass);
-		SystemManager.me().addMapping(new TableMappingInfo(arp.getConfig().getName(), tableName, primaryKey, modelClass.getName()));
+		String configName = arp.getConfig().getName();
+		LambkitManager.me().addMapping(new TableMappingInfo(configName, tableName, primaryKey, modelClass.getName()));
+		TableWrapper tableWrapper = TableManager.me().addMapping(configName, tableName, primaryKey, modelClass);
+		DbManager.me().addTable(configName, tableWrapper);
 		return this;
 	}
 	
 	public ActiveRecordPluginWrapper addMapping(String tableName, Class<? extends Model<?>> modelClass) {
 		arp.addMapping(tableName, modelClass);
-		SystemManager.me().addMapping(new TableMappingInfo(arp.getConfig().getName(), tableName, "", modelClass.getName()));
+		String configName = arp.getConfig().getName();
+		LambkitManager.me().addMapping(new TableMappingInfo(configName, tableName, "", modelClass.getName()));
+		TableWrapper tableWrapper = TableManager.me().addMapping(configName, tableName, "", modelClass);
+		DbManager.me().addTable(configName, tableWrapper);
 		return this;
 	}
 	
@@ -64,4 +73,5 @@ public class ActiveRecordPluginWrapper {
 		arp.setBaseSqlTemplatePath(baseSqlTemplatePath);
 		return this;
 	}
+
 }

@@ -18,7 +18,7 @@ package com.lambkit.module.meta.web.controller.manage;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.common.base.ResultJson;
+import com.lambkit.common.ResultJson;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.sql.condition.ConditionBuilder;

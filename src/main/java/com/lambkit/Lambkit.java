@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.jfinal.kit.StrKit;
+import com.lambkit.common.LambkitConfig;
 import com.lambkit.core.cache.CacheManager;
 import com.lambkit.core.cache.ICache;
 import com.lambkit.core.config.ConfigManager;

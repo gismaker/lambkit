@@ -21,6 +21,7 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -39,7 +40,8 @@ import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.template.Engine;
 import com.jfinal.template.ext.directive.NowDirective;
 import com.lambkit.Lambkit;
-import com.lambkit.common.base.Consts;
+import com.lambkit.common.Consts;
+import com.lambkit.common.LambkitManager;
 import com.lambkit.common.util.TimeUtils;
 import com.lambkit.component.ehcache.EhcacheConfig;
 import com.lambkit.component.redis.RedisConfig;
@@ -53,13 +55,13 @@ import com.lambkit.core.event.EventKit;
 import com.lambkit.core.rpc.RpcConfig;
 import com.lambkit.core.rpc.RpcManager;
 import com.lambkit.db.DbManager;
+import com.lambkit.db.DbWrapper;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.controller.NodeIndexController;
-import com.lambkit.system.SystemManager;
-import com.lambkit.system.controller.HelpIndexController;
-import com.lambkit.system.monitor.ApiMontiorHandler;
+import com.lambkit.module.lms.controller.HelpIndexController;
 import com.lambkit.web.ControllerManager;
+import com.lambkit.web.api.ApiMontiorHandler;
 import com.lambkit.web.cache.ActionCacheHandler;
 import com.lambkit.web.handler.LambkitHandler;
 import com.lambkit.web.interceptor.CommonInterceptor;
@@ -97,7 +99,7 @@ public class DefaultModule extends LambkitModule {
 		for (LambkitModule module : modules) {
 			module.configConstant(me);
 		}
-		SystemManager.me().getInfo().setConstants(me);
+		LambkitManager.me().getInfo().setConstants(me);
 	}
 	
 	/**
@@ -126,7 +128,7 @@ public class DefaultModule extends LambkitModule {
 		
 		routes.add("/lambkit/node", NodeIndexController.class, "/lambkit/node");
 		routes.add("/lambkit/help", HelpIndexController.class, "/lambkit/help");
-		SystemManager.me().getInfo().setRoutes(routes);
+		LambkitManager.me().getInfo().setRoutes(routes);
 	}
 	
 	public void configEngine(Engine engine) {
@@ -169,9 +171,9 @@ public class DefaultModule extends LambkitModule {
 			module.configPlugin(me);
 		}
 		
-		//DbManager未完成
-		List<ActiveRecordPluginWrapper> arps = DbManager.me().init(me);
-        for (ActiveRecordPluginWrapper arp : arps) {
+		Map<String, DbWrapper> dbs = DbManager.me().init(me);
+        for (DbWrapper db : dbs.values()) {
+        	ActiveRecordPluginWrapper arp = db.getArp();
         	me.add(arp.getPlugin());
         	if(DbKit.MAIN_CONFIG_NAME.equals(arp.getConfig().getName())) {
         		for (LambkitModule module : modules) {
@@ -183,7 +185,7 @@ public class DefaultModule extends LambkitModule {
         		}
         	}
         }
-		SystemManager.me().getInfo().setPlugins(me);
+		LambkitManager.me().getInfo().setPlugins(me);
 	}
 	
 	public EhCachePlugin createEhCachePlugin() {
@@ -227,7 +229,7 @@ public class DefaultModule extends LambkitModule {
 		for (LambkitModule module : modules) {
 			module.configHandler(me);
 		}
-		SystemManager.me().getInfo().setHandlers(me);
+		LambkitManager.me().getInfo().setHandlers(me);
 	}
 	
 	@Override
@@ -239,7 +241,7 @@ public class DefaultModule extends LambkitModule {
 		}
 		addTag("shiro", new ShiroTags());
 		JsonManager.me().setDefaultDatePattern("yyyy-MM-dd HH:mm:ss");
-		SystemManager.me().init();
+		LambkitManager.me().init();
 		
 		
 		

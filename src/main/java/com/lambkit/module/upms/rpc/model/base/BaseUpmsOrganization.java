@@ -16,8 +16,7 @@
 package com.lambkit.module.upms.rpc.model.base;
 
 import com.jfinal.plugin.activerecord.IBean;
-
-import com.lambkit.common.dao.BaseModel;
+import com.lambkit.common.model.BaseModel;
 
 /**
  * @author yangyong 

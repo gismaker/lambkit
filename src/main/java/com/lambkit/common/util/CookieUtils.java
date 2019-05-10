@@ -20,7 +20,7 @@ import java.math.BigInteger;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.lambkit.Lambkit;
-import com.lambkit.LambkitConfig;
+import com.lambkit.common.LambkitConfig;
 
 /**
  * 参考：spring-security 

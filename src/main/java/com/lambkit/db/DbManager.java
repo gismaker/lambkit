@@ -15,11 +15,15 @@
  */
 package com.lambkit.db;
 
+import com.beust.jcommander.internal.Maps;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.lambkit.Lambkit;
+import com.lambkit.common.LambkitManager;
+import com.lambkit.common.exception.LambkitIllegalConfigException;
+import com.lambkit.common.info.ActiveRecordInfo;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.aop.AopKit;
@@ -34,9 +38,6 @@ import com.lambkit.db.dialect.LambkitOracleDialect;
 import com.lambkit.db.dialect.LambkitPostgreSqlDialect;
 import com.lambkit.db.dialect.LambkitSqlServerDialect;
 import com.lambkit.db.dialect.LambkitSqlite3Dialect;
-import com.lambkit.exception.LambkitIllegalConfigException;
-import com.lambkit.system.SystemManager;
-import com.lambkit.system.info.ActiveRecordInfo;
 
 import java.util.*;
 
@@ -47,9 +48,7 @@ import java.util.*;
 public class DbManager {
     private static DbManager manager;
 
-
-    private List<ActiveRecordPluginWrapper> activeRecordPlugins = new ArrayList<>();
-
+    private Map<String, DbWrapper> dbWrappers = Maps.newHashMap();
 
     public static DbManager me() {
         if (manager == null) {
@@ -57,8 +56,26 @@ public class DbManager {
         }
         return manager;
     }
+    
+    public void addArp(ActiveRecordPlugin arp) {
+    	addArp(new ActiveRecordPluginWrapper(arp));
+    }
+    
+    public void addArp(ActiveRecordPluginWrapper arp) {
+    	DbWrapper db = new DbWrapper();
+    	db.setArp(arp);
+    	db.setConfigName(arp.getConfig().getName());
+    	dbWrappers.put(arp.getConfig().getName(), db);
+    }
+    
+    public void addTable(String configName, TableWrapper table) {
+    	DbWrapper db = dbWrappers.get(configName);
+    	if(db!=null) {
+    		db.addTable(table);
+    	}
+    }
 
-    public List<ActiveRecordPluginWrapper> init(Plugins plugin) {
+    public Map<String, DbWrapper> init(Plugins plugin) {
 
         // 所有的数据源
         Map<String, DataSourceConfig> datasourceConfigs = DataSourceConfigManager.me().getDatasourceConfigs();
@@ -107,10 +124,10 @@ public class DbManager {
                 configSqlTemplate(datasourceConfig, activeRecordPlugin);
                 configDialect(activeRecordPlugin, datasourceConfig);
 
-                activeRecordPlugins.add(new ActiveRecordPluginWrapper(activeRecordPlugin));
+                addArp(activeRecordPlugin);
             }
         }
-        return activeRecordPlugins;
+        return dbWrappers;
     }
 
     /**
@@ -182,7 +199,7 @@ public class DbManager {
     private ActiveRecordPlugin createRecordPlugin(Plugins plugin, DataSourceConfig config) {
         ActiveRecordPlugin activeRecordPlugin = new ActiveRecordBuilder(config).build(plugin);
         if(activeRecordPlugin!=null) {
-        	SystemManager.me().addActiveRecord(new ActiveRecordInfo(config.getName(), config.getDbname(), config));
+        	LambkitManager.me().addActiveRecord(new ActiveRecordInfo(config.getName(), config.getDbname(), config));
         }
         /**
          * 不需要添加映射的直接返回
@@ -195,12 +212,12 @@ public class DbManager {
         String configTableString = config.getTable();
         String excludeTableString = config.getExcludeTable();
         
-        List<TableMapping> TableMappings = TableMappingManager.me().getTablesInfos(configTableString, excludeTableString);
+        List<TableWrapper> TableMappings = TableManager.me().getTablesInfos(configTableString, excludeTableString);
         if (ArrayUtils.isNullOrEmpty(TableMappings)) {
             return activeRecordPlugin;
         }
 
-        for (TableMapping ti : TableMappings) {
+        for (TableWrapper ti : TableMappings) {
             if (StringUtils.isNotBlank(ti.getPrimaryKey())) {
                 activeRecordPlugin.addMapping(ti.getTableName(), ti.getPrimaryKey(), (Class<? extends Model<?>>) ti.getModelClass());
             } else {
@@ -211,9 +228,7 @@ public class DbManager {
         return activeRecordPlugin;
     }
 
-
-    public List<ActiveRecordPluginWrapper> getActiveRecordPlugins() {
-        return activeRecordPlugins;
-    }
-
+	public Map<String, DbWrapper> getDbWrappers() {
+		return dbWrappers;
+	}
 }

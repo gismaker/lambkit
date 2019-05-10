@@ -27,7 +27,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.lambkit.common.dao.BaseModel;
+import com.lambkit.common.model.BaseModel;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.db.dialect.IModelDialect;
 import com.lambkit.db.sql.IQuery;

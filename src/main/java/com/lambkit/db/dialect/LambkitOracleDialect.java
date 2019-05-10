@@ -25,7 +25,7 @@ import com.lambkit.db.sql.QueryParas;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.db.sql.column.Columns;
 import com.lambkit.db.sql.column.Example;
-import com.lambkit.exception.LambkitException;
+import com.lambkit.common.exception.LambkitException;
 import com.lambkit.common.util.ArrayUtils;
 
 import java.util.List;

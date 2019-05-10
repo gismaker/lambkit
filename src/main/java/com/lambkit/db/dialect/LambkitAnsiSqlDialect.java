@@ -18,7 +18,7 @@ package com.lambkit.db.dialect;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.plugin.activerecord.dialect.AnsiSqlDialect;
-import com.lambkit.exception.LambkitException;
+import com.lambkit.common.exception.LambkitException;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.db.sql.ConditionMode;
 import com.lambkit.db.sql.QueryParas;

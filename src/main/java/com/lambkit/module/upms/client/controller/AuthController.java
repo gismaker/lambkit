@@ -22,7 +22,7 @@ import org.apache.shiro.subject.Subject;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Clear;
-import com.lambkit.common.base.BaseResult;
+import com.lambkit.common.BaseResult;
 import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.module.upms.client.auth.SsoAuthenticate;

@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jfinal.kit.StrKit;
+import com.lambkit.common.exception.LambkitException;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcConfig;
 import com.lambkit.core.rpc.RpcPlugin;
-import com.lambkit.exception.LambkitException;
 import com.weibo.api.motan.common.MotanConstants;
 import com.weibo.api.motan.config.ProtocolConfig;
 import com.weibo.api.motan.config.RefererConfig;
