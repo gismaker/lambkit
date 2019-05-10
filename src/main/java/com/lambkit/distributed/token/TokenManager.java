@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.http.HttpRequest;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.common.Consts;
+import com.lambkit.common.LambkitConsts;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.info.Node;
@@ -94,11 +94,11 @@ public class TokenManager {
 	 * @param request
 	 */
 	public void setRequestToken(HttpRequest request) {
-		request.setHeader(Consts.LAMBKIT_TOKEN, getNodeToken(NodeManager.me().getNode()));
+		request.setHeader(LambkitConsts.LAMBKIT_TOKEN, getNodeToken(NodeManager.me().getNode()));
 	}
 	
 	public String getRequestToken(HttpServletRequest servletRequest) {
-		return servletRequest.getHeader(Consts.LAMBKIT_TOKEN);
+		return servletRequest.getHeader(LambkitConsts.LAMBKIT_TOKEN);
 	}
 
 	/**

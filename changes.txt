@@ -2,11 +2,18 @@
 lambkit-0.2-alpha2：
 
 新增：增加Msch工具类，简化生成器代码
-新增：增加ActiveMQ消息功能支持
-新增：增加Redis集群支持
+新增：增加支持ActiveMQ消息功能
+新增：增加支持Redis集群
+新增：增加支持Kafka消息功能
 优化：优化jwt参数配置方式
+优化：优化启动入口,改由LambkitApplication启动，启动配置改由Application
+优化：优化SystemInfo为LambkitInfo是框架内部运行信息,位置移动到com.lambkit.common
+优化：优化将数据库和表格信息的采集和存储方式（DbWrapper、TableWrapper）
+优化：优化内部api管理功能，后续还待完善
 删除：删除DevelopModule，改用LmsModule
 删除：删除部分未实现的类
+删除：删除com.lambkit.system包，更改为com.lambkit.common.monitor监控
+删除：删除com.lambkit.core.http.api，更改为com.lambkit.core.api外部Api接口管理
 
 -----------------------------
 lambkit-0.2-alpha1：

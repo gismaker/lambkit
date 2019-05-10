@@ -17,5 +17,13 @@ public class StringUtilsTest {
 		}
 		idlist = idlist.substring(0, idlist.length()-1);
 		System.out.println(idlist);
+		
+		if(StringUtils.isNumeric("15047584406")) {
+			System.out.println("15047584406是数字");
+		}
+		
+		String tb = "data_table";
+		System.out.println(tb.split("_")[0]+"_");
+		
 	}
 }

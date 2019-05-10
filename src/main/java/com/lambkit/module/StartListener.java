@@ -15,12 +15,12 @@
  */
 package com.lambkit.module;
 
-import com.lambkit.common.Consts;
+import com.lambkit.common.LambkitConsts;
 import com.lambkit.core.event.Event;
 import com.lambkit.core.event.EventListener;
 import com.lambkit.core.event.annotation.Listener;
 
-@Listener(action = Consts.EVENT_STARTED)
+@Listener(action = LambkitConsts.EVENT_STARTED)
 public class StartListener implements EventListener {
 
 	@Override

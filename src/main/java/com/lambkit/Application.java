@@ -18,7 +18,7 @@ package com.lambkit;
 import com.jfinal.config.*;
 import com.jfinal.log.Log;
 import com.jfinal.template.Engine;
-import com.lambkit.common.Consts;
+import com.lambkit.common.LambkitConsts;
 import com.lambkit.core.event.EventKit;
 import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.module.LambkitModule;
@@ -43,7 +43,7 @@ public class Application extends JFinalConfig {
 		/**
 		 * 发送初始化通知
 		 */
-		EventKit.sendEvent(Consts.EVENT_INIT, null);
+		EventKit.sendEvent(LambkitConsts.EVENT_INIT, null);
 		Lambkit.getModule().configConstant(constants);
 		// TimeUtils.endTime("start lambkit configConstant");
 	}

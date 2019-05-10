@@ -15,18 +15,18 @@
  */
 package com.lambkit.module;
 
-import com.lambkit.common.Consts;
+import com.lambkit.common.LambkitConsts;
 import com.lambkit.core.event.Event;
 import com.lambkit.core.event.EventListener;
 import com.lambkit.core.event.annotation.Listener;
 
-@Listener(action = Consts.EVENT_INIT)
+@Listener(action = LambkitConsts.EVENT_INIT)
 public class InitListener implements EventListener {
 
 	@Override
 	public void onEvent(Event event) {
 		// TODO Auto-generated method stub
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("Starting Lambkit " + Consts.LAMBKIT_VERSION);
+		System.out.println("Starting Lambkit " + LambkitConsts.LAMBKIT_VERSION);
 	}
 }

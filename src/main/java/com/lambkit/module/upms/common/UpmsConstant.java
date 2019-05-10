@@ -15,12 +15,12 @@
  */
 package com.lambkit.module.upms.common;
 
-import com.lambkit.common.Consts;
+import com.lambkit.common.LambkitConsts;
 
 /**
  * upms系统常量类 
  */
-public class UpmsConstant extends Consts {
+public class UpmsConstant extends LambkitConsts {
 
 	public static final String UPMS_TYPE = "lambkit.upms.type";
 

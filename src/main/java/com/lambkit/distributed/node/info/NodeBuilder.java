@@ -24,7 +24,7 @@ import java.net.UnknownHostException;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.lambkit.Lambkit;
-import com.lambkit.common.Consts;
+import com.lambkit.common.LambkitConsts;
 import com.lambkit.common.LambkitConfig;
 import com.lambkit.common.util.DateTimeUtils;
 
@@ -55,7 +55,7 @@ public class NodeBuilder {
 		node.setProjectName(config.getName());
 		node.setProjectMode(config.getMode());
 		node.setProjectVersion(config.getVersion());
-		node.setLambkitVersion(Consts.LAMBKIT_VERSION);
+		node.setLambkitVersion(LambkitConsts.LAMBKIT_VERSION);
 		return node;
 	}
 	
@@ -94,7 +94,7 @@ public class NodeBuilder {
 		node.setProjectName(config.getName());
 		node.setProjectMode(config.getMode());
 		node.setProjectVersion(config.getVersion());
-		node.setLambkitVersion(Consts.LAMBKIT_VERSION);
+		node.setLambkitVersion(LambkitConsts.LAMBKIT_VERSION);
 		return resetNodeInfo(node);
 	}
 

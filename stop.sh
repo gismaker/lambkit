@@ -23,7 +23,7 @@
 # ---------------------------------------------------------------------------
 
 # 启动入口类，该脚本文件用于别的项目时要改这里
-MAIN_CLASS=com.lambkit.DefaultJFinalConfig
+MAIN_CLASS=com.lambkit.Application
 
 # kill 命令不使用 -9 参数时，会回调 onStop() 方法，确定不需要此回调建议使用 -9 参数
 kill `pgrep -f ${MAIN_CLASS}` 2>/dev/null

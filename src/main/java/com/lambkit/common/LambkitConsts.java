@@ -18,9 +18,9 @@ package com.lambkit.common;
 /**
  * 全局常量
  */
-public class Consts {
+public class LambkitConsts {
 
-	public static final String LAMBKIT_VERSION = "0.2-alpha1";
+	public static final String LAMBKIT_VERSION = "0.2-alpha2";
 	
     public static final String LAMBKIT_TOKEN = "lambkit-token";
 	/**

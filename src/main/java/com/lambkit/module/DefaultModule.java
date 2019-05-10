@@ -40,7 +40,7 @@ import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.template.Engine;
 import com.jfinal.template.ext.directive.NowDirective;
 import com.lambkit.Lambkit;
-import com.lambkit.common.Consts;
+import com.lambkit.common.LambkitConsts;
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.util.TimeUtils;
 import com.lambkit.component.ehcache.EhcacheConfig;
@@ -249,7 +249,7 @@ public class DefaultModule extends LambkitModule {
 		/**
 		 * 发送启动完成通知
 		 */
-		EventKit.sendEvent(Consts.EVENT_STARTED, null);
+		EventKit.sendEvent(LambkitConsts.EVENT_STARTED, null);
 	}
 	
 	@Override
