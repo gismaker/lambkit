@@ -23,10 +23,10 @@ import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.plugin.auth.cache.UserCache;
-import com.lambkit.module.upms.client.auth.UpmsAuthServiceImpl;
-import com.lambkit.module.upms.client.shiro.ShiroClientInterceptor;
-import com.lambkit.module.upms.common.UpmsConfig;
-import com.lambkit.module.upms.common.UpmsManager;
+import com.lambkit.module.upms.UpmsAuthServiceImpl;
+import com.lambkit.module.upms.UpmsConfig;
+import com.lambkit.module.upms.UpmsInterceptor;
+import com.lambkit.module.upms.UpmsManager;
 
 public class UpmsClientModule extends LambkitModule {
 

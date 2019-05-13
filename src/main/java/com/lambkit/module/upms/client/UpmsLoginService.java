@@ -23,10 +23,11 @@ import com.lambkit.Lambkit;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.plugin.auth.AuthManager;
-import com.lambkit.module.upms.client.auth.SsoAuthenticate;
-import com.lambkit.module.upms.common.UpmsConfig;
-import com.lambkit.module.upms.common.UpmsResult;
-import com.lambkit.module.upms.common.UpmsResultConstant;
+import com.lambkit.module.upms.LoginService;
+import com.lambkit.module.upms.SsoAuthenticate;
+import com.lambkit.module.upms.UpmsConfig;
+import com.lambkit.module.upms.UpmsResult;
+import com.lambkit.module.upms.UpmsResultConstant;
 import com.lambkit.web.WebConfig;
 
 public class UpmsLoginService implements LoginService {

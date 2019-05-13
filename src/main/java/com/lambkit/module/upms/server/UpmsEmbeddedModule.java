@@ -31,22 +31,25 @@ import com.lambkit.module.upms.UpmsInterceptor;
 import com.lambkit.module.upms.UpmsManager;
 import com.lambkit.module.upms.shiro.ShiroSsoInterceptor;
 
-public class UpmsModule extends LambkitModule {
+public class UpmsEmbeddedModule extends LambkitModule {
 
-	public UpmsModule() {
+	public UpmsEmbeddedModule() {
+		// TODO Auto-generated constructor stub
 		AuthManager.me().init(UserCache.class, UpmsAuthServiceImpl.class);
 	}
 	
 	public void configRoute(Routes me) {
+		// TODO Auto-generated method stub
 		super.configRoute(me);
-		me.add(new UpmsRoutes());
+		me.add(new UpmsEmbeddedRoutes());
 	}
 	
-	
 	public void configPlugin(Plugins me) {
+		// TODO Auto-generated method stub
 	}
 	
 	public void configMapping(ActiveRecordPluginWrapper arp) {
+		// TODO Auto-generated method stub
 		UpmsConfig config = Lambkit.config(UpmsConfig.class);
 		if(StrKit.isBlank(config.getDbconfig())) {
 			UpmsManager.me().mapping(arp);
@@ -54,6 +57,7 @@ public class UpmsModule extends LambkitModule {
 	}
 	
 	public void configMapping(String name, ActiveRecordPluginWrapper arp) {
+		// TODO Auto-generated method stub
 		super.configMapping(name, arp);
 		UpmsConfig config = Lambkit.config(UpmsConfig.class);
 		System.out.println("mapping name: " + name + ", this config is " + config.getDbconfig());
@@ -64,12 +68,13 @@ public class UpmsModule extends LambkitModule {
 	
 	
 	public void configInterceptor(Interceptors me) {
+		// TODO Auto-generated method stub
 		super.configInterceptor(me);
 		//加入shiro验证
 		me.add(new ShiroSsoInterceptor());
 		me.add(new UpmsInterceptor());
 	}
-
+	
 	@Override
 	public void onStart() {
 		UpmsManager.me().addTag(this);

@@ -16,6 +16,7 @@
 package com.lambkit.module.upms.server;
 
 import com.jfinal.config.Routes;
+import com.lambkit.module.upms.server.controller.AuthEmbeddedController;
 import com.lambkit.module.upms.server.controller.ManageController;
 import com.lambkit.module.upms.server.controller.SSOController;
 import com.lambkit.module.upms.server.controller.UpmsLogController;
@@ -26,13 +27,15 @@ import com.lambkit.module.upms.server.controller.UpmsSessionController;
 import com.lambkit.module.upms.server.controller.UpmsSystemController;
 import com.lambkit.module.upms.server.controller.UpmsUserController;
 
-public class UpmsRoutes extends Routes {
+public class UpmsEmbeddedRoutes extends Routes {
 
 	
 	public void config() {
-		setBaseViewPath("/lambkit/upms");
-		add("/manage", ManageController.class);
+		// TODO Auto-generated method stub
+		setBaseViewPath("/WEB-INF/jsp");
+		add("/upms", AuthEmbeddedController.class);
 		add("/sso", SSOController.class);
+		add("/manage", ManageController.class);
 		
 		add("/manage/log", UpmsLogController.class);
 		add("/manage/organization", UpmsOrganizationController.class);

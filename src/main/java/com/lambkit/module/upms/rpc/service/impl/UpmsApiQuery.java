@@ -20,8 +20,8 @@ import java.util.List;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.lambkit.module.upms.common.UpmsConfig;
-import com.lambkit.module.upms.common.UpmsManager;
+import com.lambkit.module.upms.UpmsConfig;
+import com.lambkit.module.upms.UpmsManager;
 import com.lambkit.module.upms.rpc.model.UpmsPermission;
 import com.lambkit.module.upms.rpc.model.UpmsRole;
 

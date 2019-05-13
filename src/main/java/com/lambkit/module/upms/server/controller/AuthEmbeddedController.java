@@ -15,82 +15,55 @@
  */
 package com.lambkit.module.upms.server.controller;
 
+import java.sql.SQLException;
+import java.util.UUID;
+
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.redis.Redis;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.common.BaseResult;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.RedisUtil;
 import com.lambkit.component.shiro.session.ShiroSession;
-import com.lambkit.component.swagger.annotation.Api;
-import com.lambkit.component.swagger.annotation.ApiOperation;
 import com.lambkit.core.aop.AopKit;
-import com.lambkit.db.sql.column.Example;
+import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.module.upms.UpmsConstant;
 import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
-import com.lambkit.module.upms.rpc.model.UpmsSystem;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
 import com.lambkit.module.upms.rpc.model.UpmsUserRole;
-import com.lambkit.module.upms.rpc.model.sql.UpmsSystemCriteria;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
 import com.lambkit.module.upms.rpc.api.UpmsUserService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 import com.lambkit.module.upms.rpc.service.impl.UpmsUserServiceImpl;
 import com.lambkit.module.upms.shiro.ShiroRedisSessionDao;
+import com.lambkit.web.controller.BaseController;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresUser;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class AuthEmbeddedController extends BaseController {
 
-import java.net.URLEncoder;
-import java.sql.SQLException;
-import java.util.UUID;
-
-/**
- * 单点登录管理
- */
-//@RequestMapping("/sso")
-@Api(tag = "sso", description = "单点登录管理")
-@RequiresUser
-public class SSOController extends BaseController {
-
-    private final static Logger _log = LoggerFactory.getLogger(SSOController.class);
-    protected ShiroRedisSessionDao upmsSessionDao = AopKit.newInstance(ShiroRedisSessionDao.class);
-
-    @ApiOperation(url = "/sso", tag = "sso", httpMethod = "get", description = "认证中心首页")
-    @Clear
-    public void index() throws Exception {
-        String appid = getRequest().getParameter("appid");
-        String backurl = getRequest().getParameter("backurl");
-        if (StringUtils.isBlank(appid)) {
-            throw new RuntimeException("无效访问！");
-        }
-        // 判断请求认证系统是否注册
-        Example upmsSystemExample = UpmsSystemCriteria.create()
-                .andNameEqualTo(appid).example();
-        Long count = UpmsSystem.service().count(upmsSystemExample);
-        if (count!=null && 0 == count) {
-            throw new RuntimeException(String.format("未注册的系统:%s", appid));
-        }
-        redirect("/sso/login?appid="+appid+"&backurl=" + URLEncoder.encode(backurl, "utf-8"));
-    }
-
-    @ApiOperation(url = "/sso/login", tag = "sso", httpMethod = "get", description = "登录")
-    @Clear
+	/**
+	 * 首页
+	 */
+	public void index() {
+		renderTemplate("index.html");
+	}
+	
+	@Clear
+    public void captcha() {
+    	renderCaptcha();
+	}
+	
+	@Clear
     public void login() {
     	if (getRequest().getMethod().equals("GET")) {
     		Subject subject = SecurityUtils.getSubject();
@@ -116,10 +89,10 @@ public class SSOController extends BaseController {
                     }
                 }
                 System.out.println("认证中心帐号通过，带code回跳：{}" + backurl);
-                _log.debug("认证中心帐号通过，带code回跳：{}", backurl);
                 redirect(backurl);
             } else {
             	keepPara();
+            	//renderJsp("login.jsp");
             	renderTemplate("login.html");
             }
     	} else {
@@ -127,11 +100,6 @@ public class SSOController extends BaseController {
     	}
     }
     
-    @Clear
-    public void captcha() {
-    	renderCaptcha();
-    }
-
     private UpmsResult tologinResult() {
         String username = getRequest().getParameter("username");
         String password = getRequest().getParameter("password");
@@ -157,23 +125,12 @@ public class SSOController extends BaseController {
         String hasCode = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + sessionId);
         // code校验值
         if (StringUtils.isBlank(hasCode)) {
-            // 使用shiro认证
-            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
-            try {
-                if (BooleanUtils.toBoolean(rememberMe)) {
-                    usernamePasswordToken.setRememberMe(true);
-                } else {
-                    usernamePasswordToken.setRememberMe(false);
-                }
-                subject.login(usernamePasswordToken);
-            } catch (UnknownAccountException e) {
-                return new UpmsResult(UpmsResultConstant.INVALID_USERNAME, "帐号不存在！");
-            } catch (IncorrectCredentialsException e) {
-                return new UpmsResult(UpmsResultConstant.INVALID_PASSWORD, "密码错误！");
-            } catch (LockedAccountException e) {
-                return new UpmsResult(UpmsResultConstant.INVALID_ACCOUNT, "帐号已锁定！");
+            BaseResult result = AuthManager.me().getService().login(this.getRequest(), username, password, BooleanUtils.toBoolean(rememberMe));
+            if(result.getCode()!=UpmsResultConstant.SUCCESS.getCode()) {
+            	return (UpmsResult) result;
             }
             // 更新session状态
+            ShiroRedisSessionDao upmsSessionDao = AopKit.newInstance(ShiroRedisSessionDao.class);
             upmsSessionDao.updateStatus(sessionId, ShiroSession.OnlineStatus.on_line);
             // 全局会话sessionId列表，供会话管理
             Redis.use().lpush(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_IDS, sessionId.toString());
@@ -197,61 +154,11 @@ public class SSOController extends BaseController {
             return new UpmsResult(UpmsResultConstant.SUCCESS, backurl);
         }
     }
+	
     
-    @ApiOperation(url = "/sso/authenticate", tag = "sso", httpMethod = "get", description = "用户认证")
-    @Clear
-    public void authenticate() {
-    	String appid = getRequest().getParameter("appid");
-    	String serverSessionId = getRequest().getParameter("lussid");
-        if (StringUtils.isBlank(appid) || StringUtils.isBlank(serverSessionId)) {
-        	System.out.println("无效访问appid is null");
-        	renderJson(new UpmsResult(UpmsResultConstant.FAILED, "无效访问"));
-        	return;
-        }
-        // 判断请求认证系统是否注册
-        Example upmsSystemExample = UpmsSystemCriteria.create()
-                .andNameEqualTo(appid).example();
-        Long count = UpmsSystem.service().count(upmsSystemExample);
-        if (count!=null && 0 == count) {
-        	System.out.println(String.format("未注册的系统:%s", appid));
-            renderJson(new UpmsResult(UpmsResultConstant.FAILED, String.format("未注册的系统:%s", appid)));
-        	return;
-        }
-        // 判断是否已登录，如果已登录，则回跳
-        String code = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + serverSessionId);
-        // code校验值
-        if (StringUtils.isNotBlank(code)) {
-        	// 登录信息
-            Subject subject = SecurityUtils.getSubject();
-            String username = (String) subject.getPrincipal();
-        	System.out.println("authenticate: "+username);
-            renderJson(new UpmsResult(UpmsResultConstant.SUCCESS, username, code));
-        } else {
-        	System.out.println("无效访问unlogin");
-        	renderJson(new UpmsResult(UpmsResultConstant.FAILED, "unlogin"));
-        }
-    }
-
-    @ApiOperation(url = "/sso/code", tag = "sso", httpMethod = "get", description = "校验code")
-    @Clear
-    public void code() {
-    	renderJson(codeResult());
-    }
-    private Object codeResult() {
-        String codeParam = getRequest().getParameter("code");
-        String code = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_SERVER_CODE + "_" + codeParam);
-        if (StringUtils.isBlank(codeParam) || !codeParam.equals(code)) {
-            new UpmsResult(UpmsResultConstant.FAILED, "无效code");
-        }
-        return new UpmsResult(UpmsResultConstant.SUCCESS, code);
-    }
-
-    @ApiOperation(url = "/sso/logout", tag = "sso", httpMethod = "get", description = "退出登录")
     public void logout() {
-        // shiro退出登录
-    	SecurityUtils.getSubject().logout();
-        // 跳回原地址
-        String redirectUrl = getRequest().getHeader("Referer");
+    	BaseResult result = AuthManager.me().getService().logout(this.getRequest());
+        String redirectUrl = result.getData().toString();
         if (null == redirectUrl) {
             redirectUrl = "/";
         }
@@ -259,7 +166,7 @@ public class SSOController extends BaseController {
     }
     
     public void ajaxLogout() {
-    	SecurityUtils.getSubject().logout();
+    	AuthManager.me().getService().logout(this.getRequest());
     	renderJson(new UpmsResult(UpmsResultConstant.SUCCESS, "logout"));
     }
     
@@ -305,7 +212,8 @@ public class SSOController extends BaseController {
 		else renderJson(new UpmsResult(UpmsResultConstant.FAILED, "更新失败"));
     }
     
-    /**
+
+	/**
 	 * 用户注册
 	 */
     @Clear
@@ -392,7 +300,6 @@ public class SSOController extends BaseController {
 	}
 	
 	@Clear
-	@ApiOperation(url = "/sso/needPermission", tag = "sso", httpMethod = "get", description = "权限提示页面")
 	public void needPermission() {
 		renderTemplate("/lambkit/errors/needPermission.html");
 	}
