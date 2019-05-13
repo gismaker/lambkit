@@ -26,32 +26,32 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.handler.Handler;
 import com.jfinal.plugin.IPlugin;
-import com.lambkit.common.info.ActionMapping;
-import com.lambkit.common.info.ActiveRecordInfo;
-import com.lambkit.common.info.HandlerInfo;
-import com.lambkit.common.info.InterceptorInfo;
-import com.lambkit.common.info.PluginInfo;
-import com.lambkit.common.info.RpcInfo;
-import com.lambkit.common.info.TableMappingInfo;
-import com.lambkit.common.info.TagInfo;
+import com.lambkit.common.bean.ActionMapping;
+import com.lambkit.common.bean.ActiveRecordBean;
+import com.lambkit.common.bean.HandlerBean;
+import com.lambkit.common.bean.InterceptorBean;
+import com.lambkit.common.bean.PluginBean;
+import com.lambkit.common.bean.RpcBean;
+import com.lambkit.common.bean.TableMappingBean;
+import com.lambkit.common.bean.TagBean;
 
-public class LambkitInfo {
+public class LambkitBean {
 	private Constants constants;
 	private ActionMapping actionMapping;
-	private List<PluginInfo> plugins;
-	private List<InterceptorInfo> interceptors;
-	private List<HandlerInfo> handlers;
-	private Map<String, TagInfo> tags;
+	private List<PluginBean> plugins;
+	private List<InterceptorBean> interceptors;
+	private List<HandlerBean> handlers;
+	private Map<String, TagBean> tags;
 	//所有的表格
 	//private Map<String, Table> tables;
 	//private List<TableMeta> tableMetas;
 	//所有的model
-	private List<TableMappingInfo> mappings;
+	private List<TableMappingBean> mappings;
 	//所有的类
 	private List<String> clazzs;
 	//ActiveRecordPlugin list 数据库加载配置
-	private List<ActiveRecordInfo> activeRecords;
-	private List<RpcInfo> rpcs;
+	private List<ActiveRecordBean> activeRecords;
+	private List<RpcBean> rpcs;
 
 	public void afterJFinalStart() {
 		actionMapping.initMapping();
@@ -70,7 +70,7 @@ public class LambkitInfo {
 		}
 		List<IPlugin> ips = plugins.getPluginList();
 		for (IPlugin iPlugin : ips) {
-			this.plugins.add(new PluginInfo(iPlugin.getClass()));
+			this.plugins.add(new PluginBean(iPlugin.getClass()));
 		}
 	}
 
@@ -82,32 +82,32 @@ public class LambkitInfo {
 		}
 		List<Handler> hds = handlers.getHandlerList();
 		for (Handler handler : hds) {
-			this.handlers.add(new HandlerInfo(handler.getClass().getName()));
+			this.handlers.add(new HandlerBean(handler.getClass().getName()));
 		}
 	}
 
-	public void addTag(String name, TagInfo info) {
+	public void addTag(String name, TagBean info) {
 		if (tags == null) {
-			tags = new HashMap<String, TagInfo>();
+			tags = new HashMap<String, TagBean>();
 		}
 		tags.put(name, info);
 	}
 	
-	public void addActiveRecord(ActiveRecordInfo ari) {
+	public void addActiveRecord(ActiveRecordBean ari) {
 		if(activeRecords==null) {
 			activeRecords = new ArrayList<>();
 		}
 		activeRecords.add(ari);
 	}
 	
-	public void addRpc(RpcInfo rpc) {
+	public void addRpc(RpcBean rpc) {
 		if(rpcs==null) {
 			rpcs = new ArrayList<>();
 		}
 		rpcs.add(rpc);
 	}
 
-	public void addMapping(TableMappingInfo mapping) {
+	public void addMapping(TableMappingBean mapping) {
 		if(mappings==null) {
 			mappings = new ArrayList<>();
 		}
@@ -158,27 +158,27 @@ public class LambkitInfo {
 		this.constants = constants;
 	}
 
-	public List<PluginInfo> getPlugins() {
+	public List<PluginBean> getPlugins() {
 		return plugins;
 	}
 
-	public void setPlugins(List<PluginInfo> plugins) {
+	public void setPlugins(List<PluginBean> plugins) {
 		this.plugins = plugins;
 	}
 
-	public List<InterceptorInfo> getInterceptors() {
+	public List<InterceptorBean> getInterceptors() {
 		return interceptors;
 	}
 
-	public void setInterceptors(List<InterceptorInfo> interceptors) {
+	public void setInterceptors(List<InterceptorBean> interceptors) {
 		this.interceptors = interceptors;
 	}
 
-	public Map<String, TagInfo> getTags() {
+	public Map<String, TagBean> getTags() {
 		return tags;
 	}
 
-	public void setTags(Map<String, TagInfo> tags) {
+	public void setTags(Map<String, TagBean> tags) {
 		this.tags = tags;
 	}
 
@@ -190,11 +190,11 @@ public class LambkitInfo {
 		this.actionMapping = actionMapping;
 	}
 
-	public List<HandlerInfo> getHandlers() {
+	public List<HandlerBean> getHandlers() {
 		return handlers;
 	}
 
-	public void setHandlers(List<HandlerInfo> handlers) {
+	public void setHandlers(List<HandlerBean> handlers) {
 		this.handlers = handlers;
 	}
 
@@ -209,36 +209,36 @@ public class LambkitInfo {
 		this.clazzs = clazzs;
 	}
 
-	public List<ActiveRecordInfo> getActiveRecords() {
+	public List<ActiveRecordBean> getActiveRecords() {
 		if(activeRecords==null) {
 			activeRecords = new ArrayList<>();
 		}
 		return activeRecords;
 	}
 
-	public void setActiveRecords(List<ActiveRecordInfo> activeRecords) {
+	public void setActiveRecords(List<ActiveRecordBean> activeRecords) {
 		this.activeRecords = activeRecords;
 	}
 
-	public List<RpcInfo> getRpcs() {
+	public List<RpcBean> getRpcs() {
 		if(rpcs==null) {
 			rpcs = new ArrayList<>();
 		}
 		return rpcs;
 	}
 
-	public void setRpcs(List<RpcInfo> rpcs) {
+	public void setRpcs(List<RpcBean> rpcs) {
 		this.rpcs = rpcs;
 	}
 
-	public List<TableMappingInfo> getMappings() {
+	public List<TableMappingBean> getMappings() {
 		if(mappings==null) {
 			mappings = new ArrayList<>();
 		}
 		return mappings;
 	}
 
-	public void setMappings(List<TableMappingInfo> mappings) {
+	public void setMappings(List<TableMappingBean> mappings) {
 		this.mappings = mappings;
 	}
 }

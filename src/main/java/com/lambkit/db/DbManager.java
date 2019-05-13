@@ -22,8 +22,8 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.lambkit.Lambkit;
 import com.lambkit.common.LambkitManager;
+import com.lambkit.common.bean.ActiveRecordBean;
 import com.lambkit.common.exception.LambkitIllegalConfigException;
-import com.lambkit.common.info.ActiveRecordInfo;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.aop.AopKit;
@@ -199,7 +199,7 @@ public class DbManager {
     private ActiveRecordPlugin createRecordPlugin(Plugins plugin, DataSourceConfig config) {
         ActiveRecordPlugin activeRecordPlugin = new ActiveRecordBuilder(config).build(plugin);
         if(activeRecordPlugin!=null) {
-        	LambkitManager.me().addActiveRecord(new ActiveRecordInfo(config.getName(), config.getDbname(), config));
+        	LambkitManager.me().addActiveRecord(new ActiveRecordBean(config.getName(), config.getDbname(), config));
         }
         /**
          * 不需要添加映射的直接返回

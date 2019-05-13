@@ -17,11 +17,14 @@ package com.lambkit.module.lms.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
-import com.lambkit.common.info.PluginInfo;
+import com.lambkit.common.bean.PluginBean;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class PluginController extends BaseController {
 
 	public void index() {
@@ -52,7 +55,7 @@ public class PluginController extends BaseController {
 	 * 根据layui的规定设置输出table数据
 	 */
 	public void table() {
-		List<PluginInfo> plugins = LambkitManager.me().getInfo().getPlugins();
+		List<PluginBean> plugins = LambkitManager.me().getInfo().getPlugins();
 		renderJson(ResultKit.page(getPara(0, getPara("jt")), 1, "success", plugins.size(), plugins));
 	}
 }

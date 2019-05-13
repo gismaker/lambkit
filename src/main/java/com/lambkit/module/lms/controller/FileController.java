@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
@@ -30,6 +32,7 @@ import com.lambkit.common.util.FileUtils;
 import com.lambkit.common.util.PathUtils;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class FileController extends BaseController {
 
 	public void index() {

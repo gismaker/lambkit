@@ -17,15 +17,18 @@ package com.lambkit.module.lms.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Table;
 import com.jfinal.plugin.activerecord.TableMapping;
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
-import com.lambkit.common.info.TableMappingInfo;
+import com.lambkit.common.bean.TableMappingBean;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class MappingController extends BaseController {
 
 	public void index() {
@@ -71,7 +74,7 @@ public class MappingController extends BaseController {
 	 * 根据layui的规定设置输出table数据
 	 */
 	public void table() {
-		List<TableMappingInfo> mappings = LambkitManager.me().getInfo().getMappings();
+		List<TableMappingBean> mappings = LambkitManager.me().getInfo().getMappings();
 		renderJson(ResultKit.page(getPara(0, getPara("jt")), 1, "success", mappings.size(), mappings));
 	}
 }

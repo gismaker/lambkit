@@ -17,11 +17,14 @@ package com.lambkit.module.lms.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
-import com.lambkit.common.info.HandlerInfo;
+import com.lambkit.common.bean.HandlerBean;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class HandlerController extends BaseController {
 
 	public void index() {
@@ -52,7 +55,7 @@ public class HandlerController extends BaseController {
 	 * 根据layui的规定设置输出table数据
 	 */
 	public void table() {
-		List<HandlerInfo> handlers = LambkitManager.me().getInfo().getHandlers();
+		List<HandlerBean> handlers = LambkitManager.me().getInfo().getHandlers();
 		renderJson(ResultKit.page(getPara(0, getPara("jt")), 1, "success", handlers.size(), handlers));
 	}
 }

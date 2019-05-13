@@ -15,13 +15,16 @@
  */
 package com.lambkit.module.lms.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
-import com.lambkit.common.info.ActionInfo;
-import com.lambkit.common.info.ActionMapping;
+import com.lambkit.common.bean.ActionBean;
+import com.lambkit.common.bean.ActionMapping;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class InterceptorController extends BaseController {
 
 	public void index() {
@@ -57,7 +60,7 @@ public class InterceptorController extends BaseController {
 		boolean flag = false;
 		if(StrKit.notBlank(akey)) {
 			ActionMapping am = LambkitManager.me().getInfo().getActionMapping();
-			ActionInfo ainfo = am.getMapping().get(akey);
+			ActionBean ainfo = am.getMapping().get(akey);
 			if(ainfo!=null) {
 				flag = true;
 				renderJson(ResultKit.page(getPara(0, getPara("jt")), 0, "", ainfo.getInterceptors().length, ainfo.getInterceptors()));

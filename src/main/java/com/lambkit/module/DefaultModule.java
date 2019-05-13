@@ -59,7 +59,7 @@ import com.lambkit.db.DbWrapper;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.controller.NodeIndexController;
-import com.lambkit.module.lms.controller.HelpIndexController;
+import com.lambkit.module.lms.controller.IndexHelpController;
 import com.lambkit.web.ControllerManager;
 import com.lambkit.web.api.ApiMontiorHandler;
 import com.lambkit.web.cache.ActionCacheHandler;
@@ -127,7 +127,7 @@ public class DefaultModule extends LambkitModule {
 		NodeManager.me().init(routes);
 		
 		routes.add("/lambkit/node", NodeIndexController.class, "/lambkit/node");
-		routes.add("/lambkit/help", HelpIndexController.class, "/lambkit/help");
+		routes.add("/lambkit/help", IndexHelpController.class, "/lambkit/help");
 		LambkitManager.me().getInfo().setRoutes(routes);
 	}
 	

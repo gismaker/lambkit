@@ -13,27 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.info;
+package com.lambkit.common.bean;
 
 import java.io.Serializable;
 
-import com.jfinal.aop.Interceptor;
+import com.jfinal.plugin.IPlugin;
 
-public class InterceptorInfo implements Serializable {
+public class PluginBean implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7548238269018764606L;
+	private static final long serialVersionUID = -1859534575449373383L;
 	private String name;
 	private String simpleName;
 	
-	public InterceptorInfo(Class<? extends Interceptor> clazz) {
+	public PluginBean(Class<? extends IPlugin> clazz) {
+		// TODO Auto-generated constructor stub
 		this.name = clazz.getName();
 		this.simpleName = clazz.getSimpleName();
 	}
 	
-	public InterceptorInfo(String name) {
+	public PluginBean(String name) {
 		this.name = name;
 	}
 
@@ -52,4 +53,5 @@ public class InterceptorInfo implements Serializable {
 	public void setSimpleName(String simpleName) {
 		this.simpleName = simpleName;
 	}
+	
 }

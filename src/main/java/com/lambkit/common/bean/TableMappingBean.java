@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.info;
+package com.lambkit.common.bean;
 
 import java.io.Serializable;
 
-public class TableMappingInfo implements Serializable {
+public class TableMappingBean implements Serializable {
 
 	/**
 	 * 
@@ -29,7 +29,7 @@ public class TableMappingInfo implements Serializable {
 	private String primaryKey;
 	private String className;
 	
-	public TableMappingInfo(String configName, String tableName, String primaryKey, String className) {
+	public TableMappingBean(String configName, String tableName, String primaryKey, String className) {
 		// TODO Auto-generated constructor stub
 		this.configName = configName;
 		this.tableName = tableName;

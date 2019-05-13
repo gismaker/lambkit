@@ -15,6 +15,8 @@
  */
 package com.lambkit.module.lms.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.lambkit.common.ResultKit;
 import com.lambkit.common.monitor.SysInfoMonitorManager;
 import com.lambkit.common.monitor.SysPerformInfo;
@@ -22,6 +24,7 @@ import com.lambkit.common.util.LimitQueue;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class MonitorController extends BaseController {
 
 

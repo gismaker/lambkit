@@ -12,11 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package com.lambkit.module.lms.controller;
+ */
+package com.lambkit.module.lms.controller;
 
 import com.lambkit.web.controller.BaseController;
 
-public class MgrdbIndexController extends BaseController {
+public class IndexHelpController extends BaseController {
 
 	public void index() {
 		renderTemplate("index.html");

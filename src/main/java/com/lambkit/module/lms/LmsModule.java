@@ -25,14 +25,15 @@ import com.lambkit.db.mgr.controller.MgrdbViewController;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.module.lms.controller.FileController;
 import com.lambkit.module.lms.controller.HandlerController;
+import com.lambkit.module.lms.controller.IndexLmsController;
 import com.lambkit.module.lms.controller.InterceptorController;
 import com.lambkit.module.lms.controller.MappingController;
-import com.lambkit.module.lms.controller.MgrdbIndexController;
+import com.lambkit.module.lms.controller.IndexMgrdbController;
 import com.lambkit.module.lms.controller.MonitorController;
 import com.lambkit.module.lms.controller.PluginController;
 import com.lambkit.module.lms.controller.PropController;
 import com.lambkit.module.lms.controller.RouteController;
-import com.lambkit.module.lms.controller.SystemIndexController;
+import com.lambkit.module.lms.controller.IndexDevController;
 import com.lambkit.module.lms.controller.TagController;
 import com.lambkit.module.meta.web.controller.manage.ManageController;
 import com.lambkit.module.meta.web.controller.manage.MetaAppController;
@@ -46,7 +47,9 @@ public class LmsModule extends LambkitModule {
 
 	@Override
 	public void configRoute(Routes routes) {
-		routes.add("/lambkit/dev", SystemIndexController.class, "/lambkit/dev");
+		routes.add("/lambkit", IndexLmsController.class, "/lambkit");
+		
+		routes.add("/lambkit/dev", IndexDevController.class, "/lambkit/dev");
 		routes.add("/lambkit/dev/route", RouteController.class, "/lambkit/dev/route");
 		routes.add("/lambkit/dev/handler", HandlerController.class, "/lambkit/dev/handler");
 		routes.add("/lambkit/dev/plugin", PluginController.class, "/lambkit/dev/plugin");
@@ -72,7 +75,7 @@ public class LmsModule extends LambkitModule {
 		} else if(MgrdbConfig.SYSCONFIG.equals(config.getType())) {
 			routes.add("/lambkit/mgrdb", MgrdbController.class, "/lambkit/dev/mgrdb/freemarker");
 		} 
-		routes.add("/lambkit/dev/mgrdb", MgrdbIndexController.class, "/lambkit/dev/mgrdb");
+		routes.add("/lambkit/dev/mgrdb", IndexMgrdbController.class, "/lambkit/dev/mgrdb");
 	}
 	
 	@Override

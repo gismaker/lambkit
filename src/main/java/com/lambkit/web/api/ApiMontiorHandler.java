@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.handler.Handler;
 import com.lambkit.common.LambkitManager;
-import com.lambkit.common.info.ActionInfo;
+import com.lambkit.common.bean.ActionBean;
 import com.lambkit.distributed.node.NodeManager;
 
 public class ApiMontiorHandler extends Handler {
@@ -34,7 +34,7 @@ public class ApiMontiorHandler extends Handler {
 		next.handle(target, request, response, isHandled);
 		long endTime = System.currentTimeMillis();
 		
-		ActionInfo action = LambkitManager.me().getInfo().getActionMapping().getAction(target, urlPara);
+		ActionBean action = LambkitManager.me().getInfo().getActionMapping().getAction(target, urlPara);
 		if(action!=null) {
 			action.access(startTime, endTime);
 			NodeManager.me().updateApiTime(action.getActionKey(), endTime - startTime);

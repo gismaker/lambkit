@@ -20,15 +20,18 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.jfinal.config.Routes.Route;
 import com.jfinal.json.FastJson;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
-import com.lambkit.common.info.ActionInfo;
-import com.lambkit.common.info.ActionMapping;
+import com.lambkit.common.bean.ActionBean;
+import com.lambkit.common.bean.ActionMapping;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class RouteController extends BaseController {
 
 	public void index() {
@@ -43,7 +46,7 @@ public class RouteController extends BaseController {
 			}
 			setAttr("flag", true);
 			setAttr("route", route);
-			Map<String, ActionInfo> resultMap = sortMapByKey(am.getMapping()); 
+			Map<String, ActionBean> resultMap = sortMapByKey(am.getMapping()); 
 			setAttr("actions", resultMap.values());
 		} else {
 			setAttr("flag", false);
@@ -58,11 +61,11 @@ public class RouteController extends BaseController {
      * @param map
      * @return
      */
-    private Map<String, ActionInfo> sortMapByKey(Map<String, ActionInfo> map) {
+    private Map<String, ActionBean> sortMapByKey(Map<String, ActionBean> map) {
         if (map == null || map.isEmpty()) {
             return null;
         }
-        Map<String, ActionInfo> sortMap = new TreeMap<String, ActionInfo>(
+        Map<String, ActionBean> sortMap = new TreeMap<String, ActionBean>(
                 new MapKeyComparator());
         sortMap.putAll(map);
         return sortMap;

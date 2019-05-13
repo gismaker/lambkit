@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.info;
+package com.lambkit.common.bean;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,7 @@ import com.jfinal.core.JFinal;
 public class ActionMapping {
 
 	protected List<Route> routes;
-	protected Map<String, ActionInfo> mapping = new HashMap<String, ActionInfo>();
+	protected Map<String, ActionBean> mapping = new HashMap<String, ActionBean>();
 	
 	public ActionMapping(Routes routes) {
 		if(this.routes==null) {
@@ -46,7 +46,7 @@ public class ActionMapping {
 		for (String key : actionkeys) {
 			String[] urlPara = {null};
 			Action action = JFinal.me().getAction(key, urlPara);
-			mapping.put(key, new ActionInfo(action));
+			mapping.put(key, new ActionBean(action));
 		}
 	}
 
@@ -59,8 +59,8 @@ public class ActionMapping {
 	 * The controllerKey can also contains "/"
 	 * Example: http://abc.com/uvw/xyz/method/para
 	 */
-	public ActionInfo getAction(String url, String[] urlPara) {
-		ActionInfo action = mapping.get(url);
+	public ActionBean getAction(String url, String[] urlPara) {
+		ActionBean action = mapping.get(url);
 		if (action != null) {
 			return action;
 		}
@@ -81,11 +81,11 @@ public class ActionMapping {
 		return allActionKeys;
 	}
 	
-	public Map<String, ActionInfo> getMapping() {
+	public Map<String, ActionBean> getMapping() {
 		return mapping;
 	}
 
-	public void setMapping(Map<String, ActionInfo> mapping) {
+	public void setMapping(Map<String, ActionBean> mapping) {
 		this.mapping = mapping;
 	}
 	

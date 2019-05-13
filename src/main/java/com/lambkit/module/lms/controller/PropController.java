@@ -18,6 +18,9 @@ package com.lambkit.module.lms.controller;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import java.util.Properties;
 
 import com.beust.jcommander.internal.Lists;
@@ -29,6 +32,7 @@ import com.lambkit.common.ResultKit;
 import com.lambkit.common.util.FileUtils;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class PropController extends BaseController {
 
 	public void index() {

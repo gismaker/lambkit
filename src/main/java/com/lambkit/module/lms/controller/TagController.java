@@ -17,11 +17,14 @@ package com.lambkit.module.lms.controller;
 
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
-import com.lambkit.common.info.TagInfo;
+import com.lambkit.common.bean.TagBean;
 import com.lambkit.web.controller.BaseController;
 
+@RequiresPermissions("lms:dev")
 public class TagController extends BaseController {
 
 	public void index() {
@@ -52,7 +55,7 @@ public class TagController extends BaseController {
 	 * 根据layui的规定设置输出table数据
 	 */
 	public void table() {
-		Map<String, TagInfo> tags = LambkitManager.me().getInfo().getTags();
+		Map<String, TagBean> tags = LambkitManager.me().getInfo().getTags();
 		renderJson(ResultKit.page(getPara(0, getPara("jt")), 1, "success", tags.size(), tags.values()));
 	}
 }

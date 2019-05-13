@@ -12,12 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-package com.lambkit.module.lms.controller;
+ */package com.lambkit.module.lms.controller;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.lambkit.web.controller.BaseController;
 
-public class HelpIndexController extends BaseController {
+@RequiresPermissions("lms:mgrdb")
+public class IndexMgrdbController extends BaseController {
 
 	public void index() {
 		renderTemplate("index.html");

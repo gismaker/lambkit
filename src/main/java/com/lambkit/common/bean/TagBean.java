@@ -13,29 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.info;
+package com.lambkit.common.bean;
 
 import java.io.Serializable;
 
-import com.jfinal.plugin.IPlugin;
-
-public class PluginInfo implements Serializable {
+public class TagBean implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1859534575449373383L;
+	private static final long serialVersionUID = 9176728542511130954L;
+	private String type;
 	private String name;
 	private String simpleName;
 	
-	public PluginInfo(Class<? extends IPlugin> clazz) {
-		// TODO Auto-generated constructor stub
-		this.name = clazz.getName();
-		this.simpleName = clazz.getSimpleName();
-	}
-	
-	public PluginInfo(String name) {
+	public TagBean(String type, String name, String simpleName) {
+		this.type = type;
 		this.name = name;
+		this.simpleName = simpleName;
 	}
 
 	public String getName() {
@@ -53,5 +48,12 @@ public class PluginInfo implements Serializable {
 	public void setSimpleName(String simpleName) {
 		this.simpleName = simpleName;
 	}
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 }

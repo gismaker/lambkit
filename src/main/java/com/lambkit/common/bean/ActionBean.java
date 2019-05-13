@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.info;
+package com.lambkit.common.bean;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -22,11 +22,8 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Action;
 import com.jfinal.core.Controller;
 
-public class ActionInfo implements Serializable {
+public class ActionBean implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4735374353527592777L;
 
 	private final Class<? extends Controller> controllerClass;
@@ -34,7 +31,7 @@ public class ActionInfo implements Serializable {
 	private final String actionKey;
 	private final Method method;
 	private final String methodName;
-	private final InterceptorInfo[] interceptors;
+	private final InterceptorBean[] interceptors;
 	private final String viewPath;
 	
 	//最近一次调用时间
@@ -50,29 +47,29 @@ public class ActionInfo implements Serializable {
 	//平均耗时
 	private long avgTime = 0;
 
-	public ActionInfo(Action action) {
+	public ActionBean(Action action) {
 		// TODO Auto-generated constructor stub
 		this.controllerKey = action.getControllerKey();
 		this.actionKey = action.getActionKey();
 		this.controllerClass = action.getControllerClass();
 		this.method = action.getMethod();
 		this.methodName = action.getMethodName();
-		this.interceptors = new InterceptorInfo[action.getInterceptors().length];
+		this.interceptors = new InterceptorBean[action.getInterceptors().length];
 		for(int i=0; i<interceptors.length; i++) {
-			this.interceptors[i] = new InterceptorInfo(action.getInterceptors()[i].getClass());
+			this.interceptors[i] = new InterceptorBean(action.getInterceptors()[i].getClass());
 		}
 		this.viewPath = action.getViewPath();
 	}
 	
-	public ActionInfo(String controllerKey, String actionKey, Class<? extends Controller> controllerClass, Method method, String methodName, Interceptor[] interceptors, String viewPath) {
+	public ActionBean(String controllerKey, String actionKey, Class<? extends Controller> controllerClass, Method method, String methodName, Interceptor[] interceptors, String viewPath) {
 		this.controllerKey = controllerKey;
 		this.actionKey = actionKey;
 		this.controllerClass = controllerClass;
 		this.method = method;
 		this.methodName = methodName;
-		this.interceptors = new InterceptorInfo[interceptors.length];
+		this.interceptors = new InterceptorBean[interceptors.length];
 		for(int i=0; i<interceptors.length; i++) {
-			this.interceptors[i] = new InterceptorInfo(interceptors[i].getClass());
+			this.interceptors[i] = new InterceptorBean(interceptors[i].getClass());
 		}
 		this.viewPath = viewPath;
 	}
@@ -102,7 +99,7 @@ public class ActionInfo implements Serializable {
 		return method;
 	}
 	
-	public InterceptorInfo[] getInterceptors() {
+	public InterceptorBean[] getInterceptors() {
 		return interceptors;
 	}
 	

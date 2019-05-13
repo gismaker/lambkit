@@ -17,6 +17,8 @@ package com.lambkit.module.lms.controller;
 
 import java.lang.annotation.Annotation;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.monitor.SysInfoMonitorManager;
@@ -25,7 +27,8 @@ import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.web.controller.BaseController;
 
 //@RequestMapping("/lambkit/dev")
-public class SystemIndexController extends BaseController {
+@RequiresPermissions("lms:dev")
+public class IndexDevController extends BaseController {
 
 	public void index() {
 		renderTemplate("index.html");

@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.info;
+package com.lambkit.common.bean;
 
 import java.io.Serializable;
 
-public class TagInfo implements Serializable {
+import com.jfinal.handler.Handler;
+
+public class HandlerBean implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9176728542511130954L;
-	private String type;
+	private static final long serialVersionUID = -1859534575449373383L;
 	private String name;
 	private String simpleName;
 	
-	public TagInfo(String type, String name, String simpleName) {
-		this.type = type;
+	public HandlerBean(Class<? extends Handler> handlerClass) {
+		// TODO Auto-generated constructor stub
+		this.name = handlerClass.getName();
+		this.simpleName = handlerClass.getSimpleName();
+	}
+	
+	public HandlerBean(String name) {
 		this.name = name;
-		this.simpleName = simpleName;
 	}
 
 	public String getName() {
@@ -48,12 +53,5 @@ public class TagInfo implements Serializable {
 	public void setSimpleName(String simpleName) {
 		this.simpleName = simpleName;
 	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
+	
 }

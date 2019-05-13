@@ -19,7 +19,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Config;
 import com.jfinal.plugin.activerecord.Model;
 import com.lambkit.common.LambkitManager;
-import com.lambkit.common.info.TableMappingInfo;
+import com.lambkit.common.bean.TableMappingBean;
 import com.lambkit.db.DbManager;
 import com.lambkit.db.TableManager;
 import com.lambkit.db.TableWrapper;
@@ -44,7 +44,7 @@ public class ActiveRecordPluginWrapper {
 	public ActiveRecordPluginWrapper addMapping(String tableName, String primaryKey, Class<? extends Model<?>> modelClass) {
 		arp.addMapping(tableName, primaryKey, modelClass);
 		String configName = arp.getConfig().getName();
-		LambkitManager.me().addMapping(new TableMappingInfo(configName, tableName, primaryKey, modelClass.getName()));
+		LambkitManager.me().addMapping(new TableMappingBean(configName, tableName, primaryKey, modelClass.getName()));
 		TableWrapper tableWrapper = TableManager.me().addMapping(configName, tableName, primaryKey, modelClass);
 		DbManager.me().addTable(configName, tableWrapper);
 		return this;
@@ -53,7 +53,7 @@ public class ActiveRecordPluginWrapper {
 	public ActiveRecordPluginWrapper addMapping(String tableName, Class<? extends Model<?>> modelClass) {
 		arp.addMapping(tableName, modelClass);
 		String configName = arp.getConfig().getName();
-		LambkitManager.me().addMapping(new TableMappingInfo(configName, tableName, "", modelClass.getName()));
+		LambkitManager.me().addMapping(new TableMappingBean(configName, tableName, "", modelClass.getName()));
 		TableWrapper tableWrapper = TableManager.me().addMapping(configName, tableName, "", modelClass);
 		DbManager.me().addTable(configName, tableWrapper);
 		return this;

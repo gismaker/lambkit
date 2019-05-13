@@ -31,7 +31,7 @@ import com.jfinal.template.Engine;
 import com.lambkit.Lambkit;
 import com.lambkit.common.LambkitConfig;
 import com.lambkit.common.LambkitManager;
-import com.lambkit.common.info.TagInfo;
+import com.lambkit.common.bean.TagBean;
 import com.lambkit.common.util.ClassUtils;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
@@ -71,7 +71,7 @@ public abstract class LambkitModule {
 
 	public void addDirective(Engine engine, String name, Class<? extends Directive> tm) {
 		engine.addDirective(name, tm);
-		LambkitManager.me().addTag(name, new TagInfo("jfinal_enjoy", tm.getName(), tm.getSimpleName()));
+		LambkitManager.me().addTag(name, new TagBean("jfinal_enjoy", tm.getName(), tm.getSimpleName()));
 	}
 	
 	public void addTag(String name, TemplateModel tm) {
@@ -79,7 +79,7 @@ public abstract class LambkitModule {
 			name = "lk_" + name.substring(3);
 		}
 		FreeMarkerRender.getConfiguration().setSharedVariable(name, tm);
-		LambkitManager.me().addTag(name, new TagInfo("freemarker", tm.getClass().getName(), tm.getClass().getSimpleName()));
+		LambkitManager.me().addTag(name, new TagBean("freemarker", tm.getClass().getName(), tm.getClass().getSimpleName()));
 	}
 	
 	/**

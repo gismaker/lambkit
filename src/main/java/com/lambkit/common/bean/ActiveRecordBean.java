@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.common.info;
+package com.lambkit.common.bean;
 
 import java.io.Serializable;
 
-public class RpcInfo implements Serializable {
+import com.lambkit.db.datasource.DataSourceConfig;
+
+public class ActiveRecordBean implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6284562288935608087L;
+	private static final long serialVersionUID = -2976938213973652920L;
 
 	private String name;
-	private String group;
-	private String version;
-	private int port;
+	private String dbname;
+	private DataSourceConfig config;
 	
-	public RpcInfo(String name, String group, String version, int port) {
+	public ActiveRecordBean(String name, String db, DataSourceConfig config) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
-		this.group = group;
-		this.version = version;
-		this.port = port;
+		this.dbname = db;
+		this.config = config;
 	}
 	
 	public String getName() {
@@ -43,22 +43,18 @@ public class RpcInfo implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getGroup() {
-		return group;
+	public String getDbname() {
+		return dbname;
 	}
-	public void setGroup(String group) {
-		this.group = group;
+	public void setDbname(String dbname) {
+		this.dbname = dbname;
 	}
-	public String getVersion() {
-		return version;
+	public DataSourceConfig getConfig() {
+		return config;
 	}
-	public void setVersion(String version) {
-		this.version = version;
+	public void setConfig(DataSourceConfig config) {
+		this.config = config;
 	}
-	public int getPort() {
-		return port;
-	}
-	public void setPort(int port) {
-		this.port = port;
-	}
+	
+	
 }

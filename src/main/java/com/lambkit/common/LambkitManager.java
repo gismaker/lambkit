@@ -15,14 +15,14 @@
  */
 package com.lambkit.common;
 
-import com.lambkit.common.info.ActiveRecordInfo;
-import com.lambkit.common.info.RpcInfo;
-import com.lambkit.common.info.TableMappingInfo;
-import com.lambkit.common.info.TagInfo;
+import com.lambkit.common.bean.ActiveRecordBean;
+import com.lambkit.common.bean.RpcBean;
+import com.lambkit.common.bean.TableMappingBean;
+import com.lambkit.common.bean.TagBean;
 
 public class LambkitManager {
 
-	private LambkitInfo info = new LambkitInfo();
+	private LambkitBean info = new LambkitBean();
 	
 	private static final LambkitManager me = new LambkitManager();
 
@@ -37,23 +37,23 @@ public class LambkitManager {
 		info.afterJFinalStart();
 	}
 
-	public LambkitInfo getInfo() {
+	public LambkitBean getInfo() {
 		return info;
 	}
 	
-	public void addTag(String name, TagInfo info) {
+	public void addTag(String name, TagBean info) {
 		getInfo().addTag(name, info);
 	}
 
-	public void addRpc(RpcInfo rpc) {
+	public void addRpc(RpcBean rpc) {
 		getInfo().addRpc(rpc);
 	}
 	
-	public void addActiveRecord(ActiveRecordInfo ari) {
+	public void addActiveRecord(ActiveRecordBean ari) {
 		getInfo().addActiveRecord(ari);
 	}
 	
-	public void addMapping(TableMappingInfo mapping) {
+	public void addMapping(TableMappingBean mapping) {
 		getInfo().addMapping(mapping);
 	}
 }
