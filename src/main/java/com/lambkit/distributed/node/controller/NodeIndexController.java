@@ -26,6 +26,11 @@ import com.lambkit.web.controller.BaseController;
 public class NodeIndexController extends BaseController {
 
 	public void index() {
+		//user
+		if(hasUser()) {
+			set("auth", getUser());
+		}
+				
 		NodeBuilder nb = new NodeBuilder();
 		setAttr("node", nb.resetNodeInfo(NodeManager.me().getNode()));
 		int size = 0;

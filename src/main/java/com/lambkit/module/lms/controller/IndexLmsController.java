@@ -11,6 +11,8 @@ import com.jfinal.kit.StrKit;
 import com.lambkit.Lambkit;
 import com.lambkit.common.BaseResult;
 import com.lambkit.component.shiro.ShiroConfig;
+import com.lambkit.distributed.node.NodeManager;
+import com.lambkit.distributed.node.info.NodeBuilder;
 import com.lambkit.module.upms.UpmsInterceptor;
 import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
@@ -22,6 +24,20 @@ public class IndexLmsController extends BaseController {
 
 	@Clear
 	public void index() {
+		//user
+		if(hasUser()) {
+			set("auth", getUser());
+		}
+		//node
+		NodeBuilder nb = new NodeBuilder();
+		setAttr("node", nb.resetNodeInfo(NodeManager.me().getNode()));
+		int size = 0;
+		if(NodeManager.me().getNodeTable()!=null) {
+			setAttr("ntable", NodeManager.me().getNodeTable().getValues());
+			size = NodeManager.me().getNodeTable().getNodes().size();
+		}
+		setAttr("ntsize", size);
+		//render
 		renderTemplate("index.html");
 	}
 	

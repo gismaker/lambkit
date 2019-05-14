@@ -36,6 +36,13 @@
 						<a href="#">帮助文档</a>
 					</li>
 				</ul>
+				#if(auth)
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<i class="layui-icon layui-icon-username" style="color: #FFFFFF;"></i>&nbsp;#(auth.user.realname??)
+					</li>
+				</ul>
+				#end
 			</div>
 		</div>
 		<div class="layui-main site-inline">

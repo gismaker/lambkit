@@ -79,7 +79,7 @@ public class StartListener implements EventListener {
 		}
 		*/
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("Please visit the website(http://127.0.0.1/lambkit/dev) for runtime details.");
+		System.out.println("Please visit the website(http://127.0.0.1/lambkit) for runtime details.");
 	}
 	
 }

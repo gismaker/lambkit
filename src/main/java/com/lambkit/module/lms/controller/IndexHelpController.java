@@ -20,6 +20,10 @@ import com.lambkit.web.controller.BaseController;
 public class IndexHelpController extends BaseController {
 
 	public void index() {
+		//user
+		if(hasUser()) {
+			set("auth", getUser());
+		}
 		renderTemplate("index.html");
 	}
 }

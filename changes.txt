@@ -5,6 +5,8 @@ lambkit-0.2-alpha2：
 新增：增加支持ActiveMQ消息功能
 新增：增加支持Redis集群
 新增：增加支持Kafka消息功能
+新增：增加支持HBase功能
+新增：增加支持Hadoop-hdfs文件管理功能
 优化：优化jwt参数配置方式
 优化：优化启动入口,改由LambkitApplication启动，启动配置改由Application
 优化：优化SystemInfo为LambkitInfo是框架内部运行信息,位置移动到com.lambkit.common

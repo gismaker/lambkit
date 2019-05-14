@@ -105,9 +105,9 @@ public class TableManager {
         tableMapping.setPrimaryKey(primaryKey);
         tableMapping.setTableName(tableName);
         tableMapping.setConfigName(configName);
-        com.jfinal.plugin.activerecord.Table table = com.jfinal.plugin.activerecord.TableMapping.me().getTable(modelClass);
-        tableMapping.setColumnTypeMap(table.getColumnTypeMap());
-        tableMapping.setMeta(MetaKit.createTable(configName, tableName, tableName.split("_")[0]+"_"));
+        //com.jfinal.plugin.activerecord.Table table = com.jfinal.plugin.activerecord.TableMapping.me().getTable(modelClass);
+        //tableMapping.setColumnTypeMap(table.getColumnTypeMap());
+        //tableMapping.setMeta(MetaKit.createTable(configName, tableName, tableName.split("_")[0]+"_"));
         Table tb = modelClass.getAnnotation(Table.class);
         if (tb != null) {
         	 tableMapping.setActualDataNodes(tb.actualDataNodes());
@@ -116,7 +116,7 @@ public class TableManager {
              tableMapping.setKeyGeneratorClass(tb.keyGeneratorClass());
              tableMapping.setKeyGeneratorColumnName(tb.keyGeneratorColumnName());
         }
-        tableMappings.add(tableMapping);
+        getAllTableMappings().add(tableMapping);
         return tableMapping;
     }
 }
