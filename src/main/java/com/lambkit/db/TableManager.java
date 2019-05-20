@@ -18,7 +18,6 @@ package com.lambkit.db;
 import com.jfinal.plugin.activerecord.Model;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.db.annotation.Table;
-import com.lambkit.db.meta.MetaKit;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,586 @@
+/**
+ * Copyright (c) 2015-2017, Henry Yang 杨勇 (gismail@foxmail.com).
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.lambkit.common.util;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.httpclient.Credentials;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpConnectionManager;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.DeleteMethod;
+import org.apache.commons.httpclient.methods.EntityEnclosingMethod;
+import org.apache.commons.httpclient.methods.FileRequestEntity;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
+/**
+ * 简单的http工具
+ */
+public class HttpUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
+
+    /**
+     * Performs an HTTP GET on the given URL.
+     * 
+     * @param url The URL where to connect to.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     */
+    public static String get(String url) throws MalformedURLException {
+        return get(url, null, null);
+    }
+
+    /**
+     * Performs an HTTP GET on the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     */
+    public static String get(String url, String username, String pw) {
+
+        GetMethod httpMethod = null;
+        HttpClient client = new HttpClient();
+        HttpConnectionManager connectionManager = client.getHttpConnectionManager();
+        try {
+            setAuth(client, url, username, pw);
+            httpMethod = new GetMethod(url);
+            connectionManager.getParams().setConnectionTimeout(5000);
+            int status = client.executeMethod(httpMethod);
+            if (status == HttpStatus.SC_OK) {
+                InputStream is = httpMethod.getResponseBodyAsStream();
+                String response = IOUtils.toString(is);
+                IOUtils.closeQuietly(is);
+                if (response.trim().length() == 0) { // sometime gs rest fails
+                    LOGGER.warn("ResponseBody is empty");
+                    return null;
+                } else {
+                    return response;
+                }
+            } else {
+                LOGGER.info("(" + status + ") " + HttpStatus.getStatusText(status) + " -- " + url);
+            }
+        } catch (ConnectException e) {
+            LOGGER.info("Couldn't connect to [" + url + "]");
+        } catch (IOException e) {
+            LOGGER.info("Error talking to [" + url + "]", e);
+        } finally {
+            if (httpMethod != null)
+                httpMethod.releaseConnection();
+            connectionManager.closeIdleConnections(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Executes a request using the GET method and parses the result as a json object.
+     * 
+     * @param path The path to request.
+     *  
+     * @return The result parsed as json.
+     */
+    public static JSONObject getAsJSON(String url, String username, String pw) throws Exception {
+        String response = get(url, username, pw);
+        return json(response);
+    }
+    
+    public static JSONObject json(String content) {
+        return JSON.parseObject(content);
+    }
+    
+    /**
+     * PUTs a File to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param file The File to be sent.
+     * @param contentType The content-type to advert in the PUT.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String put(String url, File file, String contentType, String username, String pw) {
+        return put(url, new FileRequestEntity(file, contentType), username, pw);
+    }
+
+    /**
+     * PUTs a String to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param content The content to be sent as a String.
+     * @param contentType The content-type to advert in the PUT.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String put(String url, String content, String contentType, String username, String pw) {
+        try {
+            return put(url, new StringRequestEntity(content, contentType, null), username, pw);
+        } catch (UnsupportedEncodingException ex) {
+            LOGGER.error("Cannot PUT " + url, ex);
+            return null;
+        }
+    }
+
+    /**
+     * PUTs a String representing an XML document to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param content The XML content to be sent as a String.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String putXml(String url, String content, String username, String pw) {
+        return put(url, content, "text/xml", username, pw);
+    }
+
+    /**
+     * PUTs a String representing an JSON Object to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param content The JSON Object to be sent as a String.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String putJson(String url, String content, String username, String pw) {
+        return put(url, content, "application/json", username, pw);
+    }
+    
+    /**
+     * Performs a PUT to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param requestEntity The request to be sent.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String put(String url, RequestEntity requestEntity, String username, String pw) {
+        return send(new PutMethod(url), url, requestEntity, username, pw);
+    }
+
+    /**
+     * POSTs a File to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param file The File to be sent.
+     * @param contentType The content-type to advert in the POST.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String post(String url, File file, String contentType, String username, String pw) {
+        return post(url, new FileRequestEntity(file, contentType), username, pw);
+    }
+
+    /**
+     * POSTs a String to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param content The content to be sent as a String.
+     * @param contentType The content-type to advert in the POST.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String post(String url, String content, String contentType, String username, String pw) {
+        try {
+            return post(url, new StringRequestEntity(content, contentType, null), username, pw);
+        } catch (UnsupportedEncodingException ex) {
+            LOGGER.error("Cannot POST " + url, ex);
+            return null;
+        }
+    }
+
+    /**
+     * POSTs a list of files as attachments to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param dir The folder containing the attachments.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String postMultipartForm(String url, File dir, String username, String pw) {
+        try {
+            List<Part> parts = new ArrayList<Part>();
+            for (File f : dir.listFiles()) {
+                parts.add(new FilePart(f.getName(), f));
+            }
+            MultipartRequestEntity multipart = new MultipartRequestEntity(
+                    parts.toArray(new Part[parts.size()]), new PostMethod().getParams());
+
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            multipart.writeRequest(bout);
+            
+            return post(url, multipart, username, pw);
+        } catch (Exception ex) {
+            LOGGER.error("Cannot POST " + url, ex);
+            return null;
+        }
+    }
+    
+    /**
+     * POSTs a String representing an XML document to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param content The XML content to be sent as a String.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String postXml(String url, String content, String username, String pw) {
+        return post(url, content, "text/xml", username, pw);
+    }
+
+    /**
+     * POSTs a String representing an JSON Object to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param content The JSON content to be sent as a String.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String postJson(String url, String content, String username, String pw) {
+        return post(url, content, "application/json", username, pw);
+    }
+    
+    /**
+     * Performs a POST to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param requestEntity The request to be sent.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String post(String url, RequestEntity requestEntity, String username, String pw) {
+        return send(new PostMethod(url), url, requestEntity, username, pw);
+    }
+
+    /**
+     * Send an HTTP request (PUT or POST) to a server. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * <P>
+     * Only
+     * <UL>
+     * <LI>200: OK</LI>
+     * <LI>201: ACCEPTED</LI>
+     * <LI>202: CREATED</LI>
+     * </UL>
+     * are accepted as successful codes; in these cases the response string will
+     * be returned.
+     * 
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    private static String send(final EntityEnclosingMethod httpMethod, String url,
+                               RequestEntity requestEntity, String username, String pw) {
+        HttpClient client = new HttpClient();
+        HttpConnectionManager connectionManager = client.getHttpConnectionManager();
+        try {
+            setAuth(client, url, username, pw);
+            connectionManager.getParams().setConnectionTimeout(5000);
+            if (requestEntity != null)
+                httpMethod.setRequestEntity(requestEntity);
+            int status = client.executeMethod(httpMethod);
+
+            InputStream responseBody;
+            switch (status) {
+            case HttpURLConnection.HTTP_OK:
+            case HttpURLConnection.HTTP_CREATED:
+            case HttpURLConnection.HTTP_ACCEPTED:
+                String response = IOUtils.toString(httpMethod.getResponseBodyAsStream());
+                // LOGGER.info("================= POST " + url);
+                if (LOGGER.isInfoEnabled())
+                    LOGGER.info("HTTP " + httpMethod.getStatusText() + ": " + response);
+                return response;
+            default:
+                responseBody = httpMethod.getResponseBodyAsStream();
+                LOGGER.warn("Bad response: code[" + status + "]" + " msg[" + httpMethod.getStatusText() + "]"
+                            + " url[" + url + "]" + " method[" + httpMethod.getClass().getSimpleName()
+                            + "]: " + (responseBody != null ? IOUtils.toString(responseBody) : ""));
+                return null;
+            }
+        } catch (ConnectException e) {
+            LOGGER.info("Couldn't connect to [" + url + "]");
+            return null;
+        } catch (IOException e) {
+            LOGGER.error("Error talking to " + url + " : " + e.getLocalizedMessage());
+            return null;
+        } finally {
+            if (httpMethod != null)
+                httpMethod.releaseConnection();
+            connectionManager.closeIdleConnections(0);
+        }
+    }
+
+    public static boolean delete(String url, final String user, final String pw) {
+
+        DeleteMethod httpMethod = null;
+        HttpClient client = new HttpClient();
+        HttpConnectionManager connectionManager = client.getHttpConnectionManager();
+        try {
+            setAuth(client, url, user, pw);
+            httpMethod = new DeleteMethod(url);
+            connectionManager.getParams().setConnectionTimeout(5000);
+            int status = client.executeMethod(httpMethod);
+            String response = "";
+            if (status == HttpStatus.SC_OK) {
+                InputStream is = httpMethod.getResponseBodyAsStream();
+                response = IOUtils.toString(is);
+                IOUtils.closeQuietly(is);
+                if (response.trim().equals("")) { 
+                    if (LOGGER.isTraceEnabled())
+                        LOGGER.trace("ResponseBody is empty (this may be not an error since we just performed a DELETE call)");
+                    return true;
+                }
+                if (LOGGER.isDebugEnabled())
+                    LOGGER.debug("(" + status + ") " + httpMethod.getStatusText() + " -- " + url);
+                return true;
+            } else {
+                LOGGER.info("(" + status + ") " + httpMethod.getStatusText() + " -- " + url);
+                LOGGER.info("Response: '" + response + "'");
+            }
+        } catch (ConnectException e) {
+            LOGGER.info("Couldn't connect to [" + url + "]");
+        } catch (IOException e) {
+            LOGGER.info("Error talking to [" + url + "]", e);
+        } finally {
+            if (httpMethod != null)
+                httpMethod.releaseConnection();
+            connectionManager.closeIdleConnections(0);
+        }
+
+        return false;
+    }
+
+    /**
+     * @return true if the server response was an HTTP_OK
+     */
+    public static boolean httpPing(String url) {
+        return httpPing(url, null, null);
+    }
+
+    public static boolean httpPing(String url, String username, String pw) {
+
+        GetMethod httpMethod = null;
+        HttpClient client = new HttpClient();
+        HttpConnectionManager connectionManager = client.getHttpConnectionManager();
+        try {
+            setAuth(client, url, username, pw);
+            httpMethod = new GetMethod(url);
+            connectionManager.getParams().setConnectionTimeout(2000);
+            int status = client.executeMethod(httpMethod);
+            if (status != HttpStatus.SC_OK) {
+                LOGGER.warn("PING failed at '" + url + "': (" + status + ") " + httpMethod.getStatusText());
+                return false;
+            } else {
+                return true;
+            }
+        } catch (ConnectException e) {
+            return false;
+        } catch (IOException e) {
+            LOGGER.error(e.getLocalizedMessage(),e);
+            return false;
+        } finally {
+            if (httpMethod != null)
+                httpMethod.releaseConnection();
+            connectionManager.closeIdleConnections(0);
+        }
+    }
+
+    /**
+     * Used to query for REST resources.
+     * 
+     * @param url The URL of the REST resource to query about.
+     * @param username
+     * @param pw
+     * @return true on 200, false on 404.
+     * @throws RuntimeException on unhandled status or exceptions.
+     */
+    public static boolean exists(String url, String username, String pw) {
+
+        GetMethod httpMethod = null;
+        HttpClient client = new HttpClient();
+        HttpConnectionManager connectionManager = client.getHttpConnectionManager();
+        try {
+            setAuth(client, url, username, pw);
+            httpMethod = new GetMethod(url);
+            connectionManager.getParams().setConnectionTimeout(2000);
+            int status = client.executeMethod(httpMethod);
+            switch (status) {
+            case HttpStatus.SC_OK:
+                return true;
+            case HttpStatus.SC_NOT_FOUND:
+                return false;
+            default:
+                throw new RuntimeException("Unhandled response status at '" + url + "': (" + status + ") "
+                                           + httpMethod.getStatusText());
+            }
+        } catch (ConnectException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (httpMethod != null)
+                httpMethod.releaseConnection();
+            connectionManager.closeIdleConnections(0);
+        }
+    }
+
+    private static void setAuth(HttpClient client, String url, String username, String pw)
+        throws MalformedURLException {
+        URL u = new URL(url);
+        if (username != null && pw != null) {
+            Credentials defaultcreds = new UsernamePasswordCredentials(username, pw);
+            client.getState().setCredentials(new AuthScope(u.getHost(), u.getPort()), defaultcreds);
+            client.getParams().setAuthenticationPreemptive(true); // GS2 by
+                                                                  // default
+                                                                  // always
+                                                                  // requires
+                                                                  // authentication
+        } else {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Not setting credentials to access to " + url);
+            }
+        }
+    }
+
+    /**
+     * @param geoserverURL
+     * @return recursively remove ending slashes 
+     */
+    public static String decurtSlash(String geoserverURL) {
+        if (geoserverURL!=null && geoserverURL.endsWith("/")) {
+            geoserverURL = decurtSlash(geoserverURL.substring(0, geoserverURL.length() - 1));
+        }
+        return geoserverURL;
+    }
+    
+    /**
+     * @param str a string array
+     * @return create a StringBuilder appending all the passed arguments
+     */
+    public static StringBuilder append(String ... str){
+        if (str==null){
+            return null;
+        }
+        
+        StringBuilder buf=new StringBuilder();
+        for (String s: str){
+            if (s!=null)
+                buf.append(s);
+        }
+        return buf;
+    }
+    
+    /**
+     * Wrapper for {@link #append(String...)}
+     * @param base base URL
+     * @param str strings to append
+     * @return the base URL with parameters attached
+     */
+    public static StringBuilder append(URL base, String ... str){
+        if (str==null){
+            return append(base.toString());
+        }
+        
+        StringBuilder buf=new StringBuilder(base.toString());
+        for (String s: str){
+            if (s!=null)
+                buf.append(s);
+        }
+        return buf;
+    }
+
+}

@@ -48,13 +48,24 @@ import java.util.*;
 public class DbManager {
     private static DbManager manager;
 
-    private Map<String, DbWrapper> dbWrappers = Maps.newHashMap();
+    private Map<String, DbWrapper> dbWrappers = null;
 
     public static DbManager me() {
         if (manager == null) {
             manager = AopKit.singleton(DbManager.class);
         }
         return manager;
+    }
+    
+    public void addArp(Plugins plugin, DataSourceConfig datasourceConfig) {
+    	if (datasourceConfig.isConfigOk()) {
+            ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(plugin, datasourceConfig);
+            activeRecordPlugin.setShowSql(Lambkit.isDevMode());
+            activeRecordPlugin.setCache(CacheManager.me().getCache());
+            configSqlTemplate(datasourceConfig, activeRecordPlugin);
+            configDialect(activeRecordPlugin, datasourceConfig);
+            addArp(activeRecordPlugin);
+        }
     }
     
     public void addArp(ActiveRecordPlugin arp) {
@@ -65,24 +76,30 @@ public class DbManager {
     	DbWrapper db = new DbWrapper();
     	db.setArp(arp);
     	db.setConfigName(arp.getConfig().getName());
-    	dbWrappers.put(arp.getConfig().getName(), db);
+    	getDbWrappers().put(arp.getConfig().getName(), db);
     }
     
     public void addTable(String configName, TableWrapper table) {
-    	DbWrapper db = dbWrappers.get(configName);
+    	DbWrapper db = getDbWrappers().get(configName);
     	if(db!=null) {
     		db.addTable(table);
     	}
     }
+    
+    public DbWrapper getDbWrapper(String configName) {
+    	return getDbWrappers().get(configName);
+    }
+    
+    public void removeArp(String configName) {
+    	//
+    	
+    }
 
     public Map<String, DbWrapper> init(Plugins plugin) {
-
         // 所有的数据源
         Map<String, DataSourceConfig> datasourceConfigs = DataSourceConfigManager.me().getDatasourceConfigs();
-
         // 分库的数据源，一个数据源包含了多个数据源。
         Map<String, DataSourceConfig> shardingDatasourceConfigs = DataSourceConfigManager.me().getShardingDatasourceConfigs();
-
         if (shardingDatasourceConfigs != null && shardingDatasourceConfigs.size() > 0) {
             for (Map.Entry<String, DataSourceConfig> entry : shardingDatasourceConfigs.entrySet()) {
                 String databaseConfig = entry.getValue().getShardingDatabase();
@@ -99,35 +116,19 @@ public class DbManager {
                 }
             }
         }
-        
-      //所有数据源，包含了分库的和未分库的
+        //所有数据源，包含了分库的和未分库的
         Map<String, DataSourceConfig> allDatasourceConfigs = new HashMap<>();
         if (datasourceConfigs != null) {
             allDatasourceConfigs.putAll(datasourceConfigs);
         }
-
         if (shardingDatasourceConfigs != null) {
             allDatasourceConfigs.putAll(shardingDatasourceConfigs);
         }
-
-
         for (Map.Entry<String, DataSourceConfig> entry : allDatasourceConfigs.entrySet()) {
-
             DataSourceConfig datasourceConfig = entry.getValue();
-
-            if (datasourceConfig.isConfigOk()) {
-
-                ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(plugin, datasourceConfig);
-                activeRecordPlugin.setShowSql(Lambkit.isDevMode());
-                activeRecordPlugin.setCache(CacheManager.me().getCache());
-
-                configSqlTemplate(datasourceConfig, activeRecordPlugin);
-                configDialect(activeRecordPlugin, datasourceConfig);
-
-                addArp(activeRecordPlugin);
-            }
+            addArp(plugin, datasourceConfig);
         }
-        return dbWrappers;
+        return getDbWrappers();
     }
 
     /**
@@ -147,8 +148,6 @@ public class DbManager {
         } else {
             activeRecordPlugin.setBaseSqlTemplatePath(PathKit.getRootClassPath());
         }
-
-
         String sqlTemplateString = datasourceConfig.getSqlTemplate();
         if (sqlTemplateString != null) {
             String[] sqlTemplateFiles = sqlTemplateString.split(",");
@@ -189,7 +188,6 @@ public class DbManager {
         }
     }
 
-
     /**
      * 创建 ActiveRecordPlugin 插件，用于数据库读写
      *
@@ -216,7 +214,6 @@ public class DbManager {
         if (ArrayUtils.isNullOrEmpty(TableMappings)) {
             return activeRecordPlugin;
         }
-
         for (TableWrapper ti : TableMappings) {
             if (StringUtils.isNotBlank(ti.getPrimaryKey())) {
                 activeRecordPlugin.addMapping(ti.getTableName(), ti.getPrimaryKey(), (Class<? extends Model<?>>) ti.getModelClass());
@@ -224,11 +221,13 @@ public class DbManager {
                 activeRecordPlugin.addMapping(ti.getTableName(), (Class<? extends Model<?>>) ti.getModelClass());
             }
         }
-
         return activeRecordPlugin;
     }
 
 	public Map<String, DbWrapper> getDbWrappers() {
+		if(dbWrappers==null) {
+			dbWrappers = Maps.newHashMap();
+		}
 		return dbWrappers;
 	}
 }

@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.zip.DataFormatException;
 
 import com.lambkit.common.util.DateTimeUtils;
-import com.lambkit.common.util.StringUtils;
 
-import freemarker.template.TemplateMethodModel;
+import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -29,7 +28,7 @@ import freemarker.template.TemplateModelException;
  * @author 孤竹行
  *
  */
-public class DateFormatMethod implements TemplateMethodModel {
+public class DateFormatMethod implements TemplateMethodModelEx {
 
 	@Override
 	public Object exec(List params) throws TemplateModelException {

@@ -18,7 +18,7 @@ package com.lambkit.web.tag;
 import java.sql.Timestamp;
 import java.util.List;
 
-import freemarker.template.TemplateMethodModel;
+import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -27,7 +27,7 @@ import freemarker.template.TemplateModelException;
  * @author 孤竹行
  *
  */
-public class LongToDateTimeMethod implements TemplateMethodModel {
+public class LongToDateTimeMethod implements TemplateMethodModelEx {
 
 	@Override
 	public Object exec(List params) throws TemplateModelException {

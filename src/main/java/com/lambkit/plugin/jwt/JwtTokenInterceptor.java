@@ -17,6 +17,7 @@ package com.lambkit.plugin.jwt;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.kit.Ret;
 import com.jfinal.kit.StrKit;
 import com.lambkit.Lambkit;
 
@@ -37,7 +38,7 @@ public class JwtTokenInterceptor implements Interceptor {
 			break;
 		}
 		default: {
-			inv.getController().renderError(401);
+			inv.getController().renderJson(Ret.fail("code", 401).set("msg", "to login"));
 		}
 		}
 		inv.getController().getRequest().removeAttribute("me");// 移除避免暴露当前角色信息

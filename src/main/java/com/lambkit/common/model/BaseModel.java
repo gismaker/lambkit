@@ -19,6 +19,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.core.converter.TypeConverter;
 import com.jfinal.kit.Kv;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.IBean;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
@@ -45,8 +46,10 @@ import io.zbus.kit.JsonKit;
 import java.text.ParseException;
 import java.util.*;
 
-@SuppressWarnings("serial")
-public class BaseModel<M extends BaseModel<M>> extends Model<M> {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class BaseModel<M extends BaseModel<M>> extends Model<M> implements IBean {
+
+	private static final long serialVersionUID = 1002554886565298306L;
 
 	public static final String AUTO_COPY_MODEL = "_auto_copy_model_";
 	
@@ -110,7 +113,6 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
      *
      * @return
      */
-    @SuppressWarnings("unchecked")
 	public M copy() {
         M m = null;
         try {
@@ -247,7 +249,7 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
         return cacheTime;
     }
 
-    public BaseModel setAttrs(Kv para, String modelName) {
+	public BaseModel setAttrs(Kv para, String modelName) {
     	modelName = StrKit.notBlank(modelName) ? modelName + "." : "";
     	if (table == null) {
             table = TableMapping.me().getTable(_getUsefulClass());
@@ -270,7 +272,7 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
 		return this;
     }
     
-    public BaseModel setAttrs(String jsonString) {
+	public BaseModel setAttrs(String jsonString) {
     	return (BaseModel) JsonKit.parseObject(jsonString, _getUsefulClass());
     }
     
@@ -421,7 +423,6 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> {
      * @param idValue the id value of the model
      * @return
      */
-    @SuppressWarnings("unchecked")
 	@Override
     public M findById(final Object idValue) {
         return (M) (cacheEnable ? getCache(idValue, new IDataLoader() {

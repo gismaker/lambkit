@@ -40,11 +40,11 @@ public class Application extends JFinalConfig {
         	}
     		Lambkit.addModule(new LmsModule());
 		}
+		Lambkit.getModule().configConstant(constants);
 		/**
 		 * 发送初始化通知
 		 */
 		EventKit.sendEvent(LambkitConsts.EVENT_INIT, null);
-		Lambkit.getModule().configConstant(constants);
 		// TimeUtils.endTime("start lambkit configConstant");
 	}
 
