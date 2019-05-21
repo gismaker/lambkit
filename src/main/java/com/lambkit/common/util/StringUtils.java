@@ -41,12 +41,12 @@ import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
 public final class StringUtils {
-	
+
 	private static final Log log = Log.getLog(StringUtils.class);
-	
-	//---------------------------------
+
+	// ---------------------------------
 	// 字符串null、空的判断
-	//---------------------------------
+	// ---------------------------------
 	/**
 	 * 判断str是否是实际内容，纯空格组成的str返回false Check whether the given String has actual
 	 * text. More specifically, returns <code>true</code> if the string not
@@ -60,8 +60,9 @@ public final class StringUtils {
 	 * StringUtils.hasText(" 12345 ") = true
 	 * </pre>
 	 * 
-	 * @param str
+	 * &#64;param str
 	 *            the String to check (may be <code>null</code>)
+	 * 
 	 * @return <code>true</code> if the String is not <code>null</code>, its
 	 *         length is greater than 0, and is does not contain whitespace only
 	 * @see java.lang.Character#isWhitespace
@@ -131,7 +132,7 @@ public final class StringUtils {
 		}
 		return true;
 	}
-	
+
 	public static boolean isBlank(StringBuffer strbuf) {
 		int length;
 		if ((strbuf == null) || ((length = strbuf.length()) == 0)) {
@@ -158,7 +159,7 @@ public final class StringUtils {
 	public static boolean isNotBlank(String str) {
 		return !isBlank(str);
 	}
-	
+
 	public static boolean areNotEmpty(String... strings) {
 		if (strings == null || strings.length == 0)
 			return false;
@@ -170,58 +171,59 @@ public final class StringUtils {
 		}
 		return true;
 	}
-	
+
 	public static boolean notBlank(String str) {
 		return !isBlank(str);
 	}
-	
+
 	public static boolean notBlank(StringBuffer strbuf) {
 		return !isBlank(strbuf);
 	}
-	
-	/** 
-     * 判断对象或对象数组中每一个对象是否为空: 对象为null，字符序列长度为0，集合类、Map为empty 
-     *  
-     * @param obj 
-     * @return 
-     */  
-    @SuppressWarnings("rawtypes")
-	public static boolean isNullOrEmpty(Object obj) {  
-        if (obj == null)  
-            return true;  
-  
-        if (obj instanceof CharSequence)  
-            return ((CharSequence) obj).length() == 0;  
-  
-        if (obj instanceof Collection)  
-            return ((Collection) obj).isEmpty();  
-  
-        if (obj instanceof Map)  
-            return ((Map) obj).isEmpty();  
-  
-        if (obj instanceof Object[]) {  
-            Object[] object = (Object[]) obj;  
-            if (object.length == 0) {  
-                return true;  
-            }  
-            boolean empty = true;  
-            for (int i = 0; i < object.length; i++) {  
-                if (!isNullOrEmpty(object[i])) {  
-                    empty = false;  
-                    break;  
-                }  
-            }  
-            return empty;  
-        }  
-        return false;  
-    }  
-    
-	//---------------------------------
+
+	/**
+	 * 判断对象或对象数组中每一个对象是否为空: 对象为null，字符序列长度为0，集合类、Map为empty
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static boolean isNullOrEmpty(Object obj) {
+		if (obj == null)
+			return true;
+
+		if (obj instanceof CharSequence)
+			return ((CharSequence) obj).length() == 0;
+
+		if (obj instanceof Collection)
+			return ((Collection) obj).isEmpty();
+
+		if (obj instanceof Map)
+			return ((Map) obj).isEmpty();
+
+		if (obj instanceof Object[]) {
+			Object[] object = (Object[]) obj;
+			if (object.length == 0) {
+				return true;
+			}
+			boolean empty = true;
+			for (int i = 0; i < object.length; i++) {
+				if (!isNullOrEmpty(object[i])) {
+					empty = false;
+					break;
+				}
+			}
+			return empty;
+		}
+		return false;
+	}
+
+	// ---------------------------------
 	// 字符串操作
-	//---------------------------------
-    
-    /**
+	// ---------------------------------
+
+	/**
 	 * 去除"_"符号，并分割开的各字符首字母大写
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -231,12 +233,12 @@ public final class StringUtils {
 		}
 		String res = "";
 		String[] strs = str.split("_");
-		for(String s : strs) {
+		for (String s : strs) {
 			res += getUppercaseChar(s);
 		}
 		return res;
 	}
-	
+
 	/**
 	 * 把第一个字母变为大写<br>
 	 * 如：<br>
@@ -251,12 +253,11 @@ public final class StringUtils {
 		if (str == null || (strLen = str.length()) == 0) {
 			return str;
 		}
-		return new StringBuffer(strLen)
-				.append(Character.toUpperCase(str.charAt(0)))
-				.append(str.substring(1)).toString();
-		//return str.substring(0, 1).toUpperCase() + str.substring(1);
+		return new StringBuffer(strLen).append(Character.toUpperCase(str.charAt(0))).append(str.substring(1))
+				.toString();
+		// return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
-	
+
 	/**
 	 * 把第一个字母变为小写<br>
 	 * 如：<br>
@@ -271,12 +272,11 @@ public final class StringUtils {
 		if (str == null || (strLen = str.length()) == 0) {
 			return str;
 		}
-		return new StringBuffer(strLen)
-				.append(Character.toLowerCase(str.charAt(0)))
-				.append(str.substring(1)).toString();
-		//return str.substring(0, 1).toLowerCase() + str.substring(1);
+		return new StringBuffer(strLen).append(Character.toLowerCase(str.charAt(0))).append(str.substring(1))
+				.toString();
+		// return str.substring(0, 1).toLowerCase() + str.substring(1);
 	}
-	
+
 	/**
 	 * 获取路径的最后面字符串<br>
 	 * 如：<br>
@@ -295,7 +295,7 @@ public final class StringUtils {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 字符串转换unicode
 	 */
@@ -309,7 +309,7 @@ public final class StringUtils {
 		}
 		return unicode.toString();
 	}
-	
+
 	/**
 	 * unicode 转字符串
 	 */
@@ -324,7 +324,7 @@ public final class StringUtils {
 		}
 		return string.toString();
 	}
-	
+
 	/**
 	 * @Desc:将阿拉伯数字转换为大写字中文汉字
 	 * @param a
@@ -473,8 +473,8 @@ public final class StringUtils {
 	}
 
 	/**
-	 * @Desc:将数字转换成制定格式的字符串，如：
-	 * @format("￥#,##0.00元", 66778899),format("yyyy-MM-dd",new Date())
+	 * @Desc:将数字转换成制定格式的字符串，如： @format("￥#,##0.00元",
+	 *                         66778899),format("yyyy-MM-dd",new Date())
 	 * @param pattern
 	 * @param value
 	 * @return
@@ -589,30 +589,12 @@ public final class StringUtils {
 	}
 
 	/**
-	 * @Desc:获取32位UUID编码
-	 * @return
-	 */
-	public static String getRandString32() {
-		UUID uuid = UUID.randomUUID();
-		return uuid.toString().replace("-", "").replace("{", "").replace("}", "");
-	}
-
-	/**
-	 * @Desc:获取32位中前16位UUID编码
-	 * @return
-	 */
-	public static String getRandString16() {
-		UUID uuid = UUID.randomUUID();
-		return uuid.toString().replace("-", "").replace("{", "").replace("}", "").substring(0, 16);
-	}
-
-	/**
 	 * @Desc:将List转换为split分隔的字符串，默认以","进行分隔
 	 * @param list
 	 * @param split
 	 * @return
 	 */
-	
+
 	@SuppressWarnings("rawtypes")
 	public static String listToString(List list, String split) {
 		if (list == null || list.size() == 0) {
@@ -662,58 +644,59 @@ public final class StringUtils {
 		sql = sql.replaceAll("/", "//");
 		return sql;
 	}
-	
+
 	/**
 	 * @Desc SQL语句效验，防止SQL语句字符注入
 	 * @param str
 	 * @return
 	 */
 	public static boolean validateSQL(String str) {
-        str = str.toLowerCase();//统一转为小写
-        String badStr = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
-                "char|declare|sitename|net user|xp_cmdshell|;|or|-|+|,|like'|and|exec|execute|insert|create|drop|" +
-                "table|from|grant|use|group_concat|column_name|" +
-                "information_schema.columns|table_schema|union|where|select|delete|update|order|by|count|*|" +
-                "chr|mid|master|truncate|char|declare|or|;|-|--|+|,|like|//|/|%|#";//过滤掉的sql关键字，可以手动添加
-        String[] badStrs = badStr.split("\\|");
-        for (int i = 0; i < badStrs.length; i++) {
-            if (str.indexOf(badStrs[i]) >= 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * @Desc SQL语句效验，防止SQL语句字符注入
-     * @param sSql
-     * @return 0 - 没有注入, 1 - 有注入
-     */
-  	public static int filterSQL(String sSql)
-  	{ 
-  	    int srcLen, decLen = 0;
-  	    sSql = sSql.toLowerCase().trim();
-  	    srcLen = sSql.length();
-  	    sSql = sSql.replace("exec", "");
-  	    sSql = sSql.replace("delete", "");
-  	    sSql = sSql.replace("master", "");
-  	    sSql = sSql.replace("truncate", "");
-  	    sSql = sSql.replace("declare", "");
-  	    sSql = sSql.replace("create", "");
-  	    sSql = sSql.replace("xp_", "no");
-  	    decLen = sSql.length();
-  	    if (srcLen == decLen) return 0; 
-  	    else return 1;         
-  	}
-  	
-  	/** 
-  	 * @Desc 防止sql注入 
-  	 * @param sql 
-  	 * @return 
-  	 */  
-  	 public static String transactSQLInjection(String sql) {  
-  		 return sql.replaceAll(".*([';]+|(--)+).*", " ");  
-  	 }  
+		str = str.toLowerCase();// 统一转为小写
+		String badStr = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|"
+				+ "char|declare|sitename|net user|xp_cmdshell|;|or|-|+|,|like'|and|exec|execute|insert|create|drop|"
+				+ "table|from|grant|use|group_concat|column_name|"
+				+ "information_schema.columns|table_schema|union|where|select|delete|update|order|by|count|*|"
+				+ "chr|mid|master|truncate|char|declare|or|;|-|--|+|,|like|//|/|%|#";// 过滤掉的sql关键字，可以手动添加
+		String[] badStrs = badStr.split("\\|");
+		for (int i = 0; i < badStrs.length; i++) {
+			if (str.indexOf(badStrs[i]) >= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @Desc SQL语句效验，防止SQL语句字符注入
+	 * @param sSql
+	 * @return 0 - 没有注入, 1 - 有注入
+	 */
+	public static int filterSQL(String sSql) {
+		int srcLen, decLen = 0;
+		sSql = sSql.toLowerCase().trim();
+		srcLen = sSql.length();
+		sSql = sSql.replace("exec", "");
+		sSql = sSql.replace("delete", "");
+		sSql = sSql.replace("master", "");
+		sSql = sSql.replace("truncate", "");
+		sSql = sSql.replace("declare", "");
+		sSql = sSql.replace("create", "");
+		sSql = sSql.replace("xp_", "no");
+		decLen = sSql.length();
+		if (srcLen == decLen)
+			return 0;
+		else
+			return 1;
+	}
+
+	/**
+	 * @Desc 防止sql注入
+	 * @param sql
+	 * @return
+	 */
+	public static String transactSQLInjection(String sql) {
+		return sql.replaceAll(".*([';]+|(--)+).*", " ");
+	}
 
 	/**
 	 * @Desc 过滤SQL语句，防止SQL语句字符注入
@@ -838,17 +821,17 @@ public final class StringUtils {
 		}
 		return str_seq;
 	}
-	
-	public static String decode(String ss){
+
+	public static String decode(String ss, String enc) {
 		try {
-			return java.net.URLDecoder.decode(ss, "utf-8");
+			return java.net.URLDecoder.decode(ss, enc);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public static String getFirstCat(String s){
+
+	public static String getFirstCat(String s) {
 		String[] sb = s.split(" ");
 		StringBuffer ss = new StringBuffer("");
 		for (int i = 0; i < sb.length; i++) {
@@ -860,55 +843,83 @@ public final class StringUtils {
 		}
 		return ss.toString();
 	}
-	
-	public static String getClassName(String s){
+
+	public static String getClassName(String s) {
 		s = s.replace("_", " ");
 		s = getFirstCat(s.toLowerCase());
 		s = s.replace(" ", "");
 		return s;
 	}
 	
-	public static String getUuid32(){
-		String uuid = java.util.UUID.randomUUID().toString();
-		return uuid.replace("-","").toLowerCase();
+	/**
+	 * @Desc:获取32位UUID编码
+	 * @return
+	 */
+	public static String getRandString32() {
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString().replace("-", "").replace("{", "").replace("}", "");
 	}
-	
-	public static String getExt(String filename){
+
+	/**
+	 * @Desc:获取32位中前16位UUID编码
+	 * @return
+	 */
+	public static String getRandString16() {
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString().replace("-", "").replace("{", "").replace("}", "").substring(0, 16);
+	}
+
+	public static String getUuid32() {
+		String uuid = java.util.UUID.randomUUID().toString();
+		return uuid.replace("-", "").toLowerCase();
+	}
+
+	public static String uuid() {
+		return UUID.randomUUID().toString().replace("-", "");
+	}
+
+	/**
+	 * 文件扩展名
+	 * 
+	 * @param filename
+	 * @return
+	 */
+	public static String getExt(String filename) {
 		int index = filename.lastIndexOf(".");
 		String ext = filename.substring(index).toLowerCase();
 		return ext;
 	}
-	
-	public static String getRemoteLoginUserIp(HttpServletRequest request){
 
-	  String ip = request.getHeader("x-forwarded-for"); 
-	  if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
-	  ip = request.getHeader("Proxy-Client-IP"); 
-	  } 
-	  if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
-	  ip = request.getHeader("WL-Proxy-Client-IP"); 
-	  } 
-	  if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
-	      ip = request.getRemoteAddr(); 
-	  } 
-	  return ip; 
+	public static String getRemoteLoginUserIp(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
 	}
-	
-	public static String getThumbnailImg(){
-		return null;
-	}
-	
-	public static String getRandomDec(){
-		Random ran=new Random();
+
+	/**
+	 * 获取随机数字
+	 * 
+	 * @return
+	 */
+	public static String getRandomDec() {
+		Random ran = new Random();
 		DecimalFormat df = new DecimalFormat(".00");
 		double j = 0;
 		do {
-			j =ran.nextInt(50)/(100.0);
-		} while (j<0.2);
+			j = ran.nextInt(50) / (100.0);
+		} while (j < 0.2);
 		System.out.println(df.format(j));
 		return df.format(j);
 	}
-	
+
 	/**
 	 * 计算地球上任意两点(经纬度)距离
 	 * 
@@ -922,7 +933,7 @@ public final class StringUtils {
 	 *            第二点纬度
 	 * @return 返回距离 单位：米
 	 */
-	public static String Distance(double long1, double lat1, double long2,double lat2) {
+	public static String Distance(double long1, double lat1, double long2, double lat2) {
 		double a, b, R;
 		R = 6378137; // 地球半径
 		lat1 = lat1 * Math.PI / 180.0;
@@ -934,49 +945,49 @@ public final class StringUtils {
 		sa2 = Math.sin(a / 2.0);
 		sb2 = Math.sin(b / 2.0);
 		d = 2 * R * Math.asin(Math.sqrt(sa2 * sa2 + Math.cos(lat1) * Math.cos(lat2) * sb2 * sb2));
-		DecimalFormat    df   = new DecimalFormat("######0.00");
+		DecimalFormat df = new DecimalFormat("######0.00");
 		return df.format(d);
 	}
-	
+
 	/**
+	 * 获取缩略图名称
+	 * 
 	 * @param filename
 	 * @return
 	 */
-	public static String getThumbnail(String filename){
+	public static String getThumbnail(String filename) {
 		String newfile = "";
-		if(StringUtils.toStr(filename).length()>0){
-			newfile = filename.substring(0,filename.indexOf("."))+"-thumbnail"+filename.substring(filename.indexOf("."));
+		if (StringUtils.toStr(filename).length() > 0) {
+			newfile = filename.substring(0, filename.indexOf(".")) + "-thumbnail"
+					+ filename.substring(filename.indexOf("."));
 		}
 		return newfile;
 	}
-	
+
 	/**
-	 * 去除字符串中的空格、回车、换行符、制表符
-	 * 注：\n 回车(\u000a) 
-	 * \t 水平制表符(\u0009) 
-	 * \s 空格(\u0008) 
-	 * \r 换行(\u000d)
+	 * 去除字符串中的空格、回车、换行符、制表符 注：\n 回车(\u000a) \t 水平制表符(\u0009) \s 空格(\u0008) \r
+	 * 换行(\u000d)
+	 * 
 	 * @param str
 	 * @return
 	 */
 	public static String replaceBlank(String str) {
-        String dest = "";
-        if (str!=null) {
-            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-            Matcher m = p.matcher(str);
-            dest = m.replaceAll("");
-        }
-        return dest;
-    }
-	
+		String dest = "";
+		if (str != null) {
+			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+			Matcher m = p.matcher(str);
+			dest = m.replaceAll("");
+		}
+		return dest;
+	}
 
-    public static boolean match(String string, String regex) {
-        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(string);
-        return matcher.matches();
-    }
+	public static boolean match(String string, String regex) {
+		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(string);
+		return matcher.matches();
+	}
 
-    /**
+	/**
 	 * 判断是否为整数
 	 * 
 	 * @param str
@@ -987,8 +998,8 @@ public final class StringUtils {
 		Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
 		return pattern.matcher(str).matches();
 	}
-	
-    /**
+
+	/**
 	 * 匹配是否为数字
 	 * 
 	 * @param str
@@ -1013,138 +1024,188 @@ public final class StringUtils {
 		return true;
 	}
 
-    public static boolean isEmail(String email) {
-        return Pattern.matches("\\w+@(\\w+.)+[a-z]{2,3}", email);
-    }
+	public static boolean isEmail(String email) {
+		return Pattern.matches("\\w+@(\\w+.)+[a-z]{2,3}", email);
+	}
 
-    public static boolean isMobileNumber(String phoneNumber) {
-        return Pattern.matches("^(1[3,4,5,7,8])\\d{9}$", phoneNumber);
-    }
+	public static boolean isMobileNumber(String phoneNumber) {
+		return Pattern.matches("^(1[3,4,5,7,8])\\d{9}$", phoneNumber);
+	}
 
-    public static String escapeHtml(String text) {
-        if (isBlank(text))
-            return text;
+	/**
+	 * 判断字符串是否为日期格式
+	 * @param strDate
+	 * @return
+	 */
+	public static boolean isDate(String strDate) {
+		Pattern pattern = Pattern
+                .compile("^((\\d{2}(([02468]048)|([13579]26))[\\-\\/\\s]?((((0?[13578])|(102))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(301)))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(102))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(301)))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))(\\s(((0?[0-9])|([1-2][0-3]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9]))?)))?$");
+        Matcher m = pattern.matcher(strDate);
+		if (m.matches()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-        return text.replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;").replace("/", "&#x2F;");
-    }
+	/**
+	 * html转义
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public static String escapeHtml(String text) {
+		if (isBlank(text))
+			return text;
 
-    public static String uuid() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
+		return text.replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;")
+				.replace("/", "&#x2F;");
+	}
 
-    /**
-     * 生成流水号
-     *
-     * @param uuid 谋订单的主键ID
-     * @return
-     */
-    public static String generateSerialNumber(String uuid) {
-        return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + Math.abs(uuid.hashCode());
-    }
+	/**
+	 * 生成流水号
+	 *
+	 * @param uuid
+	 *            谋订单的主键ID
+	 * @return
+	 */
+	public static String generateSerialNumber(String uuid) {
+		return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + Math.abs(uuid.hashCode());
+	}
 
-    public static String clearSpecialCharacter(String string) {
-        if (isBlank(string)) {
-            return string;
-        }
+	/**
+	 * 去除特殊字符
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static String clearSpecialCharacter(String string) {
+		if (isBlank(string)) {
+			return string;
+		}
 
-        /**
-         P：标点字符；
-         L：字母；
-         M：标记符号（一般不会单独出现）；
-         Z：分隔符（比如空格、换行等）；
-         S：符号（比如数学符号、货币符号等）；
-         N：数字（比如阿拉伯数字、罗马数字等）；
-         C：其他字符
-         */
-//        return string.replaceAll("[\\pP\\pZ\\pM\\pC]", "");
-        return string.replaceAll("[\\\\\'\"\\/\f\n\r\t]", "");
-    }
+		/**
+		 * P：标点字符； L：字母； M：标记符号（一般不会单独出现）； Z：分隔符（比如空格、换行等）； S：符号（比如数学符号、货币符号等）；
+		 * N：数字（比如阿拉伯数字、罗马数字等）； C：其他字符
+		 */
+		// return string.replaceAll("[\\pP\\pZ\\pM\\pC]", "");
+		return string.replaceAll("[\\\\\'\"\\/\f\n\r\t]", "");
+	}
 
+	/**
+	 * 生成验证码
+	 */
+	public static String getValidateCode() {
 
-    /**
-     * 生成验证码
-     */
-    public static String getValidateCode() {
+		Random random = new Random();
+		return String.valueOf(random.nextInt(9999 - 1000 + 1) + 1000);// 为变量赋随机值1000-9999
+	}
 
-        Random random = new Random();
-        return String.valueOf(random.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值1000-9999
-    }
+	/**
+	 * 字符串分割
+	 * 
+	 * @param src
+	 * @param regex
+	 * @return
+	 */
+	public static Set<String> splitToSet(String src, String regex) {
+		if (src == null) {
+			return null;
+		}
 
+		String[] strings = src.split(regex);
+		Set<String> set = new HashSet<>();
+		for (String table : strings) {
+			if (StringUtils.isBlank(table)) {
+				continue;
+			}
+			set.add(table.trim());
+		}
+		return set;
+	}
 
-    public static Set<String> splitToSet(String src, String regex) {
-        if (src == null) {
-            return null;
-        }
+	/**
+	 * url解码
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static String urlDecode(String string) {
+		try {
+			return URLDecoder.decode(string, JFinal.me().getConstants().getEncoding());
+		} catch (UnsupportedEncodingException e) {
+			log.error("urlDecode is error", e);
+		}
+		return string;
+	}
 
-        String[] strings = src.split(regex);
-        Set<String> set = new HashSet<>();
-        for (String table : strings) {
-            if (StringUtils.isBlank(table)) {
-                continue;
-            }
-            set.add(table.trim());
-        }
-        return set;
-    }
-    
-    public static String urlDecode(String string) {
-        try {
-            return URLDecoder.decode(string, JFinal.me().getConstants().getEncoding());
-        } catch (UnsupportedEncodingException e) {
-            log.error("urlDecode is error", e);
-        }
-        return string;
-    }
+	/**
+	 * url编码
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static String urlEncode(String string) {
+		try {
+			return URLEncoder.encode(string, JFinal.me().getConstants().getEncoding());
+		} catch (UnsupportedEncodingException e) {
+			log.error("urlEncode is error", e);
+		}
+		return string;
+	}
 
-    public static String urlEncode(String string) {
-        try {
-            return URLEncoder.encode(string, JFinal.me().getConstants().getEncoding());
-        } catch (UnsupportedEncodingException e) {
-            log.error("urlEncode is error", e);
-        }
-        return string;
-    }
+	/**
+	 * 
+	 * @param redirect
+	 * @return
+	 */
+	public static String urlRedirect(String redirect) {
+		try {
+			redirect = new String(redirect.getBytes(JFinal.me().getConstants().getEncoding()), "ISO8859_1");
+		} catch (UnsupportedEncodingException e) {
+			log.error("urlRedirect is error", e);
+		}
+		return redirect;
+	}
 
-    public static String urlRedirect(String redirect) {
-        try {
-            redirect = new String(redirect.getBytes(JFinal.me().getConstants().getEncoding()), "ISO8859_1");
-        } catch (UnsupportedEncodingException e) {
-            log.error("urlRedirect is error", e);
-        }
-        return redirect;
-    }
-    
-    public static boolean isMatch(String s, String p) {
-        int idxs = 0, idxp = 0, idxstar = -1, idxmatch = 0;
-        while(idxs < s.length()){
-            // 当两个指针指向完全相同的字符时，或者p中遇到的是?时
-            if(idxp < p.length() && (s.charAt(idxs) == p.charAt(idxp) || p.charAt(idxp) == '?')){
-                idxp++;
-                idxs++;
-            // 如果字符不同也没有?，但在p中遇到是*时，我们记录下*的位置，但不改变s的指针
-            } else if(idxp < p.length() && p.charAt(idxp)=='*'){
-                idxstar = idxp;
-                idxp++;
-                //遇到*后，我们用idxmatch来记录*匹配到的s字符串的位置，和不用*匹配到的s字符串位置相区分
-                idxmatch = idxs;
-            // 如果字符不同也没有?，p指向的也不是*，但之前已经遇到*的话，我们可以从idxmatch继续匹配任意字符
-            } else if(idxstar != -1){
-                // 用上一个*来匹配，那我们p的指针也应该退回至上一个*的后面
-                idxp = idxstar + 1;
-                // 用*匹配到的位置递增
-                idxmatch++;
-                // s的指针退回至用*匹配到位置
-                idxs = idxmatch;
-            } else {
-                return false;
-            }
-        }
-        // 因为1个*能匹配无限序列，如果p末尾有多个*，我们都要跳过
-        while(idxp < p.length() && p.charAt(idxp) == '*'){
-            idxp++;
-        }
-        // 如果p匹配完了，说明匹配成功
-        return idxp == p.length();
-    }
-	
+	/**
+	 * 是否符合正则匹配
+	 * 
+	 * @param s
+	 * @param p
+	 * @return
+	 */
+	public static boolean isMatch(String s, String p) {
+		int idxs = 0, idxp = 0, idxstar = -1, idxmatch = 0;
+		while (idxs < s.length()) {
+			// 当两个指针指向完全相同的字符时，或者p中遇到的是?时
+			if (idxp < p.length() && (s.charAt(idxs) == p.charAt(idxp) || p.charAt(idxp) == '?')) {
+				idxp++;
+				idxs++;
+				// 如果字符不同也没有?，但在p中遇到是*时，我们记录下*的位置，但不改变s的指针
+			} else if (idxp < p.length() && p.charAt(idxp) == '*') {
+				idxstar = idxp;
+				idxp++;
+				// 遇到*后，我们用idxmatch来记录*匹配到的s字符串的位置，和不用*匹配到的s字符串位置相区分
+				idxmatch = idxs;
+				// 如果字符不同也没有?，p指向的也不是*，但之前已经遇到*的话，我们可以从idxmatch继续匹配任意字符
+			} else if (idxstar != -1) {
+				// 用上一个*来匹配，那我们p的指针也应该退回至上一个*的后面
+				idxp = idxstar + 1;
+				// 用*匹配到的位置递增
+				idxmatch++;
+				// s的指针退回至用*匹配到位置
+				idxs = idxmatch;
+			} else {
+				return false;
+			}
+		}
+		// 因为1个*能匹配无限序列，如果p末尾有多个*，我们都要跳过
+		while (idxp < p.length() && p.charAt(idxp) == '*') {
+			idxp++;
+		}
+		// 如果p匹配完了，说明匹配成功
+		return idxp == p.length();
+	}
+
 }

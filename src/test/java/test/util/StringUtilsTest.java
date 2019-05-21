@@ -25,5 +25,9 @@ public class StringUtilsTest {
 		String tb = "data_table";
 		System.out.println(tb.split("_")[0]+"_");
 		
+		if(StringUtils.isDate("2017-08-01 12:01")) {
+			System.out.println("2017-08-01 12:01是日期");
+		}
+		
 	}
 }
