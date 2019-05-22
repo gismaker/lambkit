@@ -4,7 +4,7 @@ package $!{basepackage}.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.module.meta.MetaMgrConfig;
+import com.lambkit.db.mgr.MgrdbConfig;
 import com.lambkit.module.meta.MetaMgrManager;
 
 import $!{basepackage}.model.base.Base${classname};
@@ -21,7 +21,7 @@ public class ${classname} extends Base${classname}<${classname}> {
 	}
 	
 	public ${classname}() {
-		MetaMgrConfig config = MetaMgrManager.me().getConfig();
+		MgrdbConfig config = MetaMgrManager.me().getConfig();
 		String dbconfig = config.getDbconfig();
 		if(StrKit.notBlank(dbconfig)) {
 			this.use(dbconfig);

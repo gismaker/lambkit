@@ -26,6 +26,9 @@ public class MgrdbConfig {
 	private String type;
 	private String tableRemovePrefixes;
 	private boolean isUseController = false;
+	private String rpcType = "server";
+	private String rpcVersion = "1.0";
+	private String dbconfig;
 
 	public String getTableRemovePrefixes() {
 		return tableRemovePrefixes;
@@ -49,5 +52,29 @@ public class MgrdbConfig {
 
 	public void setUseController(boolean isUseController) {
 		this.isUseController = isUseController;
+	}
+
+	public String getRpcType() {
+		return rpcType;
+	}
+
+	public void setRpcType(String rpcType) {
+		this.rpcType = rpcType;
+	}
+
+	public String getRpcVersion() {
+		return rpcVersion;
+	}
+
+	public void setRpcVersion(String rpcVersion) {
+		this.rpcVersion = rpcVersion;
+	}
+
+	public String getDbconfig() {
+		return dbconfig;
+	}
+
+	public void setDbconfig(String dbconfig) {
+		this.dbconfig = dbconfig;
 	}
 }

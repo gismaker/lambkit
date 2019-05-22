@@ -17,10 +17,10 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.module.meta.MetaMgrConfig;
-import com.lambkit.module.meta.MetaMgrManager;
 
 import com.lambkit.module.upms.rpc.model.base.BaseUpmsLog;
+import com.lambkit.module.upms.UpmsConfig;
+import com.lambkit.module.upms.UpmsManager;
 import com.lambkit.module.upms.rpc.api.UpmsLogService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsLogServiceImpl;
 
@@ -41,7 +41,7 @@ public class UpmsLog extends BaseUpmsLog<UpmsLog> {
 	}
 	
 	public UpmsLog() {
-		MetaMgrConfig config = MetaMgrManager.me().getConfig();
+		UpmsConfig config = UpmsManager.me().getConfig();
 		String dbconfig = config.getDbconfig();
 		if(StrKit.notBlank(dbconfig)) {
 			this.use(dbconfig);

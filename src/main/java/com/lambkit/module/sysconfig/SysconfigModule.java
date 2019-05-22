@@ -16,6 +16,7 @@
 package com.lambkit.module.sysconfig;
 
 import com.jfinal.config.Routes;
+import com.jfinal.kit.StrKit;
 import com.lambkit.Lambkit;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.db.mgr.MgrdbConfig;
@@ -25,11 +26,24 @@ import com.lambkit.module.sysconfig.web.controller.SysconfigDataApiController;
 import com.lambkit.module.sysconfig.web.controller.SysconfigViewController;
 
 public class SysconfigModule extends LambkitModule {
+
 	@Override
 	public void configMapping(ActiveRecordPluginWrapper arp) {
-		// TODO Auto-generated method stub
-		arp.addMapping("sys_tableconfig", "tbid", TableconfigModel.class);
-		arp.addMapping("sys_fieldconfig", "fldid", FieldconfigModel.class);
+		MgrdbConfig config = Lambkit.config(MgrdbConfig.class);
+		if(StrKit.isBlank(config.getDbconfig())) {
+			arp.addMapping("sys_tableconfig", "tbid", TableconfigModel.class);
+			arp.addMapping("sys_fieldconfig", "fldid", FieldconfigModel.class);
+		}
+	}
+	
+	@Override
+	public void configMapping(String name, ActiveRecordPluginWrapper arp) {
+		super.configMapping(name, arp);
+		MgrdbConfig config = Lambkit.config(MgrdbConfig.class);
+		if(StrKit.notBlank(name) && name.equals(config.getDbconfig())) {
+			arp.addMapping("sys_tableconfig", "tbid", TableconfigModel.class);
+			arp.addMapping("sys_fieldconfig", "fldid", FieldconfigModel.class);
+		}
 	}
 	
 	@Override

@@ -17,12 +17,12 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.module.meta.MetaMgrConfig;
-import com.lambkit.module.meta.MetaMgrManager;
 
 import com.lambkit.module.upms.rpc.model.base.BaseUpmsSystem;
 import com.lambkit.module.upms.rpc.api.UpmsSystemService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsSystemServiceImpl;
+import com.lambkit.module.upms.UpmsConfig;
+import com.lambkit.module.upms.UpmsManager;
 
 /**
  * @author yangyong 
@@ -41,7 +41,7 @@ public class UpmsSystem extends BaseUpmsSystem<UpmsSystem> {
 	}
 	
 	public UpmsSystem() {
-		MetaMgrConfig config = MetaMgrManager.me().getConfig();
+		UpmsConfig config = UpmsManager.me().getConfig();
 		String dbconfig = config.getDbconfig();
 		if(StrKit.notBlank(dbconfig)) {
 			this.use(dbconfig);

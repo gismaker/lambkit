@@ -18,6 +18,7 @@ import com.lambkit.Lambkit;
 import com.lambkit.common.service.ServiceManager;
 import com.lambkit.core.rpc.RpcConfig;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
+import com.lambkit.db.mgr.MgrdbConfig;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.module.meta.model.MetaApp;
 import com.lambkit.module.meta.model.MetaApi;
@@ -127,8 +128,6 @@ public class MetaMgrManager {
 	public static MetaMgrManager me() {
 		return me;
 	}
-	
-	private MetaMgrConfig config;
 	
 	public void mapping(ActiveRecordPluginWrapper arp) {
 		// TODO Auto-generated method stub
@@ -251,15 +250,7 @@ public class MetaMgrManager {
 	public String getRpcVersion() {
 		return getConfig().getRpcVersion();
 	}
-
-	public MetaMgrConfig getConfig() {
-		if(config==null) {
-			config = Lambkit.config(MetaMgrConfig.class);
-		}
-		return config;
-	}
-
-	public void setConfig(MetaMgrConfig config) {
-		this.config = config;
+	public MgrdbConfig getConfig() {
+		return Lambkit.config(MgrdbConfig.class);
 	}
 }

@@ -22,7 +22,7 @@ import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.sql.column.Column;
-import com.lambkit.module.meta.MetaMgrConfig;
+import com.lambkit.db.mgr.MgrdbConfig;
 import com.lambkit.module.meta.MetaMgrManager;
 
 import com.lambkit.module.meta.model.base.BaseMetaField;
@@ -57,7 +57,7 @@ public class MetaField extends BaseMetaField<MetaField> implements IField {
     }
 
 	public MetaField() {
-		MetaMgrConfig config = MetaMgrManager.me().getConfig();
+		MgrdbConfig config = MetaMgrManager.me().getConfig();
 		String dbconfig = config.getDbconfig();
 		if(StrKit.notBlank(dbconfig)) {
 			this.use(dbconfig);
