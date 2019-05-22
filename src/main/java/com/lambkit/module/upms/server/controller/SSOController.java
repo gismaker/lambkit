@@ -252,8 +252,8 @@ public class SSOController extends BaseController {
     	SecurityUtils.getSubject().logout();
         // 跳回原地址
         String redirectUrl = getRequest().getHeader("Referer");
-        if (null == redirectUrl) {
-            redirectUrl = "/";
+        if (StrKit.isBlank(redirectUrl)) {
+            redirectUrl = getPara("backurl", "/");
         }
         redirect(redirectUrl);
     }

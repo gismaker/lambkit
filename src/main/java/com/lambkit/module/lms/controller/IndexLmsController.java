@@ -94,22 +94,22 @@ public class IndexLmsController extends BaseController {
         String backurl = getRequest().getParameter("backurl");
         System.out.println("backurl:"+backurl);
         if (StringUtils.isBlank(backurl)) {
-        	return new UpmsResult(UpmsResultConstant.SUCCESS, "/");
+        	return new UpmsResult(UpmsResultConstant.SUCCESS, "/lambkit");
         } else {
             return new UpmsResult(UpmsResultConstant.SUCCESS, backurl);
         }
     }
     
-    public void logout(Controller c) {
+    public void logout() {
     	BaseResult result = AuthManager.me().getService().logout(getRequest());
         String redirectUrl = result.getData().toString();
-        if (null == redirectUrl) {
-            redirectUrl = "/lambkit";
+        if (StrKit.isBlank(redirectUrl)) {
+            redirectUrl = getPara("backurl", "/lambkit");
         }
         redirect(redirectUrl);
     }
     
-    public void ajaxLogout(Controller c) {
+    public void ajaxLogout() {
     	AuthManager.me().getService().logout(getRequest());
     	renderJson(new UpmsResult(UpmsResultConstant.SUCCESS, "logout"));
     }

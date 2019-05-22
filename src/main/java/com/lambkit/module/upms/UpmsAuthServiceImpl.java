@@ -144,9 +144,6 @@ public class UpmsAuthServiceImpl implements AuthService {
 		logoutSuccess(request);
 		// 跳回原地址
 		String redirectUrl = request.getHeader("Referer");
-		if (null == redirectUrl) {
-			redirectUrl = "/";
-		}
 		return new UpmsResult(UpmsResultConstant.SUCCESS, redirectUrl);
 	}
 
