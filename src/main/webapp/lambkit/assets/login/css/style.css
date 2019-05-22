@@ -1,0 +1,122 @@
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: #fff;
+	font-family: "幼圆";
+	font-size: 14px;
+	width: 100%;
+	height: 100%;
+	background: url(../images/2.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	-webkit-background-size: cover;
+	-o-background-size: cover;
+	background-position: center 0;
+}
+
+.wrap1 {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto
+}
+
+
+/*把整个屏幕真正撑开--而且能自己实现居中*/
+
+.main_content {
+	/*background: url(../images/main_bg.png) repeat;*/
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	float: none;
+	border-radius: 8px;
+}
+
+.form-group {
+	position: relative;
+}
+
+.login_btn {
+	display: block;
+	background: #3872f6;
+	color: #fff;
+	font-size: 15px;
+	width: 100%;
+	line-height: 30px;
+	border-radius: 3px;
+	border: none;
+}
+
+.login_input {
+	width: 100%;
+	border: 1px solid #324E7E;
+	border-radius: 3px;
+	line-height: 30px;
+	background-color: #324E7E;
+	padding: 2px 5px 2px 30px;
+}
+
+#captcha {
+	width: 100%;
+	border: 1px solid #324E7E;
+	border-radius: 3px;
+	line-height: 30px;
+	background-color: #324E7E;
+	padding: 2px 110px 2px 30px;
+}
+
+#verifyImg {
+	position: absolute;
+    width: 108px;
+    height: 35px;
+    bottom: 0px;
+	right: 0px;
+}
+
+.icon_font {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	font-size: 16px;
+	/*color: #3872f6;*/
+	color: #FFFFFF;
+}
+
+.font16 {
+	font-size: 16px;
+}
+
+.mg-t20 {
+	margin-top: 20px;
+}
+
+
+@media (min-width:300px) {
+	.pd-xs-20 {
+		padding: 20px 50px;
+	}
+}
+
+
+@media (min-width:768px) {
+	.pd-sm-50 {
+		padding: 20px 80px;
+	}
+}
+
+#grad {
+	background: -webkit-linear-gradient(#4990c1, #52a3d2, #6186a3);
+	/* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(#4990c1, #52a3d2, #6186a3);
+	/* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(#4990c1, #52a3d2, #6186a3);
+	/* Firefox 3.6 - 15 */
+	background: linear-gradient(#4990c1, #52a3d2, #6186a3);
+	/* 标准的语法 */
+}
