@@ -399,19 +399,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Javadoc
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
-					<encoding>UTF-8</encoding>
-					<outputDirectory>${basedir}</outputDirectory>
-					<reportOutputDirectory>${basedir}</reportOutputDirectory>
-				</configuration>
-			</plugin>
-			 -->
+			<!-- Javadoc -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -419,8 +407,8 @@
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
 					<encoding>UTF-8</encoding>
-					<outputDirectory>${basedir}</outputDirectory>
-					<reportOutputDirectory>${basedir}</reportOutputDirectory>
+					<outputDirectory>${basedir}/doc</outputDirectory>
+					<reportOutputDirectory>${basedir}/doc</reportOutputDirectory>
 				</configuration>
 				<executions>
 					<execution>

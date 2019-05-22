@@ -2,12 +2,12 @@
 #parse("/template/java_copyright.include")
 package $!{basepackage}.controller;
 
-import $!{basepackage}.CommonController;
+import $!{basepackage}.MschController;
 import $!{basepackage}.model.${classname};
 import $!{basepackage}.web.validator.${classname}Validator;
 import com.jfinal.aop.Before;
 
-public class ${classname}Controller extends CommonController<${classname}> {
+public class ${classname}Controller extends MschController<${classname}> {
 
 	@Override
 	public void index() {

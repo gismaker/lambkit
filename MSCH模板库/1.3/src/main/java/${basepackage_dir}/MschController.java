@@ -2,6 +2,7 @@
 #parse("/template/java_copyright.include")
 package $!{basepackage};
 
+import com.jfinal.core.NotAction;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
@@ -14,7 +15,7 @@ import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.db.sql.condition.SqlBuilder;
 import com.lambkit.web.controller.BaseController;
 
-public abstract class CommonController<T extends Model<T>> extends BaseController {
+public abstract class MschController<T extends Model<T>> extends BaseController {
 
 	protected abstract String getTableName();
 	protected abstract T findById(Object id);
@@ -102,6 +103,7 @@ public abstract class CommonController<T extends Model<T>> extends BaseControlle
 		render(templatePath() + "add.html");
 	}
 	
+	@NotAction
 	protected void doSave(T env) {
 		boolean flag = env.save();
 		if(flag) {
@@ -111,6 +113,7 @@ public abstract class CommonController<T extends Model<T>> extends BaseControlle
 		}
 	}
 	
+	@NotAction
 	protected void doUpdate(T env) {
 		boolean flag = env.update();
 		if(flag) {

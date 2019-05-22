@@ -248,7 +248,7 @@ public class MetaMgrManager {
 		return Lambkit.config(RpcConfig.class).getDefaultGroup();
 	}
 	public String getRpcVersion() {
-		return getConfig().getRpcVersion();
+		return getConfig().getVersion();
 	}
 	public MgrdbConfig getConfig() {
 		return Lambkit.config(MgrdbConfig.class);

@@ -3,11 +3,10 @@
 package $!{basepackage}.model;
 
 import com.jfinal.kit.StrKit;
+import com.lambkit.Lambkit;
 import com.lambkit.common.service.ServiceKit;
 import com.lambkit.db.sql.column.Column;
-import com.lambkit.db.mgr.MgrdbConfig;
-import com.lambkit.module.meta.MetaMgrManager;
-
+import $!{basepackage}.MschConfig;
 import $!{basepackage}.model.base.Base${classname};
 import $!{basepackage}.model.sql.${classname}Criteria;
 import $!{basepackage}.service.${classname}Service;
@@ -33,7 +32,7 @@ public class ${classname} extends Base${classname}<${classname}> {
     }
 
 	public ${classname}() {
-		MgrdbConfig config = MetaMgrManager.me().getConfig();
+		MschConfig config = Lambkit.config(MschConfig.class);
 		String dbconfig = config.getDbconfig();
 		if(StrKit.notBlank(dbconfig)) {
 			this.use(dbconfig);
