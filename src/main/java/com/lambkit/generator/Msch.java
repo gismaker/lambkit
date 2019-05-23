@@ -47,7 +47,8 @@ public class Msch {
 		//创建生成器
 		Generator g = GeneratorManager.me().getDefaultGenerator();
 		//执行
-		g.generate(templatePath, options);
+		if(g!=null) g.generate(templatePath, options);
+		else System.out.println("生成器创建失败，请先初始化GeneratorManager!");
 		
 		System.out.println("-------over-------");
 		//结束应用

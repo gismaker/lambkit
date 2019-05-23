@@ -94,10 +94,10 @@ public class MetaTableServiceImpl extends BaseModelServiceImpl<MetaTable> implem
 		if(model!=null) return model;
 		model = new MetaTable();
 		Timestamp tims = new Timestamp(System.currentTimeMillis());
-		model.set("created", tims);
-		model.set("modified", tims);
-		model.set("orders",1);
-		model.set("status","0");
+		model.setCreated(tims);
+		model.setModified(tims);
+		model.setOrders(1L);
+		model.setStatus(0);
 		return model;
 	}
 
@@ -111,10 +111,10 @@ public class MetaTableServiceImpl extends BaseModelServiceImpl<MetaTable> implem
 		if(model!=null) return model;
 		model = new MetaTable();
 		Timestamp tims = new Timestamp(System.currentTimeMillis());
-		model.set("created", tims);
-		model.set("modified", tims);
-		model.set("orders",1);
-		model.set("status","0");
+		model.setCreated(tims);
+		model.setModified(tims);
+		model.setOrders(1L);
+		model.setStatus(0);
 		return model;
 	}
 }

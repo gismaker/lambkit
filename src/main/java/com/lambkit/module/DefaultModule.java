@@ -242,9 +242,6 @@ public class DefaultModule extends LambkitModule {
 		addTag("shiro", new ShiroTags());
 		JsonManager.me().setDefaultDatePattern("yyyy-MM-dd HH:mm:ss");
 		LambkitManager.me().init();
-		
-		
-		
 		TimeUtils.endTime("start lambkit default module");
 		/**
 		 * 发送启动完成通知

@@ -99,7 +99,7 @@ public class MgrdbManager {
 		application.setWebEnvironment(false);
 		LambkitModule module = getLambkitModule(type);
 		if(module!=null) Lambkit.addModule(module);
-		application.run(null);
+		application.run();
 		MgrdbService service = MgrdbManager.me().getService();
 		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);
 		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {

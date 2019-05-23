@@ -2,8 +2,8 @@
 #parse("/template/java_copyright.include")
 package $!{basepackage}.service.impl;
 
-import com.lambkit.common.aop.AopKit;
 import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.core.aop.AopKit;
 
 import $!{basepackage}.service.${classname}Service;
 import $!{basepackage}.model.${classname};

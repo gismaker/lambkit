@@ -2,11 +2,11 @@ package com.lambkit.test.generator;
 
 import java.util.Map;
 
-import com.beust.jcommander.internal.Maps;
+import com.google.common.collect.Maps;
 import com.jfinal.kit.PathKit;
 import com.lambkit.generator.GeneratorType;
+import com.lambkit.generator.Msch;
 import com.lambkit.generator.GeneratorConfig;
-import com.lambkit.generator.GeneratorManager;
 
 public class GeneratorTest {
 
@@ -23,7 +23,7 @@ public class GeneratorTest {
 		//选择一种模板语言
 		config.setEngine(GeneratorConfig.TYPE_VELOCITY);
 		//选择一种处理引擎
-		config.setType(GeneratorType.DB.getValue());
+		config.setType(GeneratorType.DB);
 		//模板地址，根目录是项目文件夹
 		String templatePath = "/template";
 		Map<String,Object> options = Maps.newHashMap();
@@ -32,7 +32,8 @@ public class GeneratorTest {
 		//仅包含如下表格
 		options.put("includedTables", "meta_api, ");
 		options.put("hasMgrTable", true);
-		GeneratorManager.me().run(templatePath, options, config);
+		Msch.generator(templatePath, options, config);
+		System.exit(0);
 	}
 	/*
 	public static void main(String[] args) {

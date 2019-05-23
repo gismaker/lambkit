@@ -37,6 +37,10 @@ public class LambkitApplication {
 	
 	public void run(String[] args) {
 		parseArgs(args);
+		run();
+	}
+	
+	public void run() {
 		if(isWebEnvironment) {
 			UndertowServer.create(jfinalConfigClass).configWeb(builder->{
 				builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
@@ -60,13 +64,13 @@ public class LambkitApplication {
 	
 	public void stop() {
 		if(!isWebEnvironment) {
+			JFinalConfig jfinalConfig = AopKit.singleton(jfinalConfigClass);
+			jfinalConfig.onStop();
 			for(IPlugin plugin : plugins.getPluginList()) {
 				plugin.stop();
 			}
 			plugins.getPluginList().clear();
 			plugins = null;
-			JFinalConfig jfinalConfig = AopKit.singleton(jfinalConfigClass);
-			jfinalConfig.onStop();
 		}
 	}
 	

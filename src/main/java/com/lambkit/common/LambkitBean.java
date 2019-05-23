@@ -54,7 +54,7 @@ public class LambkitBean {
 	private List<RpcBean> rpcs;
 
 	public void afterJFinalStart() {
-		actionMapping.initMapping();
+		if(actionMapping!=null) actionMapping.initMapping();
 		//initTables();
 	}
 

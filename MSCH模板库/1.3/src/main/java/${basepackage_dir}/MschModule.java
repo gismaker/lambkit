@@ -2,6 +2,8 @@
 #parse("/template/java_copyright.include")
 package $!{basepackage};
 
+import com.jfinal.config.Routes;
+import com.jfinal.kit.StrKit;
 import com.lambkit.Lambkit;
 import com.lambkit.common.service.ServiceManager;
 import com.lambkit.core.rpc.RpcConfig;

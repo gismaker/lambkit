@@ -94,4 +94,8 @@ public class GeneratorConfig {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	public void setType(GeneratorType type) {
+		this.type = type.getValue();
+	}
 }
