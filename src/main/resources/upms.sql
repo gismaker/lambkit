@@ -3,7 +3,7 @@
 #sql("selectUpmsPermissionByUpmsUserId")
 SELECT
   permission_id, system_id, pid, name, type, permission_value, uri, icon, status, ctime, orders
-from upms_permission up where up.`status`=1 and up.permission_id in (
+from upms_permission up where up.status=1 and up.permission_id in (
 			select permission_id from upms_role_permission urp where urp.role_id in (
 				select uur.role_id role_id from upms_user_role uur where uur.user_id=#para(0)
 			)

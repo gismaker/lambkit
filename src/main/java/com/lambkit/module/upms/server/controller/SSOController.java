@@ -69,7 +69,7 @@ import java.util.UUID;
 public class SSOController extends BaseController {
 
     private final static Logger _log = LoggerFactory.getLogger(SSOController.class);
-    protected ShiroRedisSessionDao upmsSessionDao = AopKit.newInstance(ShiroRedisSessionDao.class);
+    protected ShiroRedisSessionDao upmsSessionDao = AopKit.get(ShiroRedisSessionDao.class);
 
     @ApiOperation(url = "/sso", tag = "sso", httpMethod = "get", description = "认证中心首页")
     @Clear
@@ -274,7 +274,7 @@ public class SSOController extends BaseController {
 		Subject subject = SecurityUtils.getSubject();
 		String username = (String) subject.getPrincipal();
 		
-		UpmsApiService upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
+		UpmsApiService upmsApiService = AopKit.get(UpmsApiServiceImpl.class);
 		UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
 		if(upmsUser==null) {
 			// shiro退出登录
@@ -346,7 +346,7 @@ public class SSOController extends BaseController {
 			
 			public boolean run() throws SQLException {
 				// TODO Auto-generated method stub
-				UpmsUserService upmsUserService = AopKit.newInstance(UpmsUserServiceImpl.class);
+				UpmsUserService upmsUserService = AopKit.get(UpmsUserServiceImpl.class);
 				UpmsUser upmsUser = getModel(UpmsUser.class, "user");
 				upmsUser.setUsername(username);
 				upmsUser.setSalt(StrKit.getRandomUUID());

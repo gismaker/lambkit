@@ -6,7 +6,6 @@
          dynamicConfig="true">
     <diskStore path="java.io.tmpdir"/>
     
-    <!-- shiro -->
     <defaultCache
             maxElementsInMemory="10000"
             eternal="false"
@@ -17,6 +16,7 @@
             diskExpiryThreadIntervalSeconds="120"
             />
 
+	<!-- shiro -->
     <cache name="myRealm.authorizationCache" 
            maxElementsInMemory="10000" 
            overflowToDisk="true" 
@@ -47,6 +47,7 @@
 		  diskPersistent="true"
   		 />
   		 
+  	<!-- node manager -->
   	<cache name="nodelist"
            maxElementsInMemory="10000"
            overflowToDisk="true"
@@ -57,6 +58,16 @@
            diskExpiryThreadIntervalSeconds="600"/>
            
     <cache name="nodeapilist"
+           maxElementsInMemory="10000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"/>
+    
+    <!-- auth plugin -->
+    <cache name="ehCacheSession"
            maxElementsInMemory="10000"
            overflowToDisk="true"
            eternal="true"

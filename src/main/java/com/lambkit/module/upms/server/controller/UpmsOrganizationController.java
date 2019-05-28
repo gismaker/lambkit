@@ -31,19 +31,19 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 /**
  * 组织controller
  */
-@Api(tag = "/manage/organization", description = "组织管理")
-//@RequestMapping("/manage/organization")
+@Api(tag = "/upms/organization", description = "组织管理")
+//@RequestMapping("/upms/organization")
 public class UpmsOrganizationController extends BaseController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsOrganizationController.class);
 
-    @ApiOperation(url = "/manage/organization", tag = "manage/organization", httpMethod = "get", description = "组织首页")
+    @ApiOperation(url = "/upms/organization", tag = "manage/organization", httpMethod = "get", description = "组织首页")
     @RequiresPermissions("upms:organization:read")
     public void index() {
         renderTemplate("index.html");
     }
 
-    @ApiOperation(url = "/manage/organization/list", tag = "manage/organization", httpMethod = "get", description = "组织列表")
+    @ApiOperation(url = "/upms/organization/list", tag = "manage/organization", httpMethod = "get", description = "组织列表")
     @RequiresPermissions("upms:organization:read")
     public void list() {
     	String sort = getPara("sort");
@@ -65,7 +65,7 @@ public class UpmsOrganizationController extends BaseController {
         renderJson();
     }
 
-    @ApiOperation(url = "/manage/organization/create", tag = "manage/organization", httpMethod = "get", description = "新增组织")
+    @ApiOperation(url = "/upms/organization/create", tag = "manage/organization", httpMethod = "get", description = "新增组织")
     @RequiresPermissions("upms:organization:create")
     public void create() {
     	if (getRequest().getMethod().equals("GET")) {
@@ -77,7 +77,7 @@ public class UpmsOrganizationController extends BaseController {
     	}
     }
 
-    @ApiOperation(url = "/manage/organization/create", tag = "manage/organization", httpMethod = "post", description = "新增组织")
+    @ApiOperation(url = "/upms/organization/create", tag = "manage/organization", httpMethod = "post", description = "新增组织")
     private Object create(UpmsOrganization upmsOrganization) {
     	/*
         ComplexResult result = FluentValidator.checkAll()
@@ -94,7 +94,7 @@ public class UpmsOrganizationController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
-    @ApiOperation(url = "/manage/organization/delete", tag = "manage/organization", httpMethod = "get", description = "删除组织")
+    @ApiOperation(url = "/upms/organization/delete", tag = "manage/organization", httpMethod = "get", description = "删除组织")
     @RequiresPermissions("upms:organization:delete")
     public void delete() {
     	String ids = getPara();
@@ -102,7 +102,7 @@ public class UpmsOrganizationController extends BaseController {
         renderJson(new UpmsResult(UpmsResultConstant.SUCCESS, count));
     }
 
-    @ApiOperation(url = "/manage/organization/update", tag = "manage/organization", httpMethod = "get", description = "修改组织")
+    @ApiOperation(url = "/upms/organization/update", tag = "manage/organization", httpMethod = "get", description = "修改组织")
     @RequiresPermissions("upms:organization:update")
     public void update() {
     	Long id = getParaToLong(0);
@@ -117,7 +117,7 @@ public class UpmsOrganizationController extends BaseController {
     	}
     }
 
-    @ApiOperation(url = "/manage/organization/update", tag = "manage/organization", httpMethod = "post", description = "修改组织")
+    @ApiOperation(url = "/upms/organization/update", tag = "manage/organization", httpMethod = "post", description = "修改组织")
     private Object update(Long id, UpmsOrganization upmsOrganization) {
     	/*
         ComplexResult result = FluentValidator.checkAll()

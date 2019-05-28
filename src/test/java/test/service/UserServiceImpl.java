@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
         System.out.println("UserServiceImpl hello invoked!!!");
 
-        return AopKit.newInstance(CategoryServiceImpl.class).hello(name);
+        return AopKit.get(CategoryServiceImpl.class).hello(name);
     }
 
 

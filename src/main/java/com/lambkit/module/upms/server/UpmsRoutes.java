@@ -31,16 +31,16 @@ public class UpmsRoutes extends Routes {
 	
 	public void config() {
 		setBaseViewPath("/lambkit/upms");
-		add("/manage", ManageController.class);
+		add("/upms", ManageController.class);
 		add("/sso", SSOController.class);
 		
-		add("/manage/log", UpmsLogController.class);
-		add("/manage/organization", UpmsOrganizationController.class);
-		add("/manage/permission", UpmsPermissionController.class);
-		add("/manage/role", UpmsRoleController.class);
-		add("/manage/session", UpmsSessionController.class);
-		add("/manage/system", UpmsSystemController.class);
-		add("/manage/user", UpmsUserController.class);
+		add("/upms/log", UpmsLogController.class);
+		add("/upms/organization", UpmsOrganizationController.class);
+		add("/upms/permission", UpmsPermissionController.class);
+		add("/upms/role", UpmsRoleController.class);
+		add("/upms/session", UpmsSessionController.class);
+		add("/upms/system", UpmsSystemController.class);
+		add("/upms/user", UpmsUserController.class);
 	}
 
 }

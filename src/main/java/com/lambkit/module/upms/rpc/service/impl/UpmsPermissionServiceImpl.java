@@ -45,7 +45,7 @@ public class UpmsPermissionServiceImpl extends BaseModelServiceImpl<UpmsPermissi
 	
 	//protected final UpmsPermission DAO = new UpmsPermission();
 	
-	UpmsApiService upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
+	UpmsApiService upmsApiService = AopKit.get(UpmsApiServiceImpl.class);
 
 	private UpmsPermission DAO = null;
 	

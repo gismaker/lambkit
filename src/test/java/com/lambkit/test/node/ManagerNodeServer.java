@@ -23,7 +23,7 @@ public class ManagerNodeServer extends BaseController {
 		setAttr("type", NodeManager.me().getNode().getType());
 		setAttr("major", NodeManager.me().getMajorManagerId());
 
-		ManagerNodeService service = AopKit.newInstance(ManagerNodeServiceImp.class);
+		ManagerNodeService service = AopKit.get(ManagerNodeServiceImp.class);
 		setAttr("token", service.getToken());
 		renderJson();
 	}

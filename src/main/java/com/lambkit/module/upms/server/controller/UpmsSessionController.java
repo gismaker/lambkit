@@ -27,12 +27,12 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  * 会话管理controller
  */
 //@Api(value = "会话管理", description = "会话管理")
-//@RequestMapping("/manage/session")
+//@RequestMapping("/upms/session")
 public class UpmsSessionController extends BaseController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsSessionController.class);
 
-    private ShiroRedisSessionDao sessionDAO = AopKit.newInstance(ShiroRedisSessionDao.class);
+    private ShiroRedisSessionDao sessionDAO = AopKit.get(ShiroRedisSessionDao.class);
 
     ////@ApiOperation(value = "会话首页")
     @RequiresPermissions("upms:session:read")

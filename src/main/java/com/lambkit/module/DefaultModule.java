@@ -37,11 +37,14 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
+import com.jfinal.template.Directive;
 import com.jfinal.template.Engine;
 import com.jfinal.template.ext.directive.NowDirective;
 import com.lambkit.Lambkit;
 import com.lambkit.common.LambkitConsts;
 import com.lambkit.common.LambkitManager;
+import com.lambkit.common.util.DateTimeUtils;
+import com.lambkit.common.util.StringUtils;
 import com.lambkit.common.util.TimeUtils;
 import com.lambkit.component.ehcache.EhcacheConfig;
 import com.lambkit.component.redis.RedisConfig;
@@ -88,7 +91,7 @@ public class DefaultModule extends LambkitModule {
 		me.setError404View("/lambkit/errors/404.html");
 		me.setError500View("/lambkit/errors/500.html");
 		//RequiresGuest，RequiresAuthentication，RequiresUser验证异常，返回HTTP401状态码
-		me.setErrorView(401, "/manage/login");
+		me.setErrorView(401, "/upms/login");
 		//RequiresRoles，RequiresPermissions授权异常,返回HTTP403状态码
 		me.setErrorView(403, PropKit.get("permissionUrl", "/needPermission"));
 		if(modules==null) modules = new ArrayList<LambkitModule>();
@@ -138,6 +141,8 @@ public class DefaultModule extends LambkitModule {
          */
         addDirective(engine, "now", NowDirective.class);
         addDirective(engine, "long2date", com.lambkit.web.directive.DateDirective.class);
+        engine.addSharedMethod(new StringUtils());
+        engine.addSharedMethod(new DateTimeUtils());
         //自动扫描加入JFinalDirective
         if(StrKit.notBlank(Lambkit.getLambkitConfig().getAutoRegisterTagPackages())) {
         	autoRegisterEngine(engine);

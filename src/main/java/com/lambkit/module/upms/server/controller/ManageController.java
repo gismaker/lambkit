@@ -35,15 +35,15 @@ import java.util.List;
 /**
  * 后台controller
  */
-//@RequestMapping("/manage")
-@Api(tag = "manage", description = "后台管理")
+//@RequestMapping("/upms")
+@Api(tag = "upms", description = "后台管理")
 @RequiresAuthentication
 public class ManageController extends BaseController {
 
 	//private static Logger _log = LoggerFactory.getLogger(ManageController.class);
-	private UpmsApiService upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
+	private UpmsApiService upmsApiService = AopKit.get(UpmsApiServiceImpl.class);
 
-	@ApiOperation(url = "/manage/index", tag = "manage", httpMethod = "get", description = "后台首页")
+	@ApiOperation(url = "/upms/index", tag = "upms", httpMethod = "get", description = "后台首页")
 	public void index() {
 		// 已注册系统
 		Example upmsSystemExample = UpmsSystemCriteria.create()

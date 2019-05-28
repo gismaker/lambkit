@@ -103,7 +103,7 @@ public class ActiveRecordBuilder {
         }
 
         if (tableInfo.getKeyGeneratorClass() != KeyGenerator.class) {
-            tableRuleConfig.setKeyGenerator(AopKit.newInstance(tableInfo.getKeyGeneratorClass()));
+            tableRuleConfig.setKeyGenerator(AopKit.get(tableInfo.getKeyGeneratorClass()));
         }
 
         if (StrKit.notBlank(tableInfo.getKeyGeneratorColumnName())) {
@@ -111,18 +111,18 @@ public class ActiveRecordBuilder {
         }
 
         if (tableInfo.getDatabaseShardingStrategyConfig() != ShardingStrategyConfiguration.class) {
-            tableRuleConfig.setDatabaseShardingStrategyConfig(AopKit.newInstance(tableInfo.getDatabaseShardingStrategyConfig()));
+            tableRuleConfig.setDatabaseShardingStrategyConfig(AopKit.get(tableInfo.getDatabaseShardingStrategyConfig()));
         }
 
         if (tableInfo.getTableShardingStrategyConfig() != ShardingStrategyConfiguration.class) {
-            tableRuleConfig.setTableShardingStrategyConfig(AopKit.newInstance(tableInfo.getTableShardingStrategyConfig()));
+            tableRuleConfig.setTableShardingStrategyConfig(AopKit.get(tableInfo.getTableShardingStrategyConfig()));
         }
 
         return tableRuleConfig;
     }
     
     private DataSource createDataSource(Plugins plugin, DataSourceConfig dataSourceConfig) {
-        DataSourceFactory factory = AopKit.newInstance(dataSourceConfig.getFactory());
+        DataSourceFactory factory = AopKit.get(dataSourceConfig.getFactory());
         if (factory == null) {
             factory = new DruidDataSourceFactory();
         }
@@ -133,7 +133,7 @@ public class ActiveRecordBuilder {
     private ActiveRecordPlugin createRecordPlugin(Plugins plugin, DataSourceConfig dataSourceConfig) {
         DataSourceFactory factory = null;
         if(StrKit.notBlank(dataSourceConfig.getFactory())) {
-        	AopKit.newInstance(dataSourceConfig.getFactory());
+        	AopKit.get(dataSourceConfig.getFactory());
         }
         if (factory == null) {
             factory = new DruidDataSourceFactory();

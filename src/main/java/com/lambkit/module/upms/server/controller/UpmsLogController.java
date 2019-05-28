@@ -31,8 +31,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 /**
  * 日志controller
  */
-@Api(tag = "/manage/log", description = "日志管理")
-//@RequestMapping("/manage/log")
+@Api(tag = "/upms/log", description = "日志管理")
+//@RequestMapping("/upms/log")
 public class UpmsLogController extends BaseController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsLogController.class);
@@ -43,7 +43,7 @@ public class UpmsLogController extends BaseController {
     	renderTemplate("index.html");
     }
 
-    @ApiOperation(url = "/manage/log", tag = "manage/log", httpMethod = "get", description = "日志列表")
+    @ApiOperation(url = "/upms/log", tag = "manage/log", httpMethod = "get", description = "日志列表")
     @RequiresPermissions("upms:log:read")
     public void list() {
     	String sort = getPara("sort");
@@ -65,7 +65,7 @@ public class UpmsLogController extends BaseController {
         renderJson();
     }
 
-    @ApiOperation(url = "/manage/delete", tag = "manage/log", httpMethod = "get", description = "删除日志")
+    @ApiOperation(url = "/upms/delete", tag = "manage/log", httpMethod = "get", description = "删除日志")
     @RequiresPermissions("upms:log:delete")
     public void delete() {
     	String ids = getPara();

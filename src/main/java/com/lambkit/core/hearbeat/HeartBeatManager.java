@@ -49,7 +49,7 @@ public class HeartBeatManager {
             for (Class<?> clazz : ctrlClassSet) {
             	HeartBeatTask task = clazz.getAnnotation(HeartBeatTask.class);
                 if (task != null) {
-                	addTask(task.frequency(), (HeartBeat) AopKit.newInstance(clazz));
+                	addTask(task.frequency(), (HeartBeat) AopKit.get(clazz));
                 }
             }
     	}

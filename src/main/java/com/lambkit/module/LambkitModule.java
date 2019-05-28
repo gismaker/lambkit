@@ -100,7 +100,7 @@ public abstract class LambkitModule {
             for (Class<?> clazz : ctrlClassSet) {
             	Module module = clazz.getAnnotation(Module.class);
                 if (module != null) {
-                	addModule(AopKit.newInstance((Class<? extends LambkitModule>)clazz));
+                	addModule(AopKit.get((Class<? extends LambkitModule>)clazz));
                 }
             }
     	}

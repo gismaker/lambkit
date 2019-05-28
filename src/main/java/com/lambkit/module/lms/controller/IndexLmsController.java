@@ -6,7 +6,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
 import com.jfinal.aop.Clear;
-import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.lambkit.Lambkit;
 import com.lambkit.common.BaseResult;

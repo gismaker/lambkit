@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletRequest;
  * 角色controller
  */
 //@Api(value = "角色管理", description = "角色管理")
-//@RequestMapping("/manage/role")
+//@RequestMapping("/upms/role")
 public class UpmsRoleController extends BaseController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsRoleController.class);

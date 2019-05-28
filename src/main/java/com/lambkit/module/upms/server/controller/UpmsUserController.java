@@ -41,19 +41,19 @@ import java.util.UUID;
 /**
  * 用户controller
  */
-@Api(tag = "/manage/user", description = "用户管理")
-//@RequestMapping("/manage/user")
+@Api(tag = "/upms/user", description = "用户管理")
+//@RequestMapping("/upms/user")
 public class UpmsUserController extends BaseController {
 
     private static Logger _log = LoggerFactory.getLogger(UpmsUserController.class);
 
-    @ApiOperation(url = "/manage/user", tag = "/manage/user", httpMethod = "get", description = "用户首页")
+    @ApiOperation(url = "/upms/user", tag = "/upms/user", httpMethod = "get", description = "用户首页")
     @RequiresPermissions("upms:user:read")
     public void index() {
     	renderTemplate("index.html");
     }
 
-    @ApiOperation(url = "/manage/user/organization", tag = "/manage/user", httpMethod = "get", description = "用户组织")
+    @ApiOperation(url = "/upms/user/organization", tag = "/upms/user", httpMethod = "get", description = "用户组织")
     @RequiresPermissions("upms:user:organization")
     public void organization() {
     	Long id = getParaToLong(0);
@@ -80,7 +80,7 @@ public class UpmsUserController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, "");
     }
 
-    @ApiOperation(url = "/manage/user/role", tag = "/manage/user", httpMethod = "get", description = "用户角色")
+    @ApiOperation(url = "/upms/user/role", tag = "/upms/user", httpMethod = "get", description = "用户角色")
     @RequiresPermissions("upms:user:role")
     public void role() {
     	Long id = getParaToLong(0);
@@ -107,7 +107,7 @@ public class UpmsUserController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, "");
     }
 
-    @ApiOperation(url = "/manage/user/permission", tag = "/manage/user", httpMethod = "get", description = "用户权限")
+    @ApiOperation(url = "/upms/user/permission", tag = "/upms/user", httpMethod = "get", description = "用户权限")
     @RequiresPermissions("upms:user:permission")
     public void permission() {
     	Long id = getParaToLong(0);
@@ -129,7 +129,7 @@ public class UpmsUserController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, datas.size());
     }
 
-    @ApiOperation(url = "/manage/user/list", tag = "/manage/user", httpMethod = "get", description = "用户列表")
+    @ApiOperation(url = "/upms/user/list", tag = "/upms/user", httpMethod = "get", description = "用户列表")
     @RequiresPermissions("upms:user:read")
     public void list() {
     	String sort = getPara("sort");
@@ -151,7 +151,7 @@ public class UpmsUserController extends BaseController {
         renderJson();
     }
 
-    @ApiOperation(url = "/manage/user/create", tag = "/manage/user", httpMethod = "get", description = "新增用户")
+    @ApiOperation(url = "/upms/user/create", tag = "/upms/user", httpMethod = "get", description = "新增用户")
     @RequiresPermissions("upms:user:create")
     public void create() {
     	if (getRequest().getMethod().equals("GET")) {
@@ -190,7 +190,7 @@ public class UpmsUserController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
     }
 
-    @ApiOperation(url = "/manage/user/delete", tag = "/manage/user", httpMethod = "get", description = "删除用户")
+    @ApiOperation(url = "/upms/user/delete", tag = "/upms/user", httpMethod = "get", description = "删除用户")
     @RequiresPermissions("upms:user:delete")
     public void delete() {
     	String ids = getPara();
@@ -198,7 +198,7 @@ public class UpmsUserController extends BaseController {
         renderJson(new UpmsResult(UpmsResultConstant.SUCCESS, count));
     }
     
-    @ApiOperation(url = "/manage/user/update", tag = "/manage/user", httpMethod = "get", description = "修改用户")
+    @ApiOperation(url = "/upms/user/update", tag = "/upms/user", httpMethod = "get", description = "修改用户")
     @RequiresPermissions("upms:user:update")
     public void update() {
     	Long id = getParaToLong(0);

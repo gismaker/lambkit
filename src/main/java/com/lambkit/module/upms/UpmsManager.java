@@ -200,7 +200,7 @@ public class UpmsManager {
 		if("client".equals(upmsConfig.getType())) {
 			return RpcKit.obtain(UpmsApiService.class);
 		} else {
-			return AopKit.newInstance(UpmsApiServiceImpl.class);
+			return AopKit.get(UpmsApiServiceImpl.class);
 		}
     }
 }

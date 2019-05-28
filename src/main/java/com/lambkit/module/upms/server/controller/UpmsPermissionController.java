@@ -39,14 +39,14 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  * 权限controller
  */
 //@Api(value = "权限管理", description = "权限管理")
-//@RequestMapping("/manage/permission")
+//@RequestMapping("/upms/permission")
 public class UpmsPermissionController extends BaseController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsPermissionController.class);
 
-    private UpmsPermissionService upmsPermissionService = AopKit.newInstance(UpmsPermissionServiceImpl.class);
+    private UpmsPermissionService upmsPermissionService = AopKit.get(UpmsPermissionServiceImpl.class);
 
-    private UpmsSystemService upmsSystemService = AopKit.newInstance(UpmsSystemServiceImpl.class);
+    private UpmsSystemService upmsSystemService = AopKit.get(UpmsSystemServiceImpl.class);
 
     ////@ApiOperation(value = "权限首页")
     @RequiresPermissions("upms:permission:read")

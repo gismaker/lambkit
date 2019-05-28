@@ -15,7 +15,6 @@
  */
 package com.lambkit.core.aop;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.log.Log;
 
 /**
@@ -44,16 +43,16 @@ public class AopKit {
      * @param clazz
      * @return
      */
-    public static <T> T newInstance(Class<T> clazz) {
-        return newInstance(clazz, false);
+    public static <T> T get(Class<T> clazz) {
+        return get(clazz, false);
     }
 
 
-    public static <T> T newInstance(Class<T> clazz, boolean createdByGuice) {
+    public static <T> T get(Class<T> clazz, boolean createdByGuice) {
         if (createdByGuice) {
             return null;
         } else {
-            return Enhancer.enhance(clazz);
+            return aopFactory.get(clazz);
         }
     }
 
@@ -64,11 +63,11 @@ public class AopKit {
      * @param clazzName
      * @return
      */
-    public static <T> T newInstance(String clazzName) {
+    public static <T> T get(String clazzName) {
         try {
             @SuppressWarnings("unchecked")
 			Class<T> clazz = (Class<T>) Class.forName(clazzName, false, Thread.currentThread().getContextClassLoader());
-            return newInstance(clazz);
+            return get(clazz);
         } catch (Exception e) {
             log.error("can not newInstance class:" + clazzName + "\n" + e.toString(), e);
         }

@@ -64,7 +64,7 @@ public class SerializerManager {
          */
         if (serializerString != null && serializerString.contains(".")) {
 
-            ISerializer serializer = AopKit.newInstance(serializerString);
+            ISerializer serializer = AopKit.get(serializerString);
 
             if (serializer != null) {
                 return serializer;

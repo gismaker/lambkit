@@ -7,7 +7,7 @@ import com.lambkit.core.aop.AopKit;
 public class TestMethod {
 
 	public static void main(String[] args) {
-		TestMethodObj obj = AopKit.newInstance(TestMethodObj.class);
+		TestMethodObj obj = AopKit.get(TestMethodObj.class);
 		
         Method[] methods = obj.getClass().getMethods();
         if (ArrayUtils.isNotEmpty(methods)) {

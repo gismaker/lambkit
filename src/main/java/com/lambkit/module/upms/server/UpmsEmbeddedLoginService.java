@@ -109,7 +109,7 @@ public class UpmsEmbeddedLoginService implements LoginService {
             	return (UpmsResult) result;
             }
             // 更新session状态
-            ShiroRedisSessionDao upmsSessionDao = AopKit.newInstance(ShiroRedisSessionDao.class);
+            ShiroRedisSessionDao upmsSessionDao = AopKit.get(ShiroRedisSessionDao.class);
             upmsSessionDao.updateStatus(sessionId, ShiroSession.OnlineStatus.on_line);
             // 全局会话sessionId列表，供会话管理
             Redis.use().lpush(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_IDS, sessionId.toString());

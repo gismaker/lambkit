@@ -81,13 +81,8 @@ public class ShiroManager {
         	//提取JFinalDirective注解
         	JFinalDirective jDirective = clazz.getAnnotation(JFinalDirective.class);
         	if (jDirective != null) {
-                @SuppressWarnings("unchecked")
-				Directive directive = AopKit.newInstance((Class<Directive>) clazz);
-                if (directive != null) {
-                	//System.out.println("directive: " + jDirective.value());
-                    me.removeDirective(jDirective.value());
-                    me.addDirective(jDirective.value(), directive);
-                }
+        		me.removeDirective(jDirective.value());
+                me.addDirective(jDirective.value(), (Class<? extends Directive>) clazz);
             }
         }
     	/*
@@ -95,7 +90,7 @@ public class ShiroManager {
         for (Class clazz : directiveClasses) {
             JFinalDirective jDirective = (JFinalDirective) clazz.getAnnotation(JFinalDirective.class);
             if (jDirective != null) {
-                Directive directive = ClassNewer.newInstance((Class<Directive>) clazz);
+                Directive directive = AopKit.get((Class<Directive>) clazz);
                 if (directive != null) {
                     me.removeDirective(jDirective.value());
                     me.addDirective(jDirective.value(), directive);

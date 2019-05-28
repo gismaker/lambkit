@@ -50,7 +50,7 @@ import com.lambkit.module.upms.shiro.ShiroRedisSessionDao;
 
 public class UpmsAuthServiceImpl implements AuthService {
 	
-	ShiroRedisSessionDao upmsSessionDao = AopKit.newInstance(ShiroRedisSessionDao.class);
+	ShiroRedisSessionDao upmsSessionDao = AopKit.get(ShiroRedisSessionDao.class);
 
 	private UmpsAuthRoleServiceImpl roleService;
 	
@@ -62,7 +62,7 @@ public class UpmsAuthServiceImpl implements AuthService {
     		if("client".equals(upmsConfig.getType())) {
     			upmsApiService = RpcKit.obtain(UpmsApiService.class);
     		} else {
-    			upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
+    			upmsApiService = AopKit.get(UpmsApiServiceImpl.class);
     		}
     	}
     	return upmsApiService;

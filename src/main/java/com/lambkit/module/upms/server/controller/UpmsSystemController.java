@@ -30,7 +30,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  * 系统controller
  */
 //@Api(value = "系统管理", description = "系统管理")
-//@RequestMapping("/manage/system")
+//@RequestMapping("/upms/system")
 public class UpmsSystemController extends BaseController {
 
 	//private static Logger _log = LoggerFactory.getLogger(UpmsSystemController.class);

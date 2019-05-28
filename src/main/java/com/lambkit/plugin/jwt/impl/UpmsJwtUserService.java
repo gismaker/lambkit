@@ -49,7 +49,7 @@ public class UpmsJwtUserService implements IJwtUserService {
 			if ("client".equals(upmsConfig.getType())) {
 				upmsApiService = RpcKit.obtain(UpmsApiService.class);
 			} else {
-				upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
+				upmsApiService = AopKit.get(UpmsApiServiceImpl.class);
 			}
 		}
 		return upmsApiService;

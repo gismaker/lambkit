@@ -91,7 +91,7 @@ public class RpcKit {
 	public static <T> T enhance(Class<T> serviceClass, Class<T> serviceClassMock, String group, String version) {
 		Rpc rpc = RpcManager.me().getRpc();
 		T service = rpc.serviceObtain(serviceClass, group, version);
-		return service==null ? AopKit.newInstance(serviceClassMock) : service;
+		return service==null ? AopKit.get(serviceClassMock) : service;
 	}
 	
 	/**

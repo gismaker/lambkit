@@ -79,8 +79,8 @@ public class AuthEmbeddedController extends BaseController {
                 //String username = (String) subject.getPrincipal();
                 if (StringUtils.isBlank(backurl)) {
                     backurl = "/";
-                    backurl = subject.hasRole("admin") ? "/manage" : "";
-                    backurl = subject.hasRole("super") ? "/manage" : "";
+                    backurl = subject.hasRole("admin") ? "/upms" : "";
+                    backurl = subject.hasRole("super") ? "/upms" : "";
                 } else {
                     if (backurl.contains("?")) {
                         backurl += "&upms_code=" + code + "&upms_username=" + username;
@@ -130,7 +130,7 @@ public class AuthEmbeddedController extends BaseController {
             	return (UpmsResult) result;
             }
             // 更新session状态
-            ShiroRedisSessionDao upmsSessionDao = AopKit.newInstance(ShiroRedisSessionDao.class);
+            ShiroRedisSessionDao upmsSessionDao = AopKit.get(ShiroRedisSessionDao.class);
             upmsSessionDao.updateStatus(sessionId, ShiroSession.OnlineStatus.on_line);
             // 全局会话sessionId列表，供会话管理
             Redis.use().lpush(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_IDS, sessionId.toString());
@@ -146,7 +146,7 @@ public class AuthEmbeddedController extends BaseController {
         System.out.println("backurl:"+backurl);
         if (StringUtils.isBlank(backurl)) {
         	if("admin".equals(username)) {
-        		return new UpmsResult(UpmsResultConstant.SUCCESS, "/manage");
+        		return new UpmsResult(UpmsResultConstant.SUCCESS, "/upms");
         	} else {
         		return new UpmsResult(UpmsResultConstant.SUCCESS, "/");
         	}
@@ -181,7 +181,7 @@ public class AuthEmbeddedController extends BaseController {
 		Subject subject = SecurityUtils.getSubject();
 		String username = (String) subject.getPrincipal();
 		
-		UpmsApiService upmsApiService = AopKit.newInstance(UpmsApiServiceImpl.class);
+		UpmsApiService upmsApiService = AopKit.get(UpmsApiServiceImpl.class);
 		UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
 		if(upmsUser==null) {
 			// shiro退出登录
@@ -254,7 +254,7 @@ public class AuthEmbeddedController extends BaseController {
 			
 			public boolean run() throws SQLException {
 				// TODO Auto-generated method stub
-				UpmsUserService upmsUserService = AopKit.newInstance(UpmsUserServiceImpl.class);
+				UpmsUserService upmsUserService = AopKit.get(UpmsUserServiceImpl.class);
 				UpmsUser upmsUser = getModel(UpmsUser.class, "user");
 				upmsUser.setUsername(username);
 				upmsUser.setSalt(StrKit.getRandomUUID());

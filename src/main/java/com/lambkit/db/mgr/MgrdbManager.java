@@ -88,8 +88,6 @@ public class MgrdbManager {
 		case MgrdbConfig.META:
 			module = new MetaMgrModule();
 			break;
-		default:
-			break;
 		}
 		return module;
 	}
@@ -97,8 +95,18 @@ public class MgrdbManager {
 	public void run(Map<String, Object> options, String type) {
 		LambkitApplication application = new LambkitApplication(Application.class);
 		application.setWebEnvironment(false);
-		LambkitModule module = getLambkitModule(type);
-		if(module!=null) Lambkit.addModule(module);
+		switch (type) {
+		case MgrdbConfig.SYSCONFIG:
+			Lambkit.addModule(new SysconfigModule());
+			break;
+		case MgrdbConfig.META:
+			Lambkit.addModule(new MetaMgrModule());
+			break;
+		case MgrdbConfig.ALL:
+			Lambkit.addModule(new SysconfigModule());
+			Lambkit.addModule(new MetaMgrModule());
+			break;
+		}
 		application.run();
 		MgrdbService service = MgrdbManager.me().getService();
 		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);

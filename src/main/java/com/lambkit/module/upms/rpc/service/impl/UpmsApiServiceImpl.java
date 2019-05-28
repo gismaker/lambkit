@@ -49,7 +49,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     private static Logger _log = LoggerFactory.getLogger(UpmsApiServiceImpl.class);
 
-    UpmsApiQuery upmsApiQuery = AopKit.newInstance(UpmsApiQuery.class);
+    UpmsApiQuery upmsApiQuery = AopKit.get(UpmsApiQuery.class);
     
     /**
      * 根据用户id获取所拥有的权限

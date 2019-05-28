@@ -41,6 +41,9 @@ public class LambkitApplication {
 	}
 	
 	public void run() {
+		if(jfinalConfigClass==null) {
+			jfinalConfigClass = Application.class;
+		}
 		if(isWebEnvironment) {
 			UndertowServer.create(jfinalConfigClass).configWeb(builder->{
 				builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");

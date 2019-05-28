@@ -22,6 +22,7 @@ public class MgrdbConfig {
 	
 	public static final String SYSCONFIG = "sysconfig";
 	public static final String META = "meta";
+	public static final String ALL = "all";
 	
 	private String type;
 	private String tableRemovePrefixes;
