@@ -19,10 +19,10 @@ Lambkit是在我们项目开发过程中不断学习和积累起来的一个基�
 - MySQL中导入lambkit_opensource.sql数据库
 - lambkit.properties中填写lambkit.db.password=数据库密码
 - 启动Redis
-- 右键com.lambkit.DevStarter->Run As->Java Application
+- 右键com.lambkit.LambkitApplication->Run As->Java Application
 - 启动完成
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0220/152035_ad837fb0_136253.png "启动完成.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0604/163339_1942786c_136253.png "启动完成2.png")
 
 ### Lambkit管理平台
 
