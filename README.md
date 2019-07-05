@@ -19,10 +19,10 @@ Lambkit是在我们项目开发过程中不断学习和积累起来的一个基�
 - MySQL中导入lambkit_opensource.sql数据库
 - lambkit.properties中填写lambkit.db.password=数据库密码
 - 启动Redis
-- 右键com.lambkit.DevStarter->Run As->Java Application
+- 右键com.lambkit.LambkitApplication->Run As->Java Application
 - 启动完成
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0220/152035_ad837fb0_136253.png "启动完成.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0604/163339_1942786c_136253.png "启动完成2.png")
 
 ### Lambkit管理平台
 
@@ -80,7 +80,7 @@ plugin信息
 
 #### 使用模板
 
-默认使用工程目录下的template的模板，在“template历史版本”里面有upms模板和通用模板1.1、1.2版本可以参考使用。
+默认使用工程目录下的template的模板，在“MSCH模板库”里面有upms模板和通用模板1.2、1.3版本可以参考使用。
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0220/153132_fe058526_136253.png "代码自动生成1.png")
 
@@ -111,5 +111,8 @@ model直接可以获取Service的实例，如果是RPC的是模式下，model就
 
 **Lambkit 官方网站：[http://www.lambkit.com](http://www.lambkit.com)**
 
+Lambkit涉及到的acvitemq-consul-nginx-redis-zookeeper软件Windows绿色版
+链接：https://pan.baidu.com/s/1FLfyBDKO1PMO-lVHy6eG8w 
+提取码：z6oe 
 
 

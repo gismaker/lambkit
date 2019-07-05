@@ -1,0 +1,85 @@
+﻿<div id="organizationDialog" class="crudDialog">
+	<form id="organizationForm" method="post">
+		<div class="form-group">
+			<select id="organizationId" name="organizationId" multiple="multiple" style="width: 100%">
+				#for(upmsOrganization : upmsOrganizations)
+					<option value="#(upmsOrganization.organizationId)" 
+						#for(upmsUserOrganization : upmsUserOrganizations)
+							#if(upmsOrganization.organizationId==upmsUserOrganization.organizationId)
+								selected="selected"
+								#end
+								#end>#(upmsOrganization.name??)</option>
+				#end
+			</select>
+		</div>
+		<div class="form-group text-right dialog-buttons">
+			<a class="waves-effect waves-button" href="javascript:;" onclick="organizationSubmit();">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="organizationDialog.close();">取消</a>
+		</div>
+	</form>
+</div>
+<script>
+function organizationSubmit() {
+    $.ajax({
+        type: 'post',
+        url: '#(ctx)/upms/user/organization/' + organizationUserId,
+        data: $('#organizationForm').serialize(),
+		beforeSend: function() {
+
+		},
+        success: function(result) {
+			if (result.code != 1) {
+				if (result.data instanceof Array) {
+					$.each(result.data, function(index, value) {
+						$.confirm({
+							theme: 'dark',
+							animation: 'rotateX',
+							closeAnimation: 'rotateX',
+							title: false,
+							content: value.errorMsg,
+							buttons: {
+								confirm: {
+									text: '确认',
+									btnClass: 'waves-effect waves-button waves-light'
+								}
+							}
+						});
+					});
+				} else {
+						$.confirm({
+							theme: 'dark',
+							animation: 'rotateX',
+							closeAnimation: 'rotateX',
+							title: false,
+							content: result.data.errorMsg,
+							buttons: {
+								confirm: {
+									text: '确认',
+									btnClass: 'waves-effect waves-button waves-light'
+								}
+							}
+						});
+				}
+			} else {
+				organizationDialog.close();
+				$table.bootstrapTable('refresh');
+			}
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+			$.confirm({
+				theme: 'dark',
+				animation: 'rotateX',
+				closeAnimation: 'rotateX',
+				title: false,
+				content: textStatus,
+				buttons: {
+					confirm: {
+						text: '确认',
+						btnClass: 'waves-effect waves-button waves-light'
+					}
+				}
+			});
+        }
+    });
+}
+</script>
