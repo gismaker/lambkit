@@ -103,7 +103,7 @@ public class ActiveRecordBuilder {
         }
 
         if (tableInfo.getKeyGeneratorClass() != KeyGenerator.class) {
-            tableRuleConfig.setKeyGenerator(AopKit.get(tableInfo.getKeyGeneratorClass()));
+            tableRuleConfig.setKeyGenerator(AopKit.instance(tableInfo.getKeyGeneratorClass()));
         }
 
         if (StrKit.notBlank(tableInfo.getKeyGeneratorColumnName())) {
@@ -111,11 +111,11 @@ public class ActiveRecordBuilder {
         }
 
         if (tableInfo.getDatabaseShardingStrategyConfig() != ShardingStrategyConfiguration.class) {
-            tableRuleConfig.setDatabaseShardingStrategyConfig(AopKit.get(tableInfo.getDatabaseShardingStrategyConfig()));
+            tableRuleConfig.setDatabaseShardingStrategyConfig(AopKit.instance(tableInfo.getDatabaseShardingStrategyConfig()));
         }
 
         if (tableInfo.getTableShardingStrategyConfig() != ShardingStrategyConfiguration.class) {
-            tableRuleConfig.setTableShardingStrategyConfig(AopKit.get(tableInfo.getTableShardingStrategyConfig()));
+            tableRuleConfig.setTableShardingStrategyConfig(AopKit.instance(tableInfo.getTableShardingStrategyConfig()));
         }
 
         return tableRuleConfig;

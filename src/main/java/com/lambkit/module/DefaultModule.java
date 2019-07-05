@@ -60,6 +60,7 @@ import com.lambkit.core.rpc.RpcManager;
 import com.lambkit.db.DbManager;
 import com.lambkit.db.DbWrapper;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
+import com.lambkit.db.datasource.DataSourceConfig;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.controller.NodeIndexController;
 import com.lambkit.module.lms.controller.IndexHelpController;
@@ -180,7 +181,7 @@ public class DefaultModule extends LambkitModule {
         for (DbWrapper db : dbs.values()) {
         	ActiveRecordPluginWrapper arp = db.getArp();
         	me.add(arp.getPlugin());
-        	if(DbKit.MAIN_CONFIG_NAME.equals(arp.getConfig().getName())) {
+        	if(DataSourceConfig.NAME_DEFAULT.equals(arp.getConfig().getName())) {
         		for (LambkitModule module : modules) {
         			module.configMapping(arp);
         		}

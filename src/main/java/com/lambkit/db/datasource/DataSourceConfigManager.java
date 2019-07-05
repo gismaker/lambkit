@@ -16,7 +16,6 @@
 package com.lambkit.db.datasource;
 
 import com.google.common.collect.Maps;
-import com.jfinal.kit.StrKit;
 import com.lambkit.core.config.ConfigManager;
 
 import java.util.*;
@@ -25,27 +24,27 @@ public class DataSourceConfigManager {
 
     private static final String DATASOURCE_PREFIX = "lambkit.db.";
 
-
-    private static DataSourceConfigManager manager = new DataSourceConfigManager();
+    private static DataSourceConfigManager manager = null;
 
     public static DataSourceConfigManager me() {
+    	if(manager==null) {
+    		manager = new DataSourceConfigManager();
+    	}
         return manager;
     }
 
     private Map<String, DataSourceConfig> datasourceConfigs = Maps.newHashMap();
     private Map<String, DataSourceConfig> shardingDatasourceConfigs = Maps.newHashMap();
-
+    
     private DataSourceConfigManager() {
-
-        DataSourceConfig datasourceConfig = ConfigManager.me().get(DataSourceConfig.class, "lambkit.db");
-        datasourceConfig.setName(DataSourceConfig.NAME_DEFAULT);
-        if (datasourceConfig.isConfigOk()) {
-            datasourceConfigs.put(datasourceConfig.getName(), datasourceConfig);
+        DataSourceConfig defaultConfig = ConfigManager.me().get(DataSourceConfig.class, "lambkit.db");
+        defaultConfig.setName(DataSourceConfig.NAME_DEFAULT);
+        if (defaultConfig.isConfigOk()) {
+            datasourceConfigs.put(defaultConfig.getName(), defaultConfig);
         }
-        if (datasourceConfig.isShardingEnable()) {
-            shardingDatasourceConfigs.put(datasourceConfig.getName(), datasourceConfig);
+        if (defaultConfig.isShardingEnable()) {
+            shardingDatasourceConfigs.put(defaultConfig.getName(), defaultConfig);
         }
-
 
         Properties prop = ConfigManager.me().getProperties();
         Set<String> datasourceNames = new HashSet<>();
@@ -58,8 +57,7 @@ public class DataSourceConfigManager {
                 }
             }
         }
-
-
+        
         for (String name : datasourceNames) {
             DataSourceConfig dsc = ConfigManager.me().get(DataSourceConfig.class, DATASOURCE_PREFIX + name);
             dsc.setName(name);

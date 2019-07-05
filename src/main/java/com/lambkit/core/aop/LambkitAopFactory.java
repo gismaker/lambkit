@@ -12,11 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package com.lambkit.core.aop;
+ */
+package com.lambkit.core.aop;
 
 import com.jfinal.aop.AopFactory;
 
 public class LambkitAopFactory extends AopFactory {
+
+	@SuppressWarnings("unchecked")
+	public <T> T getObject(Class<T> clazz) {
+		try {
+			clazz = (Class<T>) getMappingClass(clazz);
+			return doGetPrototype(clazz);
+		} catch (ReflectiveOperationException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	public <T> T getSingleton(Class<T> targetClass) {
 		try {

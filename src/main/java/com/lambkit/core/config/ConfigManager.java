@@ -95,7 +95,7 @@ public class ConfigManager {
             return obj;
         }
 
-        obj = AopKit.get(clazz);
+        obj = AopKit.instance(clazz);
 
         List<Method> setMethods = new ArrayList<>();
 

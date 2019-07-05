@@ -68,6 +68,14 @@ public class UpmsRealm extends AuthorizingRealm {
         String username = (String) principalCollection.getPrimaryPrincipal();
         System.out.println("realm username: " + username);
         UpmsUser upmsUser = getUpmsApiService().selectUpmsUserByUsername(username);
+        
+        if(upmsUser.getUserId()==1){
+        	SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        	//超级管理员 始终拥有所有权限
+        	info.addRole("superadmin");
+            info.addStringPermission("*");
+            return info;
+        }
 
         // 当前用户所有角色
         List<UpmsRole> upmsRoles = getUpmsApiService().selectUpmsRoleByUpmsUserId(upmsUser.getUserId());

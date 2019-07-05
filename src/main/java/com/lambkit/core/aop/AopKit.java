@@ -35,6 +35,21 @@ public class AopKit {
     public static <T> T singleton(Class<T> clazz) {
     	return aopFactory.getSingleton(clazz);
     }
+    
+    public static <T> T instance(Class<T> clazz) {
+    	return aopFactory.getObject(clazz);
+    }
+    
+    public static <T> T instance(String clazzName) {
+        try {
+            @SuppressWarnings("unchecked")
+			Class<T> clazz = (Class<T>) Class.forName(clazzName, false, Thread.currentThread().getContextClassLoader());
+            return instance(clazz);
+        } catch (Exception e) {
+            log.error("can not newInstance class:" + clazzName + "\n" + e.toString(), e);
+        }
+        return null;
+    }
 
     /**
      * 创建新的实例
