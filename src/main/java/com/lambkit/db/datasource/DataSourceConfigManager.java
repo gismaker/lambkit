@@ -62,9 +62,7 @@ public class DataSourceConfigManager {
 
         for (String name : datasourceNames) {
             DataSourceConfig dsc = ConfigManager.me().get(DataSourceConfig.class, DATASOURCE_PREFIX + name);
-            if (StrKit.isBlank(dsc.getName())) {
-                dsc.setName(name);
-            }
+            dsc.setName(name);
             if (dsc.isConfigOk()) {
                 datasourceConfigs.put(name, dsc);
             }
