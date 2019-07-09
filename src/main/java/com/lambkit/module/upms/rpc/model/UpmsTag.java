@@ -17,18 +17,20 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-
-import com.lambkit.module.upms.rpc.model.base.BaseUpmsTag;
-import com.lambkit.module.upms.rpc.api.UpmsTagService;
-import com.lambkit.module.upms.rpc.service.impl.UpmsTagServiceImpl;
+import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsManager;
+
+import com.lambkit.module.upms.rpc.model.base.BaseUpmsTag;
+import com.lambkit.module.upms.rpc.model.sql.UpmsTagCriteria;
+import com.lambkit.module.upms.rpc.api.UpmsTagService;
+import com.lambkit.module.upms.rpc.service.impl.UpmsTagServiceImpl;
 
 /**
  * @author yangyong 
  * @website: www.lambkit.com
  * @email: gismail@foxmail.com
- * @date 2018-12-26
+ * @date 2019-04-17
  * @version 1.0
  * @since 1.0
  */
@@ -39,6 +41,16 @@ public class UpmsTag extends BaseUpmsTag<UpmsTag> {
 	public static UpmsTagService service() {
 		return ServiceKit.inject(UpmsTagService.class, UpmsTagServiceImpl.class);
 	}
+	
+	public static UpmsTagCriteria sql() {
+		return new UpmsTagCriteria();
+	}
+	
+	public static UpmsTagCriteria sql(Column column) {
+		UpmsTagCriteria that = new UpmsTagCriteria();
+		that.add(column);
+        return that;
+    }
 	
 	public UpmsTag() {
 		UpmsConfig config = UpmsManager.me().getConfig();

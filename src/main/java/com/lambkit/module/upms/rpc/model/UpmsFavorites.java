@@ -17,8 +17,10 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
+import com.lambkit.db.sql.column.Column;
 
 import com.lambkit.module.upms.rpc.model.base.BaseUpmsFavorites;
+import com.lambkit.module.upms.rpc.model.sql.UpmsFavoritesCriteria;
 import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsManager;
 import com.lambkit.module.upms.rpc.api.UpmsFavoritesService;
@@ -28,7 +30,7 @@ import com.lambkit.module.upms.rpc.service.impl.UpmsFavoritesServiceImpl;
  * @author yangyong 
  * @website: www.lambkit.com
  * @email: gismail@foxmail.com
- * @date 2018-12-26
+ * @date 2019-04-17
  * @version 1.0
  * @since 1.0
  */
@@ -39,6 +41,16 @@ public class UpmsFavorites extends BaseUpmsFavorites<UpmsFavorites> {
 	public static UpmsFavoritesService service() {
 		return ServiceKit.inject(UpmsFavoritesService.class, UpmsFavoritesServiceImpl.class);
 	}
+	
+	public static UpmsFavoritesCriteria sql() {
+		return new UpmsFavoritesCriteria();
+	}
+	
+	public static UpmsFavoritesCriteria sql(Column column) {
+		UpmsFavoritesCriteria that = new UpmsFavoritesCriteria();
+		that.add(column);
+        return that;
+    }
 	
 	public UpmsFavorites() {
 		UpmsConfig config = UpmsManager.me().getConfig();

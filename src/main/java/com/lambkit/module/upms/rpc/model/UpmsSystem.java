@@ -17,18 +17,20 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-
-import com.lambkit.module.upms.rpc.model.base.BaseUpmsSystem;
-import com.lambkit.module.upms.rpc.api.UpmsSystemService;
-import com.lambkit.module.upms.rpc.service.impl.UpmsSystemServiceImpl;
+import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsManager;
+
+import com.lambkit.module.upms.rpc.model.base.BaseUpmsSystem;
+import com.lambkit.module.upms.rpc.model.sql.UpmsSystemCriteria;
+import com.lambkit.module.upms.rpc.api.UpmsSystemService;
+import com.lambkit.module.upms.rpc.service.impl.UpmsSystemServiceImpl;
 
 /**
  * @author yangyong 
  * @website: www.lambkit.com
  * @email: gismail@foxmail.com
- * @date 2018-12-26
+ * @date 2019-04-17
  * @version 1.0
  * @since 1.0
  */
@@ -39,6 +41,16 @@ public class UpmsSystem extends BaseUpmsSystem<UpmsSystem> {
 	public static UpmsSystemService service() {
 		return ServiceKit.inject(UpmsSystemService.class, UpmsSystemServiceImpl.class);
 	}
+	
+	public static UpmsSystemCriteria sql() {
+		return new UpmsSystemCriteria();
+	}
+	
+	public static UpmsSystemCriteria sql(Column column) {
+		UpmsSystemCriteria that = new UpmsSystemCriteria();
+		that.add(column);
+        return that;
+    }
 	
 	public UpmsSystem() {
 		UpmsConfig config = UpmsManager.me().getConfig();

@@ -17,18 +17,20 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-
-import com.lambkit.module.upms.rpc.model.base.BaseUpmsUserRole;
-import com.lambkit.module.upms.rpc.api.UpmsUserRoleService;
-import com.lambkit.module.upms.rpc.service.impl.UpmsUserRoleServiceImpl;
+import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsManager;
+
+import com.lambkit.module.upms.rpc.model.base.BaseUpmsUserRole;
+import com.lambkit.module.upms.rpc.model.sql.UpmsUserRoleCriteria;
+import com.lambkit.module.upms.rpc.api.UpmsUserRoleService;
+import com.lambkit.module.upms.rpc.service.impl.UpmsUserRoleServiceImpl;
 
 /**
  * @author yangyong 
  * @website: www.lambkit.com
  * @email: gismail@foxmail.com
- * @date 2018-12-26
+ * @date 2019-04-17
  * @version 1.0
  * @since 1.0
  */
@@ -39,6 +41,16 @@ public class UpmsUserRole extends BaseUpmsUserRole<UpmsUserRole> {
 	public static UpmsUserRoleService service() {
 		return ServiceKit.inject(UpmsUserRoleService.class, UpmsUserRoleServiceImpl.class);
 	}
+	
+	public static UpmsUserRoleCriteria sql() {
+		return new UpmsUserRoleCriteria();
+	}
+	
+	public static UpmsUserRoleCriteria sql(Column column) {
+		UpmsUserRoleCriteria that = new UpmsUserRoleCriteria();
+		that.add(column);
+        return that;
+    }
 	
 	public UpmsUserRole() {
 		UpmsConfig config = UpmsManager.me().getConfig();

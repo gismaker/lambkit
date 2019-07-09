@@ -5,8 +5,8 @@ package $!{basepackage}.rpc.model;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
 import com.lambkit.db.sql.column.Column;
-import com.lambkit.module.upms.common.UpmsConfig;
-import com.lambkit.module.upms.common.UpmsManager;
+import com.lambkit.module.upms.UpmsConfig;
+import com.lambkit.module.upms.UpmsManager;
 
 import $!{basepackage}.rpc.model.base.Base${classname};
 import $!{basepackage}.rpc.model.sql.${classname}Criteria;

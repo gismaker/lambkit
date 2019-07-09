@@ -17,18 +17,20 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-
-import com.lambkit.module.upms.rpc.model.base.BaseUpmsOrganization;
-import com.lambkit.module.upms.rpc.api.UpmsOrganizationService;
-import com.lambkit.module.upms.rpc.service.impl.UpmsOrganizationServiceImpl;
+import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsManager;
+
+import com.lambkit.module.upms.rpc.model.base.BaseUpmsOrganization;
+import com.lambkit.module.upms.rpc.model.sql.UpmsOrganizationCriteria;
+import com.lambkit.module.upms.rpc.api.UpmsOrganizationService;
+import com.lambkit.module.upms.rpc.service.impl.UpmsOrganizationServiceImpl;
 
 /**
  * @author yangyong 
  * @website: www.lambkit.com
  * @email: gismail@foxmail.com
- * @date 2018-12-26
+ * @date 2019-04-17
  * @version 1.0
  * @since 1.0
  */
@@ -39,6 +41,16 @@ public class UpmsOrganization extends BaseUpmsOrganization<UpmsOrganization> {
 	public static UpmsOrganizationService service() {
 		return ServiceKit.inject(UpmsOrganizationService.class, UpmsOrganizationServiceImpl.class);
 	}
+	
+	public static UpmsOrganizationCriteria sql() {
+		return new UpmsOrganizationCriteria();
+	}
+	
+	public static UpmsOrganizationCriteria sql(Column column) {
+		UpmsOrganizationCriteria that = new UpmsOrganizationCriteria();
+		that.add(column);
+        return that;
+    }
 	
 	public UpmsOrganization() {
 		UpmsConfig config = UpmsManager.me().getConfig();

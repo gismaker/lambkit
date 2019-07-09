@@ -17,18 +17,20 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-
-import com.lambkit.module.upms.rpc.model.base.BaseUpmsUserPermission;
-import com.lambkit.module.upms.rpc.api.UpmsUserPermissionService;
-import com.lambkit.module.upms.rpc.service.impl.UpmsUserPermissionServiceImpl;
+import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsManager;
+
+import com.lambkit.module.upms.rpc.model.base.BaseUpmsUserPermission;
+import com.lambkit.module.upms.rpc.model.sql.UpmsUserPermissionCriteria;
+import com.lambkit.module.upms.rpc.api.UpmsUserPermissionService;
+import com.lambkit.module.upms.rpc.service.impl.UpmsUserPermissionServiceImpl;
 
 /**
  * @author yangyong 
  * @website: www.lambkit.com
  * @email: gismail@foxmail.com
- * @date 2018-12-26
+ * @date 2019-04-17
  * @version 1.0
  * @since 1.0
  */
@@ -39,6 +41,16 @@ public class UpmsUserPermission extends BaseUpmsUserPermission<UpmsUserPermissio
 	public static UpmsUserPermissionService service() {
 		return ServiceKit.inject(UpmsUserPermissionService.class, UpmsUserPermissionServiceImpl.class);
 	}
+	
+	public static UpmsUserPermissionCriteria sql() {
+		return new UpmsUserPermissionCriteria();
+	}
+	
+	public static UpmsUserPermissionCriteria sql(Column column) {
+		UpmsUserPermissionCriteria that = new UpmsUserPermissionCriteria();
+		that.add(column);
+        return that;
+    }
 	
 	public UpmsUserPermission() {
 		UpmsConfig config = UpmsManager.me().getConfig();

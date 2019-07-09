@@ -17,18 +17,20 @@ package com.lambkit.module.upms.rpc.model;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.service.ServiceKit;
-
-import com.lambkit.module.upms.rpc.model.base.BaseUpmsUser;
-import com.lambkit.module.upms.rpc.api.UpmsUserService;
-import com.lambkit.module.upms.rpc.service.impl.UpmsUserServiceImpl;
+import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsManager;
+
+import com.lambkit.module.upms.rpc.model.base.BaseUpmsUser;
+import com.lambkit.module.upms.rpc.model.sql.UpmsUserCriteria;
+import com.lambkit.module.upms.rpc.api.UpmsUserService;
+import com.lambkit.module.upms.rpc.service.impl.UpmsUserServiceImpl;
 
 /**
  * @author yangyong 
  * @website: www.lambkit.com
  * @email: gismail@foxmail.com
- * @date 2018-12-26
+ * @date 2019-04-17
  * @version 1.0
  * @since 1.0
  */
@@ -39,6 +41,16 @@ public class UpmsUser extends BaseUpmsUser<UpmsUser> {
 	public static UpmsUserService service() {
 		return ServiceKit.inject(UpmsUserService.class, UpmsUserServiceImpl.class);
 	}
+	
+	public static UpmsUserCriteria sql() {
+		return new UpmsUserCriteria();
+	}
+	
+	public static UpmsUserCriteria sql(Column column) {
+		UpmsUserCriteria that = new UpmsUserCriteria();
+		that.add(column);
+        return that;
+    }
 	
 	public UpmsUser() {
 		UpmsConfig config = UpmsManager.me().getConfig();
