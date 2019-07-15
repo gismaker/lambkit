@@ -1,0 +1,27 @@
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Lambkit 管理平台</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item">
+						<a href="#(ctx)/lambkit/dev">控制台</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#(ctx)/lambkit/node">节点管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#(ctx)/lambkit/dev/mgrdb">数据管理</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<a href="#">帮助文档</a>
+					</li>
+				</ul>
+				#if(auth)
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<i class="layui-icon layui-icon-username" style="color: #FFFFFF;"></i>&nbsp;#(auth.user.realname??)
+					</li>
+				</ul>
+				#end
+			</div>
+		</div>

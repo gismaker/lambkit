@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html style="background-color: white;">
+	<head>
+		<meta charset="utf-8">
+		<title>Lambkit 管理平台</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/css/style.css">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/css/index.css">
+	</head>
+	<body>
+		#include("_header.html")
+		<div class="layui-main site-inline">
+			<div class="site-tree">
+				#include("_contents.html", nav="faq")
+			</div>
+			<div class="site-content">
+				<h1 class="site-h1">常见问题</h1>
+				<blockquote class="layui-elem-quote">
+					待完善
+				</blockquote>
+			</div>
+		</div>
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+		<script src="#(ctx)/lambkit/assets/jquery.min.js" charset="utf-8"></script>
+		<script>
+			//JavaScript代码区域
+			layui.use(['code', 'element'], function() {
+				var element = layui.element;
+			});
+		</script>
+	</body>
+</html>

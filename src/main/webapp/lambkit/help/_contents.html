@@ -1,0 +1,392 @@
+<ul class="layui-tree">
+	<li>
+		<h2>基础说明</h2></li>
+	<li class="site-tree-noicon #if(!nav || nav=='index')layui-this#end">
+		<a href="#(ckey)/">
+			<cite>开始使用</cite>
+			<em>Getting Started</em>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='faq')layui-this#end">
+		<a href="#(ckey)/faq">
+			<cite>常见问题</cite>
+			<em>FAQ</em>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='changes')layui-this#end">
+		<a href="#(ckey)/changes">
+			<cite>更新日志</cite>
+		</a>
+	</li>
+	<li>
+		<h2>项目启动与部署</h2></li>
+	<li class="site-tree-noicon #if(nav=='undertow')layui-this#end">
+		<a href="#(ckey)/undertow">
+			<cite>Undertow</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='jetty')layui-this#end">
+		<a href="#(ckey)/jetty">
+			<cite>Jetty</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='tomcat')layui-this#end">
+		<a href="#(ckey)/tomcat">
+			<cite>Tomcat</cite>
+		</a>
+	</li>
+	<li>
+		<h2>项目开发</h2></li>
+	<li class="site-tree-noicon #if(nav=='helloword')layui-this#end">
+		<a href="#(ckey)/helloword">
+			<cite>Hello World</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='properites')layui-this#end">
+		<a href="#(ckey)/properites">
+			<cite>配置</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='module')layui-this#end">
+		<a href="#(ckey)/module">
+			<cite>模块化</cite>
+		</a>
+	</li>
+	<li>
+		<h2>外部组件</h2></li>
+	<li class="site-tree-noicon #if(nav=='druid')layui-this#end">
+		<a href="#(ckey)/druid">
+			<cite>Druid</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='ehcache')layui-this#end">
+		<a href="#(ckey)/ehcache">
+			<cite>Ehcache</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='redis')layui-this#end">
+		<a href="#(ckey)/redis">
+			<cite>Redis</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='shiro')layui-this#end">
+		<a href="#(ckey)/shiro">
+			<cite>Shiro</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='swagger')layui-this#end">
+		<a href="#(ckey)/swagger">
+			<cite>Swagger</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='zbus')layui-this#end">
+		<a href="#(ckey)/zbus">
+			<cite>Zbus</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='montan')layui-this#end">
+		<a href="#(ckey)/montan">
+			<cite>Montan</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='hadoop')layui-this#end">
+		<a href="#(ckey)/hadoop">
+			<cite>Hadoop</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='hbase')layui-this#end">
+		<a href="#(ckey)/hbase">
+			<cite>HBase</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='kafka')layui-this#end">
+		<a href="#(ckey)/kafka">
+			<cite>Kafka</cite>
+		</a>
+	</li>
+	<li>
+		<h2>通用功能</h2></li>
+	<li class="site-tree-noicon #if(nav=='base')layui-this#end">
+		<a href="#(ckey)/base">
+			<cite>基础定义</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='dao')layui-this#end">
+		<a href="#(ckey)/dao">
+			<cite>Dao定义</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='service')layui-this#end">
+		<a href="#(ckey)/service">
+			<cite>Service定义</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='servicekit')layui-this#end">
+		<a href="#(ckey)/servicekit">
+			<cite>Service实例化管理</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='monitor')layui-this#end">
+		<a href="#(ckey)/monitor">
+			<cite>系统监控</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='util')layui-this#end">
+		<a href="#(ckey)/util">
+			<cite>Util工具</cite>
+		</a>
+	</li>
+	<li>
+		<h2>核心模块</h2></li>
+	<li class="site-tree-noicon #if(nav=='aop')layui-this#end">
+		<a href="#(ckey)/aop">
+			<cite>AopKit工具</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='api')layui-this#end">
+		<a href="#(ckey)/api">
+			<cite>Api监测与管理</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='cache')layui-this#end">
+		<a href="#(ckey)/cache">
+			<cite>Cache缓存</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='config')layui-this#end">
+		<a href="#(ckey)/config">
+			<cite>Config配置服务</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='event')layui-this#end">
+		<a href="#(ckey)/event">
+			<cite>Event事件机制</cite>
+		</a>
+	</li>
+	<li>
+		<h2>分布式</h2></li>
+	<li class="site-tree-noicon #if(nav=='getaway')layui-this#end">
+		<a href="#(ckey)/getaway">
+			<cite>Getaway网关</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='heartbeat')layui-this#end">
+		<a href="#(ckey)/heartbeat">
+			<cite>HeartBeat心跳监测</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='mq')layui-this#end">
+		<a href="#(ckey)/mq">
+			<cite>Mq消息机制</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='rpc')layui-this#end">
+		<a href="#(ckey)/rpc">
+			<cite>RPC远程调用</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='serializer')layui-this#end">
+		<a href="#(ckey)/serializer">
+			<cite>Serializer序列化</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='session')layui-this#end">
+		<a href="#(ckey)/session">
+			<cite>Session管理</cite>
+		</a>
+	</li>
+	<li>
+		<h2>数据库</h2></li>
+	<li class="site-tree-noicon #if(nav=='dbmgr')layui-this#end">
+		<a href="#(ckey)/dbmgr">
+			<cite>数据库管理</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='dsmgr')layui-this#end">
+		<a href="#(ckey)/dsmgr">
+			<cite>数据源管理</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='dialect')layui-this#end">
+		<a href="#(ckey)/dialect">
+			<cite>数据库方言</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='meta')layui-this#end">
+		<a href="#(ckey)/meta">
+			<cite>元数据</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='mgrdb')layui-this#end">
+		<a href="#(ckey)/mgrdb">
+			<cite>Mgrdb功能</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='sql')layui-this#end">
+		<a href="#(ckey)/sql">
+			<cite>SQL组装功能</cite>
+		</a>
+	</li>
+	<li>
+		<h2>分布式</h2></li>
+	<li class="site-tree-noicon #if(nav=='distributed')layui-this#end">
+		<a href="#(ckey)/distributed">
+			<cite>分布式原理</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='managenode')layui-this#end">
+		<a href="#(ckey)/managenode">
+			<cite>管理节点</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='servicenode')layui-this#end">
+		<a href="#(ckey)/servicenode">
+			<cite>服务节点</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='nodeapi')layui-this#end">
+		<a href="#(ckey)/nodeapi">
+			<cite>节点API管理</cite>
+		</a>
+	</li>
+	<li>
+		<h2>代码自动生成</h2></li>
+	<li class="site-tree-noicon #if(nav=='generator')layui-this#end">
+		<a href="#(ckey)/generator">
+			<cite>代码自动生成</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='gencode')layui-this#end">
+		<a href="#(ckey)/gencode">
+			<cite>简易Model/Service代码生成</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='genhtml')layui-this#end">
+		<a href="#(ckey)/genhtml">
+			<cite>HTML页面静态化</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='genword')layui-this#end">
+		<a href="#(ckey)/genword">
+			<cite>Word文档自动生成</cite>
+		</a>
+	</li>
+	<li>
+		<h2>Web服务</h2></li>
+	<li class="site-tree-noicon #if(nav=='web')layui-this#end">
+		<a href="#(ckey)/web">
+			<cite>Web服务管理</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='webcache')layui-this#end">
+		<a href="#(ckey)/webcache">
+			<cite>页面缓存</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='controller')layui-this#end">
+		<a href="#(ckey)/controller">
+			<cite>控制器Controller</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='tag')layui-this#end">
+		<a href="#(ckey)/tag">
+			<cite>模板语言标签</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='handler')layui-this#end">
+		<a href="#(ckey)/handler">
+			<cite>处理器Handler</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='interceptor')layui-this#end">
+		<a href="#(ckey)/interceptor">
+			<cite>拦截器Interceptor</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='render')layui-this#end">
+		<a href="#(ckey)/render">
+			<cite>渲染器Render</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='validate')layui-this#end">
+		<a href="#(ckey)/validate">
+			<cite>验证器Validate</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='widget')layui-this#end">
+		<a href="#(ckey)/widget">
+			<cite>部件模式功能</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='tache')layui-this#end">
+		<a href="#(ckey)/tache">
+			<cite>通用Controller</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='websocket')layui-this#end">
+		<a href="#(ckey)/websocket">
+			<cite>WebSocket功能</cite>
+		</a>
+	</li>
+	<li>
+		<h2>插件机制</h2></li>
+	<li class="site-tree-noicon #if(nav=='auth')layui-this#end">
+		<a href="#(ckey)/auth">
+			<cite>用户管理</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='mail')layui-this#end">
+		<a href="#(ckey)/mail">
+			<cite>邮件管理</cite>
+		</a>
+	</li>
+	<li>
+		<h2>模块化机制</h2></li>
+	<li class="site-tree-noicon #if(nav=='defaultmodule')layui-this#end">
+		<a href="#(ckey)/defaultmodule">
+			<cite>默认模块</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='lms')layui-this#end">
+		<a href="#(ckey)/lms">
+			<cite>Lambkit管理平台</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='sysconfig')layui-this#end">
+		<a href="#(ckey)/sysconfig">
+			<cite>Mgrdb-Sysconfig功能</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='mgrdbmeta')layui-this#end">
+		<a href="#(ckey)/mgrdbmeta">
+			<cite>Mgrdb-meta功能</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='upms')layui-this#end">
+		<a href="#(ckey)/upms">
+			<cite>Upms用户权限</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='wechat')layui-this#end">
+		<a href="#(ckey)/wechat">
+			<cite>微信功能</cite>
+		</a>
+	</li>
+	<li>
+		<h2>开发模式与架构</h2></li>
+	<li class="site-tree-noicon #if(nav=='cluster')layui-this#end">
+		<a href="#(ckey)/cluster">
+			<cite>集群模式</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='rpcmode')layui-this#end">
+		<a href="#(ckey)/rpcmode">
+			<cite>RPC分布式应用</cite>
+		</a>
+	</li>
+	<li class="site-tree-noicon #if(nav=='micro')layui-this#end">
+		<a href="#(ckey)/micro">
+			<cite>微服务</cite>
+		</a>
+	</li>
+</ul>
