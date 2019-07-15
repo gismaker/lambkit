@@ -57,7 +57,7 @@ import com.lambkit.web.controller.WidgetManager;
  */
 //@Before(AppLoginInterceptor.class)
 @RequiresRoles(value={"superadmin","super","admin"}, logical=Logical.OR)
-public class CommonController extends BaseController {
+public class TacheController extends BaseController {
 	
 	//@Before({RuleRoleInterceptor.class,UserAuthInterceptor.class})
 	public void index() {
@@ -519,7 +519,7 @@ public class CommonController extends BaseController {
 	 * at = json 或 redirect(url)中的url
 	 */
 	//@Before({RoleEtcInterceptor.class,CommonValidator.class,UserAuthInterceptor.class})
-	@Before(CommonValidator.class)
+	@Before(TacheValidator.class)
 	public void save() {
 		MgrTable tbc = getBase(MgrConstants.MAP_EDIT);
 		if (tbc == null) {
@@ -668,7 +668,7 @@ public class CommonController extends BaseController {
 	 * at = json 或 redirect(url)中的url
 	 */
 	//@Before({RoleEtcInterceptor.class,CommonValidator.class,UserAuthInterceptor.class})
-	@Before(CommonValidator.class)
+	@Before(TacheValidator.class)
 	public void update() {
 		MgrTable tbc = getBase(MgrConstants.MAP_EDIT);
 		if (tbc == null) {

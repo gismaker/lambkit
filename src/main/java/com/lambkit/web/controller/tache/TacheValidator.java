@@ -26,7 +26,7 @@ import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.mgr.MgrdbService;
 
-public class CommonValidator extends Validator {
+public class TacheValidator extends Validator {
 
 	String tbcnn = "";
 	 

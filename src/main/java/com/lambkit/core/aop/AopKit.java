@@ -18,7 +18,7 @@ package com.lambkit.core.aop;
 import com.jfinal.log.Log;
 
 /**
- * 类实例创建者创建者
+ * 类实例创建者
  */
 public class AopKit {
 

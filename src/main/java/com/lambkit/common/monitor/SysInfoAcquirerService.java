@@ -36,7 +36,7 @@ import com.lambkit.common.util.LimitQueue;
 import com.sun.management.OperatingSystemMXBean;
 
 /**
- * 网管信息信息信息采集类
+ * 网管信息采集类
  * 
  * @author 孤竹行
  *
