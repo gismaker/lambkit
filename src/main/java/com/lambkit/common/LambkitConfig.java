@@ -15,6 +15,7 @@
  */
 package com.lambkit.common;
 
+import com.lambkit.Lambkit;
 import com.lambkit.core.config.annotation.PropertieConfig;
 
 @PropertieConfig(prefix = "lambkit")
@@ -23,7 +24,6 @@ public class LambkitConfig {
 	private String name = "";
     private String version = "0.2-alpha1";
     private String mode = LambkitMode.DEV.getValue();
-    private boolean lmsActived = false;
     private String encryptKey = "n1gEgB3/NiGrOxdT9IxWxA==";
     
     private String autoRegisterControllerPackages;
@@ -41,7 +41,7 @@ public class LambkitConfig {
         return "LambkitConfig {" +
                 "version='" + version + '\'' +
                 ", mode='" + mode + '\'' +
-                ", lmsActived=" + lmsActived +
+                ", lmsActived=" + Lambkit.isLmsActived() +
                 '}';
     }
     
@@ -109,21 +109,9 @@ public class LambkitConfig {
 		this.autoRegisterServicePackages = autoRegisterServicePackages;
 	}
 
-
-	public boolean isLmsActived() {
-		return lmsActived;
-	}
-
-
-	public void setLmsActived(boolean lmsActived) {
-		this.lmsActived = lmsActived;
-	}
-
-
 	public String getEncryptKey() {
 		return encryptKey;
 	}
-
 
 	public void setEncryptKey(String encryptKey) {
 		this.encryptKey = encryptKey;

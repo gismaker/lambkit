@@ -20,12 +20,19 @@ import com.lambkit.core.config.annotation.PropertieConfig;
 @PropertieConfig(prefix = "lambkit.component.ehcache")
 public class EhcacheConfig {
 
-	private boolean addin = false;
+	private boolean enable = false;
+	private String path = null;
 	
-	public boolean isAddin() {
-		return addin;
+	public boolean isEnable() {
+		return enable;
 	}
-	public void setAddin(boolean addin) {
-		this.addin = addin;
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
 	}
 }

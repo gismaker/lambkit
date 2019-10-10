@@ -29,6 +29,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import com.jfinal.aop.Enhancer;
+import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.redis.Redis;
 import com.lambkit.common.BaseResult;
@@ -100,8 +101,24 @@ public class UpmsAuthServiceImpl implements AuthService {
 			return user;
 		}
 	}
-
+	
 	public BaseResult login(HttpServletRequest request, String username, String password, boolean rememberMe) {
+		UpmsResult upmsResult = doLogin(request, username, password, rememberMe);
+		if(upmsResult.getCode()==UpmsResultConstant.SUCCESS.getCode()) {
+			loginSuccess(request, username);
+		}
+		return upmsResult;
+	}
+	
+	public BaseResult login(Controller controller, String username, String password, boolean rememberMe) {
+		UpmsResult upmsResult = doLogin(controller.getRequest(), username, password, rememberMe);
+		if(upmsResult.getCode()==UpmsResultConstant.SUCCESS.getCode()) {
+			loginSuccess(controller, username);
+		}
+		return upmsResult;
+	}
+
+	private UpmsResult doLogin(HttpServletRequest request, String username, String password, boolean rememberMe) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
         usernamePasswordToken.setRememberMe(rememberMe);
@@ -127,10 +144,14 @@ public class UpmsAuthServiceImpl implements AuthService {
         RedisUtil.set(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + sessionId, code, (int) subject.getSession().getTimeout() / 1000);
         // code校验值
         RedisUtil.set(UpmsConstant.LAMBKIT_UPMS_SERVER_CODE + "_" + code, code, (int) subject.getSession().getTimeout() / 1000);
-        loginSuccess(request, username);
+        //loginSuccess(request, username);
         return new UpmsResult(UpmsResultConstant.SUCCESS, username);
 	}
 
+	public void loginSuccess(Controller controller, String username) {
+		loginSuccess(controller.getRequest(), username);
+	}
+	
 	public void loginSuccess(HttpServletRequest request, String username) {
 		UpmsAuth user = new UpmsAuth(getUpmsApiService().selectUpmsUserByUsername(username));
 		UserInfo usercache = AuthManager.me().getCache().saveLoginUser(user, request, getSessionId(request));
@@ -146,10 +167,24 @@ public class UpmsAuthServiceImpl implements AuthService {
 		String redirectUrl = request.getHeader("Referer");
 		return new UpmsResult(UpmsResultConstant.SUCCESS, redirectUrl);
 	}
+	
+	public BaseResult logout(Controller controller) {
+		// shiro退出登录
+		SecurityUtils.getSubject().logout();
+		logoutSuccess(controller);
+		// 跳回原地址
+		String redirectUrl = controller.getHeader("Referer");
+		return new UpmsResult(UpmsResultConstant.SUCCESS, redirectUrl);
+	}
 
 	public void logoutSuccess(HttpServletRequest request) {
 		request.getSession().invalidate();
 		AuthManager.me().getCache().removeLoginUser(request, getSessionId(request));
+	}
+	
+	public void logoutSuccess(Controller controller) {
+		controller.getSession().invalidate();
+		AuthManager.me().getCache().removeLoginUser(controller.getRequest(), getSessionId(controller.getRequest()));
 	}
 
 	@Override

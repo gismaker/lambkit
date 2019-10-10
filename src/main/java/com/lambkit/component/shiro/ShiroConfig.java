@@ -26,7 +26,7 @@ public class ShiroConfig {
 	public static final String TYPE_SERVER = "server";
     public static final String TYPE_CLIENT = "client";
     
-    private boolean addin = false;
+    private boolean enable = false;
     private String loginUrl = "/login";
     private String successUrl = "/";
     private String unauthorizedUrl = "/error/403";
@@ -84,12 +84,12 @@ public class ShiroConfig {
 		this.shiroType = shiroType;
 	}
 
-	public boolean isAddin() {
-		return addin;
+	public boolean isEnable() {
+		return enable;
 	}
 
-	public void setAddin(boolean addin) {
-		this.addin = addin;
+	public void setEnable(boolean enable) {
+		this.enable = enable;
 	}
 }
 

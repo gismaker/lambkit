@@ -24,10 +24,15 @@ import com.lambkit.plugin.auth.AuthManager;
 
 public class LambkitDruidStatViewHandler extends DruidStatViewHandler {
 	
-	static String visitPath = "/lambkit/dev/druid";
+	private String visitPath = "/lambkit/dev/druid";
 
 	public LambkitDruidStatViewHandler() {
+		super("/lambkit/dev/druid");
+	}
+	
+	public LambkitDruidStatViewHandler(String visitPath) {
 		super(visitPath);
+		this.visitPath = visitPath;
 	}
 
 	@Override

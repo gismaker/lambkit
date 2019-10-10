@@ -35,9 +35,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
-import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
-import com.jfinal.template.Directive;
 import com.jfinal.template.Engine;
 import com.jfinal.template.ext.directive.NowDirective;
 import com.lambkit.Lambkit;
@@ -159,11 +157,11 @@ public class DefaultModule extends LambkitModule {
 	 */
 	public void configPlugin(Plugins me) {
 		EhcacheConfig ehc = ConfigManager.me().get(EhcacheConfig.class);
-		if(ehc.isAddin()) me.add(createEhCachePlugin());
+		if(ehc.isEnable()) me.add(createEhCachePlugin(ehc));
 		//me.add(new EventPlugin());
 		
 		RedisConfig rdc = ConfigManager.me().get(RedisConfig.class);
-		if(rdc.isAddin()) {
+		if(rdc.isEnable()) {
 			//分布式session，分布式缓存
 			RedisManager.me().addDefaultPlugin(me);
 		}
@@ -194,13 +192,12 @@ public class DefaultModule extends LambkitModule {
 		LambkitManager.me().getInfo().setPlugins(me);
 	}
 	
-	public EhCachePlugin createEhCachePlugin() {
-		String path = ConfigManager.me().getValue("lambkit.ehcache.path");
-		if(StrKit.notBlank(path)) {
+	public EhCachePlugin createEhCachePlugin(EhcacheConfig ehc) {
+		if(StrKit.notBlank(ehc.getPath())) {
 			String ehcacheDiskStorePath = PathKit.getWebRootPath();
-			if("webrootpath".equalsIgnoreCase(path)){
+			if("webrootpath".equalsIgnoreCase(ehc.getPath())){
 				ehcacheDiskStorePath = PathKit.getWebRootPath();
-			} else if("classpath".equalsIgnoreCase(path)) {
+			} else if("classpath".equalsIgnoreCase(ehc.getPath())) {
 				ehcacheDiskStorePath = PathKit.getRootClassPath();
 			}
 			File pathFile = new File(ehcacheDiskStorePath, ".ehcache");
