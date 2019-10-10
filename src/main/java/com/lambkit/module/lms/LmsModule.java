@@ -47,40 +47,42 @@ public class LmsModule extends LambkitModule {
 
 	@Override
 	public void configRoute(Routes routes) {
-		routes.add("/lambkit", IndexLmsController.class, "/lambkit");
+		LmsConfig lmsconfig = Lambkit.config(LmsConfig.class);
+		routes.add(lmsconfig.getControllerKey(), IndexLmsController.class, lmsconfig.getViewPath());
 		
-		routes.add("/lambkit/dev", IndexDevController.class, "/lambkit/dev");
-		routes.add("/lambkit/dev/route", RouteController.class, "/lambkit/dev/route");
-		routes.add("/lambkit/dev/handler", HandlerController.class, "/lambkit/dev/handler");
-		routes.add("/lambkit/dev/plugin", PluginController.class, "/lambkit/dev/plugin");
-		routes.add("/lambkit/dev/tag", TagController.class, "/lambkit/dev/tag");
-		routes.add("/lambkit/dev/interceptor", InterceptorController.class, "/lambkit/dev/interceptor");
-		routes.add("/lambkit/dev/mapping", MappingController.class, "/lambkit/dev/mapping");
-		routes.add("/lambkit/dev/prop", PropController.class, "/lambkit/dev/prop");
-		routes.add("/lambkit/dev/monitor", MonitorController.class, "/lambkit/dev/monitor");
-		routes.add("/lambkit/dev/file", FileController.class, "/lambkit/dev/file");
-		routes.add("/lambkit/dev/swagger", SwaggerController.class, "/lambkit/dev/swagger");
+		routes.add(lmsconfig.getControllerKey() + "/dev", IndexDevController.class, lmsconfig.getViewPath() + "/dev");
+		routes.add(lmsconfig.getControllerKey() + "/dev/route", RouteController.class, lmsconfig.getViewPath() + "/dev/route");
+		routes.add(lmsconfig.getControllerKey() + "/dev/handler", HandlerController.class, lmsconfig.getViewPath() + "/dev/handler");
+		routes.add(lmsconfig.getControllerKey() + "/dev/plugin", PluginController.class, lmsconfig.getViewPath() + "/dev/plugin");
+		routes.add(lmsconfig.getControllerKey() + "/dev/tag", TagController.class, lmsconfig.getViewPath() + "/dev/tag");
+		routes.add(lmsconfig.getControllerKey() + "/dev/interceptor", InterceptorController.class, lmsconfig.getViewPath() + "/dev/interceptor");
+		routes.add(lmsconfig.getControllerKey() + "/dev/mapping", MappingController.class, lmsconfig.getViewPath() + "/dev/mapping");
+		routes.add(lmsconfig.getControllerKey() + "/dev/prop", PropController.class, lmsconfig.getViewPath() + "/dev/prop");
+		routes.add(lmsconfig.getControllerKey() + "/dev/monitor", MonitorController.class, lmsconfig.getViewPath() + "/dev/monitor");
+		routes.add(lmsconfig.getControllerKey() + "/dev/file", FileController.class, lmsconfig.getViewPath() + "/dev/file");
+		routes.add(lmsconfig.getControllerKey() + "/dev/swagger", SwaggerController.class, lmsconfig.getViewPath() + "/dev/swagger");
 		
 		MgrdbConfig config = Lambkit.config(MgrdbConfig.class);
 		if(MgrdbConfig.META.equals(config.getType())) {
-			routes.add("/lambkit/mgrdb/api", MgrdbApiController.class);
-			routes.add("/lambkit/mgrdb", MgrdbViewController.class, "/lambkit/dev/mgrdb/enjoy");
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb/api", MgrdbApiController.class);
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb", MgrdbViewController.class, lmsconfig.getViewPath() + "/dev/mgrdb/enjoy");
 
-			routes.add("/lambkit/mgrdb/meta", ManageController.class, "/lambkit/dev/mgrdb/meta");
-			routes.add("/lambkit/mgrdb/meta/app", MetaAppController.class, "/lambkit/dev/mgrdb/meta/app");
-			routes.add("/lambkit/mgrdb/meta/store", MetaStoreController.class, "/lambkit/dev/mgrdb/meta/store");
-			routes.add("/lambkit/mgrdb/meta/store/db", MetaStoreDbController.class, "/lambkit/dev/mgrdb/meta/store/db");
-			routes.add("/lambkit/mgrdb/meta/store/db/table", MetaTableController.class, "/lambkit/dev/mgrdb/meta/store/db/table");
-			routes.add("/lambkit/mgrdb/meta/store/db/field", MetaFieldController.class, "/lambkit/dev/mgrdb/meta/store/db/field");
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb/meta", ManageController.class, lmsconfig.getViewPath() + "/dev/mgrdb/meta");
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb/meta/app", MetaAppController.class, lmsconfig.getViewPath() + "/dev/mgrdb/meta/app");
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb/meta/store", MetaStoreController.class, lmsconfig.getViewPath() + "/dev/mgrdb/meta/store");
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb/meta/store/db", MetaStoreDbController.class, lmsconfig.getViewPath() + "/dev/mgrdb/meta/store/db");
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb/meta/store/db/table", MetaTableController.class, lmsconfig.getViewPath() + "/dev/mgrdb/meta/store/db/table");
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb/meta/store/db/field", MetaFieldController.class, lmsconfig.getViewPath() + "/dev/mgrdb/meta/store/db/field");
 		} else if(MgrdbConfig.SYSCONFIG.equals(config.getType())) {
-			routes.add("/lambkit/mgrdb", MgrdbController.class, "/lambkit/dev/mgrdb/freemarker");
+			routes.add(lmsconfig.getControllerKey() + "/mgrdb", MgrdbController.class, lmsconfig.getViewPath() + "/dev/mgrdb/freemarker");
 		} 
-		routes.add("/lambkit/dev/mgrdb", IndexMgrdbController.class, "/lambkit/dev/mgrdb");
+		routes.add(lmsconfig.getControllerKey() + "/dev/mgrdb", IndexMgrdbController.class, lmsconfig.getViewPath() + "/dev/mgrdb");
 	}
 	
 	@Override
 	public void configHandler(Handlers me) {
-		LambkitDruidStatViewHandler druidViewHandler = new LambkitDruidStatViewHandler();
+		LmsConfig lmsconfig = Lambkit.config(LmsConfig.class);
+		LambkitDruidStatViewHandler druidViewHandler = new LambkitDruidStatViewHandler(lmsconfig.getControllerKey() + "/dev/druid");
 		me.add(druidViewHandler);
 	}
 }

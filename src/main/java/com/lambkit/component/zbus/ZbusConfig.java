@@ -20,7 +20,7 @@ import com.lambkit.core.config.annotation.PropertieConfig;
 @PropertieConfig(prefix="lambkit.component.zbus")
 public class ZbusConfig {
 	
-	private boolean addin = false;
+	private boolean enable = false;
 	private String address;
 	private int port = 0;
 	private String name = "LambkitZbus";
@@ -65,10 +65,10 @@ public class ZbusConfig {
 	public void setSslkey(String sslkey) {
 		this.sslkey = sslkey;
 	}
-	public boolean isAddin() {
-		return addin;
+	public boolean isEnable() {
+		return enable;
 	}
-	public void setAddin(boolean addin) {
-		this.addin = addin;
+	public void setEnable(boolean enable) {
+		this.enable = enable;
 	}
 }

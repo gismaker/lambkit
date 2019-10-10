@@ -32,7 +32,7 @@ public class Application extends JFinalConfig {
     @Override
 	public void configConstant(Constants constants) {
 		// TimeUtils.startTime("start lambkit configConstant");
-		if(Lambkit.getLambkitConfig().isLmsActived()) {
+		if(Lambkit.isLmsActived()) {
     		Lambkit.addModule(new UpmsModule());
         	LambkitModule module = MgrdbManager.me().getLambkitModule();
         	if(module!=null) {

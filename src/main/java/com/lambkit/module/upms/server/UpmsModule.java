@@ -56,7 +56,7 @@ public class UpmsModule extends LambkitModule {
 	public void configMapping(String name, ActiveRecordPluginWrapper arp) {
 		super.configMapping(name, arp);
 		UpmsConfig config = Lambkit.config(UpmsConfig.class);
-		System.out.println("mapping name: " + name + ", this config is " + config.getDbconfig());
+		System.out.println("Upms mapping name: " + name + ", this config is " + config.getDbconfig());
 		if(StrKit.notBlank(name) && name.equals(config.getDbconfig())) {
 			UpmsManager.me().mapping(arp);
 		}

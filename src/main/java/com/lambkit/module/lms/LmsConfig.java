@@ -13,40 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.component.redis;
+package com.lambkit.module.lms;
 
 import com.lambkit.core.config.annotation.PropertieConfig;
 
-@PropertieConfig(prefix = "lambkit.component.redis")
-public class RedisConfig {
+@PropertieConfig(prefix = "lambkit.module.lms")
+public class LmsConfig {
 
 	private boolean enable = false;
-	private String address = "127.0.0.1";
-	private String password;
-	private String database = "myredis";
+	private String controllerKey = "/lambkit";
+	private String viewPath = "/lambkit";
 	
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getDatabase() {
-		return database;
-	}
-	public void setDatabase(String database) {
-		this.database = database;
-	}
 	public boolean isEnable() {
 		return enable;
 	}
 	public void setEnable(boolean enable) {
 		this.enable = enable;
+	}
+	public String getControllerKey() {
+		return controllerKey;
+	}
+	public void setControllerKey(String controllerKey) {
+		this.controllerKey = controllerKey;
+	}
+	public String getViewPath() {
+		return viewPath;
+	}
+	public void setViewPath(String viewPath) {
+		this.viewPath = viewPath;
 	}
 }

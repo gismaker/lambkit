@@ -58,4 +58,28 @@ public class MgrTable {
 		this.fieldList = list;
 	}
 
+	/******/
+	public String getPrimaryKey() {
+		if(meta!=null) {
+			return meta.getPrimaryKey();
+		} else {
+			return null;
+		}
+	}
+	
+	public Object getId() {
+		if(model!=null) {
+			return model.getId();
+		} else {
+			return null;
+		}
+	}
+	
+	public String getTitle() {
+		if(model!=null) {
+			return model.getTitle();
+		} else {
+			return null;
+		}
+	}
 }

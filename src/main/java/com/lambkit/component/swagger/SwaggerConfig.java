@@ -21,7 +21,7 @@ import com.lambkit.core.config.annotation.PropertieConfig;
 @PropertieConfig(prefix="lambkit.component.swagger")
 public class SwaggerConfig {
 	
-	private boolean addin = false;
+	private boolean enable = false;
     private String url = "/swagger";
     private String path = "/lambkit/dev/swagger";
     private String basepackage;
@@ -35,7 +35,7 @@ public class SwaggerConfig {
     }
 
     public boolean isConfigOk() {
-        return addin && StrKit.notBlank(url) && StrKit.notBlank(path);
+        return enable && StrKit.notBlank(url) && StrKit.notBlank(path);
     }
 
 	public String getPath() {
@@ -54,12 +54,12 @@ public class SwaggerConfig {
 		this.basepackage = basepackage;
 	}
 
-	public boolean isAddin() {
-		return addin;
+	public boolean isEnable() {
+		return enable;
 	}
 
-	public void setAddin(boolean addin) {
-		this.addin = addin;
+	public void setEnable(boolean enable) {
+		this.enable = enable;
 	}
 }
 

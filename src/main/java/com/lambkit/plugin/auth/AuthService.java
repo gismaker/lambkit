@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.jfinal.core.Controller;
 import com.lambkit.common.BaseResult;
 import com.lambkit.plugin.auth.IUser;
 
@@ -36,11 +37,13 @@ public interface AuthService {
 	 * @param username
 	 */
 	BaseResult login(HttpServletRequest request, String username, String password, boolean rememberMe);
+	BaseResult login(Controller controller, String username, String password, boolean rememberMe);
 	/**
 	 * 退出
 	 * @param c
 	 */
 	BaseResult logout(HttpServletRequest request);
+	BaseResult logout(Controller controller);
 	/**
 	 * 已登录的用户
 	 *
