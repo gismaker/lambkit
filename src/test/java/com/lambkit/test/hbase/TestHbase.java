@@ -33,6 +33,7 @@ import com.lambkit.component.hbase.HbasePlugin;
 import java.util.List;
 
 public class TestHbase {
+	/*
 	private static HbasePlugin p;
 
 	@BeforeClass
@@ -105,4 +106,5 @@ public class TestHbase {
 	public void t10() {
 		System.out.println(Hbase.rowCount("sunyutable", new Scan()));
 	}
+	*/
 }

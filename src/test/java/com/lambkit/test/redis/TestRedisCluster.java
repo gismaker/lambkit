@@ -12,6 +12,7 @@ import com.lambkit.component.redis.RedisClusterPlugin;
 import redis.clients.jedis.JedisCluster;
 
 public class TestRedisCluster {
+	/*
 	@Test
 	public void t1() {
 		String clusterJson = "[{host:'192.168.11.81',port:'7001'},{host:'192.168.11.81',port:'7002'},{host:'192.168.11.81',port:'7003'},{host:'192.168.11.81',port:'7007'},{host:'192.168.11.81',port:'7008'},{host:'192.168.11.82',port:'7004'},{host:'192.168.11.82',port:'7005'},{host:'192.168.11.82',port:'7006'},{host:'192.168.11.82',port:'7009'},{host:'192.168.11.82',port:'7010'}]";
@@ -37,4 +38,5 @@ public class TestRedisCluster {
 			}
 		});
 	}
+	*/
 }
