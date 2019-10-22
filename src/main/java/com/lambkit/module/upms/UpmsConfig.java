@@ -25,7 +25,7 @@ public class UpmsConfig {
 	private String type = "server";
 	private String sessionId = "lambkit-upms-server-session-id";
 	private int sessionTimeout = 1800000;
-	private String ssoServerUrl = "http://127.0.0.1:8080";
+	private String ssoServerUrl = "/";
 	private String successUrl = "/upms/index";
 	private String unauthorizedUrl = "/403";
 	private int rememberMeTimeout = 2592000;

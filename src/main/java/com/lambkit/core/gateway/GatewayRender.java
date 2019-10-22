@@ -43,9 +43,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.message.HeaderGroup;
 import org.apache.http.util.EntityUtils;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.render.Render;
+import com.jfinal.render.RenderManager;
 import com.lambkit.Lambkit;
 import com.lambkit.common.exception.LambkitException;
 
@@ -102,8 +104,29 @@ public class GatewayRender extends Render {
 	public GatewayRender(String targetName, String targetUri) {
 		// TODO Auto-generated constructor stub
 		this.targetName = targetName;
-		this.targetUri = targetUri;
-		proxyClient = createHttpClient(buildRequestConfig());
+		setTargetUri(targetUri);				
+		proxyClient = createHttpClient(buildRequestConfig());	
+	}
+	
+	private void setTargetUri(String uri) {
+		targetUri = uri;
+		if(targetUri.startsWith("//")) {
+			targetUri = targetUri.substring(1);
+		}
+		if(StrKit.isBlank(targetUri)) {
+			targetUri = "/";
+		}
+		String contextPath = getContxtPath();
+		// 如果一个url为/login/connect?goto=http://www.jfinal.com，则有错误
+		// ^((https|http|ftp|rtsp|mms)?://)$   ==> indexOf 取值为 (3, 5)
+		if (contextPath != null && (targetUri.indexOf("://") == -1 || targetUri.indexOf("://") > 5)) {
+			targetUri = contextPath + targetUri;
+		}
+	}
+	
+	private String getContxtPath() {
+		String cp = JFinal.me().getContextPath();
+		return ("".equals(cp) || "/".equals(cp)) ? null : cp;
 	}
 
 	@Override
@@ -118,6 +141,22 @@ public class GatewayRender extends Render {
 		service(request, response);
 	}
 	
+	private String getServerUrl(HttpServletRequest servletRequest) {
+		/*
+		String serverUrl = servletRequest.getServerName() + ":" + servletRequest.getServerPort();
+		if (servletRequest.getScheme().equals("https")) {
+			serverUrl = "https://" + serverUrl;
+		} else if (servletRequest.getScheme().equals("http")) {
+			serverUrl = "http://" + serverUrl;
+		}
+		return serverUrl;
+		*/
+		StringBuffer url = servletRequest.getRequestURL();
+		String serverUrl = url.toString();
+		serverUrl = serverUrl.replace(servletRequest.getRequestURI(), "");
+		return serverUrl;
+	}
+	
 	public void resetUriAndHost(HttpServletRequest servletRequest) {
 		if (StrKit.notBlank(targetName) && StrKit.notBlank(targetUri)) {
 			// JFinal特有的链接方式处理
@@ -129,6 +168,17 @@ public class GatewayRender extends Render {
 					targetUri += tu.substring(1);
 				} else {
 					targetUri += tu;
+				}
+			}
+			
+			// 支持 https 协议下的重定向
+			if (!targetUri.startsWith("http")) {	// 跳过 http/https 已指定过协议类型的 url
+				String serverUrl = getServerUrl(servletRequest);
+				//System.out.println("proxy serverUrl: " + serverUrl);
+				if (targetUri.charAt(0) != '/') {
+					targetUri = serverUrl + "/" + targetUri;
+				} else {
+					targetUri = serverUrl + targetUri;
 				}
 			}
 		}

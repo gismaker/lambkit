@@ -75,8 +75,10 @@ public class JwtKit {
      */
     public static String getToken(String userName) {
     	// 用userName创建token
+    	JwtConfig config = Lambkit.config(JwtConfig.class);
+    	String tokenPrefix = config.getTokenPrefix();
         String token = generateToken(userName);
-        return "Lambuse " + token;
+        return tokenPrefix + token;
     }
 
     /**

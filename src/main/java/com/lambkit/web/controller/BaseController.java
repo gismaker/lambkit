@@ -29,6 +29,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.render.JsonRender;
+import com.lambkit.common.BaseResult;
 import com.lambkit.common.ResultJson;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.RequestUtils;
@@ -828,6 +830,42 @@ public abstract class BaseController extends Controller {
 	public void renderResultJson(int code, String type, String message, Object data) {
 		renderJson(new ResultJson(code, type, message, data));
 	}
+	
+	@NotAction
+	public void renderAjaxResultForSuccess() {
+		renderAjaxResult("success", 0, null);
+	}
+
+	public void renderAjaxResultForSuccess(String message) {
+		renderAjaxResult(message, 0, null);
+	}
+
+	public void renderAjaxResultForSuccess(String message, Object data) {
+		renderAjaxResult(message, 0, data);
+	}
+
+	@NotAction
+	public void renderAjaxResultForError() {
+		renderAjaxResult("error", 1, null);
+	}
+
+	public void renderAjaxResultForError(String message) {
+		renderAjaxResult(message, 1, null);
+	}
+
+	public void renderAjaxResult(String message, int errorCode) {
+		renderAjaxResult(message, errorCode, null);
+	}
+
+	public void renderAjaxResult(String message, int errorCode, Object data) {
+		BaseResult ar = new BaseResult(errorCode, message, data);
+		if (isIEBrowser()) {
+			render(new JsonRender(ar).forIE());
+		} else {
+			renderJson(ar);
+		}
+	}
+
 	/**
 	 * 跳转错误页
 	 */
@@ -906,6 +944,33 @@ public abstract class BaseController extends Controller {
 		return builder;
 	}
 	
+	/**
+	 * 是否是手机浏览器
+	 * 
+	 * @return
+	 */
+	public boolean isMoblieBrowser() {
+		return RequestUtils.isMoblieBrowser(getRequest());
+	}
+
+	/**
+	 * 是否是微信浏览器
+	 * 
+	 * @return
+	 */
+	public boolean isWechatBrowser() {
+		return RequestUtils.isWechatBrowser(getRequest());
+	}
+
+	/**
+	 * 是否是IE浏览器
+	 * 
+	 * @return
+	 */
+	public boolean isIEBrowser() {
+		return RequestUtils.isIEBrowser(getRequest());
+	}
+
 	/**
      * 是否是multpart的请求（带有文件上传的请求）
      *
