@@ -9,6 +9,7 @@
 优化：优化GetawayRender支持当前系统其他地址的代理
 修复：修复mgrdb、meta和upms配置交叉问题
 修复：修复代码生成器sysconfig、meta同时运行的冲突问题
+修复: 修复redirect错误
 
 -----------------------------
 lambkit-0.2-alpha2：

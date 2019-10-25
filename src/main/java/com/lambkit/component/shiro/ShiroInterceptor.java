@@ -77,7 +77,9 @@ public class ShiroInterceptor implements Interceptor {
             controller.renderError(401);
             return;
         }
-        controller.redirect(config.getLoginUrl());
+        String url = config.getLoginUrl();
+        if(url.startsWith("/")) url = url.substring(1);
+        controller.redirect(url);
     }
 
 
@@ -91,7 +93,9 @@ public class ShiroInterceptor implements Interceptor {
             controller.renderError(403);
             return;
         }
-        controller.redirect(config.getUnauthorizedUrl());
+        String url = config.getUnauthorizedUrl();
+        if(url.startsWith("/")) url = url.substring(1);
+        controller.redirect(url);
     }
 
     /**

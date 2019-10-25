@@ -89,7 +89,9 @@ public class ShiroInterceptor implements Interceptor {
             controller.renderError(401);
             return;
         }
-        controller.redirect(config.getLoginUrl());
+        String url = config.getLoginUrl();
+        if(url.startsWith("/")) url = url.substring(1);
+        controller.redirect(url);
         /*
         String upmsType = upmsConfig.getType();
         if ("server".equals(upmsType)) {
@@ -110,7 +112,10 @@ public class ShiroInterceptor implements Interceptor {
         StringBuffer sso_server_url = new StringBuffer(upmsConfig.getSsoServerUrl());
         // server需要登录
         String upmsType = upmsConfig.getType();
-        controller.redirect(sso_server_url.append("/sso/login").toString());
+        String url = sso_server_url.append("/sso/login").toString();
+        if(url.startsWith("//")) url = url.substring(2);
+        if(url.startsWith("/")) url = url.substring(1);
+        controller.redirect(url);
         return;
     }
 
@@ -125,7 +130,9 @@ public class ShiroInterceptor implements Interceptor {
             controller.renderError(403);
             return;
         }
-        controller.redirect(config.getUnauthorizedUrl());
+        String url = config.getUnauthorizedUrl();
+        if(url.startsWith("/")) url = url.substring(1);
+        controller.redirect(url);
     }
 
     /**

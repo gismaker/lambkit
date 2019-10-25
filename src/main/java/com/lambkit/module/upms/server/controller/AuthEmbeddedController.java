@@ -89,6 +89,7 @@ public class AuthEmbeddedController extends BaseController {
                     }
                 }
                 System.out.println("认证中心帐号通过，带code回跳：{}" + backurl);
+                if(backurl.startsWith("/")) backurl = backurl.substring(1);
                 redirect(backurl);
             } else {
             	keepPara();
@@ -162,6 +163,7 @@ public class AuthEmbeddedController extends BaseController {
         if (null == redirectUrl) {
             redirectUrl = "/";
         }
+        if(redirectUrl.startsWith("/")) redirectUrl = redirectUrl.substring(1);
         redirect(redirectUrl);
     }
     

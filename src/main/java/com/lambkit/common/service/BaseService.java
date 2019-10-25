@@ -95,6 +95,11 @@ public interface BaseService<M> {
 	
 	boolean deleteById(Object idValue);
 	int deleteByPrimaryKey(Object id);
+	/**
+	 * ids逗号分隔
+	 * @param ids
+	 * @return
+	 */
 	int deleteByPrimaryKeys(String ids);
 	int delete(QueryParas queryParas);
 	int delete(IQuery queryParas);

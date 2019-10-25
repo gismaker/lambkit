@@ -68,6 +68,7 @@ public class UpmsEmbeddedLoginService implements LoginService {
                     }
                 }
                 System.out.println("认证中心帐号通过，带code回跳：{}" + backurl);
+                if(backurl.startsWith("/")) backurl = backurl.substring(1);
                 c.redirect(backurl);
             } else {
             	c.keepPara();
@@ -141,6 +142,7 @@ public class UpmsEmbeddedLoginService implements LoginService {
         if (null == redirectUrl) {
             redirectUrl = "/";
         }
+        if(redirectUrl.startsWith("/")) redirectUrl = redirectUrl.substring(1);
         c.redirect(redirectUrl);
     }
     

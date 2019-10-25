@@ -57,14 +57,14 @@ public class ManageController extends BaseController {
 		if(StrKit.isBlank(username)) {
 			// shiro退出登录
 	        SecurityUtils.getSubject().logout();
-			redirect("/sso/login");
+			redirect("sso/login");
 			return;
 		}
 		UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
 		if(upmsUser==null) {
 			// shiro退出登录
 	        SecurityUtils.getSubject().logout();
-			redirect("/sso/login");
+			redirect("sso/login");
 			return;
 		}
 		List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());

@@ -301,8 +301,11 @@ public class ShiroSsoInterceptor implements Interceptor {
             controller.renderError(401);
             return;
         }
-        controller.redirect(config.getLoginUrl());
         /*
+        String url = config.getLoginUrl();
+        if(url.startsWith("/")) url = url.substring(1);
+        controller.redirect(url);
+        
         String upmsType = upmsConfig.getType();
         if ("server".equals(upmsType)) {
         	controller.redirect(config.getLoginUrl());
@@ -316,6 +319,7 @@ public class ShiroSsoInterceptor implements Interceptor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
     }
     
     /**
@@ -328,7 +332,10 @@ public class ShiroSsoInterceptor implements Interceptor {
         // server需要登录
         String upmsType = upmsConfig.getType();
         if ("server".equals(upmsType)) {
-        	controller.redirect(sso_server_url.append(config.getLoginUrl()).toString());
+        	String url = sso_server_url.append(config.getLoginUrl()).toString();
+        	if(url.startsWith("//")) url = url.substring(2);
+            if(url.startsWith("/")) url = url.substring(1);
+            controller.redirect(url);
             return;
         }
         sso_server_url.append(upmsConfig.getSsoIndexUrl()).append("?").append("appid").append("=").append(upmsConfig.getAppId());
@@ -340,7 +347,9 @@ public class ShiroSsoInterceptor implements Interceptor {
             backurl.append("?").append(queryString);
         }
         sso_server_url.append("&").append("backurl").append("=").append(URLEncoder.encode(backurl.toString(), "utf-8"));
-        controller.redirect(sso_server_url.toString());
+        String url = sso_server_url.toString();
+        if(url.startsWith("/")) url = url.substring(1);
+        controller.redirect(url);
         return;
     }
 
@@ -355,7 +364,9 @@ public class ShiroSsoInterceptor implements Interceptor {
             controller.renderError(403);
             return;
         }
-        controller.redirect(config.getUnauthorizedUrl());
+        String url = config.getUnauthorizedUrl();
+        if(url.startsWith("/")) url = url.substring(1);
+        controller.redirect(url);
     }
 
     /**
