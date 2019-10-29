@@ -28,9 +28,9 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
- * 实现BaseService抽象类
+ * 实现LambkitService抽象类
  */
-public abstract class BaseServiceImpl<Query, M> implements BaseService<M> {
+public abstract class BaseServiceImpl<Query, M> implements LambkitService<M> {
 
 	public Query query;
 	
@@ -128,6 +128,23 @@ public abstract class BaseServiceImpl<Query, M> implements BaseService<M> {
 	public M findFirst(Columns columns) {
 		return findFirst(Example.create(getTableName(), columns));
 	}
+	
+
+	@Override
+	public M findFirst(Columns columns, String orderby) {
+		return findFirst(Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	
+	@Override
+	public M findFirstByColumns(Columns columns) {
+		return findFirst(Example.create(getTableName(), columns));
+	}
+	
+	@Override
+	public M findFirstByColumns(Columns columns, String orderby) {
+		return findFirst(Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	
 
 	@Override
 	public List<M> find(QueryParas queryParas, Integer count) {
@@ -206,12 +223,46 @@ public abstract class BaseServiceImpl<Query, M> implements BaseService<M> {
 		// TODO Auto-generated method stub
 		return find(Example.create(getTableName(), columns), count);
 	}
+	
+
+	@Override
+	public List<M> find(Columns columns, String orderby, Integer count) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns).setOrderBy(orderby), count);
+	}
+	@Override
+	public List<M> findListByColumns(Columns columns, Integer count) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns), count);
+	}
+	@Override
+	public List<M> findListByColumns(Columns columns, String orderby, Integer count) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns).setOrderBy(orderby), count);
+	}
 
 	@Override
 	public List<M> find(Columns columns) {
 		// TODO Auto-generated method stub
 		return find(Example.create(getTableName(), columns));
 	}
+
+	@Override
+	public List<M> find(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	@Override
+	public List<M> findListByColumns(Columns columns) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns));
+	}
+	@Override
+	public List<M> findListByColumns(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	
 	
 	@Override
 	public Page<M> paginate(QueryParas queryParas) {
@@ -255,6 +306,22 @@ public abstract class BaseServiceImpl<Query, M> implements BaseService<M> {
 	public Page<M> paginate(Integer pageNumber, Integer pageSize, Columns columns) {
 		// TODO Auto-generated method stub
 		return paginate(pageNumber, pageSize, Example.create(getTableName(), columns));
+	}
+
+	@Override
+	public Page<M> paginate(Integer pageNumber, Integer pageSize, Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return paginate(pageNumber, pageSize, Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	@Override
+	public Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns) {
+		// TODO Auto-generated method stub
+		return paginate(pageNumber, pageSize, Example.create(getTableName(), columns));
+	}
+	@Override
+	public Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return paginate(pageNumber, pageSize, Example.create(getTableName(), columns).setOrderBy(orderby));
 	}
 	
 	
@@ -300,6 +367,24 @@ public abstract class BaseServiceImpl<Query, M> implements BaseService<M> {
 	public Page<M> paginate(Columns columns, Integer offset, Integer limit) {
 		// TODO Auto-generated method stub
 		return paginate(Example.create(getTableName(), columns), offset, limit);
+	}
+
+	@Override
+	public Page<M> paginate(Columns columns, String orderby, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return paginate(Example.create(getTableName(), columns).setOrderBy(orderby), offset, limit);
+	}
+	
+	@Override
+	public Page<M> paginateByColumns(Columns columns, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return paginate(Example.create(getTableName(), columns), offset, limit);
+	}
+	
+	@Override
+	public Page<M> paginateByColumns(Columns columns, String orderby, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return paginate(Example.create(getTableName(), columns).setOrderBy(orderby), offset, limit);
 	}
 	
 	@Override

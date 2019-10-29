@@ -21,14 +21,14 @@ import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.web.directive.annotation.JFinalDirective;
-import com.lambkit.web.directive.base.DirectiveBase;
 
 @JFinalDirective("long2date")
-public class DateDirective extends DirectiveBase {
+public class DateDirective extends LambkitDirective {
 	@Override
-	public void exec(Env env, Scope scope, Writer writer) {
+	public void onRender(Env env, Scope scope, Writer writer) {
 		// TODO Auto-generated method stub
-		Long longtime = getParam(0, scope);
-		write(writer, DateTimeUtils.longToString(longtime));
+		Long longtime = getPara(0, scope);
+		renderText(writer, DateTimeUtils.longToString(longtime));
 	}
+
 }

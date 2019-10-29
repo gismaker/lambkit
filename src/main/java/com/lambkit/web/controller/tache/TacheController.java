@@ -43,7 +43,7 @@ import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.mgr.MgrdbService;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.web.WebConfig;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.web.controller.Widget;
 import com.lambkit.web.controller.WidgetManager;
 
@@ -57,7 +57,7 @@ import com.lambkit.web.controller.WidgetManager;
  */
 //@Before(AppLoginInterceptor.class)
 @RequiresRoles(value={"superadmin","super","admin"}, logical=Logical.OR)
-public class TacheController extends BaseController {
+public class TacheController extends LambkitController {
 	
 	//@Before({RuleRoleInterceptor.class,UserAuthInterceptor.class})
 	public void index() {

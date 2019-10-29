@@ -37,12 +37,12 @@ public abstract class Widget {
 	 * @param tbc
 	 * @return
 	 */
-	public abstract WidgetResult handle(BaseController c);
+	public abstract WidgetResult handle(LambkitController c);
 	
 	/**
 	 * 执行
 	 */
-	public WidgetResult execute(BaseController c){
+	public WidgetResult execute(LambkitController c){
 		//拦截器
 		if(interceptors!=null && interceptors.size() > 0) {
 			for (WidgerInterceptor lambInterceptor : interceptors) {

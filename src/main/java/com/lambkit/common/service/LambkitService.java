@@ -26,9 +26,9 @@ import com.lambkit.db.sql.column.Columns;
 import com.lambkit.db.sql.column.Example;
 
 /**
- * BaseService接口
+ * LambkitService接口
  */
-public interface BaseService<M> {
+public interface LambkitService<M> {
 
 	M dao();
 	
@@ -41,16 +41,26 @@ public interface BaseService<M> {
 	M findFirst(IQuery queryParas);
 	M findFirst(Example example);
 	M findFirst(Columns columns);
+	M findFirst(Columns columns, String orderby);
+	M findFirstByColumns(Columns columns);
+	M findFirstByColumns(Columns columns, String orderby);
+	
 
 	List<M> find(QueryParas queryParas, Integer count);
 	List<M> find(IQuery queryParas, Integer count);
 	List<M> find(Example example, Integer count);
 	List<M> find(Columns columns, Integer count);
+	List<M> find(Columns columns, String orderby, Integer count);
+	List<M> findListByColumns(Columns columns, Integer count);
+	List<M> findListByColumns(Columns columns, String orderby, Integer count);
 	
 	List<M> find(QueryParas queryParas);
 	List<M> find(IQuery queryParas);
 	List<M> find(Example example);
 	List<M> find(Columns columns);
+	List<M> find(Columns columns, String orderby);
+	List<M> findListByColumns(Columns columns);
+	List<M> findListByColumns(Columns columns, String orderby);
 
 	 /**
      * 分页查询数据
@@ -60,6 +70,9 @@ public interface BaseService<M> {
     Page<M> paginate(IQuery queryParas);
     Page<M> paginate(Integer pageNumber, Integer pageSize, Example example);
     Page<M> paginate(Integer pageNumber, Integer pageSize, Columns columns);
+    Page<M> paginate(Integer pageNumber, Integer pageSize, Columns columns, String orderby);
+    Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns);
+    Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns, String orderby);
     /**
      * offet page
      * @param query
@@ -70,7 +83,10 @@ public interface BaseService<M> {
     Page<M> paginate(QueryParas queryParas, Integer offset, Integer limit);
     Page<M> paginate(IQuery queryParas, Integer offset, Integer limit);
     Page<M> paginate(Example example, Integer offset, Integer limit);
-    Page<M> paginate(Columns colums, Integer offset, Integer limit);
+    Page<M> paginate(Columns columns, Integer offset, Integer limit);
+    Page<M> paginate(Columns columns, String orderby, Integer offset, Integer limit);
+    Page<M> paginateByColumns(Columns columns, Integer offset, Integer limit);
+    Page<M> paginateByColumns(Columns columns, String orderby, Integer offset, Integer limit);
 	
     /**
      * findFirst or Find or paginate

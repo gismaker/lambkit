@@ -22,10 +22,10 @@ import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
 import com.lambkit.common.bean.ActionBean;
 import com.lambkit.common.bean.ActionMapping;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 @RequiresPermissions("lms:dev")
-public class InterceptorController extends BaseController {
+public class InterceptorController extends LambkitController {
 
 	public void index() {
 		renderTemplate("index.html");

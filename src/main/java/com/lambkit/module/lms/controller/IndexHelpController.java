@@ -16,13 +16,13 @@
 package com.lambkit.module.lms.controller;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.web.controller.RenderType;
 import com.lambkit.web.controller.Widget;
 import com.lambkit.web.controller.WidgetManager;
 import com.lambkit.web.controller.WidgetResult;
 
-public class IndexHelpController extends BaseController {
+public class IndexHelpController extends LambkitController {
 
 	public void index() {
 		//user

@@ -18,15 +18,16 @@ package com.lambkit.component.shiro.directives;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
+import com.jfinal.template.Directive;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import com.lambkit.web.directive.base.DirectiveBase;
+import com.lambkit.web.directive.LambkitDirective;
 
 /**
  * Shiro 指令的基类
  */
-public abstract class ShiroDirectiveBase extends DirectiveBase {
+public abstract class ShiroDirectiveBase extends Directive {
     /**
      * @return Subject 用户信息
      */

@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.lambkit.module.upms.rpc.model.UpmsUser;
+import com.lambkit.web.tag.LambkitTemplateModel;
 import com.lambkit.module.upms.rpc.api.UpmsUserService;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.web.tag.base.BaseDirectiveModel;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.FreeMarkerRender;
 
@@ -45,10 +45,10 @@ import freemarker.template.TemplateModel;
  * 返回值：{entity:upms_user信息}
  * @author lambkit
  */
-public class UpmsUserDirective extends BaseDirectiveModel {
+public class UpmsUserDirective extends LambkitTemplateModel {
 
 	@Override
-	public void executeMe(Environment env, Map params, TemplateModel[] loopVars,
+	public void onRender(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
 		String userId = get(params, "user_id");

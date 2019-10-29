@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.meta.service.MetaApiService;
 import com.lambkit.module.meta.model.MetaApi;
@@ -28,7 +28,7 @@ import com.lambkit.module.meta.model.MetaApi;
  * @version 1.0
  * @since 1.0
  */
-public class MetaApiServiceImpl extends BaseModelServiceImpl<MetaApi> implements MetaApiService {
+public class MetaApiServiceImpl extends LambkitModelServiceImpl<MetaApi> implements MetaApiService {
 	
 	protected MetaApi DAO = null;
 	

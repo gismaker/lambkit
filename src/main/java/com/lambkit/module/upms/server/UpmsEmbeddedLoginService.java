@@ -26,7 +26,7 @@ import org.apache.shiro.subject.Subject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.redis.Redis;
-import com.lambkit.common.BaseResult;
+import com.lambkit.common.LambkitResult;
 import com.lambkit.common.util.RedisUtil;
 import com.lambkit.component.shiro.session.ShiroSession;
 import com.lambkit.core.aop.AopKit;
@@ -105,7 +105,7 @@ public class UpmsEmbeddedLoginService implements LoginService {
         String hasCode = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + sessionId);
         // code校验值
         if (StringUtils.isBlank(hasCode)) {
-            BaseResult result = AuthManager.me().getService().login(c.getRequest(), username, password, BooleanUtils.toBoolean(rememberMe));
+            LambkitResult result = AuthManager.me().getService().login(c.getRequest(), username, password, BooleanUtils.toBoolean(rememberMe));
             if(result.getCode()!=UpmsResultConstant.SUCCESS.getCode()) {
             	return (UpmsResult) result;
             }
@@ -137,7 +137,7 @@ public class UpmsEmbeddedLoginService implements LoginService {
 	
     
     public void logout(Controller c) {
-    	BaseResult result = AuthManager.me().getService().logout(c.getRequest());
+    	LambkitResult result = AuthManager.me().getService().logout(c.getRequest());
         String redirectUrl = result.getData().toString();
         if (null == redirectUrl) {
             redirectUrl = "/";

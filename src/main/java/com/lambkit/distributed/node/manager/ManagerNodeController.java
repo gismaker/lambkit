@@ -18,9 +18,9 @@ package com.lambkit.distributed.node.manager;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class ManagerNodeController extends BaseController {
+public class ManagerNodeController extends LambkitController {
 
 	public void index() {
 		setAttr("id", NodeManager.me().getNode().getId());

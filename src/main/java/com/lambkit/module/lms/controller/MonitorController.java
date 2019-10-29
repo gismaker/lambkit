@@ -22,10 +22,10 @@ import com.lambkit.common.monitor.SysInfoMonitorManager;
 import com.lambkit.common.monitor.SysPerformInfo;
 import com.lambkit.common.util.LimitQueue;
 import com.lambkit.distributed.node.NodeManager;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 @RequiresPermissions("lms:dev")
-public class MonitorController extends BaseController {
+public class MonitorController extends LambkitController {
 
 
 	public void index() {

@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.meta.service.MetaImageSetService;
 import com.lambkit.module.meta.model.MetaImageSet;
@@ -28,7 +28,7 @@ import com.lambkit.module.meta.model.MetaImageSet;
  * @version 1.0
  * @since 1.0
  */
-public class MetaImageSetServiceImpl extends BaseModelServiceImpl<MetaImageSet> implements MetaImageSetService {
+public class MetaImageSetServiceImpl extends LambkitModelServiceImpl<MetaImageSet> implements MetaImageSetService {
 	
 	protected MetaImageSet DAO = null;
 	

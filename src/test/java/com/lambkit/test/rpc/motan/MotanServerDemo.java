@@ -2,7 +2,7 @@ package com.lambkit.test.rpc.motan;
 
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.rpc.Rpc;
@@ -38,6 +38,6 @@ public class MotanServerDemo {
 		Lambkit.setArg("lambkit.node.id", "lambkit-manager-node");
 		Lambkit.setArg("lambkit.node.type", "ManagerNode");
 		Lambkit.setArg("lambkit.server.port", 9527);
-		LambkitApplication.run(Application.class, args);
+		LambkitApplication.run(LambkitApplicationContext.class, args);
 	}
 }

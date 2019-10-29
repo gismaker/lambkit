@@ -1,15 +1,15 @@
 package com.lambkit.test.web.controller;
 
 import com.jfinal.config.Routes;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.web.controller.annotation.RequestMapping;
 
 @RequestMapping(value="/lambkit/test", viewPath="")
-public class TestController extends BaseController {
+public class TestController extends LambkitController {
 
 	public void index() {
 		renderText("hello world!");
@@ -27,6 +27,6 @@ public class TestController extends BaseController {
 		};
 		Lambkit.addModule(config);
 		
-		LambkitApplication.run(Application.class, null);
+		LambkitApplication.run(LambkitApplicationContext.class, null);
 	}
 }

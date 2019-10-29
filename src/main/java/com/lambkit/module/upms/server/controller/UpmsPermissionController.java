@@ -17,7 +17,7 @@ package com.lambkit.module.upms.server.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.jfinal.plugin.activerecord.Page;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.model.*;
@@ -40,7 +40,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  */
 //@Api(value = "权限管理", description = "权限管理")
 //@RequestMapping("/upms/permission")
-public class UpmsPermissionController extends BaseController {
+public class UpmsPermissionController extends LambkitController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsPermissionController.class);
 

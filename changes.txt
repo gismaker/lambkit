@@ -1,3 +1,14 @@
+-----------------------------
+lambkit-0.4.1：
+优化：调整部分关键类的命名，增加Lambkit前缀
+优化：LambkitService增加方法
+优化：JFinal模板基类完善
+优化：ResultJson更改为AjaxResult
+优化：Application由使用类更改为系统基类，将Lambkit必须配置的部分放到这里，减轻DefaultModule的体量
+修复: 默认LambkitControllerContext加入到运行时中
+
+-----------------------------
+lambkit-0.3.1：
 
 优化：优化MSCH模型模板
 优化：优化jwt的缓存配置
@@ -12,7 +23,7 @@
 修复: 修复redirect错误
 
 -----------------------------
-lambkit-0.2-alpha2：
+lambkit-0.2.3：
 
 新增：增加Msch工具类，简化生成器代码
 新增：增加支持ActiveMQ消息功能
@@ -42,7 +53,7 @@ lambkit-0.2-alpha1：
 新增：MSCH模型，结合代码生成器和MSCH模板生成lambkit最佳实践代码。
 优化：升级JFianl到3.8。
 优化：优化启动方式，默认使用Undertow。
-优化：BaseModel增加setAttrs方法可以接收kv和json数据。
+优化：LambkitModel增加setAttrs方法可以接收kv和json数据。
 优化：DefaultModule中setJsonFactory(new MixJsonFactory());
 优化：优化代码生成器Generator，方便使用，减少代码量。
 优化：优化自动注册Module、Controller、Tag的机制。
@@ -63,7 +74,7 @@ lambkit-0.1-alpha4：
 -----------------------------
 lambkit-0.1-alpha3：
 
-新增：添加BaseModel中相关Example的方法。
+新增：添加LambkitModel中相关Example的方法。
 新增：Model中加入***Criteria快速创建方法，可隐藏***Criteria。
 新增：增加UpmsManager自动判断注册本地或远程service函数，增加apiservice获取函数。
 修复：修改Dialect中Example组合SQL错误，更改Example相关方法。
@@ -71,11 +82,11 @@ lambkit-0.1-alpha3：
 修复：修改Dialect中Example组合SQL错误。
 修复：修改MetaMgrModule中的错误。
 优化：删除Example与QueryParas之间的关系，改由生成SqlPara
-优化：更新BaseService方法。
+优化：更新LambkitService方法。
 优化：更新meta中olap和join部分的结构，并更新代码功能。
 优化：完善MetaBuilder可配置postgresql的模式。
-优化：修改BaseService中update方法，增大多行更新。
-优化：配合BaseService中update方法增加dialect中的update的SQL语句生成。
+优化：修改LambkitService中update方法，增大多行更新。
+优化：配合LambkitService中update方法增加dialect中的update的SQL语句生成。
 
 
 -----------------------------

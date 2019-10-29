@@ -38,11 +38,11 @@ import com.lambkit.db.mgr.MgrdbValidator;
 import com.lambkit.db.mgr.Pivot;
 import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.db.sql.condition.SqlBuilder;
-import com.lambkit.common.ResultJson;
+import com.lambkit.common.AjaxResult;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.web.WebConfig;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 /**
  * @author yangyong
@@ -52,7 +52,7 @@ import com.lambkit.web.controller.BaseController;
  * @version 1.0
  * @since 1.0
  */
-public class MgrdbApiController extends BaseController {
+public class MgrdbApiController extends LambkitController {
 
 	private final static Log _log = Log.getLog(MgrdbApiController.class);
 
@@ -63,7 +63,7 @@ public class MgrdbApiController extends BaseController {
 	public void index() {
 		MgrTable tbc = getBase(MgrConstants.VIEW);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		Record rcd = null;
@@ -81,9 +81,9 @@ public class MgrdbApiController extends BaseController {
 			}
 		}
 		if (rcd == null) {
-			renderJson(new ResultJson(0, "fail", "data is not find."));
+			renderJson(new AjaxResult(0, "fail", "data is not find."));
 		} else {
-			renderJson(new ResultJson(1, "success", rcd));
+			renderJson(new AjaxResult(1, "success", rcd));
 		}
 	}
 
@@ -94,7 +94,7 @@ public class MgrdbApiController extends BaseController {
 	public void list() {
 		MgrTable tbc = getBase(MgrConstants.VIEW);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		SqlBuilder sb = new SqlBuilder();
@@ -103,7 +103,7 @@ public class MgrdbApiController extends BaseController {
 		Integer pNumber = getParaToInt(2, 1);
 		Integer pSize = getParaToInt(1, 15);
 		Page<Record> page = Db.paginate(pNumber, pSize, select, sql);
-		renderJson(new ResultJson(1, "success", page));
+		renderJson(new AjaxResult(1, "success", page));
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class MgrdbApiController extends BaseController {
 	public void page() {
 		MgrTable tbc = getBase(MgrConstants.VIEW);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		ConditionBuilder cb = getConditionsSQL(tbc).build("");
@@ -123,7 +123,7 @@ public class MgrdbApiController extends BaseController {
 		Integer pNumber = getParaToInt(2, getParaToInt("pageNum", 1));
 		Integer pSize = getParaToInt(1, getParaToInt("numPerPage", 15));
 		Page<Record> page = Db.paginate(pNumber, pSize, select, sql, cb.getSqlParas());
-		renderJson(new ResultJson(1, "success", page));
+		renderJson(new AjaxResult(1, "success", page));
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class MgrdbApiController extends BaseController {
 	public void autoc() {
 		MgrTable tbc = getBase(MgrConstants.NONE);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		String fldname = getPara(1, getPara("fldname"));
@@ -148,9 +148,9 @@ public class MgrdbApiController extends BaseController {
 						+ "\" ORDER BY \"" + fldname + "\" DESC";
 			}
 			Page<Record> m = Db.paginate(1, 10, "select \"" + fldname + "\" as value ", sql);
-			renderJson(new ResultJson(1, "success", m.getList()));
+			renderJson(new AjaxResult(1, "success", m.getList()));
 		} else {
-			renderJson(new ResultJson(0, "fail", "column not exist."));
+			renderJson(new AjaxResult(0, "fail", "column not exist."));
 		}
 	}
 
@@ -205,7 +205,7 @@ public class MgrdbApiController extends BaseController {
 	public void save() {
 		MgrTable tbc = getBase(MgrConstants.MAP_EDIT);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		System.out.println("tablename:" + tbc.getName());
@@ -243,9 +243,9 @@ public class MgrdbApiController extends BaseController {
 			_log.error(tbc.getModel().getName()+ "保存数据异常", ex);
 		}
 		if (flag) {
-			renderJson(new ResultJson(0, "fail", "data is not find."));
+			renderJson(new AjaxResult(0, "fail", "data is not find."));
 		} else {
-			renderJson(new ResultJson(1, "success", null));
+			renderJson(new AjaxResult(1, "success", null));
 		}
 	}
 
@@ -326,7 +326,7 @@ public class MgrdbApiController extends BaseController {
 	public void update() {
 		MgrTable tbc = getBase(MgrConstants.MAP_EDIT);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		Record m = new Record();
@@ -353,9 +353,9 @@ public class MgrdbApiController extends BaseController {
 			}
 		}
 		if (flag) {
-			renderJson(new ResultJson(0, "fail", "data is not find."));
+			renderJson(new AjaxResult(0, "fail", "data is not find."));
 		} else {
-			renderJson(new ResultJson(1, "success", null));
+			renderJson(new AjaxResult(1, "success", null));
 		}
 	}
 
@@ -363,15 +363,15 @@ public class MgrdbApiController extends BaseController {
 	public void delete() {
 		MgrTable tbc = getBase(MgrConstants.NONE);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		int model_id = getParaToInt("id");
 		boolean del = Db.deleteById(tbc.getName(), tbc.getModel().getPrimaryKey(), model_id);
 		if (del) {
-			renderJson(new ResultJson(0, "fail", "data is not find."));
+			renderJson(new AjaxResult(0, "fail", "data is not find."));
 		} else {
-			renderJson(new ResultJson(1, "success", null));
+			renderJson(new AjaxResult(1, "success", null));
 		}
 	}
 
@@ -379,7 +379,7 @@ public class MgrdbApiController extends BaseController {
 	public void delete_pl() {
 		MgrTable tbc = getBase(MgrConstants.NONE);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		String[] ids = getParaValues("id");
@@ -388,9 +388,9 @@ public class MgrdbApiController extends BaseController {
 			del = Db.deleteById(tbc.getName(), tbc.getModel().getPrimaryKey(), Integer.parseInt(model_id));
 		}
 		if (del) {
-			renderJson(new ResultJson(0, "fail", "data is not find."));
+			renderJson(new AjaxResult(0, "fail", "data is not find."));
 		} else {
-			renderJson(new ResultJson(1, "success", null));
+			renderJson(new AjaxResult(1, "success", null));
 		}
 	}
 
@@ -401,19 +401,19 @@ public class MgrdbApiController extends BaseController {
 	public void chart() {
 		MgrTable tbc = getBase(MgrConstants.OLAP);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		String cls = getPara("cls");
 		if (!StringUtils.hasText(cls)) {
-			renderJson(new ResultJson(0, "fail", "维度不存在，请选择维度！"));
+			renderJson(new AjaxResult(0, "fail", "维度不存在，请选择维度！"));
 			renderJson();
 		}
 		Chart chart = new Chart(true);
 		chart.setClassify(cls);
 		String serias = getPara("serias");
 		if (!StringUtils.hasText(serias)) {
-			renderJson(new ResultJson(0, "fail", "度量不存在，请选择度量！"));
+			renderJson(new AjaxResult(0, "fail", "度量不存在，请选择度量！"));
 			return;
 		}
 		String yuns = getPara("yuns", "SUM");
@@ -427,7 +427,7 @@ public class MgrdbApiController extends BaseController {
 		chart.setDataSQL(sql);
 		chart.setSqlParas(cb.getSqlParas());
 		List<Record> list = Db.find(chart.getDataSQL(), chart.getSqlParas());
-		renderJson(new ResultJson(1, "success", list));
+		renderJson(new AjaxResult(1, "success", list));
 	}
 
 	/**
@@ -437,18 +437,18 @@ public class MgrdbApiController extends BaseController {
 	public void pivot() {
 		MgrTable tbc = getBase(MgrConstants.OLAP);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		String row = getPara("row");
 		String column = getPara("column");
 		String measure = getPara("measure");
 		if (!StringUtils.hasText(row)) {
-			renderJson(new ResultJson(0, "fail", "维度不存在，请选择维度！"));
+			renderJson(new AjaxResult(0, "fail", "维度不存在，请选择维度！"));
 			renderJson();
 		}
 		if (!StringUtils.hasText(measure)) {
-			renderJson(new ResultJson(0, "fail", "度量不存在，请选择度量！"));
+			renderJson(new AjaxResult(0, "fail", "度量不存在，请选择度量！"));
 			return;
 		}
 		Pivot pivot = new Pivot(tbc, row, column, measure, "");
@@ -458,6 +458,6 @@ public class MgrdbApiController extends BaseController {
 		String wsql = sb.clear().appendConditions(cb).build();
 		pivot.setSql(tbc, wsql, cb.getSqlParas());
 
-		renderJson(new ResultJson(1, "success", pivot.getTable()));
+		renderJson(new AjaxResult(1, "success", pivot.getTable()));
 	}
 }

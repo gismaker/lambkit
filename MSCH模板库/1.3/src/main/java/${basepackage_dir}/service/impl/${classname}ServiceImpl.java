@@ -2,14 +2,14 @@
 #parse("/template/java_copyright.include")
 package $!{basepackage}.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 
 import $!{basepackage}.service.${classname}Service;
 import $!{basepackage}.model.${classname};
 
 #parse("/template/java_author.include")
-public class ${classname}ServiceImpl extends BaseModelServiceImpl<${classname}> implements ${classname}Service {
+public class ${classname}ServiceImpl extends LambkitModelServiceImpl<${classname}> implements ${classname}Service {
 	
 	private ${classname} DAO = null;
 	

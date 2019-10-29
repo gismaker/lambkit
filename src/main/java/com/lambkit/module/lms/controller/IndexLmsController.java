@@ -8,7 +8,7 @@ import org.apache.shiro.subject.Subject;
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.StrKit;
 import com.lambkit.Lambkit;
-import com.lambkit.common.BaseResult;
+import com.lambkit.common.LambkitResult;
 import com.lambkit.component.shiro.ShiroConfig;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.info.NodeBuilder;
@@ -17,9 +17,9 @@ import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
 import com.lambkit.module.upms.shiro.ShiroSsoInterceptor;
 import com.lambkit.plugin.auth.AuthManager;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class IndexLmsController extends BaseController {
+public class IndexLmsController extends LambkitController {
 
 	@Clear
 	public void index() {
@@ -84,7 +84,7 @@ public class IndexLmsController extends BaseController {
             return new UpmsResult(UpmsResultConstant.INVALID_CAPTCHA, "验证码不正确！");
         }
         if (!AuthManager.me().getService().user()) {
-            BaseResult result = AuthManager.me().getService().login(getRequest(), username, password, BooleanUtils.toBoolean(rememberMe));
+            LambkitResult result = AuthManager.me().getService().login(getRequest(), username, password, BooleanUtils.toBoolean(rememberMe));
             if(result.getCode()!=UpmsResultConstant.SUCCESS.getCode()) {
             	return (UpmsResult) result;
             }
@@ -100,7 +100,7 @@ public class IndexLmsController extends BaseController {
     }
     
     public void logout() {
-    	BaseResult result = AuthManager.me().getService().logout(getRequest());
+    	LambkitResult result = AuthManager.me().getService().logout(getRequest());
         String redirectUrl = result.getData().toString();
         if (StrKit.isBlank(redirectUrl)) {
             redirectUrl = getPara("backurl", "/lambkit");

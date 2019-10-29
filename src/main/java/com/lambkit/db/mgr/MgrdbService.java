@@ -23,7 +23,7 @@ import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.db.sql.condition.SqlBuilder;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 public interface MgrdbService {
 
@@ -71,7 +71,7 @@ public interface MgrdbService {
 	
 	String getColumnType(Object tbid, String field);
 	
-	ConditionBuilder getConditionsSQL(BaseController c, MgrTable tbc);
+	ConditionBuilder getConditionsSQL(LambkitController c, MgrTable tbc);
 	
 	SqlBuilder getSelectNamesOfView(SqlBuilder sb, MgrTable tbc, String fld, Object val);
 	

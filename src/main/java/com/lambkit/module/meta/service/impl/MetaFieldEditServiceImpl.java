@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Columns;
 import com.lambkit.module.meta.service.MetaFieldEditService;
@@ -29,7 +29,7 @@ import com.lambkit.module.meta.model.MetaFieldEdit;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFieldEditServiceImpl extends BaseModelServiceImpl<MetaFieldEdit> implements MetaFieldEditService {
+public class MetaFieldEditServiceImpl extends LambkitModelServiceImpl<MetaFieldEdit> implements MetaFieldEditService {
 	
 	protected MetaFieldEdit DAO = null;
 	

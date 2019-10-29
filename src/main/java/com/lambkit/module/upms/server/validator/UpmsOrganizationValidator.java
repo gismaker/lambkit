@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.server.validator;
 
 import com.jfinal.core.Controller;
-import com.lambkit.web.validator.BaseValidator;
+import com.lambkit.web.validator.LambkitValidator;
 
 import com.lambkit.module.upms.rpc.model.UpmsOrganization;
 
@@ -28,7 +28,7 @@ import com.lambkit.module.upms.rpc.model.UpmsOrganization;
  * @version 1.0
  * @since 1.0
  */
-public class UpmsOrganizationValidator extends BaseValidator {
+public class UpmsOrganizationValidator extends LambkitValidator {
 
 	@Override
 	protected String getTableName(Controller c) {

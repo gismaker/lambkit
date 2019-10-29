@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaFieldMapService;
@@ -29,7 +29,7 @@ import com.lambkit.module.meta.model.MetaFieldMap;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFieldMapServiceImpl extends BaseModelServiceImpl<MetaFieldMap> implements MetaFieldMapService {
+public class MetaFieldMapServiceImpl extends LambkitModelServiceImpl<MetaFieldMap> implements MetaFieldMapService {
 	
 	protected MetaFieldMap DAO = null;
 	

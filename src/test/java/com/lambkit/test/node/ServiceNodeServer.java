@@ -3,7 +3,7 @@ package com.lambkit.test.node;
 import java.util.List;
 
 import com.jfinal.config.Routes;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.rpc.RpcKit;
@@ -12,9 +12,9 @@ import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.annotation.NodeAPI;
 import com.lambkit.distributed.node.api.NodeApi;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class ServiceNodeServer extends BaseController {
+public class ServiceNodeServer extends LambkitController {
 
 	public void index() {
 		setAttr("id", NodeManager.me().getNode().getId());
@@ -101,6 +101,6 @@ public class ServiceNodeServer extends BaseController {
 		Lambkit.setArg("lambkit.node.manager.rpcPort", "8002");
 		Lambkit.setArg("lambkit.node.manager.port", "9527");
 		Lambkit.setArg("lambkit.server.port", 9090);
-		LambkitApplication.run(Application.class, args);
+		LambkitApplication.run(LambkitApplicationContext.class, args);
 	}
 }

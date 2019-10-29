@@ -20,7 +20,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.redis.Redis;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.RedisUtil;
@@ -66,7 +66,7 @@ import java.util.UUID;
 //@RequestMapping("/sso")
 @Api(tag = "sso", description = "单点登录管理")
 @RequiresUser
-public class SSOController extends BaseController {
+public class SSOController extends LambkitController {
 
     private final static Logger _log = LoggerFactory.getLogger(SSOController.class);
     protected ShiroRedisSessionDao upmsSessionDao = AopKit.get(ShiroRedisSessionDao.class);

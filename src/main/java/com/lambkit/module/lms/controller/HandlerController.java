@@ -22,10 +22,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
 import com.lambkit.common.bean.HandlerBean;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 @RequiresPermissions("lms:dev")
-public class HandlerController extends BaseController {
+public class HandlerController extends LambkitController {
 
 	public void index() {
 		renderTemplate("index.html");

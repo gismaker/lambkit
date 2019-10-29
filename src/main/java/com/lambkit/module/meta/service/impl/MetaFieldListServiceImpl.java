@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Columns;
 import com.lambkit.module.meta.service.MetaFieldListService;
@@ -29,7 +29,7 @@ import com.lambkit.module.meta.model.MetaFieldList;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFieldListServiceImpl extends BaseModelServiceImpl<MetaFieldList> implements MetaFieldListService {
+public class MetaFieldListServiceImpl extends LambkitModelServiceImpl<MetaFieldList> implements MetaFieldListService {
 	
 	protected MetaFieldList DAO = null;
 	

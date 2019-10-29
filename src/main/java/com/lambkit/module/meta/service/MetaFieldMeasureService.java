@@ -17,7 +17,7 @@ package com.lambkit.module.meta.service;
 
 import java.util.List;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaFieldMeasure;
 
@@ -29,7 +29,7 @@ import com.lambkit.module.meta.model.MetaFieldMeasure;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFieldMeasureService extends BaseService<MetaFieldMeasure> {
+public interface MetaFieldMeasureService extends LambkitService<MetaFieldMeasure> {
 	
 	List<MetaFieldMeasure> findByFieldId(Long fldid);
 }

@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaFieldList;
 
@@ -27,7 +27,7 @@ import com.lambkit.module.meta.model.MetaFieldList;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFieldListService extends BaseService<MetaFieldList> {
+public interface MetaFieldListService extends LambkitService<MetaFieldList> {
 
 	MetaFieldList findByFieldAndTheme(Long fldid, Long tmid);
 }

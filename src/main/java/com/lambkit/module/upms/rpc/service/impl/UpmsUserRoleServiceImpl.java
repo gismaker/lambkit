@@ -18,7 +18,7 @@ package com.lambkit.module.upms.rpc.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserRoleService;
@@ -33,7 +33,7 @@ import com.lambkit.module.upms.rpc.model.sql.UpmsUserRoleCriteria;
  * @version 1.0
  * @since 1.0
  */
-public class UpmsUserRoleServiceImpl extends BaseModelServiceImpl<UpmsUserRole> implements UpmsUserRoleService {
+public class UpmsUserRoleServiceImpl extends LambkitModelServiceImpl<UpmsUserRole> implements UpmsUserRoleService {
 	
 	private UpmsUserRole DAO = null;
 	

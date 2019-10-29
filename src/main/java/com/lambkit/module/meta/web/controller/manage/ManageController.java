@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.web.controller.manage;
 
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 /**
  * @author yangyong
@@ -25,7 +25,7 @@ import com.lambkit.web.controller.BaseController;
  * @version 1.0
  * @since 1.0
  */
-public class ManageController extends BaseController {
+public class ManageController extends LambkitController {
 	
 	public void index() {
 		keepPara();

@@ -30,10 +30,10 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.common.ResultKit;
 import com.lambkit.common.util.FileUtils;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 @RequiresPermissions("lms:dev")
-public class PropController extends BaseController {
+public class PropController extends LambkitController {
 
 	public void index() {
 		String name = getPara("name", "lambkit");

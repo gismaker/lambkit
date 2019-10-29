@@ -17,15 +17,15 @@ package com.lambkit.common;
 
 public class ResultKit {
 
-	public static ResultJson json(int code, String message, Object data) {
-		return new ResultJson(code, message, data);
+	public static AjaxResult json(int code, String message, Object data) {
+		return new AjaxResult(code, message, data);
 	}
 	
-	public static ResultJson json(String type, int code, String message, Object data) {
+	public static AjaxResult json(String type, int code, String message, Object data) {
 		if("layui".equalsIgnoreCase(type)) {
 			return layui(code, message, data);
 		}
-		return new ResultJson(code, message, data);
+		return new AjaxResult(code, message, data);
 	}
 	
 	public static PageResult page(int code, String message, int count, Object data) {
@@ -39,10 +39,10 @@ public class ResultKit {
 		return new PageResult(code, message, count, data);
 	}
 	
-	public static ResultJson layui(int code, String message, Object data) {
+	public static AjaxResult layui(int code, String message, Object data) {
 		if(code==1) code=0;
 		else if(code==0) code=1;
-		return new ResultJson(code, message, data);
+		return new AjaxResult(code, message, data);
 	}
 	
 	public static PageResult layui(int code, String message, int count, Object data) {

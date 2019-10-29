@@ -9,7 +9,7 @@ import $!{basepackage}.model.${classname};
 import $!{basepackage}.service.${classname}Service;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.web.tag.base.BaseDirectiveModel;
+import com.lambkit.web.tag.LambkitTemplateModel;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.FreeMarkerRender;
 
@@ -25,10 +25,10 @@ import freemarker.template.TemplateModel;
  * 返回值：{entity:${tablename}信息}
  * @author lambkit
  */
-public class ${classname}Directive extends BaseDirectiveModel {
+public class ${classname}Marker extends LambkitTemplateModel {
 
 	@Override
-	public void executeMe(Environment env, Map params, TemplateModel[] loopVars,
+	public void onRender(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
 #foreach($column in $columns)##

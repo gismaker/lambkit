@@ -2,10 +2,10 @@
 #parse("/template/java_copyright.include")
 package $!{basepackage}.rpc.api;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import $!{basepackage}.rpc.model.${classname};
 
 #parse("/template/java_author.include")
-public interface ${classname}Service extends BaseService<${classname}> {
+public interface ${classname}Service extends LambkitService<${classname}> {
 }

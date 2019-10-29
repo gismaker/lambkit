@@ -27,7 +27,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.lambkit.common.model.BaseModel;
+import com.lambkit.common.model.LambkitModel;
 import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.db.dialect.IModelDialect;
 import com.lambkit.db.sql.IQuery;
@@ -37,9 +37,9 @@ import com.lambkit.db.sql.column.Columns;
 import com.lambkit.db.sql.column.Example;
 
 /**
- * 实现BaseService抽象类
+ * 实现LambkitService抽象类
  */
-public abstract class BaseModelServiceImpl<M extends BaseModel<M>> implements BaseService<M> {
+public abstract class LambkitModelServiceImpl<M extends LambkitModel<M>> implements LambkitService<M> {
 
 	public abstract M dao();
 	
@@ -71,6 +71,24 @@ public abstract class BaseModelServiceImpl<M extends BaseModel<M>> implements Ba
 		return dao().findFirstByColumns(columns);
 	}
 	
+	@Override
+	public M findFirst(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return dao().findFirstByColumns(columns, orderby);
+	}
+	
+	@Override
+	public M findFirstByColumns(Columns columns) {
+		// TODO Auto-generated method stub
+		return dao().findFirstByColumns(columns);
+	}
+	
+	@Override
+	public M findFirstByColumns(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return dao().findFirstByColumns(columns, orderby);
+	}
+	
 	public List<M> find(QueryParas queryParas, Integer count) {
 		return dao().find(queryParas, count);
 	}
@@ -87,6 +105,24 @@ public abstract class BaseModelServiceImpl<M extends BaseModel<M>> implements Ba
 		return dao().findListByColumns(columns, count);
 	}
 	
+	@Override
+	public List<M> find(Columns columns, String orderby, Integer count) {
+		// TODO Auto-generated method stub
+		return dao().findListByColumns(columns, orderby, count);
+	}
+	
+	@Override
+	public List<M> findListByColumns(Columns columns, Integer count) {
+		// TODO Auto-generated method stub
+		return dao().findListByColumns(columns, count);
+	}
+	
+	@Override
+	public List<M> findListByColumns(Columns columns, String orderby, Integer count) {
+		// TODO Auto-generated method stub
+		return dao().findListByColumns(columns, orderby, count);
+	}
+	
 	public List<M> find(QueryParas queryParas) {
 		return dao().find(queryParas);
 	}
@@ -101,6 +137,24 @@ public abstract class BaseModelServiceImpl<M extends BaseModel<M>> implements Ba
 	public List<M> find(Columns columns) {
 		// TODO Auto-generated method stub
 		return dao().findListByColumns(columns);
+	}
+	
+	@Override
+	public List<M> find(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return dao().findListByColumns(columns, orderby);
+	}
+	
+	@Override
+	public List<M> findListByColumns(Columns columns) {
+		// TODO Auto-generated method stub
+		return dao().findListByColumns(columns);
+	}
+	
+	@Override
+	public List<M> findListByColumns(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return dao().findListByColumns(columns, orderby);
 	}
 
 	 /**
@@ -122,6 +176,26 @@ public abstract class BaseModelServiceImpl<M extends BaseModel<M>> implements Ba
 		// TODO Auto-generated method stub
 		return dao().paginateByColumns(pageNumber, pageSize, columns.getList());
 	}
+	
+
+    @Override
+	public Page<M> paginate(Integer pageNumber, Integer pageSize, Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return dao().paginateByColumns(pageNumber, pageSize, columns.getList(), orderby);
+	}
+    
+    @Override
+	public Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns) {
+		// TODO Auto-generated method stub
+		return dao().paginateByColumns(pageNumber, pageSize, columns.getList());
+	}
+    
+    @Override
+	public Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return dao().paginateByColumns(pageNumber, pageSize, columns.getList(), orderby);
+	}
+    
 
     /**
      * offet page
@@ -153,6 +227,32 @@ public abstract class BaseModelServiceImpl<M extends BaseModel<M>> implements Ba
 		int pageNumber = offset / pageSize + 1;
 		return paginate(pageNumber, pageSize, columns);
 	}
+	
+
+    @Override
+	public Page<M> paginate(Columns columns, String orderby, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		int pageSize = limit;
+		int pageNumber = offset / pageSize + 1;
+		return paginate(pageNumber, pageSize, columns, orderby);
+	}
+    
+    @Override
+	public Page<M> paginateByColumns(Columns columns, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		int pageSize = limit;
+		int pageNumber = offset / pageSize + 1;
+		return paginate(pageNumber, pageSize, columns);
+	}
+    
+    @Override
+	public Page<M> paginateByColumns(Columns columns, String orderby, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		int pageSize = limit;
+		int pageNumber = offset / pageSize + 1;
+		return paginate(pageNumber, pageSize, columns, orderby);
+	}
+    
     
     /**
      * findFirst or Find or paginate
@@ -443,7 +543,7 @@ public abstract class BaseModelServiceImpl<M extends BaseModel<M>> implements Ba
         if (id == null) {
             return;
         }
-        BaseModel m = findById(id);
+        LambkitModel m = findById(id);
         if (m != null) {
             m = m.copy();
             m.keep(attrs);
@@ -488,7 +588,7 @@ public abstract class BaseModelServiceImpl<M extends BaseModel<M>> implements Ba
         if (id == null) {
             return;
         }
-        BaseModel m = findById(id);
+        LambkitModel m = findById(id);
         if (m != null) {
             m = m.copy();
             m.keep(attrs);

@@ -30,10 +30,10 @@ import com.jfinal.upload.UploadFile;
 import com.lambkit.common.ResultKit;
 import com.lambkit.common.util.FileUtils;
 import com.lambkit.common.util.PathUtils;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 @RequiresPermissions("lms:dev")
-public class FileController extends BaseController {
+public class FileController extends LambkitController {
 
 	public void index() {
 		String path = getPara("path", "/");

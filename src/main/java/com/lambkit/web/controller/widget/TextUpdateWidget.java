@@ -18,14 +18,14 @@ package com.lambkit.web.controller.widget;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.util.FileUtils;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.web.controller.Widget;
 import com.lambkit.web.controller.WidgetResult;
 
 public class TextUpdateWidget extends Widget {
 
 	@Override
-	public WidgetResult handle(BaseController c) {
+	public WidgetResult handle(LambkitController c) {
 		// 更新文本文件
 		String info = c.getPara("model.info", "");
 		String path = c.getPara("model.path", "");

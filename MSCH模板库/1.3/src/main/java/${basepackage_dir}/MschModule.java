@@ -22,7 +22,7 @@ import $!{basepackage}.service.impl.${table.modelName}ServiceImpl;
 import $!{basepackage}.service.impl.${table.modelName}ServiceMock;
 #end##
 #foreach ($table in $tables)
-import $!{basepackage}.web.tag.${table.modelName}Directive;
+import $!{basepackage}.web.tag.${table.modelName}Marker;
 #end##
 
 #parse("/template/java_author.include")
@@ -71,7 +71,7 @@ public class MschModule extends LambkitModule  {
 	
 	public void addTag(LambkitModule lk) {
 #foreach ($table in $tables)
-		lk.addTag("$table.attrName", new ${table.modelName}Directive());
+		lk.addTag("$table.attrName", new ${table.modelName}Marker());
 #end##
 	}
 			

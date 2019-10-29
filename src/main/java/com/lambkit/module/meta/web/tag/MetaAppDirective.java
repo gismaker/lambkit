@@ -20,9 +20,9 @@ import java.util.Map;
 
 import com.lambkit.module.meta.model.MetaApp;
 import com.lambkit.module.meta.service.MetaAppService;
+import com.lambkit.web.tag.LambkitTemplateModel;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.web.tag.base.BaseDirectiveModel;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.FreeMarkerRender;
 
@@ -45,10 +45,10 @@ import freemarker.template.TemplateModel;
  * 返回值：{entity:meta_app信息}
  * @author lambkit
  */
-public class MetaAppDirective extends BaseDirectiveModel {
+public class MetaAppDirective extends LambkitTemplateModel {
 
 	@Override
-	public void executeMe(Environment env, Map params, TemplateModel[] loopVars,
+	public void onRender(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
 		String id = get(params, "id");

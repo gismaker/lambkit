@@ -17,7 +17,7 @@ package com.lambkit.web.controller;
 
 import com.jfinal.kit.StrKit;
 
-public class WidgetController extends BaseController {
+public class WidgetController extends LambkitController {
 
 	public void index() {
 		String akey = getPara(0)==null ? getPara("request") : getPara(0);

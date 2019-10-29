@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaThemeService;
@@ -29,7 +29,7 @@ import com.lambkit.module.meta.model.MetaTheme;
  * @version 1.0
  * @since 1.0
  */
-public class MetaThemeServiceImpl extends BaseModelServiceImpl<MetaTheme> implements MetaThemeService {
+public class MetaThemeServiceImpl extends LambkitModelServiceImpl<MetaTheme> implements MetaThemeService {
 	
 	protected MetaTheme DAO = null;
 	

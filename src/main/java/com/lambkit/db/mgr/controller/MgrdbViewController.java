@@ -17,9 +17,9 @@ package com.lambkit.db.mgr.controller;
 
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrTable;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class MgrdbViewController extends BaseController {
+public class MgrdbViewController extends LambkitController {
 
 	/**
 	 * 主题页

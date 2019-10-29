@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaFieldDimession;
 
@@ -27,7 +27,7 @@ import com.lambkit.module.meta.model.MetaFieldDimession;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFieldDimessionService extends BaseService<MetaFieldDimession> {
+public interface MetaFieldDimessionService extends LambkitService<MetaFieldDimession> {
 	
 	MetaFieldDimession findFistByFieldId(Long fldid);
 }

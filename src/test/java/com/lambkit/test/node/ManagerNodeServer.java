@@ -1,7 +1,7 @@
 package com.lambkit.test.node;
 
 import com.jfinal.config.Routes;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.aop.AopKit;
@@ -9,9 +9,9 @@ import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.manager.ManagerNodeServiceImp;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class ManagerNodeServer extends BaseController {
+public class ManagerNodeServer extends LambkitController {
 	
 	public void index() {
 		setAttr("id", NodeManager.me().getNode().getId());
@@ -59,6 +59,6 @@ public class ManagerNodeServer extends BaseController {
 		Lambkit.setArg("lambkit.node.id", "lambkit-manager-node");
 		Lambkit.setArg("lambkit.node.type", "ManagerNode");
 		Lambkit.setArg("lambkit.server.port", 9527);
-		LambkitApplication.run(Application.class, args);
+		LambkitApplication.run(LambkitApplicationContext.class, args);
 	}
 }

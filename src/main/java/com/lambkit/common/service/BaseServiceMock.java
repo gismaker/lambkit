@@ -26,9 +26,9 @@ import com.lambkit.db.sql.column.Columns;
 import com.lambkit.db.sql.column.Example;
 
 /**
- * 降级实现BaseService抽象类 
+ * 降级实现LambkitService抽象类 
  */
-public abstract class BaseServiceMock<M> implements BaseService<M> {
+public abstract class BaseServiceMock<M> implements LambkitService<M> {
 
 	@Override
 	public M dao() {
@@ -349,6 +349,96 @@ public abstract class BaseServiceMock<M> implements BaseService<M> {
 	public int update(Record record, Columns columns) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public M findFirst(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public M findFirstByColumns(Columns columns) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public M findFirstByColumns(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<M> find(Columns columns, String orderby, Integer count) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<M> find(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<M> paginate(Integer pageNumber, Integer pageSize, Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<M> findListByColumns(Columns columns, Integer count) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<M> findListByColumns(Columns columns, String orderby, Integer count) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<M> findListByColumns(Columns columns) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<M> findListByColumns(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<M> paginate(Columns colums, String orderby, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<M> paginateByColumns(Columns colums, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<M> paginateByColumns(Columns colums, String orderby, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.meta.service.MetaStoreRouteService;
 import com.lambkit.module.meta.model.MetaStoreRoute;
@@ -28,7 +28,7 @@ import com.lambkit.module.meta.model.MetaStoreRoute;
  * @version 1.0
  * @since 1.0
  */
-public class MetaStoreRouteServiceImpl extends BaseModelServiceImpl<MetaStoreRoute> implements MetaStoreRouteService {
+public class MetaStoreRouteServiceImpl extends LambkitModelServiceImpl<MetaStoreRoute> implements MetaStoreRouteService {
 	
 	protected MetaStoreRoute DAO = null;
 	

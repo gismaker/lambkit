@@ -16,10 +16,10 @@
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 @RequiresPermissions("lms:mgrdb")
-public class IndexMgrdbController extends BaseController {
+public class IndexMgrdbController extends LambkitController {
 
 	public void index() {
 		renderTemplate("index.html");

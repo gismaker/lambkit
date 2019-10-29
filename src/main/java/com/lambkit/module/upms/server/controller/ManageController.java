@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.server.controller;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.component.swagger.annotation.Api;
 import com.lambkit.component.swagger.annotation.ApiOperation;
 import com.lambkit.core.aop.AopKit;
@@ -38,7 +38,7 @@ import java.util.List;
 //@RequestMapping("/upms")
 @Api(tag = "upms", description = "后台管理")
 @RequiresAuthentication
-public class ManageController extends BaseController {
+public class ManageController extends LambkitController {
 
 	//private static Logger _log = LoggerFactory.getLogger(ManageController.class);
 	private UpmsApiService upmsApiService = AopKit.get(UpmsApiServiceImpl.class);

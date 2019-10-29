@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.api;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.upms.rpc.model.UpmsTag;
 
@@ -27,5 +27,5 @@ import com.lambkit.module.upms.rpc.model.UpmsTag;
  * @version 1.0
  * @since 1.0
  */
-public interface UpmsTagService extends BaseService<UpmsTag> {
+public interface UpmsTagService extends LambkitService<UpmsTag> {
 }

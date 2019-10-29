@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.api;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.upms.rpc.model.UpmsLog;
 
@@ -28,5 +28,5 @@ import com.lambkit.module.upms.rpc.model.UpmsLog;
  * @since 1.0
  * ${tbcnn}
  */
-public interface UpmsLogService extends BaseService<UpmsLog> {
+public interface UpmsLogService extends LambkitService<UpmsLog> {
 }

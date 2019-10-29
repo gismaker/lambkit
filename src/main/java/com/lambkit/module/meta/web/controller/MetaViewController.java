@@ -20,10 +20,10 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrTable;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 @RequiresUser
-public class MetaViewController extends BaseController {
+public class MetaViewController extends LambkitController {
 
 	/**
 	 * 主题页

@@ -60,6 +60,11 @@ public class Columns implements Serializable {
         cols.add(Column.create(name, value));
         return this;
     }
+    
+    public Columns add(String name, Object value)
+    {
+      return eq(name, value);
+    }
 
     /**
      * not equals !=
@@ -159,6 +164,22 @@ public class Columns implements Serializable {
         cols.add(Column.create(name, ConditionMode.NOT_EMPTY));
         return this;
     } 
+    
+    public Columns in(String name, Object arrays) {
+        cols.add(Column.create(name, arrays, ConditionMode.IN));
+        return this;
+    } 
+    
+    public Columns notIn(String name, Object arrays) {
+        cols.add(Column.create(name, arrays, ConditionMode.NOT_IN));
+        return this;
+    } 
+    
+    public Columns between(String name, Object start, Object end)
+    {
+      add(Column.create(name, start, end, ConditionMode.BETWEEN));
+      return this;
+    }
     
     public Columns add(Column column) {
     	cols.add(column);

@@ -16,7 +16,7 @@
 package com.lambkit.module.meta.service.impl;
 
 import com.jfinal.plugin.activerecord.Db;
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.meta.service.MetaFileCatalogMappingService;
@@ -33,7 +33,7 @@ import com.lambkit.module.meta.model.sql.MetaFileCatalogMappingCriteria;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFileCatalogMappingServiceImpl extends BaseModelServiceImpl<MetaFileCatalogMapping> implements MetaFileCatalogMappingService {
+public class MetaFileCatalogMappingServiceImpl extends LambkitModelServiceImpl<MetaFileCatalogMapping> implements MetaFileCatalogMappingService {
 	
 	protected MetaFileCatalogMapping DAO = null;
 	

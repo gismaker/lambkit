@@ -15,7 +15,7 @@
  */
 package com.lambkit.common;
 
-public class PageResult extends BaseResult {
+public class PageResult extends LambkitResult {
 
 	private int count;
 	

@@ -15,10 +15,10 @@
  */
 package com.lambkit.web.controller.log;
 
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 public interface ActionLogService {
-	boolean log(BaseController c, String tbname, Object id, String action, String descript);
-	boolean log(BaseController c, String obj, String action, String descript);
+	boolean log(LambkitController c, String tbname, Object id, String action, String descript);
+	boolean log(LambkitController c, String obj, String action, String descript);
 	boolean log(Object userid, String obj, String action, String ip, String descript);
 }

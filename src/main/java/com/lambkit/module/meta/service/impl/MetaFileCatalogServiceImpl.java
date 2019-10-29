@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import com.beust.jcommander.internal.Lists;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.db.sql.column.Example;
@@ -39,7 +39,7 @@ import com.lambkit.module.meta.model.sql.MetaFileCatalogCriteria;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFileCatalogServiceImpl extends BaseModelServiceImpl<MetaFileCatalog> implements MetaFileCatalogService {
+public class MetaFileCatalogServiceImpl extends LambkitModelServiceImpl<MetaFileCatalog> implements MetaFileCatalogService {
 	
 	protected MetaFileCatalog DAO = null;
 	

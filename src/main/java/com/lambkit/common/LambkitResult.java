@@ -18,7 +18,7 @@ package com.lambkit.common;
 /**
  * 统一返回结果类
  */
-public class BaseResult {
+public class LambkitResult {
 
     // 状态码：1成功，其他为失败
     public int code;
@@ -29,7 +29,7 @@ public class BaseResult {
     // 数据结果集
     public Object data;
 
-    public BaseResult(int code, String message, Object data) {
+    public LambkitResult(int code, String message, Object data) {
         this.code = code;
         this.message = message;
         this.data = data;

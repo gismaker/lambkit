@@ -20,7 +20,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.jfinal.core.Controller;
-import com.lambkit.common.BaseResult;
+import com.lambkit.common.LambkitResult;
 import com.lambkit.plugin.auth.IUser;
 
 public interface AuthService {
@@ -36,14 +36,14 @@ public interface AuthService {
 	 * @param c
 	 * @param username
 	 */
-	BaseResult login(HttpServletRequest request, String username, String password, boolean rememberMe);
-	BaseResult login(Controller controller, String username, String password, boolean rememberMe);
+	LambkitResult login(HttpServletRequest request, String username, String password, boolean rememberMe);
+	LambkitResult login(Controller controller, String username, String password, boolean rememberMe);
 	/**
 	 * 退出
 	 * @param c
 	 */
-	BaseResult logout(HttpServletRequest request);
-	BaseResult logout(Controller controller);
+	LambkitResult logout(HttpServletRequest request);
+	LambkitResult logout(Controller controller);
 	/**
 	 * 已登录的用户
 	 *

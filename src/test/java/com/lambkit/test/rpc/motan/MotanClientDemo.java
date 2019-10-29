@@ -18,7 +18,7 @@ package com.lambkit.test.rpc.motan;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.rpc.RpcKit;
@@ -59,7 +59,7 @@ public class MotanClientDemo extends Controller {
 		Lambkit.setArg("lambkit.node.manager.rpcPort", "8002");
 		Lambkit.setArg("lambkit.node.manager.port", "9527");
 		Lambkit.setArg("lambkit.server.port", 8088);
-		LambkitApplication.run(Application.class, args);
+		LambkitApplication.run(LambkitApplicationContext.class, args);
 		
 		/*
     	RefererConfig<UserService> motanDemoServiceReferer = new RefererConfig<UserService>();

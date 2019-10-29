@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaFieldMap;
 
@@ -27,7 +27,7 @@ import com.lambkit.module.meta.model.MetaFieldMap;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFieldMapService extends BaseService<MetaFieldMap> {
+public interface MetaFieldMapService extends LambkitService<MetaFieldMap> {
 
 	MetaFieldMap findFistByFieldId(Long fldid);
 }

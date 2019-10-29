@@ -18,7 +18,7 @@ package com.lambkit.module.upms.rpc.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserOrganizationService;
@@ -34,7 +34,7 @@ import com.lambkit.module.upms.rpc.model.sql.UpmsUserOrganizationCriteria;
  * @since 1.0
  * ${tbcnn}
  */
-public class UpmsUserOrganizationServiceImpl extends BaseModelServiceImpl<UpmsUserOrganization> implements UpmsUserOrganizationService {
+public class UpmsUserOrganizationServiceImpl extends LambkitModelServiceImpl<UpmsUserOrganization> implements UpmsUserOrganizationService {
 	
 	private UpmsUserOrganization DAO = null;
 	

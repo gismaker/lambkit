@@ -32,7 +32,7 @@ import com.jfinal.aop.Enhancer;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.redis.Redis;
-import com.lambkit.common.BaseResult;
+import com.lambkit.common.LambkitResult;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.RedisUtil;
 import com.lambkit.component.shiro.session.ShiroSession;
@@ -102,7 +102,7 @@ public class UpmsAuthServiceImpl implements AuthService {
 		}
 	}
 	
-	public BaseResult login(HttpServletRequest request, String username, String password, boolean rememberMe) {
+	public LambkitResult login(HttpServletRequest request, String username, String password, boolean rememberMe) {
 		UpmsResult upmsResult = doLogin(request, username, password, rememberMe);
 		if(upmsResult.getCode()==UpmsResultConstant.SUCCESS.getCode()) {
 			loginSuccess(request, username);
@@ -110,7 +110,7 @@ public class UpmsAuthServiceImpl implements AuthService {
 		return upmsResult;
 	}
 	
-	public BaseResult login(Controller controller, String username, String password, boolean rememberMe) {
+	public LambkitResult login(Controller controller, String username, String password, boolean rememberMe) {
 		UpmsResult upmsResult = doLogin(controller.getRequest(), username, password, rememberMe);
 		if(upmsResult.getCode()==UpmsResultConstant.SUCCESS.getCode()) {
 			loginSuccess(controller, username);
@@ -159,7 +159,7 @@ public class UpmsAuthServiceImpl implements AuthService {
 		usercache.put("usertype", user.getType());
 	}
 
-	public BaseResult logout(HttpServletRequest request) {
+	public LambkitResult logout(HttpServletRequest request) {
 		// shiro退出登录
 		SecurityUtils.getSubject().logout();
 		logoutSuccess(request);
@@ -168,7 +168,7 @@ public class UpmsAuthServiceImpl implements AuthService {
 		return new UpmsResult(UpmsResultConstant.SUCCESS, redirectUrl);
 	}
 	
-	public BaseResult logout(Controller controller) {
+	public LambkitResult logout(Controller controller) {
 		// shiro退出登录
 		SecurityUtils.getSubject().logout();
 		logoutSuccess(controller);

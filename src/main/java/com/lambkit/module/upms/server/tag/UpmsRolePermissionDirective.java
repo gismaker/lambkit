@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.lambkit.module.upms.rpc.model.UpmsRolePermission;
+import com.lambkit.web.tag.LambkitTemplateModel;
 import com.lambkit.module.upms.rpc.api.UpmsRolePermissionService;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.web.tag.base.BaseDirectiveModel;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.FreeMarkerRender;
 
@@ -45,10 +45,10 @@ import freemarker.template.TemplateModel;
  * 返回值：{entity:upms_role_permission信息}
  * @author lambkit
  */
-public class UpmsRolePermissionDirective extends BaseDirectiveModel {
+public class UpmsRolePermissionDirective extends LambkitTemplateModel {
 
 	@Override
-	public void executeMe(Environment env, Map params, TemplateModel[] loopVars,
+	public void onRender(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
 		String rolePermissionId = get(params, "role_permission_id");

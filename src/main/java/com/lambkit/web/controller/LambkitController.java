@@ -30,8 +30,8 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.render.JsonRender;
-import com.lambkit.common.BaseResult;
-import com.lambkit.common.ResultJson;
+import com.lambkit.common.LambkitResult;
+import com.lambkit.common.AjaxResult;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.RequestUtils;
 import com.lambkit.common.util.StringUtils;
@@ -59,9 +59,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 控制器基类
  */
-public abstract class BaseController extends Controller {
+public abstract class LambkitController extends Controller {
 
-	private final static Logger _log = LoggerFactory.getLogger(BaseController.class);
+	private final static Logger _log = LoggerFactory.getLogger(LambkitController.class);
 
 	/**
 	 * 统一异常处理, 未完成
@@ -823,12 +823,12 @@ public abstract class BaseController extends Controller {
 	
 	@NotAction
 	public void renderResultJson(int code, String message, Object data) {
-		renderJson(new ResultJson(code, message, data));
+		renderJson(new AjaxResult(code, message, data));
 	}
 	
 	@NotAction
 	public void renderResultJson(int code, String type, String message, Object data) {
-		renderJson(new ResultJson(code, type, message, data));
+		renderJson(new AjaxResult(code, type, message, data));
 	}
 	
 	@NotAction
@@ -858,7 +858,7 @@ public abstract class BaseController extends Controller {
 	}
 
 	public void renderAjaxResult(String message, int errorCode, Object data) {
-		BaseResult ar = new BaseResult(errorCode, message, data);
+		LambkitResult ar = new LambkitResult(errorCode, message, data);
 		if (isIEBrowser()) {
 			render(new JsonRender(ar).forIE());
 		} else {
@@ -883,7 +883,7 @@ public abstract class BaseController extends Controller {
 		this.setAttr("type", type);
 		this.setAttr("info", info);
 		*/
-		renderJson(new ResultJson(flag ? 1 : 0, type, info, null));
+		renderJson(new AjaxResult(flag ? 1 : 0, type, info, null));
 	}
 	
 	@Override

@@ -2,13 +2,13 @@ package com.lambkit.test.generator;
 
 
 import com.jfinal.kit.Kv;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.LambkitApplication;
 import com.lambkit.generator.code.MyCodeGenerator;
 
 public class CodeGeneratorTest {
 	public static void main(String[] args) {
-		LambkitApplication application = new LambkitApplication(Application.class);
+		LambkitApplication application = new LambkitApplication(LambkitApplicationContext.class);
 		application.setWebEnvironment(false);
 		application.run(args);
 		

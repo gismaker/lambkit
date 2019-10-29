@@ -30,7 +30,6 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.json.JsonManager;
-import com.jfinal.json.MixedJsonFactory;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
@@ -59,10 +58,12 @@ import com.lambkit.db.DbManager;
 import com.lambkit.db.DbWrapper;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.db.datasource.DataSourceConfig;
+import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.controller.NodeIndexController;
+import com.lambkit.module.lms.LmsModule;
 import com.lambkit.module.lms.controller.IndexHelpController;
-import com.lambkit.web.ControllerManager;
+import com.lambkit.module.upms.server.UpmsModule;
 import com.lambkit.web.api.ApiMontiorHandler;
 import com.lambkit.web.cache.ActionCacheHandler;
 import com.lambkit.web.handler.LambkitHandler;
@@ -82,11 +83,17 @@ public class DefaultModule extends LambkitModule {
 	 */
 	public void configConstant(Constants me) {
 		TimeUtils.startTime("start lambkit module");
+		if(Lambkit.isLmsActived()) {
+    		Lambkit.addModule(new UpmsModule());
+        	LambkitModule module = MgrdbManager.me().getLambkitModule();
+        	if(module!=null) {
+        		Lambkit.addModule(module);
+        	}
+    		Lambkit.addModule(new LmsModule());
+		}
 		me.setDevMode(Lambkit.isDevMode());
 		me.setMaxPostSize(1024 * 1024 * 2000);
 		me.setReportAfterInvocation(false);
-        //me.setControllerFactory(ControllerManager.me());
-		me.setJsonFactory(new MixedJsonFactory());
 		me.setError404View("/lambkit/errors/404.html");
 		me.setError500View("/lambkit/errors/500.html");
 		//RequiresGuest，RequiresAuthentication，RequiresUser验证异常，返回HTTP401状态码
@@ -118,10 +125,6 @@ public class DefaultModule extends LambkitModule {
         	autoRegisterRequestMapping(routes);
         }
         
-        for (Routes.Route route : routes.getRouteItemList()) {
-            ControllerManager.me().setMapping(route.getControllerKey(), route.getControllerClass());
-        }
-
 		for (LambkitModule module : modules) {
 			module.configRoute(routes);
 		}

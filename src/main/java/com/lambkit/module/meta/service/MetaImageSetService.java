@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaImageSet;
 
@@ -27,5 +27,5 @@ import com.lambkit.module.meta.model.MetaImageSet;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaImageSetService extends BaseService<MetaImageSet> {
+public interface MetaImageSetService extends LambkitService<MetaImageSet> {
 }

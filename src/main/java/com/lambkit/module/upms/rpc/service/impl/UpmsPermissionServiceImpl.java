@@ -19,7 +19,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.model.UpmsRolePermission;
@@ -41,7 +41,7 @@ import com.lambkit.module.upms.rpc.model.UpmsPermission;
  * @since 1.0
  * ${tbcnn}
  */
-public class UpmsPermissionServiceImpl extends BaseModelServiceImpl<UpmsPermission> implements UpmsPermissionService {
+public class UpmsPermissionServiceImpl extends LambkitModelServiceImpl<UpmsPermission> implements UpmsPermissionService {
 	
 	//protected final UpmsPermission DAO = new UpmsPermission();
 	

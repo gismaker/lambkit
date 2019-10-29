@@ -55,11 +55,11 @@ public class WidgetManager {
 		actionMap.put(w.getName(), w);
 	}	
 	
-	public void render(BaseController c) {
+	public void render(LambkitController c) {
 		render(c, null);
 	}
 	
-	public void render(BaseController c, String templatePath) {
+	public void render(LambkitController c, String templatePath) {
 		String akey = c.getPara(0)==null ? c.getPara("request") : c.getPara(0);
 		boolean kp = c.getParaToBoolean("kp", true);
 		if(kp) c.keepPara();

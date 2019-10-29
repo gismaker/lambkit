@@ -17,7 +17,7 @@ package com.lambkit.web;
 
 import com.jfinal.core.Controller;
 
-public class ControllerContext {
+public class LambkitControllerContext {
 
 	private static ThreadLocal<Controller> controllers = new ThreadLocal<>();
 

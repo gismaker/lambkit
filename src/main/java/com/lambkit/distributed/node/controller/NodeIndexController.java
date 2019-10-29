@@ -21,9 +21,9 @@ import com.lambkit.common.ResultKit;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.info.Node;
 import com.lambkit.distributed.node.info.NodeBuilder;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class NodeIndexController extends BaseController {
+public class NodeIndexController extends LambkitController {
 
 	public void index() {
 		//user

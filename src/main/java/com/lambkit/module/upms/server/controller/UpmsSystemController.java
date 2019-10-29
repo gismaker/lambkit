@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.server.controller;
 
 import com.jfinal.plugin.activerecord.Page;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
@@ -31,7 +31,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  */
 //@Api(value = "系统管理", description = "系统管理")
 //@RequestMapping("/upms/system")
-public class UpmsSystemController extends BaseController {
+public class UpmsSystemController extends LambkitController {
 
 	//private static Logger _log = LoggerFactory.getLogger(UpmsSystemController.class);
 

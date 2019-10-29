@@ -21,7 +21,6 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.web.directive.annotation.JFinalDirective;
-import com.lambkit.web.directive.base.DirectiveBase;
 
 /**
  * #findFirst("select * from table where tbid=?", 1)
@@ -30,17 +29,17 @@ import com.lambkit.web.directive.base.DirectiveBase;
  * @author 孤竹行
  */
 @JFinalDirective("findFirst")
-public class FindFirst extends DirectiveBase {
+public class FindFirst extends LambkitDirective {
 
 	@Override
-	public void exec(Env env, Scope scope, Writer writer) {
+	public void onRender(Env env, Scope scope, Writer writer) {
 		// TODO Auto-generated method stub
 		String key = "model";
-		String sql = getParam(0, scope);
+		String sql = getPara(0, scope);
 		if (exprList.length() > 1) {
 			Object[] paras = new Object[exprList.length() - 1];
 			for (int i = 1; i < exprList.length(); i++) {
-				paras[i - 1] = getParam(i, scope);
+				paras[i - 1] = getPara(i, scope);
 			}
 			Record record = Db.findFirst(sql, paras);
 			scope.set(key, record);
@@ -48,7 +47,7 @@ public class FindFirst extends DirectiveBase {
 			Record record = Db.findFirst(sql);
 			scope.set(key, record);
 		}
-		stat.exec(env, scope, writer);// 执行自定义标签中包围的 html
+		renderBody(env, scope, writer);// 执行自定义标签中包围的 html
 	}
 
 	@Override

@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaFieldDimessionService;
@@ -29,7 +29,7 @@ import com.lambkit.module.meta.model.MetaFieldDimession;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFieldDimessionServiceImpl extends BaseModelServiceImpl<MetaFieldDimession> implements MetaFieldDimessionService {
+public class MetaFieldDimessionServiceImpl extends LambkitModelServiceImpl<MetaFieldDimession> implements MetaFieldDimessionService {
 	
 	private MetaFieldDimession DAO = null;
 	

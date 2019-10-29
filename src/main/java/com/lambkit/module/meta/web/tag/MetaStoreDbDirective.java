@@ -20,9 +20,9 @@ import java.util.Map;
 
 import com.lambkit.module.meta.model.MetaStoreDb;
 import com.lambkit.module.meta.service.MetaStoreDbService;
+import com.lambkit.web.tag.LambkitTemplateModel;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.web.tag.base.BaseDirectiveModel;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.FreeMarkerRender;
 
@@ -45,10 +45,10 @@ import freemarker.template.TemplateModel;
  * 返回值：{entity:meta_store_db信息}
  * @author lambkit
  */
-public class MetaStoreDbDirective extends BaseDirectiveModel {
+public class MetaStoreDbDirective extends LambkitTemplateModel {
 
 	@Override
-	public void executeMe(Environment env, Map params, TemplateModel[] loopVars,
+	public void onRender(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
 		String id = get(params, "id");

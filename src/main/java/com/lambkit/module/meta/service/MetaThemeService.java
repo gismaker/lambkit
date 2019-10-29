@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaTheme;
 
@@ -27,7 +27,7 @@ import com.lambkit.module.meta.model.MetaTheme;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaThemeService extends BaseService<MetaTheme> {
+public interface MetaThemeService extends LambkitService<MetaTheme> {
 	
 	MetaTheme activedTheme();
 

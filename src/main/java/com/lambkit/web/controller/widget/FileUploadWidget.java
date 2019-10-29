@@ -20,14 +20,14 @@ import java.io.File;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 import com.lambkit.common.util.PathUtils;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.web.controller.Widget;
 import com.lambkit.web.controller.WidgetResult;
 
 public class FileUploadWidget extends Widget {
 
 	@Override
-	public WidgetResult handle(BaseController c) {
+	public WidgetResult handle(LambkitController c) {
 		String filepath = c.getPara("path", PathKit.getWebRootPath());
 		// 获取上传的文件
 		//getFile一定要放在第一个参数去获取，否则都获取不到参数

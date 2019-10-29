@@ -22,7 +22,6 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.web.directive.annotation.JFinalDirective;
-import com.lambkit.web.directive.base.DirectiveBase;
 
 /**
  * #dbPage("model", "select * from table",1,10) #for(x:model.getList())
@@ -31,14 +30,14 @@ import com.lambkit.web.directive.base.DirectiveBase;
  * @author 孤竹行
  */
 @JFinalDirective("dbPage")
-public class DbPaginate extends DirectiveBase {
+public class DbPaginate extends LambkitDirective {
 
 	@Override
-	public void exec(Env env, Scope scope, Writer writer) {
+	public void onRender(Env env, Scope scope, Writer writer) {
 		// TODO Auto-generated method stub
-		String key = getParam(0, "model", scope);
+		String key = getPara(0, scope, "model");
 		;
-		String sql = getParam(1, scope);
+		String sql = getPara(1, scope);
 		String[] sqls = sql.split("from");
 		int pageNum = (Integer) exprList.getExpr(2).eval(scope);
 		int pageSize = (Integer) exprList.getExpr(3).eval(scope);
@@ -46,7 +45,7 @@ public class DbPaginate extends DirectiveBase {
 		if (exprList.length() > start) {
 			Object[] paras = new Object[exprList.length() - start];
 			for (int i = start; i < exprList.length(); i++) {
-				paras[i - start] = getParam(i, scope);
+				paras[i - start] = getPara(i, scope);
 			}
 			Page<Record> page = Db.paginate(pageNum, pageSize, sqls[0], " from " + sqls[1], paras);
 			scope.set(key, page);
@@ -54,7 +53,7 @@ public class DbPaginate extends DirectiveBase {
 			Page<Record> page = Db.paginate(pageNum, pageSize, sqls[0], " from " + sqls[1]);
 			scope.set(key, page);
 		}
-		stat.exec(env, scope, writer);// 执行自定义标签中包围的 html
+		renderBody(env, scope, writer);// 执行自定义标签中包围的 html
 	}
 
 	@Override

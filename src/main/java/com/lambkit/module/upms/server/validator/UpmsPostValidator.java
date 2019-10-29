@@ -15,9 +15,9 @@
  */package com.lambkit.module.upms.server.validator;
 
 import com.jfinal.core.Controller;
-import com.lambkit.web.validator.BaseValidator;
+import com.lambkit.web.validator.LambkitValidator;
 
-public abstract class UpmsPostValidator extends BaseValidator {
+public abstract class UpmsPostValidator extends LambkitValidator {
 
 	@Override
 	protected boolean isValidate(Controller c) {

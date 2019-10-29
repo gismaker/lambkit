@@ -20,9 +20,9 @@ import java.util.Map;
 
 import com.lambkit.module.meta.model.MetaImageSet;
 import com.lambkit.module.meta.service.MetaImageSetService;
+import com.lambkit.web.tag.LambkitTemplateModel;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.web.tag.base.BaseDirectiveModel;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.FreeMarkerRender;
 
@@ -45,10 +45,10 @@ import freemarker.template.TemplateModel;
  * 返回值：{entity:meta_image_set信息}
  * @author lambkit
  */
-public class MetaImageSetDirective extends BaseDirectiveModel {
+public class MetaImageSetDirective extends LambkitTemplateModel {
 
 	@Override
-	public void executeMe(Environment env, Map params, TemplateModel[] loopVars,
+	public void onRender(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
 		String id = get(params, "id");

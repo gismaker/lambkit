@@ -22,7 +22,6 @@ import com.jfinal.template.expr.ast.Assign;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.web.directive.annotation.JFinalDirective;
-import com.lambkit.web.directive.base.DirectiveBase;
 
 /**
  * #queryById(key="table", id=1)
@@ -31,10 +30,10 @@ import com.lambkit.web.directive.base.DirectiveBase;
  * @author 孤竹行
  */
 @JFinalDirective("queryById")
-public class QueryById extends DirectiveBase {
+public class QueryById extends LambkitDirective {
 
 	@Override
-	public void exec(Env env, Scope scope, Writer writer) {
+	public void onRender(Env env, Scope scope, Writer writer) {
 		// TODO Auto-generated method stub
 		Assign assgin = (Assign) exprList.getExpr(0);
 		String sql = "select * from " + assgin.getRight().toString();
@@ -44,7 +43,7 @@ public class QueryById extends DirectiveBase {
 		sql += " where " + aid.getId() + "=" + aid.getRight().toString();
 		Record record = Db.findFirst(sql);
 		scope.set(key, record);
-		stat.exec(env, scope, writer);// 执行自定义标签中包围的 html
+		renderBody(env, scope, writer);// 执行自定义标签中包围的 html
 	}
 
 	@Override

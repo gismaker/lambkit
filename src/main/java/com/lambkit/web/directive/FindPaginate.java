@@ -22,7 +22,6 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.web.directive.annotation.JFinalDirective;
-import com.lambkit.web.directive.base.DirectiveBase;
 
 /**
  * #findPage("select * from table",1,10) #for(x:model.getList())
@@ -31,20 +30,20 @@ import com.lambkit.web.directive.base.DirectiveBase;
  * @author 孤竹行
  */
 @JFinalDirective("findPage")
-public class FindPaginate extends DirectiveBase {
+public class FindPaginate extends LambkitDirective {
 
 	@Override
-	public void exec(Env env, Scope scope, Writer writer) {
+	public void onRender(Env env, Scope scope, Writer writer) {
 		// TODO Auto-generated method stub
 		String key = "model";
-		String sql = getParam(0, scope);
+		String sql = getPara(0, scope);
 		String[] sqls = sql.split("from");
 		int pageNum = (Integer) exprList.getExpr(1).eval(scope);
 		int pageSize = (Integer) exprList.getExpr(2).eval(scope);
 		if (exprList.length() > 3) {
 			Object[] paras = new Object[exprList.length() - 3];
 			for (int i = 3; i < exprList.length(); i++) {
-				paras[i - 3] = getParam(i, scope);
+				paras[i - 3] = getPara(i, scope);
 			}
 			Page<Record> page = Db.paginate(pageNum, pageSize, sqls[0], " from " + sqls[1], paras);
 			scope.set(key, page);
@@ -52,7 +51,7 @@ public class FindPaginate extends DirectiveBase {
 			Page<Record> page = Db.paginate(pageNum, pageSize, sqls[0], " from " + sqls[1]);
 			scope.set(key, page);
 		}
-		stat.exec(env, scope, writer);// 执行自定义标签中包围的 html
+		renderBody(env, scope, writer);// 执行自定义标签中包围的 html
 	}
 
 	@Override

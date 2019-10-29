@@ -16,7 +16,7 @@
 package com.lambkit.module.meta.service.impl;
 
 import com.jfinal.plugin.activerecord.Db;
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.meta.service.MetaFileService;
 import com.lambkit.module.meta.model.MetaFile;
@@ -29,7 +29,7 @@ import com.lambkit.module.meta.model.MetaFile;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFileServiceImpl extends BaseModelServiceImpl<MetaFile> implements MetaFileService {
+public class MetaFileServiceImpl extends LambkitModelServiceImpl<MetaFile> implements MetaFileService {
 	
 	protected MetaFile DAO = null;
 	

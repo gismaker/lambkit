@@ -8,7 +8,7 @@ import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import $!{basepackage}.rpc.model.${table.modelName};
 #end##
 #foreach ($table in $tables)
-import $!{basepackage}.server.tag.${table.modelName}Directive;
+import $!{basepackage}.server.tag.${table.modelName}Marker;
 #end##
 
 import com.lambkit.module.LambkitModule;
@@ -28,7 +28,7 @@ public class _MappingKit {
 	
 	public static void addTag(LambkitModule lk) {
 #foreach ($table in $tables)
-		lk.addTag("$table.attrName", new ${table.modelName}Directive());
+		lk.addTag("$table.attrName", new ${table.modelName}Marker());
 #end##
 	}
 	

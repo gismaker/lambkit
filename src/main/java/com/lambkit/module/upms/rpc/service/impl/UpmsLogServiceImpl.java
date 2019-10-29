@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.upms.rpc.api.UpmsLogService;
 import com.lambkit.module.upms.rpc.model.UpmsLog;
@@ -28,7 +28,7 @@ import com.lambkit.module.upms.rpc.model.UpmsLog;
  * @version 1.0
  * @since 1.0
  */
-public class UpmsLogServiceImpl extends BaseModelServiceImpl<UpmsLog> implements UpmsLogService {
+public class UpmsLogServiceImpl extends LambkitModelServiceImpl<UpmsLog> implements UpmsLogService {
 	
 	private UpmsLog DAO = null;
 	

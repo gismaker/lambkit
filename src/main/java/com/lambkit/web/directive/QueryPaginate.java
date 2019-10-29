@@ -23,7 +23,6 @@ import com.jfinal.template.expr.ast.Assign;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.web.directive.annotation.JFinalDirective;
-import com.lambkit.web.directive.base.DirectiveBase;
 
 /**
  * #queryPage(key="select * from table",1,10) #for(x:key.getList())
@@ -32,10 +31,10 @@ import com.lambkit.web.directive.base.DirectiveBase;
  * @author 孤竹行
  */
 @JFinalDirective("queryPage")
-public class QueryPaginate extends DirectiveBase {
+public class QueryPaginate extends LambkitDirective {
 
 	@Override
-	public void exec(Env env, Scope scope, Writer writer) {
+	public void onRender(Env env, Scope scope, Writer writer) {
 		// TODO Auto-generated method stub
 		Assign assgin = (Assign) exprList.getExpr(0);
 		String sql = assgin.getRight().toString();
@@ -46,7 +45,7 @@ public class QueryPaginate extends DirectiveBase {
 		if (exprList.length() > 3) {
 			Object[] paras = new Object[exprList.length() - 3];
 			for (int i = 3; i < exprList.length(); i++) {
-				paras[i - 3] = getParam(i, scope);
+				paras[i - 3] = getPara(i, scope);
 			}
 			Page<Record> page = Db.paginate(pageNum, pageSize, sqls[0], " from " + sqls[1], paras);
 			scope.set(key, page);
@@ -54,7 +53,7 @@ public class QueryPaginate extends DirectiveBase {
 			Page<Record> page = Db.paginate(pageNum, pageSize, sqls[0], " from " + sqls[1]);
 			scope.set(key, page);
 		}
-		stat.exec(env, scope, writer);// 执行自定义标签中包围的 html
+		renderBody(env, scope, writer);// 执行自定义标签中包围的 html
 	}
 
 	@Override

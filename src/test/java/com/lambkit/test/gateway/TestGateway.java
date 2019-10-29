@@ -2,7 +2,7 @@ package com.lambkit.test.gateway;
 
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Routes;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.gateway.GatewayManager;
@@ -29,6 +29,6 @@ public class TestGateway {
 		
 		Lambkit.setArg("lambkit.server.webAppDir", "src/main/webapp");
 		Lambkit.setArg("lambkit.server.port", 8080);
-		LambkitApplication.run(Application.class, args);
+		LambkitApplication.run(LambkitApplicationContext.class, args);
 	}
 }

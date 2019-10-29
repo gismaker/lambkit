@@ -4,11 +4,11 @@ package $!{basepackage}.model.base;
 
 import com.jfinal.plugin.activerecord.IBean;
 
-import com.lambkit.common.model.BaseModel;
+import com.lambkit.common.model.LambkitModel;
 
 #parse("/template/java_author.include")
 @SuppressWarnings("serial")
-public abstract class Base${classname}<M extends Base${classname}<M>> extends BaseModel<M> implements IBean {
+public abstract class Base${classname}<M extends Base${classname}<M>> extends LambkitModel<M> implements IBean {
 
 	public String getTableName() {
 		return "$tablename";

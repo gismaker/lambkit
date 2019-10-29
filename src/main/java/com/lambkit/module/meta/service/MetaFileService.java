@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaFile;
 
@@ -27,7 +27,7 @@ import com.lambkit.module.meta.model.MetaFile;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFileService extends BaseService<MetaFile> {
+public interface MetaFileService extends LambkitService<MetaFile> {
 	
 	int remove(String ids);
 	int delete(String ids);

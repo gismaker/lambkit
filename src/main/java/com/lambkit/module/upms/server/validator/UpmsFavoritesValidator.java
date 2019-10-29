@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.server.validator;
 
 import com.jfinal.core.Controller;
-import com.lambkit.web.validator.BaseValidator;
+import com.lambkit.web.validator.LambkitValidator;
 
 import com.lambkit.module.upms.rpc.model.UpmsFavorites;
 
@@ -28,7 +28,7 @@ import com.lambkit.module.upms.rpc.model.UpmsFavorites;
  * @version 1.0
  * @since 1.0
  */
-public class UpmsFavoritesValidator extends BaseValidator {
+public class UpmsFavoritesValidator extends LambkitValidator {
 
 	@Override
 	protected String getTableName(Controller c) {

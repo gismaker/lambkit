@@ -21,7 +21,6 @@ import java.util.Map;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.render.FreeMarkerRender;
-import com.lambkit.web.tag.base.BaseDirectiveModel;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -34,7 +33,7 @@ import freemarker.template.TemplateModel;
  * @author 孤竹行
  *
  */
-public class QueryDirective extends BaseDirectiveModel {
+public class QueryMarker extends LambkitTemplateModel {
 
 	private String SQL = "sql";
 	private String PAGE_NUM = "pagenum";
@@ -43,7 +42,7 @@ public class QueryDirective extends BaseDirectiveModel {
 	private String ExceptSELECT = "sqlExceptSelect";
 	
 	@Override
-	public void executeMe(Environment env, Map params,
+	public void onRender(Environment env, Map params,
 			TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
 		String sql = get(params, SQL);

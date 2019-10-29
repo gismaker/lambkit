@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 import com.lambkit.db.mgr.ITableDao;
 import com.lambkit.module.meta.model.MetaTable;
 
@@ -27,5 +27,5 @@ import com.lambkit.module.meta.model.MetaTable;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaTableService extends BaseService<MetaTable>, ITableDao {
+public interface MetaTableService extends LambkitService<MetaTable>, ITableDao {
 }

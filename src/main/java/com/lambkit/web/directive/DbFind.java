@@ -23,7 +23,6 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.web.directive.annotation.JFinalDirective;
-import com.lambkit.web.directive.base.DirectiveBase;
 
 /**
  * #db("model", "select * from table") #for(x:model)
@@ -32,18 +31,18 @@ import com.lambkit.web.directive.base.DirectiveBase;
  * @author 孤竹行
  */
 @JFinalDirective("db")
-public class DbFind extends DirectiveBase {
+public class DbFind extends LambkitDirective {
 
 	@Override
-	public void exec(Env env, Scope scope, Writer writer) {
+	public void onRender(Env env, Scope scope, Writer writer) {
 		// TODO Auto-generated method stub
-		String key = getParam(0, "model", scope);
-		String sql = getParam(1, scope);
+		String key = getPara(0, scope, "model");
+		String sql = getPara(1, scope);
 		int start = 2;
 		if (exprList.length() > start) {
 			Object[] paras = new Object[exprList.length() - start];
 			for (int i = start; i < exprList.length(); i++) {
-				paras[i - start] = getParam(i, scope);
+				paras[i - start] = getPara(i, scope);
 			}
 			List<Record> list = Db.find(sql, paras);
 			scope.set(key, list);
@@ -52,7 +51,7 @@ public class DbFind extends DirectiveBase {
 			List<Record> list = Db.find(sql);
 			scope.set(key, list);
 		}
-		stat.exec(env, scope, writer);// 执行自定义标签中包围的 html
+		renderBody(env, scope, writer);// 执行自定义标签中包围的 html
 	}
 
 	@Override

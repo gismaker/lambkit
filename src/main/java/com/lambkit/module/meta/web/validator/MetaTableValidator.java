@@ -16,7 +16,7 @@
 package com.lambkit.module.meta.web.validator;
 
 import com.jfinal.core.Controller;
-import com.lambkit.web.validator.BaseValidator;
+import com.lambkit.web.validator.LambkitValidator;
 
 import com.lambkit.module.meta.model.MetaTable;
 
@@ -28,7 +28,7 @@ import com.lambkit.module.meta.model.MetaTable;
  * @version 1.0
  * @since 1.0
  */
-public class MetaTableValidator extends BaseValidator {
+public class MetaTableValidator extends LambkitValidator {
 
 	@Override
 	protected String getTableName(Controller c) {

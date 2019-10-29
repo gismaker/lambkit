@@ -17,7 +17,7 @@ package com.lambkit.generator;
 
 import java.util.Map;
 
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.aop.AopKit;
@@ -169,7 +169,7 @@ public class GeneratorManager {
 		//初始化生成工具
 		GeneratorManager.me().init(config);
 		//创建应用
-		LambkitApplication application = new LambkitApplication(Application.class);
+		LambkitApplication application = new LambkitApplication(LambkitApplicationContext.class);
 		application.setWebEnvironment(false);
 		//启动应用
 		application.run(null);

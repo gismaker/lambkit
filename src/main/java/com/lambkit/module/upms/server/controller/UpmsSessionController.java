@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.server.controller;
 
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
@@ -28,7 +28,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  */
 //@Api(value = "会话管理", description = "会话管理")
 //@RequestMapping("/upms/session")
-public class UpmsSessionController extends BaseController {
+public class UpmsSessionController extends LambkitController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsSessionController.class);
 

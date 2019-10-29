@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.api;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.upms.rpc.model.UpmsUserRole;
 
@@ -27,7 +27,7 @@ import com.lambkit.module.upms.rpc.model.UpmsUserRole;
  * @version 1.0
  * @since 1.0
  */
-public interface UpmsUserRoleService extends BaseService<UpmsUserRole> {
+public interface UpmsUserRoleService extends LambkitService<UpmsUserRole> {
 
 	/**
      * 用户角色

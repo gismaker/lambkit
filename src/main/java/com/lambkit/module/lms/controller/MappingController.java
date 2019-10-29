@@ -26,10 +26,10 @@ import com.jfinal.plugin.activerecord.TableMapping;
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.ResultKit;
 import com.lambkit.common.bean.TableMappingBean;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 @RequiresPermissions("lms:dev")
-public class MappingController extends BaseController {
+public class MappingController extends LambkitController {
 
 	public void index() {
 		renderTemplate("index.html");

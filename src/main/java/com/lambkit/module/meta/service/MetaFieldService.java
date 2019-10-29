@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 import com.lambkit.db.mgr.IFieldDao;
 import com.lambkit.module.meta.model.MetaField;
 
@@ -27,7 +27,7 @@ import com.lambkit.module.meta.model.MetaField;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFieldService extends BaseService<MetaField>, IFieldDao {
+public interface MetaFieldService extends LambkitService<MetaField>, IFieldDao {
 	
 	MetaField joinSubModel(MetaField metaField, int type, Long tmid);
 	

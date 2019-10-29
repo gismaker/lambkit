@@ -37,9 +37,9 @@ import com.lambkit.db.sql.column.Columns;
 import com.lambkit.db.sql.column.Example;
 
 /**
- * 实现BaseService抽象类
+ * 实现LambkitService抽象类
  */
-public abstract class ModelServiceImpl<M extends Model<M>> implements BaseService<M> {
+public abstract class ModelServiceImpl<M extends Model<M>> implements LambkitService<M> {
 	
 	public abstract M dao();
 	
@@ -75,6 +75,25 @@ public abstract class ModelServiceImpl<M extends Model<M>> implements BaseServic
 		// TODO Auto-generated method stub
 		return findFirst(Example.create(getTableName(), columns));
 	}
+
+	
+	@Override
+	public M findFirst(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return findFirst(Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	
+	@Override
+	public M findFirstByColumns(Columns columns) {
+		// TODO Auto-generated method stub
+		return findFirst(Example.create(getTableName(), columns));
+	}
+	
+	@Override
+	public M findFirstByColumns(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return findFirst(Example.create(getTableName(), columns).setOrderBy(orderby));
+	}	
 	
 	public List<M> find(QueryParas query, Integer count) {
 		if(query==null) return null;
@@ -105,6 +124,23 @@ public abstract class ModelServiceImpl<M extends Model<M>> implements BaseServic
 		return find(Example.create(getTableName(), columns));
 	}
 	
+
+	@Override
+	public List<M> find(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	@Override
+	public List<M> findListByColumns(Columns columns) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns));
+	}
+	@Override
+	public List<M> findListByColumns(Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return find(Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	
 	@Override
 	public List<M> find(Example example, Integer count) {
 		// TODO Auto-generated method stub
@@ -115,6 +151,24 @@ public abstract class ModelServiceImpl<M extends Model<M>> implements BaseServic
 	public List<M> find(Columns columns, Integer count) {
 		// TODO Auto-generated method stub
 		return dao().find(exampleToSqlPara(Example.create(getTableName(), columns), count));
+	}
+
+	@Override
+	public List<M> find(Columns columns, String orderby, Integer count) {
+		// TODO Auto-generated method stub
+		return dao().find(exampleToSqlPara(Example.create(getTableName(), columns).setOrderBy(orderby), count));
+	}
+	
+	@Override
+	public List<M> findListByColumns(Columns columns, Integer count) {
+		// TODO Auto-generated method stub
+		return dao().find(exampleToSqlPara(Example.create(getTableName(), columns), count));
+	}
+	
+	@Override
+	public List<M> findListByColumns(Columns columns, String orderby, Integer count) {
+		// TODO Auto-generated method stub
+		return dao().find(exampleToSqlPara(Example.create(getTableName(), columns).setOrderBy(orderby), count));
 	}
 	
 	 /**
@@ -140,6 +194,22 @@ public abstract class ModelServiceImpl<M extends Model<M>> implements BaseServic
 	public Page<M> paginate(Integer pageNumber, Integer pageSize, Columns columns) {
 		// TODO Auto-generated method stub
 		return dao().paginate(pageNumber, pageSize, exampleToSqlParaForPaginate(Example.create(getTableName(), columns)));
+	}
+	
+	@Override
+	public Page<M> paginate(Integer pageNumber, Integer pageSize, Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return paginate(pageNumber, pageSize, Example.create(getTableName(), columns).setOrderBy(orderby));
+	}
+	@Override
+	public Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns) {
+		// TODO Auto-generated method stub
+		return paginate(pageNumber, pageSize, Example.create(getTableName(), columns));
+	}
+	@Override
+	public Page<M> paginateByColumns(Integer pageNumber, Integer pageSize, Columns columns, String orderby) {
+		// TODO Auto-generated method stub
+		return paginate(pageNumber, pageSize, Example.create(getTableName(), columns).setOrderBy(orderby));
 	}
 
     /**
@@ -171,6 +241,25 @@ public abstract class ModelServiceImpl<M extends Model<M>> implements BaseServic
 		int pageSize = limit;
 		int pageNumber = offset / pageSize + 1;
 		return paginate(pageNumber, pageSize, Example.create(getTableName(), columns));
+	}
+	
+
+	@Override
+	public Page<M> paginate(Columns columns, String orderby, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return paginate(Example.create(getTableName(), columns).setOrderBy(orderby), offset, limit);
+	}
+	
+	@Override
+	public Page<M> paginateByColumns(Columns columns, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return paginate(Example.create(getTableName(), columns), offset, limit);
+	}
+	
+	@Override
+	public Page<M> paginateByColumns(Columns columns, String orderby, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return paginate(Example.create(getTableName(), columns).setOrderBy(orderby), offset, limit);
 	}
     
     /**

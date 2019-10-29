@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.api;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.upms.rpc.model.UpmsOrganization;
 
@@ -28,5 +28,5 @@ import com.lambkit.module.upms.rpc.model.UpmsOrganization;
  * @since 1.0
  * ${tbcnn}
  */
-public interface UpmsOrganizationService extends BaseService<UpmsOrganization> {
+public interface UpmsOrganizationService extends LambkitService<UpmsOrganization> {
 }

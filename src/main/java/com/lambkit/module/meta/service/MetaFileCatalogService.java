@@ -18,7 +18,7 @@ package com.lambkit.module.meta.service;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaFileCatalog;
 
@@ -30,7 +30,7 @@ import com.lambkit.module.meta.model.MetaFileCatalog;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFileCatalogService extends BaseService<MetaFileCatalog> {
+public interface MetaFileCatalogService extends LambkitService<MetaFileCatalog> {
 
 	//getCatalog(Long pid);
 	

@@ -18,7 +18,7 @@ package com.lambkit.module.meta.web.controller.manage;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.common.ResultJson;
+import com.lambkit.common.AjaxResult;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.sql.condition.ConditionBuilder;
@@ -27,7 +27,7 @@ import com.lambkit.module.meta.model.MetaStore;
 import com.lambkit.module.meta.model.MetaStoreDb;
 import com.lambkit.module.meta.model.MetaStoreResource;
 import com.lambkit.module.meta.model.MetaStoreRoute;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 /**
  * @author yangyong
@@ -37,7 +37,7 @@ import com.lambkit.web.controller.BaseController;
  * @version 1.0
  * @since 1.0
  */
-public class MetaStoreController extends BaseController {
+public class MetaStoreController extends LambkitController {
 	private final String tableName = "meta_store";
 	
 	public void index() {
@@ -72,7 +72,7 @@ public class MetaStoreController extends BaseController {
 	public void page() {
 		MgrTable tbc = getTable(tableName, MgrConstants.VIEW, false);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		ConditionBuilder cb = getConditionsSQL(tbc).build("");
@@ -82,7 +82,7 @@ public class MetaStoreController extends BaseController {
 		Integer pNumber = getParaToInt(2, getParaToInt("pageNum", 1));
 		Integer pSize = getParaToInt(1, getParaToInt("numPerPage", 15));
 		Page<Record> page = Db.paginate(pNumber, pSize, select, sql, cb.getSqlParas());
-		renderJson(new ResultJson(1, "success", page));
+		renderJson(new AjaxResult(1, "success", page));
 	}
 	
 	public void add() {
@@ -98,7 +98,7 @@ public class MetaStoreController extends BaseController {
 	public void save() {
 		MetaStore app = getModel(MetaStore.class, "model");
 		app.save();
-		renderJson(new ResultJson(1, "success", null));
+		renderJson(new AjaxResult(1, "success", null));
 	}
 	
 	public void edit() {
@@ -118,7 +118,7 @@ public class MetaStoreController extends BaseController {
 	public void update() {
 		MetaStore app = getModel(MetaStore.class, "model");
 		app.update();
-		renderJson(new ResultJson(1, "success", null));
+		renderJson(new AjaxResult(1, "success", null));
 	}
 	
 	public void delete() {
@@ -126,7 +126,7 @@ public class MetaStoreController extends BaseController {
 		if(id!=null) {
 			MetaStore.service().deleteById(id);
 		}
-		renderJson(new ResultJson(1, "success", null));
+		renderJson(new AjaxResult(1, "success", null));
 	}
 	
 }

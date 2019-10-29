@@ -17,7 +17,7 @@ package com.lambkit.module.upms.server.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.jfinal.plugin.activerecord.Page;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.component.swagger.annotation.Api;
 import com.lambkit.component.swagger.annotation.ApiOperation;
@@ -43,7 +43,7 @@ import java.util.UUID;
  */
 @Api(tag = "/upms/user", description = "用户管理")
 //@RequestMapping("/upms/user")
-public class UpmsUserController extends BaseController {
+public class UpmsUserController extends LambkitController {
 
     private static Logger _log = LoggerFactory.getLogger(UpmsUserController.class);
 

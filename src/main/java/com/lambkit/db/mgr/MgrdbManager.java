@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.config.ConfigManager;
@@ -93,7 +93,7 @@ public class MgrdbManager {
 	}
 	
 	public void run(Map<String, Object> options, String type) {
-		LambkitApplication application = new LambkitApplication(Application.class);
+		LambkitApplication application = new LambkitApplication(LambkitApplicationContext.class);
 		application.setWebEnvironment(false);
 		switch (type) {
 		case MgrdbConfig.SYSCONFIG:

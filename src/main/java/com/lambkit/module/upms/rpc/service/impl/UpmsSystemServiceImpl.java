@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.upms.rpc.api.UpmsSystemService;
 import com.lambkit.module.upms.rpc.model.UpmsSystem;
@@ -29,7 +29,7 @@ import com.lambkit.module.upms.rpc.model.UpmsSystem;
  * @since 1.0
  * ${tbcnn}
  */
-public class UpmsSystemServiceImpl extends BaseModelServiceImpl<UpmsSystem> implements UpmsSystemService {
+public class UpmsSystemServiceImpl extends LambkitModelServiceImpl<UpmsSystem> implements UpmsSystemService {
 	
 	private UpmsSystem DAO = null;
 	

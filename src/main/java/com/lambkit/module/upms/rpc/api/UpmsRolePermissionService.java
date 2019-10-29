@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.rpc.api;
 
 import com.alibaba.fastjson.JSONArray;
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.upms.rpc.model.UpmsRolePermission;
 
@@ -29,7 +29,7 @@ import com.lambkit.module.upms.rpc.model.UpmsRolePermission;
  * @since 1.0
  * ${tbcnn}
  */
-public interface UpmsRolePermissionService extends BaseService<UpmsRolePermission> {
+public interface UpmsRolePermissionService extends LambkitService<UpmsRolePermission> {
 
 	/**
      * 角色权限

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.web.tag.base;
+package com.lambkit.web.tag;
 
 import java.io.IOException;
 import java.util.Map;
@@ -25,16 +25,16 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
-public abstract class BaseDirectiveModel implements TemplateDirectiveModel {
+public abstract class LambkitTemplateModel implements TemplateDirectiveModel {
 
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
-		executeMe(env, params, loopVars, body);
+		onRender(env, params, loopVars, body);
 	}
 	
-	public abstract void executeMe(Environment env, Map params, TemplateModel[] loopVars,
+	public abstract void onRender(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException;
 
 	protected String get(Map params, String key) {

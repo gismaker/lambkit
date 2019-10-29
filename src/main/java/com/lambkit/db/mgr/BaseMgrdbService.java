@@ -39,7 +39,7 @@ import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.mgr.MgrdbService;
 import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.db.sql.condition.SqlBuilder;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 public abstract class BaseMgrdbService implements MgrdbService {
 
@@ -258,7 +258,7 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		return sb;
 	}
 	
-	public ConditionBuilder getConditionsSQL(BaseController c, MgrTable tbc) {
+	public ConditionBuilder getConditionsSQL(LambkitController c, MgrTable tbc) {
 		ConditionBuilder builder = new ConditionBuilder();
 		//ConditonsParam sqlParam = new ConditonsParam(new Conditions());
 		List<? extends IField> flds = tbc.getFieldList();

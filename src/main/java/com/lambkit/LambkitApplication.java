@@ -1,6 +1,5 @@
 package com.lambkit;
 
-import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.plugin.IPlugin;
 import com.jfinal.server.undertow.UndertowServer;
@@ -13,20 +12,20 @@ public class LambkitApplication {
 	private boolean isWebEnvironment = true;
 	private Plugins plugins = null;
 	
-	private Class<? extends JFinalConfig> jfinalConfigClass = null;
+	private Class<? extends LambkitApplicationContext> contextClass = null;
 	
-	public LambkitApplication(Class<? extends JFinalConfig> jfinalConfigClass) {
-		this.jfinalConfigClass = jfinalConfigClass;
+	public LambkitApplication(Class<? extends LambkitApplicationContext> jfinalConfigClass) {
+		this.contextClass = jfinalConfigClass;
 	}
 	
 	public static void main(String[] args) {
-		run(Application.class, args);
+		run(LambkitApplicationContext.class, args);
 	}
 	
-	public static void run(Class<? extends JFinalConfig> jfinalConfigClass, String[] args) {
+	public static void run(Class<? extends LambkitApplicationContext> jfinalConfigClass, String[] args) {
 		parseArgs(args);
 		if(jfinalConfigClass==null) {
-			jfinalConfigClass = Application.class;
+			jfinalConfigClass = LambkitApplicationContext.class;
 		}
 		UndertowServer.create(jfinalConfigClass).configWeb(builder->{
 			builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
@@ -41,11 +40,11 @@ public class LambkitApplication {
 	}
 	
 	public void run() {
-		if(jfinalConfigClass==null) {
-			jfinalConfigClass = Application.class;
+		if(contextClass==null) {
+			contextClass = LambkitApplicationContext.class;
 		}
 		if(isWebEnvironment) {
-			UndertowServer.create(jfinalConfigClass).configWeb(builder->{
+			UndertowServer.create(contextClass).configWeb(builder->{
 				builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
 				builder.addFilter("shiro", "org.apache.shiro.web.servlet.ShiroFilter");
 				builder.addFilterUrlMapping("shiro", "/*");
@@ -55,20 +54,20 @@ public class LambkitApplication {
 				plugins = new Plugins();
 			}
 			TimeUtils.startTime("start lambkit app");
-			JFinalConfig jfinalConfig = AopKit.singleton(jfinalConfigClass);
-			jfinalConfig.configPlugin(plugins);
+			LambkitApplicationContext context = AopKit.singleton(contextClass);
+			context.configPlugin(plugins);
 			for(IPlugin plugin : plugins.getPluginList()) {
 				plugin.start();
 			}
-			jfinalConfig.onStart();
+			context.onStart();
 			TimeUtils.endTime("start lambkit app");
 		}
 	}
 	
 	public void stop() {
 		if(!isWebEnvironment) {
-			JFinalConfig jfinalConfig = AopKit.singleton(jfinalConfigClass);
-			jfinalConfig.onStop();
+			LambkitApplicationContext context = AopKit.singleton(contextClass);
+			context.onStop();
 			for(IPlugin plugin : plugins.getPluginList()) {
 				plugin.stop();
 			}

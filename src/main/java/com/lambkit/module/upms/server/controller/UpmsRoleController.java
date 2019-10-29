@@ -17,7 +17,7 @@ package com.lambkit.module.upms.server.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.jfinal.plugin.activerecord.Page;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 //@Api(value = "角色管理", description = "角色管理")
 //@RequestMapping("/upms/role")
-public class UpmsRoleController extends BaseController {
+public class UpmsRoleController extends LambkitController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsRoleController.class);
 

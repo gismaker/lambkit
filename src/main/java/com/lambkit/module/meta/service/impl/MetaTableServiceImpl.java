@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.mgr.ITable;
 import com.lambkit.db.sql.column.Column;
@@ -35,7 +35,7 @@ import com.lambkit.module.meta.model.MetaTable;
  * @version 1.0
  * @since 1.0
  */
-public class MetaTableServiceImpl extends BaseModelServiceImpl<MetaTable> implements MetaTableService {
+public class MetaTableServiceImpl extends LambkitModelServiceImpl<MetaTable> implements MetaTableService {
 	
 	protected MetaTable DAO = null;
 	

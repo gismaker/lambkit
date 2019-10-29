@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.upms.rpc.api.UpmsUserService;
@@ -31,7 +31,7 @@ import com.lambkit.module.upms.rpc.model.sql.UpmsUserCriteria;
  * @since 1.0
  * ${tbcnn}
  */
-public class UpmsUserServiceImpl extends BaseModelServiceImpl<UpmsUser> implements UpmsUserService {
+public class UpmsUserServiceImpl extends LambkitModelServiceImpl<UpmsUser> implements UpmsUserService {
 	
 	private UpmsUser DAO = null;
 	

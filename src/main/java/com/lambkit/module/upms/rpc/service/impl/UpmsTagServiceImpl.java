@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.upms.rpc.api.UpmsTagService;
 import com.lambkit.module.upms.rpc.model.UpmsTag;
@@ -28,7 +28,7 @@ import com.lambkit.module.upms.rpc.model.UpmsTag;
  * @version 1.0
  * @since 1.0
  */
-public class UpmsTagServiceImpl extends BaseModelServiceImpl<UpmsTag> implements UpmsTagService {
+public class UpmsTagServiceImpl extends LambkitModelServiceImpl<UpmsTag> implements UpmsTagService {
 	
 	protected UpmsTag DAO = null;
 	

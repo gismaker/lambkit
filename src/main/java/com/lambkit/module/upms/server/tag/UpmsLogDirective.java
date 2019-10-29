@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.lambkit.module.upms.rpc.model.UpmsLog;
+import com.lambkit.web.tag.LambkitTemplateModel;
 import com.lambkit.module.upms.rpc.api.UpmsLogService;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.common.service.ServiceKit;
-import com.lambkit.web.tag.base.BaseDirectiveModel;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.FreeMarkerRender;
 
@@ -45,10 +45,10 @@ import freemarker.template.TemplateModel;
  * 返回值：{entity:upms_log信息}
  * @author lambkit
  */
-public class UpmsLogDirective extends BaseDirectiveModel {
+public class UpmsLogDirective extends LambkitTemplateModel {
 
 	@Override
-	public void executeMe(Environment env, Map params, TemplateModel[] loopVars,
+	public void onRender(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		// TODO Auto-generated method stub
 		String logId = get(params, "log_id");

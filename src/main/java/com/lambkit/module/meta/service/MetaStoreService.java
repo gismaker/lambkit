@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaStore;
 
@@ -27,5 +27,5 @@ import com.lambkit.module.meta.model.MetaStore;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaStoreService extends BaseService<MetaStore> {
+public interface MetaStoreService extends LambkitService<MetaStore> {
 }

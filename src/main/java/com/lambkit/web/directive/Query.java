@@ -24,7 +24,6 @@ import com.jfinal.template.expr.ast.Assign;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.web.directive.annotation.JFinalDirective;
-import com.lambkit.web.directive.base.DirectiveBase;
 
 /**
  * #query(key="select * from table") #for(x:key)
@@ -33,13 +32,13 @@ import com.lambkit.web.directive.base.DirectiveBase;
  * @author 孤竹行
  */
 @JFinalDirective("query")
-public class Query extends DirectiveBase {
+public class Query extends LambkitDirective {
 
 	@Override
-	public void exec(Env env, Scope scope, Writer writer) {
+	public void onRender(Env env, Scope scope, Writer writer) {
 		// TODO Auto-generated method stub
 		/*
-		 * String sql = getParam(0, scope); String key = getParam(1, "model",
+		 * String sql = getPara(0, scope); String key = getPara(1, "model",
 		 * scope);
 		 */
 		Assign assgin = (Assign) exprList.getExpr(0);
@@ -48,7 +47,7 @@ public class Query extends DirectiveBase {
 		if (exprList.length() > 1) {
 			Object[] paras = new Object[exprList.length() - 1];
 			for (int i = 1; i < exprList.length(); i++) {
-				paras[i - 1] = getParam(i, scope);
+				paras[i - 1] = getPara(i, scope);
 			}
 			List<Record> list = Db.find(sql, paras);
 			scope.set(key, list);
@@ -57,7 +56,7 @@ public class Query extends DirectiveBase {
 			List<Record> list = Db.find(sql);
 			scope.set(key, list);
 		}
-		stat.exec(env, scope, writer);// 执行自定义标签中包围的 html
+		renderBody(env, scope, writer);// 执行自定义标签中包围的 html
 	}
 
 	@Override

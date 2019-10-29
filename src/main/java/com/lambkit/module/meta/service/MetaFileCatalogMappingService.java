@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 import com.lambkit.module.meta.model.MetaFile;
 import com.lambkit.module.meta.model.MetaFileCatalog;
 import com.lambkit.module.meta.model.MetaFileCatalogMapping;
@@ -28,7 +28,7 @@ import com.lambkit.module.meta.model.MetaFileCatalogMapping;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFileCatalogMappingService extends BaseService<MetaFileCatalogMapping> {
+public interface MetaFileCatalogMappingService extends LambkitService<MetaFileCatalogMapping> {
 	/**
 	 * 保存
 	 * @param file

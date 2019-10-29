@@ -30,7 +30,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.redis.Redis;
-import com.lambkit.common.BaseResult;
+import com.lambkit.common.LambkitResult;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.common.util.RedisUtil;
@@ -47,9 +47,9 @@ import com.lambkit.module.upms.rpc.api.UpmsUserService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 import com.lambkit.module.upms.rpc.service.impl.UpmsUserServiceImpl;
 import com.lambkit.module.upms.shiro.ShiroRedisSessionDao;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class AuthEmbeddedController extends BaseController {
+public class AuthEmbeddedController extends LambkitController {
 
 	/**
 	 * 首页
@@ -126,7 +126,7 @@ public class AuthEmbeddedController extends BaseController {
         String hasCode = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + sessionId);
         // code校验值
         if (StringUtils.isBlank(hasCode)) {
-            BaseResult result = AuthManager.me().getService().login(this.getRequest(), username, password, BooleanUtils.toBoolean(rememberMe));
+            LambkitResult result = AuthManager.me().getService().login(this.getRequest(), username, password, BooleanUtils.toBoolean(rememberMe));
             if(result.getCode()!=UpmsResultConstant.SUCCESS.getCode()) {
             	return (UpmsResult) result;
             }
@@ -158,7 +158,7 @@ public class AuthEmbeddedController extends BaseController {
 	
     
     public void logout() {
-    	BaseResult result = AuthManager.me().getService().logout(this.getRequest());
+    	LambkitResult result = AuthManager.me().getService().logout(this.getRequest());
         String redirectUrl = result.getData().toString();
         if (null == redirectUrl) {
             redirectUrl = "/";

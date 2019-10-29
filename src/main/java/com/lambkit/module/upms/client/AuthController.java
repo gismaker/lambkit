@@ -22,15 +22,15 @@ import org.apache.shiro.subject.Subject;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Clear;
-import com.lambkit.common.BaseResult;
+import com.lambkit.common.LambkitResult;
 import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.module.upms.SsoAuthenticate;
 import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class AuthController extends BaseController {
+public class AuthController extends LambkitController {
 
 	@Clear
     public void login() {
@@ -63,7 +63,7 @@ public class AuthController extends BaseController {
         	if(1 == result.getIntValue("code")) {
         		String username = getPara("username");
         		//String password = getPara("password");
-        		BaseResult br = AuthManager.me().getService().login(this.getRequest(), username, "", false);
+        		LambkitResult br = AuthManager.me().getService().login(this.getRequest(), username, "", false);
         	}
         	return new UpmsResult(result.getIntValue("code"), result.getString("message"), result.getString("data"));
         }
@@ -100,7 +100,7 @@ public class AuthController extends BaseController {
     public void logout() {
     	GatewayRender pr = new GatewayRender("login", "http://localhost:8080/sso/ajaxLogout");
     	pr.accessStr(getRequest());
-		BaseResult result = AuthManager.me().getService().logout(this.getRequest());
+		LambkitResult result = AuthManager.me().getService().logout(this.getRequest());
         String redirectUrl = result.getData().toString();
         if (null == redirectUrl) {
             redirectUrl = "/";

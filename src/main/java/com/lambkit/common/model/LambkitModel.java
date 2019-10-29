@@ -47,7 +47,7 @@ import java.text.ParseException;
 import java.util.*;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class BaseModel<M extends BaseModel<M>> extends Model<M> implements IBean {
+public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements IBean {
 
 	private static final long serialVersionUID = 1002554886565298306L;
 
@@ -249,7 +249,7 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> implements IBean
         return cacheTime;
     }
 
-	public BaseModel setAttrs(Kv para, String modelName) {
+	public LambkitModel setAttrs(Kv para, String modelName) {
     	modelName = StrKit.notBlank(modelName) ? modelName + "." : "";
     	if (table == null) {
             table = TableMapping.me().getTable(_getUsefulClass());
@@ -272,12 +272,12 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> implements IBean
 		return this;
     }
     
-	public BaseModel setAttrs(String jsonString) {
-    	return (BaseModel) JsonKit.parseObject(jsonString, _getUsefulClass());
+	public LambkitModel setAttrs(String jsonString) {
+    	return (LambkitModel) JsonKit.parseObject(jsonString, _getUsefulClass());
     }
     
     /*
-    public BaseModel create(Record record) {
+    public LambkitModel create(Record record) {
     }
     */
 
@@ -520,6 +520,18 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> implements IBean
         }
         return findFirst(sql, params.toArray());
     }
+    
+    public M findFirstByColumns(Columns columns, String orderby) {
+        String sql = getDialect().forFindByColumns(tableName(), "*", columns.getList(), orderby, 1);
+        LinkedList<Object> params = new LinkedList<Object>();
+
+        if (ArrayUtils.isNotEmpty(columns.getList())) {
+            for (Column column : columns.getList()) {
+                column.addValueToParam(params);
+            }
+        }
+        return findFirst(sql, params.toArray());
+    }
 
 
     /**
@@ -624,7 +636,6 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> implements IBean
     public List<M> findListByColumns(Columns columns, Integer count) {
         return findListByColumns(columns.getList(), count);
     }
-
 
     public List<M> findListByColumns(Columns columns, String orderBy, Integer count) {
         return findListByColumns(columns.getList(), orderBy, count);
@@ -897,7 +908,7 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> implements IBean
     // -----------------------------Override----------------------------
     /*
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	private Class<? extends BaseModel> _getUsefulClass() {
+	private Class<? extends LambkitModel> _getUsefulClass() {
 		Class c = getClass();
 		return c.getName().indexOf("EnhancerByCGLIB") == -1 ? c : c.getSuperclass();
 	}
@@ -976,11 +987,11 @@ public class BaseModel<M extends BaseModel<M>> extends Model<M> implements IBean
             return false;
         }
 
-        if (!(o instanceof BaseModel)) {
+        if (!(o instanceof LambkitModel)) {
             return false;
         }
 
-        //Object id = ((BaseModel) o).get(getPrimaryKey());
+        //Object id = ((LambkitModel) o).get(getPrimaryKey());
         Object id = getPrimaryKeyValue();
         if (id == null) {
             return false;

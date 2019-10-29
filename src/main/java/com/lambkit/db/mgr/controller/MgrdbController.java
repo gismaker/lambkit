@@ -41,7 +41,7 @@ import com.lambkit.db.mgr.MgrdbService;
 import com.lambkit.db.mgr.MgrdbValidator;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.web.WebConfig;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.web.controller.Widget;
 import com.lambkit.web.controller.WidgetManager;
 
@@ -54,7 +54,7 @@ import com.lambkit.web.controller.WidgetManager;
  * @since 1.0
  */
 //@Before(AppLoginInterceptor.class)
-public class MgrdbController extends BaseController {
+public class MgrdbController extends LambkitController {
 	
 	//@Before({RuleRoleInterceptor.class,UserAuthInterceptor.class})
 	public void index() {

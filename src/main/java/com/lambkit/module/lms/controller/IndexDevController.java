@@ -24,11 +24,11 @@ import com.jfinal.kit.StrKit;
 import com.lambkit.common.monitor.SysInfoMonitorManager;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.distributed.node.NodeManager;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 //@RequestMapping("/lambkit/dev")
 @RequiresPermissions("lms:dev")
-public class IndexDevController extends BaseController {
+public class IndexDevController extends LambkitController {
 
 	public void index() {
 		renderTemplate("index.html");

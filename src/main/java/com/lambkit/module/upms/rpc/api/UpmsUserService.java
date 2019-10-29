@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.api;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.upms.rpc.model.UpmsUser;
 
@@ -28,7 +28,7 @@ import com.lambkit.module.upms.rpc.model.UpmsUser;
  * @since 1.0
  * ${tbcnn}
  */
-public interface UpmsUserService extends BaseService<UpmsUser> {
+public interface UpmsUserService extends LambkitService<UpmsUser> {
 
 	UpmsUser createUser(UpmsUser upmsUser);
 }

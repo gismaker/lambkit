@@ -17,7 +17,7 @@ package com.lambkit.module.meta.service.impl;
 
 import java.util.List;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.module.meta.service.MetaFieldMeasureService;
@@ -31,7 +31,7 @@ import com.lambkit.module.meta.model.MetaFieldMeasure;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFieldMeasureServiceImpl extends BaseModelServiceImpl<MetaFieldMeasure> implements MetaFieldMeasureService {
+public class MetaFieldMeasureServiceImpl extends LambkitModelServiceImpl<MetaFieldMeasure> implements MetaFieldMeasureService {
 	
 	private MetaFieldMeasure DAO = null;
 	

@@ -22,7 +22,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.common.ResultJson;
+import com.lambkit.common.AjaxResult;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.mgr.MgrdbValidator;
@@ -44,7 +44,7 @@ public class MetaDataApiController extends MgrdbApiController {
 	public void tables() {
 		MgrTable tbc = getTable("meta_table", MgrConstants.NONE, true);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		ConditionBuilder cb = getConditionsSQL(tbc).build("");
@@ -54,7 +54,7 @@ public class MetaDataApiController extends MgrdbApiController {
 		Integer pNumber = getParaToInt(2, getParaToInt("pageNum", 1));
 		Integer pSize = getParaToInt(1, getParaToInt("numPerPage", 15));
 		Page<Record> page = Db.paginate(pNumber, pSize, select, sql, cb.getSqlParas());
-		renderJson(new ResultJson(1, "success", page));
+		renderJson(new AjaxResult(1, "success", page));
 	}
 	/**
 	 * 获取一条记录

@@ -27,7 +27,7 @@ import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.mgr.MgrdbService;
 
-public abstract class BaseValidator extends Validator {
+public abstract class LambkitValidator extends Validator {
 
 	@Override
 	protected void validate(Controller c) {

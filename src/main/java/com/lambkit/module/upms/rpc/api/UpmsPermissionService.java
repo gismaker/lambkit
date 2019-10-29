@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.rpc.api;
 
 import com.alibaba.fastjson.JSONArray;
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.upms.rpc.model.UpmsPermission;
 
@@ -28,7 +28,7 @@ import com.lambkit.module.upms.rpc.model.UpmsPermission;
  * @version 1.0
  * @since 1.0
  */
-public interface UpmsPermissionService extends BaseService<UpmsPermission> {
+public interface UpmsPermissionService extends LambkitService<UpmsPermission> {
 
 	JSONArray getTreeByRoleId(Long roleId);
 

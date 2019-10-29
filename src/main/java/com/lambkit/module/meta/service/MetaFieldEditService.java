@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.meta.model.MetaFieldEdit;
 
@@ -27,7 +27,7 @@ import com.lambkit.module.meta.model.MetaFieldEdit;
  * @version 1.0
  * @since 1.0
  */
-public interface MetaFieldEditService extends BaseService<MetaFieldEdit> {
+public interface MetaFieldEditService extends LambkitService<MetaFieldEdit> {
 	
 	MetaFieldEdit findByFieldAndTheme(Long fldid, Long tmid);
 	

@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.meta.service.MetaStoreDbService;
 import com.lambkit.module.meta.model.MetaStoreDb;
@@ -28,7 +28,7 @@ import com.lambkit.module.meta.model.MetaStoreDb;
  * @version 1.0
  * @since 1.0
  */
-public class MetaStoreDbServiceImpl extends BaseModelServiceImpl<MetaStoreDb> implements MetaStoreDbService {
+public class MetaStoreDbServiceImpl extends LambkitModelServiceImpl<MetaStoreDb> implements MetaStoreDbService {
 	
 	protected MetaStoreDb DAO = null;
 	

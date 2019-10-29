@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.service.impl;
 
-import com.lambkit.common.service.BaseModelServiceImpl;
+import com.lambkit.common.service.LambkitModelServiceImpl;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.module.upms.rpc.api.UpmsRoleService;
 import com.lambkit.module.upms.rpc.model.UpmsRole;
@@ -29,7 +29,7 @@ import com.lambkit.module.upms.rpc.model.UpmsRole;
  * @since 1.0
  * ${tbcnn}
  */
-public class UpmsRoleServiceImpl extends BaseModelServiceImpl<UpmsRole> implements UpmsRoleService {
+public class UpmsRoleServiceImpl extends LambkitModelServiceImpl<UpmsRole> implements UpmsRoleService {
 	
 	private UpmsRole DAO = null;
 	

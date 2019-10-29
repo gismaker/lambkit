@@ -28,14 +28,14 @@ import com.lambkit.module.wechat.WechatApis;
 import com.lambkit.module.wechat.WechatConfig;
 import com.lambkit.module.wechat.interceptor.WechatApiConfigInterceptor;
 import com.lambkit.module.wechat.interceptor.WechatUserInterceptor;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.TreeMap;
 
 @Before({WechatApiConfigInterceptor.class, WechatUserInterceptor.class})
-public abstract class WechatController extends BaseController {
+public abstract class WechatController extends LambkitController {
 
     public static final String SESSION_WECHAT_OPEN_ID = "_lambkit_wechat_open_id_";
     public static final String SESSION_WECHAT_ACCESS_TOKEN = "_lambkit_wechat_access_token_";

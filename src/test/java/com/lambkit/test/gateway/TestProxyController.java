@@ -1,14 +1,14 @@
 package com.lambkit.test.gateway;
 
 import com.jfinal.config.Routes;
-import com.lambkit.Application;
+import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
-public class TestProxyController extends BaseController {
+public class TestProxyController extends LambkitController {
 
 	public void index() {
 		System.out.println("test controller...");
@@ -44,6 +44,6 @@ public class TestProxyController extends BaseController {
 		
 		Lambkit.setArg("lambkit.server.webAppDir", "src/main/webapp");
 		Lambkit.setArg("lambkit.server.port", 8080);
-		LambkitApplication.run(Application.class, args);
+		LambkitApplication.run(LambkitApplicationContext.class, args);
 	}
 }

@@ -16,31 +16,29 @@
 package com.lambkit;
 
 import com.jfinal.config.*;
+import com.jfinal.json.MixedJsonFactory;
 import com.jfinal.log.Log;
 import com.jfinal.template.Engine;
 import com.lambkit.common.LambkitConsts;
 import com.lambkit.core.event.EventKit;
-import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.module.lms.LmsModule;
-import com.lambkit.module.upms.server.UpmsModule;
+import com.lambkit.web.LambkitControllerFactory;
 
-public class Application extends JFinalConfig {
+public abstract class LambkitApplicationContext extends JFinalConfig {
 
-    static final Log log = Log.getLog(Application.class);
+    static final Log log = Log.getLog(LambkitApplicationContext.class);
+    
+    public abstract void configModule(LambkitModule module);
     
     @Override
 	public void configConstant(Constants constants) {
 		// TimeUtils.startTime("start lambkit configConstant");
-		if(Lambkit.isLmsActived()) {
-    		Lambkit.addModule(new UpmsModule());
-        	LambkitModule module = MgrdbManager.me().getLambkitModule();
-        	if(module!=null) {
-        		Lambkit.addModule(module);
-        	}
-    		Lambkit.addModule(new LmsModule());
-		}
+		configModule(Lambkit.getModule());
 		Lambkit.getModule().configConstant(constants);
+		//关键配置，请勿改动
+    	constants.setControllerFactory(new LambkitControllerFactory());
+        //关键配置，请勿改动
+    	constants.setJsonFactory(new MixedJsonFactory());
 		/**
 		 * 发送初始化通知
 		 */

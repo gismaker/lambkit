@@ -16,7 +16,7 @@
 package com.lambkit.module.meta.web.validator;
 
 import com.jfinal.core.Controller;
-import com.lambkit.web.validator.BaseValidator;
+import com.lambkit.web.validator.LambkitValidator;
 
 import com.lambkit.module.meta.model.MetaFieldMap;
 
@@ -28,7 +28,7 @@ import com.lambkit.module.meta.model.MetaFieldMap;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFieldMapValidator extends BaseValidator {
+public class MetaFieldMapValidator extends LambkitValidator {
 
 	@Override
 	protected String getTableName(Controller c) {

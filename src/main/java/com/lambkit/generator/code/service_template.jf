@@ -1,8 +1,8 @@
 package #(servicePackageName);
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 import #(modelPackageName).#(tableMeta.modelName);
 
-public interface #(tableMeta.modelName)Service extends BaseService<#(tableMeta.modelName)> {
+public interface #(tableMeta.modelName)Service extends LambkitService<#(tableMeta.modelName)> {
 
 }

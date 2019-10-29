@@ -16,7 +16,7 @@
 package com.lambkit.module.upms.server.controller;
 
 import com.jfinal.plugin.activerecord.Page;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 import com.lambkit.component.swagger.annotation.Api;
 import com.lambkit.component.swagger.annotation.ApiOperation;
 import com.lambkit.db.sql.column.Example;
@@ -33,7 +33,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  */
 @Api(tag = "/upms/log", description = "日志管理")
 //@RequestMapping("/upms/log")
-public class UpmsLogController extends BaseController {
+public class UpmsLogController extends LambkitController {
 
     //private static Logger _log = LoggerFactory.getLogger(UpmsLogController.class);
 

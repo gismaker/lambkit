@@ -18,7 +18,7 @@ package com.lambkit.module.meta.web.controller.manage;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.common.ResultJson;
+import com.lambkit.common.AjaxResult;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.sql.condition.ConditionBuilder;
@@ -30,7 +30,7 @@ import com.lambkit.module.meta.model.MetaFieldList;
 import com.lambkit.module.meta.model.MetaFieldMap;
 import com.lambkit.module.meta.model.MetaFieldMeasure;
 import com.lambkit.module.meta.model.MetaFieldRelation;
-import com.lambkit.web.controller.BaseController;
+import com.lambkit.web.controller.LambkitController;
 
 /**
  * @author yangyong
@@ -40,7 +40,7 @@ import com.lambkit.web.controller.BaseController;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFieldController extends BaseController {
+public class MetaFieldController extends LambkitController {
 	private final String tableName = "meta_Field";
 	
 	public void index() {
@@ -78,7 +78,7 @@ public class MetaFieldController extends BaseController {
 	public void page() {
 		MgrTable tbc = getTable(tableName, MgrConstants.VIEW, false);
 		if (tbc == null) {
-			renderJson(new ResultJson(0, "fail", "table is not find."));
+			renderJson(new AjaxResult(0, "fail", "table is not find."));
 			return;
 		}
 		ConditionBuilder cb = getConditionsSQL(tbc).build("");
@@ -88,7 +88,7 @@ public class MetaFieldController extends BaseController {
 		Integer pNumber = getParaToInt(2, getParaToInt("pageNum", 1));
 		Integer pSize = getParaToInt(1, getParaToInt("numPerPage", 15));
 		Page<Record> page = Db.paginate(pNumber, pSize, select, sql, cb.getSqlParas());
-		renderJson(new ResultJson(1, "success", page));
+		renderJson(new AjaxResult(1, "success", page));
 	}
 	
 	public void add() {
@@ -104,7 +104,7 @@ public class MetaFieldController extends BaseController {
 	public void save() {
 		MetaField app = getModel(MetaField.class, "model");
 		app.save();
-		renderJson(new ResultJson(1, "success", null));
+		renderJson(new AjaxResult(1, "success", null));
 	}
 	
 	public void edit() {
@@ -124,7 +124,7 @@ public class MetaFieldController extends BaseController {
 	public void update() {
 		MetaField app = getModel(MetaField.class, "model");
 		app.update();
-		renderJson(new ResultJson(1, "success", null));
+		renderJson(new AjaxResult(1, "success", null));
 	}
 	
 	public void delete() {
@@ -132,7 +132,7 @@ public class MetaFieldController extends BaseController {
 		if(id!=null) {
 			MetaField.service().deleteById(id);
 		}
-		renderJson(new ResultJson(1, "success", null));
+		renderJson(new AjaxResult(1, "success", null));
 	}
 	
 }

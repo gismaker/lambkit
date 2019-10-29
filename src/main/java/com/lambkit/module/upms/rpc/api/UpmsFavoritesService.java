@@ -15,7 +15,7 @@
  */
 package com.lambkit.module.upms.rpc.api;
 
-import com.lambkit.common.service.BaseService;
+import com.lambkit.common.service.LambkitService;
 
 import com.lambkit.module.upms.rpc.model.UpmsFavorites;
 
@@ -27,5 +27,5 @@ import com.lambkit.module.upms.rpc.model.UpmsFavorites;
  * @version 1.0
  * @since 1.0
  */
-public interface UpmsFavoritesService extends BaseService<UpmsFavorites> {
+public interface UpmsFavoritesService extends LambkitService<UpmsFavorites> {
 }

@@ -4,13 +4,13 @@ package $!{basepackage}.server.validator;
 
 import com.jfinal.core.Controller;
 ##import com.jfinal.kit.StrKit;
-import com.lambkit.web.validator.BaseValidator;
+import com.lambkit.web.validator.LambkitValidator;
 
 ##import $!{basepackage}.rpc.model.${classname};
 import $!{basepackage}.rpc.api.${classname}Service;
 
 #parse("/template/java_author.include")
-public class ${classname}Validator extends BaseValidator {
+public class ${classname}Validator extends LambkitValidator {
 
 	@Override
 	protected String getTableName(Controller c) {

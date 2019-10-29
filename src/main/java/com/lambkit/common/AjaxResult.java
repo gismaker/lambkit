@@ -13,13 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.web;
+package com.lambkit.common;
 
-import com.jfinal.core.Controller;
+public class AjaxResult extends LambkitResult {
 
-public class ControllerFactory {
-	public Controller getController(Class<? extends Controller> controllerClass)
-			throws InstantiationException, IllegalAccessException {
-		return (Controller) controllerClass.newInstance();
+	// 类型
+    public String type;
+    
+	public AjaxResult(int code, String message, Object data) {
+		super(code, message, data);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public AjaxResult(int code, String type, String message, Object data) {
+		super(code, message, data);
+		// TODO Auto-generated constructor stub
+		this.type = type;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
