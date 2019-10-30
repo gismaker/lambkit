@@ -29,6 +29,7 @@ import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
 import com.lambkit.web.WebConfig;
+import com.lambkit.web.WebConfigManager;
 
 public class UpmsLoginService implements LoginService {
 	public void captcha(Controller c) {
@@ -45,10 +46,11 @@ public class UpmsLoginService implements LoginService {
 			String backurl = c.getRequest().getParameter("p");
             if (StringUtils.isBlank(backurl)) {
                 backurl = "/";
-                WebConfig web = Lambkit.config(WebConfig.class);
+                WebConfig webManage = WebConfigManager.me().getWebConfig("manage");
+                WebConfig webAdmin = WebConfigManager.me().getWebConfig("admin");
                 Subject subject = SecurityUtils.getSubject();
-                backurl = subject.hasRole("admin") ? web.getManagePage() : "";
-                backurl = subject.hasRole("super") ? web.getAdminPage() : "";
+                backurl = subject.hasRole("admin") ? webManage.getUrl() : "";
+                backurl = subject.hasRole("super") ? webAdmin.getUrl() : "";
             }
             c.redirect(backurl);
             return;

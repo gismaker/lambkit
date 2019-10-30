@@ -21,10 +21,10 @@ import com.lambkit.core.config.annotation.PropertieConfig;
 @PropertieConfig(prefix = "lambkit")
 public class LambkitConfig {
 
-	private String name = "";
-    private String version = "0.2-alpha1";
+	private String name = "lambkit";
+    private String version = "0.4.1";
     private String mode = LambkitMode.DEV.getValue();
-    private String encryptKey = "n1gEgB3/NiGrOxdT9IxWxA==";
+    private String encryptKey = "xYb&KpO%4DP9tV6v";
     
     private String autoRegisterControllerPackages;
     private String autoRegisterTagPackages;

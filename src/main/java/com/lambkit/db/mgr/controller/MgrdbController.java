@@ -41,6 +41,7 @@ import com.lambkit.db.mgr.MgrdbService;
 import com.lambkit.db.mgr.MgrdbValidator;
 import com.lambkit.plugin.auth.AuthManager;
 import com.lambkit.web.WebConfig;
+import com.lambkit.web.WebConfigManager;
 import com.lambkit.web.controller.LambkitController;
 import com.lambkit.web.controller.Widget;
 import com.lambkit.web.controller.WidgetManager;
@@ -337,7 +338,7 @@ public class MgrdbController extends LambkitController {
 		
 		MgrdbService tcs = MgrdbManager.me().getService();
 		
-		WebConfig config = Lambkit.config(WebConfig.class);
+		WebConfig config = WebConfigManager.me().getDefaultWebConfig();
 		if(!config.isExcel() || tcs==null) {
 			renderNull();
 			return;

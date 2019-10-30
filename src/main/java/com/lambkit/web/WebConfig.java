@@ -15,107 +15,27 @@
  */
 package com.lambkit.web;
 
-import com.lambkit.core.config.annotation.PropertieConfig;
+import com.jfinal.kit.StrKit;
 
-@PropertieConfig(prefix = "lambkit.web")
 public class WebConfig {
-
-	private String portal = "/portal";
-	private String templatePath = "/templates/center";
-	private String adminPage = "/admin";
-	private String adminPath = "/WEB-INF/admin";
-	private int navcid = 1;
+	public static final String NAME_DEFAULT = "default";
 	
-	private String homePage = "/center";
-	private String homePath = "/WEB-INF/app";
-	private String managePage = "/manager";
-	private String managePath = "/WEB-INF/mgr";
-	
-	private String wapPage = "/wap";
-	private String wapPath = "/wap";
-	private String wechatPage = "/wechat";
-	private String wechatPath = "/wechat";
-	
+	private String name;
+	private String url;
+	private String path;
 	private boolean jsonp = false;
 	private boolean excel = false;
 	
-	public String getPortal() {
-		return portal;
+	public boolean isConfigOk() {
+		// TODO Auto-generated method stub
+		return StrKit.notBlank(name) && StrKit.notBlank(url) && StrKit.notBlank(path);
 	}
-	public void setPortal(String portal) {
-		this.portal = portal;
+	
+	public boolean isExcel() {
+		return excel;
 	}
-	public String getTemplatePath() {
-		return templatePath;
-	}
-	public void setTemplatePath(String templatePath) {
-		this.templatePath = templatePath;
-	}
-	public String getAdminPage() {
-		return adminPage;
-	}
-	public void setAdminPage(String adminPage) {
-		this.adminPage = adminPage;
-	}
-	public String getAdminPath() {
-		return adminPath;
-	}
-	public void setAdminPath(String adminPath) {
-		this.adminPath = adminPath;
-	}
-	public int getNavcid() {
-		return navcid;
-	}
-	public void setNavcid(int navcid) {
-		this.navcid = navcid;
-	}
-	public String getHomePage() {
-		return homePage;
-	}
-	public void setHomePage(String homePage) {
-		this.homePage = homePage;
-	}
-	public String getHomePath() {
-		return homePath;
-	}
-	public void setHomePath(String homePath) {
-		this.homePath = homePath;
-	}
-	public String getManagePage() {
-		return managePage;
-	}
-	public void setManagePage(String managePage) {
-		this.managePage = managePage;
-	}
-	public String getManagePath() {
-		return managePath;
-	}
-	public void setManagePath(String managePath) {
-		this.managePath = managePath;
-	}
-	public String getWapPage() {
-		return wapPage;
-	}
-	public void setWapPage(String wapPage) {
-		this.wapPage = wapPage;
-	}
-	public String getWapPath() {
-		return wapPath;
-	}
-	public void setWapPath(String wapPath) {
-		this.wapPath = wapPath;
-	}
-	public String getWechatPage() {
-		return wechatPage;
-	}
-	public void setWechatPage(String wechatPage) {
-		this.wechatPage = wechatPage;
-	}
-	public String getWechatPath() {
-		return wechatPath;
-	}
-	public void setWechatPath(String wechatPath) {
-		this.wechatPath = wechatPath;
+	public void setExcel(boolean excel) {
+		this.excel = excel;
 	}
 	public boolean isJsonp() {
 		return jsonp;
@@ -123,11 +43,23 @@ public class WebConfig {
 	public void setJsonp(boolean jsonp) {
 		this.jsonp = jsonp;
 	}
-
-	public boolean isExcel() {
-		return excel;
+	public String getUrl() {
+		return url;
 	}
-	public void setExcel(boolean excel) {
-		this.excel = excel;
+	public void setUrl(String url) {
+		this.url = url;
 	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }

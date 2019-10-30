@@ -1,10 +1,13 @@
 -----------------------------
 lambkit-0.4.1：
+
 优化：调整部分关键类的命名，增加Lambkit前缀
 优化：LambkitService增加方法
 优化：JFinal模板基类完善
 优化：ResultJson更改为AjaxResult
 优化：Application由使用类更改为系统基类，将Lambkit必须配置的部分放到这里，减轻DefaultModule的体量
+优化：webconfig配置与内容优化
+新增：WebConfigManager管理webconfig
 修复: 默认LambkitControllerContext加入到运行时中
 
 -----------------------------

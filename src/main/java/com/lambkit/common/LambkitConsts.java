@@ -20,7 +20,7 @@ package com.lambkit.common;
  */
 public class LambkitConsts {
 
-	public static final String LAMBKIT_VERSION = "0.2.3";
+	public static final String LAMBKIT_VERSION = "0.4.1";
 	
     public static final String LAMBKIT_TOKEN = "lambkit-token";
 	/**

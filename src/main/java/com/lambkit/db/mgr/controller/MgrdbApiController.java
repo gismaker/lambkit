@@ -42,6 +42,7 @@ import com.lambkit.common.AjaxResult;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.web.WebConfig;
+import com.lambkit.web.WebConfigManager;
 import com.lambkit.web.controller.LambkitController;
 
 /**
@@ -159,7 +160,7 @@ public class MgrdbApiController extends LambkitController {
 	 */
 	//@RequiresPermissions("mgr:api:export")
 	public void excel() {
-		WebConfig web = Lambkit.config(WebConfig.class);
+		WebConfig web = WebConfigManager.me().getDefaultWebConfig();
 		if (!web.isExcel()) {
 			renderNull();
 			return;

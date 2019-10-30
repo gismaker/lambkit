@@ -37,6 +37,7 @@ import com.lambkit.core.aop.AopKit;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.module.annotation.Module;
 import com.lambkit.web.WebConfig;
+import com.lambkit.web.WebConfigManager;
 import com.lambkit.web.controller.annotation.RequestMapping;
 import com.lambkit.web.directive.annotation.JFinalDirective;
 
@@ -114,7 +115,7 @@ public abstract class LambkitModule {
 		
         LambkitConfig config = Lambkit.getLambkitConfig();
     	if(StrKit.notBlank(config.getAutoRegisterControllerPackages())) {
-    		WebConfig web = Lambkit.config(WebConfig.class);
+    		WebConfig web = WebConfigManager.me().getWebConfig("admin");
     		Set<Class<?>> ctrlClassSet = ClassUtils.scanPackageByAnnotation(config.getAutoRegisterControllerPackages(), true, RequestMapping.class);
             for (Class<?> clazz : ctrlClassSet) {
             	System.out.println("clazz:"+clazz.getName());
@@ -124,7 +125,7 @@ public abstract class LambkitModule {
                 }
                 String urlstr = mapping.value();
     			if(urlstr.startsWith("/admin")) {
-    				urlstr = urlstr.replace("/admin", web.getAdminPage());
+    				urlstr = urlstr.replace("/admin", web.getUrl());
     			}
                 Class<Controller> controller = (Class<Controller>) clazz;
                 if (StrKit.notBlank(mapping.viewPath())) {
