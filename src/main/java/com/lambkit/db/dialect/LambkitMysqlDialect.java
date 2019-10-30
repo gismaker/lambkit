@@ -25,6 +25,7 @@ import com.lambkit.db.sql.QueryParas;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.db.sql.column.Columns;
 import com.lambkit.db.sql.column.Example;
+import com.lambkit.common.exception.LambkitException;
 import com.lambkit.common.util.ArrayUtils;
 
 import java.util.List;
@@ -37,6 +38,27 @@ public class LambkitMysqlDialect extends MysqlDialect implements IModelDialect, 
             sqlBuilder.append(" LIMIT " + limit);
         }
 		return sqlBuilder.toString();
+	}
+	
+	@Override
+	public String forFindBySql(String sql, String orderBy, Object limit) {
+    	 StringBuilder sqlBuilder = new StringBuilder(sql);
+         if (orderBy != null) {
+             sqlBuilder.append(" ORDER BY ").append(orderBy);
+         }
+         sqlBuilder.append(forLimitSql(limit));
+         return sqlBuilder.toString();
+	}
+
+	@Override
+	public SqlPara forFindBySqlPara(SqlPara sqlPara, String orderBy, Object limit) {
+		StringBuilder sqlBuilder = new StringBuilder(sqlPara.getSql());
+        if (orderBy != null) {
+            sqlBuilder.append(" ORDER BY ").append(orderBy);
+        }
+        sqlBuilder.append(forLimitSql(limit));
+		sqlPara.setSql(sqlBuilder.toString());
+        return sqlPara;
 	}
 	
 	@Override

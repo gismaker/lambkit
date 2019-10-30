@@ -201,7 +201,36 @@ public class LambkitAnsiSqlDialect extends AnsiSqlDialect implements IModelDiale
 
         return sqlBuilder.toString();
     }
+    
+    @Override
+	public String forFindBySql(String sql, String orderBy, Object limit) {
+    	 StringBuilder sqlBuilder = new StringBuilder(sql);
 
+         if (orderBy != null) {
+             sqlBuilder.append(" ORDER BY ").append(orderBy);
+         }
+
+         if (limit != null) {
+             throw new LambkitException("limit param not finished LambkitAnsiSqlDialect.");
+         }
+
+         return sqlBuilder.toString();
+	}
+
+	@Override
+	public SqlPara forFindBySqlPara(SqlPara sqlPara, String orderBy, Object limit) {
+		StringBuilder sqlBuilder = new StringBuilder(sqlPara.getSql());
+
+        if (orderBy != null) {
+            sqlBuilder.append(" ORDER BY ").append(orderBy);
+        }
+
+        if (limit != null) {
+            throw new LambkitException("limit param not finished LambkitAnsiSqlDialect.");
+        }
+        sqlPara.setSql(sqlBuilder.toString());
+        return sqlPara;
+	}
 
     @Override
     public String forPaginateSelect(String loadColumns) {

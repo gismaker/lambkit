@@ -237,6 +237,74 @@ public class LambkitSqlServerDialect extends SqlServerDialect implements IModelD
 		}
 
 	}
+	
+	@Override
+	public String forFindBySql(String sql, String orderBy, Object limit) {
+    	 StringBuilder sqlBuilder = new StringBuilder(sql);
+         if (orderBy != null) {
+             sqlBuilder.append(" ORDER BY ").append(orderBy);
+         }
+         if (limit == null) {
+ 			return sqlBuilder.toString();
+ 		}
+
+ 		if (limit instanceof Number) {
+ 			StringBuilder ret = new StringBuilder();
+ 			ret.append("SELECT * FROM ( SELECT row_number() over (order by tempcolumn) temprownumber, * FROM ");
+ 			ret.append(" ( SELECT TOP ").append(limit).append(" tempcolumn=0,");
+ 			ret.append(sqlBuilder.toString().replaceFirst("(?i)select", ""));
+ 			ret.append(")vip)mvp ");
+ 			return ret.toString();
+
+ 		} else if (limit instanceof String && limit.toString().contains(",")) {
+ 			String[] startAndEnd = limit.toString().split(",");
+ 			String start = startAndEnd[0];
+ 			String end = startAndEnd[1];
+
+ 			StringBuilder ret = new StringBuilder();
+ 			ret.append("SELECT * FROM ( SELECT row_number() over (order by tempcolumn) temprownumber, * FROM ");
+ 			ret.append(" ( SELECT TOP ").append(end).append(" tempcolumn=0,");
+ 			ret.append(sqlBuilder.toString().replaceFirst("(?i)select", ""));
+ 			ret.append(")vip)mvp where temprownumber>").append(start);
+ 			return ret.toString();
+ 		} else {
+ 			throw new LambkitException("sql limit is error!,limit must is Number of String like \"0,10\"");
+ 		}
+	}
+
+	@Override
+	public SqlPara forFindBySqlPara(SqlPara sqlPara, String orderBy, Object limit) {
+		StringBuilder sqlBuilder = new StringBuilder(sqlPara.getSql());
+        if (orderBy != null) {
+            sqlBuilder.append(" ORDER BY ").append(orderBy);
+        }
+        if (limit == null) {
+        	sqlPara.setSql(sqlBuilder.toString());
+		}
+
+		if (limit instanceof Number) {
+			StringBuilder ret = new StringBuilder();
+			ret.append("SELECT * FROM ( SELECT row_number() over (order by tempcolumn) temprownumber, * FROM ");
+			ret.append(" ( SELECT TOP ").append(limit).append(" tempcolumn=0,");
+			ret.append(sqlBuilder.toString().replaceFirst("(?i)select", ""));
+			ret.append(")vip)mvp ");
+			sqlPara.setSql(ret.toString());
+		} else if (limit instanceof String && limit.toString().contains(",")) {
+			String[] startAndEnd = limit.toString().split(",");
+			String start = startAndEnd[0];
+			String end = startAndEnd[1];
+
+			StringBuilder ret = new StringBuilder();
+			ret.append("SELECT * FROM ( SELECT row_number() over (order by tempcolumn) temprownumber, * FROM ");
+			ret.append(" ( SELECT TOP ").append(end).append(" tempcolumn=0,");
+			ret.append(sqlBuilder.toString().replaceFirst("(?i)select", ""));
+			ret.append(")vip)mvp where temprownumber>").append(start);
+			sqlPara.setSql(ret.toString());
+		} else {
+			throw new LambkitException("sql limit is error!,limit must is Number of String like \"0,10\"");
+		}
+        return sqlPara;
+	}
 
 	@Override
 	public String forPaginateSelect(String loadColumns) {

@@ -25,10 +25,12 @@ import com.lambkit.db.sql.column.Example;
 
 public interface IModelDialect {
 
+	public String forFindBySql(String sql, String orderBy, Object limit);
     public String forFindByColumns(String table, String loadColumns, List<Column> columns, String orderBy, Object limit);
     public String forPaginateSelect(String loadColumns);
     public String forPaginateFrom(String table, List<Column> columns, String orderBy);
     
+    public SqlPara forFindBySqlPara(SqlPara sqlPara, String orderBy, Object limit);
     public SqlPara forFindByExample(Example example, Object limit);
     public SqlPara forPaginateByExample(Example example);
     public SqlPara forPaginateFormByExample(Example example);

@@ -38,6 +38,27 @@ public class LambkitSqlite3Dialect extends Sqlite3Dialect implements IModelDiale
 	}
 	
 	@Override
+	public String forFindBySql(String sql, String orderBy, Object limit) {
+    	 StringBuilder sqlBuilder = new StringBuilder(sql);
+         if (orderBy != null) {
+             sqlBuilder.append(" ORDER BY ").append(orderBy);
+         }
+         sqlBuilder.append(forLimitSql(limit));
+         return sqlBuilder.toString();
+	}
+
+	@Override
+	public SqlPara forFindBySqlPara(SqlPara sqlPara, String orderBy, Object limit) {
+		StringBuilder sqlBuilder = new StringBuilder(sqlPara.getSql());
+        if (orderBy != null) {
+            sqlBuilder.append(" ORDER BY ").append(orderBy);
+        }
+        sqlBuilder.append(forLimitSql(limit));
+		sqlPara.setSql(sqlBuilder.toString());
+        return sqlPara;
+	}
+	
+	@Override
 	public SqlPara forDeleteByExample(Example example) {
 		SqlPara sqlPara = new SqlPara();
 		StringBuilder sqlBuilder = new StringBuilder("DELETE FROM ");

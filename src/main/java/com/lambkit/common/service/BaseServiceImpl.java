@@ -145,7 +145,6 @@ public abstract class BaseServiceImpl<Query, M> implements LambkitService<M> {
 		return findFirst(Example.create(getTableName(), columns).setOrderBy(orderby));
 	}
 	
-
 	@Override
 	public List<M> find(QueryParas queryParas, Integer count) {
 		try {

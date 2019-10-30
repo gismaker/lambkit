@@ -797,12 +797,17 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
 	}
     
     public List<M> find(QueryParas q, Integer count) {
+		return find(q, null, count);
+    }
+    
+    public List<M> find(QueryParas q, String orderBy, Integer count) {
     	if(q==null) return null;
     	if(count==null) return find(q);
 		if(q.getParas()==null) {
 			return find(q.getSql());
 		}
-		return find(q.getSql(), q.getParas());
+		String sql = getDialect().forFindBySql(q.getSql(), orderBy, count);
+		return find(sql, q.getParas());
     }
 	
 	public List<M> find(QueryParas q) {
@@ -832,6 +837,18 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
 			}
 		}
 	}
+	
+	public List<M> find(SqlPara sqlPara, Integer count) {
+    	if(sqlPara==null) return null;
+		sqlPara = getDialect().forFindBySqlPara(sqlPara, null, count);
+		return find(sqlPara);
+    }
+	
+	public List<M> find(SqlPara sqlPara, String orderBy, Integer count) {
+    	if(sqlPara==null) return null;
+		sqlPara = getDialect().forFindBySqlPara(sqlPara, orderBy, count);
+		return find(sqlPara);
+    }
 
     public String cacheName() {
         return tableName();

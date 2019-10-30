@@ -95,6 +95,7 @@ public abstract class ModelServiceImpl<M extends Model<M>> implements LambkitSer
 		return findFirst(Example.create(getTableName(), columns).setOrderBy(orderby));
 	}	
 	
+	@Override
 	public List<M> find(QueryParas query, Integer count) {
 		if(query==null) return null;
     	if(count==null) return find(query);

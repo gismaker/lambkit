@@ -238,6 +238,71 @@ public class LambkitOracleDialect extends OracleDialect implements IModelDialect
         }
 
     }
+    
+    @Override
+	public String forFindBySql(String sql, String orderBy, Object limit) {
+    	 StringBuilder sqlBuilder = new StringBuilder(sql);
+         if (orderBy != null) {
+             sqlBuilder.append(" ORDER BY ").append(orderBy);
+         }
+         if (limit == null) {
+             return sqlBuilder.toString();
+         }
+
+         if (limit instanceof Number) {
+             StringBuilder ret = new StringBuilder();
+             ret.append("select * from ( select row_.*, rownum rownum_ from (  ");
+             ret.append(sqlBuilder);
+             ret.append(" ) row_ where rownum <= ").append(limit).append(") table_alias");
+             return ret.toString();
+         } else if (limit instanceof String && limit.toString().contains(",")) {
+             String[] startAndEnd = limit.toString().split(",");
+             String start = startAndEnd[0];
+             String end = startAndEnd[1];
+
+             StringBuilder ret = new StringBuilder();
+             ret.append("select * from ( select row_.*, rownum rownum_ from (  ");
+             ret.append(sqlBuilder);
+             ret.append(" ) row_ where rownum <= ").append(end).append(") table_alias");
+             ret.append(" where table_alias.rownum_ > ").append(start);
+             return ret.toString();
+         } else {
+             throw new LambkitException("sql limit is error!,limit must is Number of String like \"0,10\"");
+         }
+	}
+
+	@Override
+	public SqlPara forFindBySqlPara(SqlPara sqlPara, String orderBy, Object limit) {
+		StringBuilder sqlBuilder = new StringBuilder(sqlPara.getSql());
+        if (orderBy != null) {
+            sqlBuilder.append(" ORDER BY ").append(orderBy);
+        }
+        if (limit == null) {
+        	sqlPara.setSql(sqlBuilder.toString());
+        }
+
+        if (limit instanceof Number) {
+            StringBuilder ret = new StringBuilder();
+            ret.append("select * from ( select row_.*, rownum rownum_ from (  ");
+            ret.append(sqlBuilder);
+            ret.append(" ) row_ where rownum <= ").append(limit).append(") table_alias");
+            sqlPara.setSql(ret.toString());
+        } else if (limit instanceof String && limit.toString().contains(",")) {
+            String[] startAndEnd = limit.toString().split(",");
+            String start = startAndEnd[0];
+            String end = startAndEnd[1];
+
+            StringBuilder ret = new StringBuilder();
+            ret.append("select * from ( select row_.*, rownum rownum_ from (  ");
+            ret.append(sqlBuilder);
+            ret.append(" ) row_ where rownum <= ").append(end).append(") table_alias");
+            ret.append(" where table_alias.rownum_ > ").append(start);
+            sqlPara.setSql(ret.toString());
+        } else {
+            throw new LambkitException("sql limit is error!,limit must is Number of String like \"0,10\"");
+        }
+        return sqlPara;
+	}
 
 
     @Override
