@@ -22,7 +22,7 @@ import com.lambkit.core.config.annotation.PropertieConfig;
 public class LambkitConfig {
 
 	private String name = "";
-    private String version = "0.2-alpha1";
+    private String version = "0.3.1";
     private String mode = LambkitMode.DEV.getValue();
     private String encryptKey = "n1gEgB3/NiGrOxdT9IxWxA==";
     
