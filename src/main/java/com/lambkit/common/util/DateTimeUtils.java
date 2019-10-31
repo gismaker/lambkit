@@ -15,6 +15,7 @@
  */
 package com.lambkit.common.util;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -136,6 +137,10 @@ public final class DateTimeUtils {
 		return new Timestamp(stime);
 	}
 	
+	public static Timestamp parse(BigInteger stime) {
+		return new Timestamp(stime.longValue());
+	}
+	
 	/**
 	 * Timestamp转String，格式自定义
 	 * @param stime
@@ -181,6 +186,12 @@ public final class DateTimeUtils {
 	{
 		return dateToString(new Date(date));
 	}
+	
+	public final static Date longToDate(Long date)
+	{
+		return new Date(date);
+	}
+	
 	
 	/***
 	 * 日期转换成 yyyy-MM-dd HH:mm:ss 字符串格式

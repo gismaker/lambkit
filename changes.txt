@@ -3,6 +3,7 @@
 lambkit-0.4.2:
 优化：增强LambkitCache能力，增加list、set方式的缓存
 优化：更改Upms缓存方式，可选择LambkitCache和Redis两种方式
+优化：优化CommonUtils工具
 
 -----------------------------
 lambkit-0.4.1：

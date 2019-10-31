@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lambkit.common.util.StringUtils;
 import com.lambkit.db.sql.ConditionMode;
 
 /**
@@ -95,6 +96,14 @@ public class Columns implements Serializable {
     public Columns notLike(String name, Object value) {
         cols.add(Column.create(name, value, ConditionMode.NOT_FUZZY));
         return this;
+    }
+    
+    public Columns likeAppendPercent(String name, Object value) {
+    	if ((value == null) || (StringUtils.isBlank(value.toString()))) {
+    		return this;
+    	}
+    	cols.add(Column.create(name, "%" + value + "%", ConditionMode.FUZZY));
+    	return this;
     }
 
     /**
