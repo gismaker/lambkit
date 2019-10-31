@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.jfinal.plugin.ehcache.IDataLoader;
 import com.lambkit.Lambkit;
-import com.lambkit.core.cache.ICache;
+import com.lambkit.core.cache.LambkitCache;
 import com.lambkit.distributed.node.info.Node;
 
 public class NodeMemoryCache implements NodeMemory {
@@ -99,7 +99,7 @@ public class NodeMemoryCache implements NodeMemory {
 		return list;
 	}
     
-    public ICache getCache() {
+    public LambkitCache getCache() {
 		return Lambkit.getCache();
 	}
 

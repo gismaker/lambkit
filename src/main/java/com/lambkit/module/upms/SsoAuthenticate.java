@@ -26,13 +26,9 @@ import org.apache.shiro.subject.Subject;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.redis.Redis;
-import com.lambkit.common.util.RedisUtil;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.plugin.auth.AuthManager;
-
-import redis.clients.jedis.Jedis;
 
 public class SsoAuthenticate {
 	
@@ -64,20 +60,15 @@ public class SsoAuthenticate {
             	return false;
             } else {
             	// 登录状态
-            	 String cacheClientSession = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_CLIENT_SESSION_ID + "_" + session.getId());
+            	 String cacheClientSession = UpmsManager.me().getCache().getClientSession(session.getId().toString());
             	 if(StringUtils.isNotBlank(cacheClientSession)) {
             		 //更新code有效期
-            		 RedisUtil.set(UpmsConstant.LAMBKIT_UPMS_CLIENT_SESSION_ID + "_" + sessionId, cacheClientSession, timeOut);
-                     Jedis jedis = Redis.use().getJedis();
-                     jedis.expire(UpmsConstant.LAMBKIT_UPMS_CLIENT_SESSION_IDS + "_" + cacheClientSession, timeOut);
-                     jedis.close();
+            		 UpmsManager.me().getCache().refreshClientSession(sessionId, cacheClientSession, timeOut);
             	 } else {
             		 //新增code
             		 cacheClientSession = result.getString("data");
             		// code校验正确，创建局部会话
-                     RedisUtil.set(UpmsConstant.LAMBKIT_UPMS_CLIENT_SESSION_ID + "_" + sessionId, cacheClientSession, timeOut);
-                     // 保存code对应的局部会话sessionId，方便退出操作
-                     Redis.use().sadd(UpmsConstant.LAMBKIT_UPMS_CLIENT_SESSION_IDS + "_" + cacheClientSession, sessionId, timeOut);
+            		 UpmsManager.me().getCache().saveClientSession(sessionId, cacheClientSession, timeOut);
             	 }
             	 //本地是否登录
                  String username = (String) subject.getPrincipal();
@@ -102,7 +93,7 @@ public class SsoAuthenticate {
 	 */
 	public static String code(String sessionId) {
 		// 判断是否已登录，如果已登录，则回跳，防止重复登录
-        String code = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + sessionId);
+        String code = UpmsManager.me().getCache().getSession(sessionId);
         // code校验值
         return code;
 	}

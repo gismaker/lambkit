@@ -20,6 +20,7 @@ import com.jfinal.plugin.ehcache.IDataLoader;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class NoneCacheImpl extends BaseCache {
@@ -86,6 +87,60 @@ public class NoneCacheImpl extends BaseCache {
 	public <T> T get(String cacheName, Object key, IDataLoader dataLoader, int liveSeconds) {
 		// TODO Auto-generated method stub
 		return (T) dataLoader.load();
+	}
+
+	@Override
+	public Long llen(String cacheName, Object key) {
+		// TODO Auto-generated method stub
+		return 0L;
+	}
+
+	@Override
+	public void lrem(String cacheName, Object key, int count, Object value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List lrange(String cacheName, Object key, int start, int end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void srem(String cacheName, Object key, Object... members) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set smembers(String cacheName, Object key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long scard(String cacheName, Object key) {
+		// TODO Auto-generated method stub
+		return 0L;
+	}
+
+	@Override
+	public void lpush(String cacheName, Object key, Object... values) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Long expire(String cacheName, Object key, int seconds) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long sadd(String cacheName, Object key, Object... members) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

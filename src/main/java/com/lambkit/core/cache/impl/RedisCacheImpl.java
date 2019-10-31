@@ -15,6 +15,7 @@
  */
 package com.lambkit.core.cache.impl;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.ehcache.IDataLoader;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
@@ -25,6 +26,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RedisCacheImpl extends BaseCache {
 	
@@ -110,7 +112,8 @@ public class RedisCacheImpl extends BaseCache {
     }
 
 
-    private String buildKey(String cacheName, Object key) {
+    private Object buildKey(String cacheName, Object key) {
+    	if(StrKit.isBlank(cacheName)) return key;
         if (key instanceof Number)
             return String.format("%s:I:%s", cacheName, key);
         else {
@@ -141,6 +144,13 @@ public class RedisCacheImpl extends BaseCache {
 
 
 	@Override
+	public Long expire(String cacheName, Object key, int seconds) {
+		// TODO Auto-generated method stub
+		return redis.expire(buildKey(cacheName, key), seconds);
+	}
+
+
+	@Override
 	public <T> T get(String cacheName, Object key, IDataLoader dataLoader, int liveSeconds) {
 		// TODO Auto-generated method stub
 		if (liveSeconds <= 0) {
@@ -154,4 +164,56 @@ public class RedisCacheImpl extends BaseCache {
         return (T) data;
 	}
 
+
+	@Override
+	public void lpush(String cacheName, Object key, Object... values) {
+		// TODO Auto-generated method stub
+		redis.lpush(buildKey(cacheName, key), values);
+	}
+
+
+	@Override
+	public Long llen(String cacheName, Object key) {
+		// TODO Auto-generated method stub
+		return redis.llen(buildKey(cacheName, key));
+	}
+
+
+	@Override
+	public void lrem(String cacheName, Object key, int count, Object value) {
+		// TODO Auto-generated method stub
+		redis.lrem(buildKey(cacheName, key), count, value);
+	}
+
+
+	@Override
+	public List lrange(String cacheName, Object key, int start, int end) {
+		// TODO Auto-generated method stub
+		return redis.lrange(buildKey(cacheName, key), start, end);
+	}
+
+	@Override
+	public void srem(String cacheName, Object key, Object... members) {
+		// TODO Auto-generated method stub
+		redis.srem(buildKey(cacheName, key), members);
+	}
+
+	@Override
+	public Set smembers(String cacheName, Object key) {
+		// TODO Auto-generated method stub
+		return redis.smembers(buildKey(cacheName, key));
+	}
+
+
+	@Override
+	public Long scard(String cacheName, Object key) {
+		// TODO Auto-generated method stub
+		return redis.scard(buildKey(cacheName, key));
+	}
+
+	@Override
+	public Long sadd(String cacheName, Object key, Object... members) {
+		// TODO Auto-generated method stub
+		return redis.sadd(buildKey(cacheName, key), members);
+	}
 }

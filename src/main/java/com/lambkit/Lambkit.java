@@ -21,7 +21,7 @@ import java.util.Map;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.LambkitConfig;
 import com.lambkit.core.cache.CacheManager;
-import com.lambkit.core.cache.ICache;
+import com.lambkit.core.cache.LambkitCache;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.session.Session;
 import com.lambkit.core.session.SessionManager;
@@ -73,7 +73,7 @@ public class Lambkit {
 		return NodeManager.me().getNode();
 	}
     
-    public static ICache getCache() {
+    public static LambkitCache getCache() {
     	return CacheManager.me().getCache();
     }
     

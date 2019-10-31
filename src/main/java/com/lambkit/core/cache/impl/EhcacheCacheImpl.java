@@ -26,8 +26,10 @@ import net.sf.ehcache.Element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EhcacheCacheImpl extends BaseCache {
 
@@ -164,9 +166,168 @@ public class EhcacheCacheImpl extends BaseCache {
 	}
 
 	@Override
+	public Long expire(String cacheName, Object key, int seconds) {
+		// TODO Auto-generated method stub
+		if (seconds <= 0) {
+            return 0L;
+        }
+		Element element = getOrAddCache(cacheName).get(key);
+		element.setTimeToLive(seconds);
+		getOrAddCache(cacheName).put(element);
+		return 1L;
+	}
+
+	@Override
 	public Long size(String cacheName) {
 		// TODO Auto-generated method stub
 		return Long.valueOf(getOrAddCache(cacheName).getSize());
+	}
+
+	/**
+	 * 缓存到列表中
+	 * @param cacheName
+	 * @param key
+	 * @param value
+	 */
+	public void lpush(String cacheName, Object key, Object... values) {
+		Cache cache = getOrAddCache(cacheName);
+		Object val = get(cacheName, key);
+		if(val==null) {
+			List list = new ArrayList<Object>();
+			list.add(values);
+			cache.put(new Element(key, list)); 
+		} else {
+			List list = (List) val;
+			list.add(values);
+			cache.put(new Element(key, list)); 
+		}
+	}
+	/**
+	 * 列表长度
+	 * @param cacheName
+	 * @param key
+	 * @return
+	 */
+	public Long llen(String cacheName, Object key) {
+		Cache cache = getOrAddCache(cacheName);
+		Object val = get(cacheName, key);
+		if(val==null) {
+			return 0L;
+		} else {
+			List list = (List) val;
+			return (long) list.size();
+		}
+	}
+	/**
+	 * 根据参数 count 的值，移除列表中与参数 value 相等的元素。 
+	 * count 的值可以是以下几种： 
+	 * count > 0 : 从表头开始向表尾搜索，移除与 value 相等的元素，数量为 count 。 
+	 * count < 0 : 从表尾开始向表头搜索，移除与 value 相等的元素，数量为 count 的绝对值。 
+	 * count = 0 : 移除表中所有与 value 相等的值。
+	 * @param cacheName
+	 * @param key
+	 * @param count
+	 * @param value
+	 */
+	public void lrem(String cacheName, Object key, int count, Object value) {
+		Cache cache = getOrAddCache(cacheName);
+		Object objectValue = get(cacheName, key);
+		if(objectValue==null) {
+			return;
+		}
+		List list = (List) objectValue;
+		if(count<0) {
+			int c = Math.abs(count);
+			for(int i=list.size() - 1; i >= 0; i--) {
+				if(c==0) break;
+				Object val = list.get(i);
+				if(val==null && value==null) list.remove(i);
+				else if(val !=null && val.equals(value)) {
+					list.remove(i);
+				}
+				c--;
+			}
+		} else {
+			int c = count;
+			for(int i=0; i < list.size(); i++) {
+				if(c==0 && count!=0) break;
+				Object val = list.get(i);
+				if(val==null && value==null) list.remove(i);
+				else if(val !=null && val.equals(value)) {
+					list.remove(i);
+				}
+				c--;
+			}
+		}
+		cache.put(new Element(key, list)); 
+	}
+	
+	public List lrange(String cacheName, Object key, int start, int end) {
+		Cache cache = getOrAddCache(cacheName);
+		Object objectValue = get(cacheName, key);
+		if(objectValue==null) {
+			return null;
+		} else {
+			List list = (List) objectValue;
+			return list.subList(start, end);
+		}
+	}
+
+	@Override
+	public void srem(String cacheName, Object key, Object... members) {
+		Cache cache = getOrAddCache(cacheName);
+		Object objectValue = get(cacheName, key);
+		if(objectValue==null) {
+			return;
+		}
+		Set set = (Set) objectValue;
+		for (Object val : members) {
+			set.remove(val);
+		}
+		cache.put(new Element(key, set)); 
+	}
+
+	@Override
+	public Set smembers(String cacheName, Object key) {
+		// TODO Auto-generated method stub
+		Cache cache = getOrAddCache(cacheName);
+		Object objectValue = get(cacheName, key);
+		if(objectValue==null) {
+			return null;
+		}
+		return (Set) objectValue;
+	}
+
+	@Override
+	public Long scard(String cacheName, Object key) {
+		// TODO Auto-generated method stub
+		Cache cache = getOrAddCache(cacheName);
+		Object objectValue = get(cacheName, key);
+		if(objectValue==null) {
+			return 0L;
+		} else {
+			Set set = (Set) objectValue;
+			return (long) set.size();
+		}
+	}
+
+	@Override
+	public Long sadd(String cacheName, Object key, Object... members) {
+		// TODO Auto-generated method stub
+		Cache cache = getOrAddCache(cacheName);
+		Object objectValue = get(cacheName, key);
+		Long res = 0L;
+		if(objectValue==null) {
+			Set set = new HashSet<Object>();
+			res = 1L;
+			set.add(members);
+			cache.put(new Element(key, set)); 
+		} else {
+			Set set = (Set) objectValue;
+			set.add(members);
+			cache.put(new Element(key, set)); 
+		}
+		return res;
 	}
 
 }

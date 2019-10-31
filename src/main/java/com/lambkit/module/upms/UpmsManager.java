@@ -96,6 +96,7 @@ public class UpmsManager {
 	}
 	
 	private UpmsConfig config;
+	private UpmsCache cache;
 	
 	public UpmsConfig getConfig() {
 		if(config==null) {
@@ -203,4 +204,15 @@ public class UpmsManager {
 			return AopKit.get(UpmsApiServiceImpl.class);
 		}
     }
+
+	public UpmsCache getCache() {
+		if(cache==null) {
+			cache = new UpmsCache();
+		}
+		return cache;
+	}
+
+	public void setCache(UpmsCache cache) {
+		this.cache = cache;
+	}
 }

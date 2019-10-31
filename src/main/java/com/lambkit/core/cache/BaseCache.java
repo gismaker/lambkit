@@ -19,7 +19,7 @@ package com.lambkit.core.cache;
  * @author 孤竹行
  *
  */
-public abstract class BaseCache implements ICache {
+public abstract class BaseCache implements LambkitCache {
 
     @Override
     public boolean isNoneCache() {

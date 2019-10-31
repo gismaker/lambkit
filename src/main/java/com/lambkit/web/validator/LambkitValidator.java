@@ -50,13 +50,13 @@ public abstract class LambkitValidator extends Validator {
 		List<? extends IField> flds = tbc.getFieldList();
 		for(int i=0; i<flds.size(); i++) {
 			IField fld = flds.get(i); 
-			System.out.println("Fldname: "+fld.getName()+"  value:  "+c.getPara(prefix+fld.getName()));
+			System.out.print("[column]:"+fld.getName()+", [value]:"+c.getPara(prefix+fld.getName()));
 			if(fld.getIsedit().equals("N") ||
 					fld.getIsmustfld().equals("N") ||
 					fld.getIskey().equals("Y")) { 
-				System.out.println("Isedit:"+fld.getIsedit()+
-						"  Ismustfld:"+fld.getIsmustfld()+
-						"  Iskey:"+fld.getIskey()); 
+				System.out.println(", [isEdit]:"+fld.getIsedit()+
+						", [isMust]:"+fld.getIsmustfld()+
+						", [isKey]:"+fld.getIskey()); 
 				if(!StringUtils.hasText(c.getPara(prefix+fld.getName()))){ 
 					//System.out.println("continue"); 
 					continue;

@@ -4,18 +4,32 @@
          updateCheck="false" 
          monitoring="autodetect"
          dynamicConfig="true">
+         
     <diskStore path="java.io.tmpdir"/>
     
-    <defaultCache
-            maxElementsInMemory="10000"
-            eternal="false"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
-            overflowToDisk="false"
-            diskPersistent="false"
-            diskExpiryThreadIntervalSeconds="120"
-            />
-
+    <!-- 
+    默认缓存
+    
+    属性说明：
+        maxElementsInMemory：内存中可保存的最大数量
+        eternal：缓存中对象是否为永久的。如果是，超时设置将被忽略
+        timeToIdleSeconds：对象最后一次访问之后的存活时间
+        timeToLiveSeconds：对象创建后的存活时间
+        memoryStoreEvictionPolicy：内存缓存的超期清理策略
+        maxElementsOnDisk：硬盘中可保存的最大数量
+        diskExpiryThreadIntervalSeconds：磁盘超期监控线程扫描时间间隔
+        overflowToDisk：内存不足时，是否启用磁盘缓存
+    -->
+    <defaultCache 
+        maxElementsInMemory="10000" 
+        eternal="false"
+        timeToIdleSeconds="1200" 
+        maxElementsOnDisk="10000000"
+        diskExpiryThreadIntervalSeconds="120" 
+        memoryStoreEvictionPolicy="LRU"
+        overflowToDisk="true">
+    </defaultCache>
+    
 	<!-- shiro -->
     <cache name="myRealm.authorizationCache" 
            maxElementsInMemory="10000" 
@@ -88,6 +102,16 @@
            
     <!-- jwt -->
     <cache name="jwtcache"
+           maxElementsInMemory="10000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"/>
+           
+    <!-- upms -->
+    <cache name="upmsCache"
            maxElementsInMemory="10000"
            overflowToDisk="true"
            eternal="true"

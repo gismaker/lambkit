@@ -46,17 +46,14 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
-import com.jfinal.plugin.redis.Redis;
-import com.lambkit.common.util.RedisUtil;
 import com.lambkit.core.config.ConfigManager;
 import com.lambkit.module.upms.UpmsConfig;
 import com.lambkit.module.upms.UpmsConstant;
+import com.lambkit.module.upms.UpmsManager;
 import com.lambkit.component.shiro.ShiroConfig;
 import com.lambkit.component.shiro.ShiroManager;
 import com.lambkit.component.shiro.processer.AuthorizeResult;
 import com.lambkit.web.RequestParameterUtil;
-
-import redis.clients.jedis.Jedis;
 
 /**
  * Shiro 拦截器
@@ -67,13 +64,6 @@ public class ShiroSsoInterceptor implements Interceptor {
 
     private ShiroConfig config = ConfigManager.me().get(ShiroConfig.class);
 
-    // 局部会话key
-    private final static String LAMBKIT_UPMS_CLIENT_SESSION_ID = "lambkit-upms-client-session-id";
-    // 单点同一个code所有局部会话key
-    private final static String LAMBKIT_UPMS_CLIENT_SESSION_IDS = "lambkit-upms-client-session-ids";
-
-    //private ShiroRedisSessionDao upmsSessionDao = ClassNewer.newInstance(ShiroRedisSessionDao.class);
-    
     private UpmsConfig upmsConfig = ConfigManager.me().get(UpmsConfig.class);
     
     @Override
@@ -139,14 +129,11 @@ public class ShiroSsoInterceptor implements Interceptor {
         String sessionId = session.getId().toString();
         int timeOut = (int) session.getTimeout() / 1000;
         // 判断局部会话是否登录
-        String cacheClientSession = Redis.use().get(LAMBKIT_UPMS_CLIENT_SESSION_ID + "_" + session.getId());
+        String cacheClientSession = UpmsManager.me().getCache().getClientSession(session.getId().toString());
         if (StringUtils.isNotBlank(cacheClientSession)) {
             // 如果是登录状态，更新code有效期
         	System.out.println("登录状态，更新code有效期");
-            RedisUtil.set(LAMBKIT_UPMS_CLIENT_SESSION_ID + "_" + sessionId, cacheClientSession, timeOut);
-            Jedis jedis = Redis.use().getJedis();
-            jedis.expire(LAMBKIT_UPMS_CLIENT_SESSION_IDS + "_" + cacheClientSession, timeOut);
-            jedis.close();
+        	UpmsManager.me().getCache().refreshClientSession(sessionId, cacheClientSession, timeOut);
             // 移除url中的code参数
             if (null != request.getParameter("code")) {
                 String backUrl = RequestParameterUtil.getParameterWithOutCode(WebUtils.toHttp(request));
@@ -184,10 +171,8 @@ public class ShiroSsoInterceptor implements Interceptor {
                     JSONObject result = JSONObject.parseObject(EntityUtils.toString(httpEntity));
                     if (1 == result.getIntValue("code") && result.getString("data").equals(code)) {
                         // code校验正确，创建局部会话
-                        RedisUtil.set(LAMBKIT_UPMS_CLIENT_SESSION_ID + "_" + sessionId, code, timeOut);
-                        // 保存code对应的局部会话sessionId，方便退出操作
-                        Redis.use().sadd(LAMBKIT_UPMS_CLIENT_SESSION_IDS + "_" + code, sessionId, timeOut);
-                        _log.debug("当前code={"+code+"}，对应的注册系统个数：{" + Redis.use().getJedis().scard(LAMBKIT_UPMS_CLIENT_SESSION_IDS + "_" + code)+"}个");
+                    	UpmsManager.me().getCache().saveClientSession(sessionId, code, timeOut);
+                        _log.debug("当前code={"+code+"}，对应的注册系统个数：{" + UpmsManager.me().getCache().getClientNumber(code)+"}个");
                         // 移除url中的token参数
                         String backUrl = RequestParameterUtil.getParameterWithOutCode(WebUtils.toHttp(request));
                         // 返回请求资源

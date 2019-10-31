@@ -16,7 +16,6 @@
 package com.lambkit.module.upms;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,13 +27,10 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.jfinal.aop.Enhancer;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.redis.Redis;
 import com.lambkit.common.LambkitResult;
 import com.lambkit.common.util.EncryptUtils;
-import com.lambkit.common.util.RedisUtil;
 import com.lambkit.component.shiro.session.ShiroSession;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
@@ -47,12 +43,10 @@ import com.lambkit.plugin.auth.cache.UserInfo;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
-import com.lambkit.module.upms.shiro.ShiroRedisSessionDao;
+import com.lambkit.module.upms.shiro.ShiroCacheSessionDao;
 
 public class UpmsAuthServiceImpl implements AuthService {
 	
-	ShiroRedisSessionDao upmsSessionDao = AopKit.get(ShiroRedisSessionDao.class);
-
 	private UmpsAuthRoleServiceImpl roleService;
 	
 	private UpmsApiService upmsApiService;
@@ -134,16 +128,9 @@ public class UpmsAuthServiceImpl implements AuthService {
         Session session = subject.getSession();
         String sessionId = session.getId().toString();
         // 更新session状态
-        ShiroRedisSessionDao upmsSessionDao = Enhancer.enhance(ShiroRedisSessionDao.class);
+        ShiroCacheSessionDao upmsSessionDao = AopKit.get(ShiroCacheSessionDao.class);
         upmsSessionDao.updateStatus(sessionId, ShiroSession.OnlineStatus.on_line);
-        // 全局会话sessionId列表，供会话管理
-        Redis.use().lpush(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_IDS, sessionId.toString());
-        // 默认验证帐号密码正确，创建code
-        String code = UUID.randomUUID().toString();
-        // 全局会话的code
-        RedisUtil.set(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + sessionId, code, (int) subject.getSession().getTimeout() / 1000);
-        // code校验值
-        RedisUtil.set(UpmsConstant.LAMBKIT_UPMS_SERVER_CODE + "_" + code, code, (int) subject.getSession().getTimeout() / 1000);
+        UpmsManager.me().getCache().saveSession(sessionId, (int) session.getTimeout() / 1000);
         //loginSuccess(request, username);
         return new UpmsResult(UpmsResultConstant.SUCCESS, username);
 	}

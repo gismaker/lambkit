@@ -16,7 +16,6 @@
 package com.lambkit.module.upms.server.controller;
 
 import java.sql.SQLException;
-import java.util.UUID;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -29,15 +28,13 @@ import com.jfinal.aop.Clear;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
-import com.jfinal.plugin.redis.Redis;
 import com.lambkit.common.LambkitResult;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.EncryptUtils;
-import com.lambkit.common.util.RedisUtil;
 import com.lambkit.component.shiro.session.ShiroSession;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.plugin.auth.AuthManager;
-import com.lambkit.module.upms.UpmsConstant;
+import com.lambkit.module.upms.UpmsManager;
 import com.lambkit.module.upms.UpmsResult;
 import com.lambkit.module.upms.UpmsResultConstant;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
@@ -46,7 +43,7 @@ import com.lambkit.module.upms.rpc.api.UpmsApiService;
 import com.lambkit.module.upms.rpc.api.UpmsUserService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 import com.lambkit.module.upms.rpc.service.impl.UpmsUserServiceImpl;
-import com.lambkit.module.upms.shiro.ShiroRedisSessionDao;
+import com.lambkit.module.upms.shiro.ShiroCacheSessionDao;
 import com.lambkit.web.controller.LambkitController;
 
 public class AuthEmbeddedController extends LambkitController {
@@ -70,7 +67,7 @@ public class AuthEmbeddedController extends LambkitController {
             Session session = subject.getSession();
             String serverSessionId = session.getId().toString();
             // 判断是否已登录，如果已登录，则回跳
-            String code = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + serverSessionId);
+            String code = UpmsManager.me().getCache().getSession(serverSessionId);
             String username = (String) subject.getPrincipal();
             // code校验值
             if (StringUtils.isNotBlank(code) && StrKit.notBlank(username) && !username.equals("null")) {
@@ -123,7 +120,7 @@ public class AuthEmbeddedController extends LambkitController {
         String sessionId = session.getId().toString();
         System.out.println("sessionId: "+sessionId);
         // 判断是否已登录，如果已登录，则回跳，防止重复登录
-        String hasCode = Redis.use().get(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + sessionId);
+        String hasCode = UpmsManager.me().getCache().getSession(sessionId);
         // code校验值
         if (StringUtils.isBlank(hasCode)) {
             LambkitResult result = AuthManager.me().getService().login(this.getRequest(), username, password, BooleanUtils.toBoolean(rememberMe));
@@ -131,16 +128,10 @@ public class AuthEmbeddedController extends LambkitController {
             	return (UpmsResult) result;
             }
             // 更新session状态
-            ShiroRedisSessionDao upmsSessionDao = AopKit.get(ShiroRedisSessionDao.class);
+            ShiroCacheSessionDao upmsSessionDao = AopKit.get(ShiroCacheSessionDao.class);
             upmsSessionDao.updateStatus(sessionId, ShiroSession.OnlineStatus.on_line);
             // 全局会话sessionId列表，供会话管理
-            Redis.use().lpush(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_IDS, sessionId.toString());
-            // 默认验证帐号密码正确，创建code
-            String code = UUID.randomUUID().toString();
-            // 全局会话的code
-            RedisUtil.set(UpmsConstant.LAMBKIT_UPMS_SERVER_SESSION_ID + "_" + sessionId, code, (int) subject.getSession().getTimeout() / 1000);
-            // code校验值
-            RedisUtil.set(UpmsConstant.LAMBKIT_UPMS_SERVER_CODE + "_" + code, code, (int) subject.getSession().getTimeout() / 1000);
+            UpmsManager.me().getCache().saveSession(sessionId, (int) subject.getSession().getTimeout() / 1000);
         }
         // 回跳登录前地址
         String backurl = getRequest().getParameter("backurl");
