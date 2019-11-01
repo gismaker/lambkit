@@ -20,7 +20,7 @@ import org.eclipse.jetty.websocket.api.WebSocketListener;
 import com.lambkit.web.websocket.IWebSocketMsg;
 import com.lambkit.web.websocket.WebSocketService;
 
-public class ListenerEchoSocket implements WebSocketListener, IWebSocketMsg {
+public abstract class ListenerSocket implements WebSocketListener, IWebSocketMsg {
 
 	private String sessionId;
 	private Session outbound;
@@ -42,6 +42,7 @@ public class ListenerEchoSocket implements WebSocketListener, IWebSocketMsg {
     public void onWebSocketConnect(Session session)
     {
         this.outbound = session;
+        sessionId = this.outbound.getRemoteAddress().getHostString();
         WebSocketService.bo.add(sessionId, this);
     }
 
@@ -54,12 +55,7 @@ public class ListenerEchoSocket implements WebSocketListener, IWebSocketMsg {
     @Override
     public void onWebSocketText(String message)
     {
-        if ((outbound != null) && (outbound.isOpen()))
-        {
-            System.out.printf("Echoing back message [%s]%n",message);
-            // echo the message back
-            outbound.getRemote().sendString(message,null);
-        }
+    	WebSocketService.bo.receive(sessionId, this, message);
     }
 
 	@Override
@@ -71,7 +67,13 @@ public class ListenerEchoSocket implements WebSocketListener, IWebSocketMsg {
 	@Override
 	public boolean send(String msg) {
 		// TODO Auto-generated method stub
-		return false;
+		if ((outbound != null) && (outbound.isOpen()))
+        {
+            System.out.printf("Echoing back message [%s]%n",msg);
+            // echo the message back
+            outbound.getRemote().sendString(msg,null);
+        }
+		return true;
 	}
 	
 	public String getSessionId() {

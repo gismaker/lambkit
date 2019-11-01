@@ -15,18 +15,19 @@
  */
 package com.lambkit.web.websocket;
 
-import javax.websocket.server.ServerEndpoint;
+import javax.servlet.http.HttpSession;
+import javax.websocket.HandshakeResponse;
+import javax.websocket.server.HandshakeRequest;
+import javax.websocket.server.ServerEndpointConfig;
 
-import com.lambkit.web.websocket.BaseWebSocketServer;
-
-//该注解用来指定一个URI，客户端可以通过这个URI来连接到WebSocket。类似Servlet的注解mapping
-//需要Tomcat8
-@ServerEndpoint(value="/websocket/{userid}",configurator=GetHttpSessionConfigurator.class)
-public class WebSocketController extends BaseWebSocketServer {
-
-	@Override
-	public boolean receive(String msg) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+public class ServerConfigurator extends ServerEndpointConfig.Configurator
+{
+    @Override
+    public void modifyHandshake(ServerEndpointConfig config,
+                                HandshakeRequest request,
+                                HandshakeResponse response)
+    {
+        HttpSession httpSession = (HttpSession)request.getHttpSession();
+        config.getUserProperties().put(HttpSession.class.getName(),httpSession);
+    }
 }

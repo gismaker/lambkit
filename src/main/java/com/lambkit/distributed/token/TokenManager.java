@@ -94,11 +94,11 @@ public class TokenManager {
 	 * @param request
 	 */
 	public void setRequestToken(HttpRequest request) {
-		request.setHeader(LambkitConsts.LAMBKIT_TOKEN, getNodeToken(NodeManager.me().getNode()));
+		request.setHeader(LambkitConsts.TOKEN, getNodeToken(NodeManager.me().getNode()));
 	}
 	
 	public String getRequestToken(HttpServletRequest servletRequest) {
-		return servletRequest.getHeader(LambkitConsts.LAMBKIT_TOKEN);
+		return servletRequest.getHeader(LambkitConsts.TOKEN);
 	}
 
 	/**

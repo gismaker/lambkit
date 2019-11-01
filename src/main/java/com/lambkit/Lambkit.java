@@ -29,7 +29,6 @@ import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.info.Node;
 import com.lambkit.module.DefaultModule;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.module.lms.LmsConfig;
 
 public class Lambkit {
 	
@@ -89,11 +88,6 @@ public class Lambkit {
     public static boolean isDevMode() {
         return getLambkitConfig().isDevMode();
     }
-    
-	public static boolean isLmsActived() {
-		LmsConfig lmsconfig = config(LmsConfig.class);
-		return lmsconfig.isEnable();
-	}
     
     /*****************************
      * 全局变量定义

@@ -15,14 +15,13 @@
  */
 package com.lambkit.common;
 
-import com.lambkit.Lambkit;
 import com.lambkit.core.config.annotation.PropertieConfig;
 
 @PropertieConfig(prefix = "lambkit")
 public class LambkitConfig {
 
 	private String name = "lambkit";
-    private String version = "0.4.1";
+    private String version = LambkitConsts.VERSION;
     private String mode = LambkitMode.DEV.getValue();
     private String encryptKey = "xYb&KpO%4DP9tV6v";
     
@@ -41,7 +40,6 @@ public class LambkitConfig {
         return "LambkitConfig {" +
                 "version='" + version + '\'' +
                 ", mode='" + mode + '\'' +
-                ", lmsActived=" + Lambkit.isLmsActived() +
                 '}';
     }
     

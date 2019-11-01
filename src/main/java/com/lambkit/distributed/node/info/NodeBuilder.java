@@ -55,7 +55,7 @@ public class NodeBuilder {
 		node.setProjectName(config.getName());
 		node.setProjectMode(config.getMode());
 		node.setProjectVersion(config.getVersion());
-		node.setLambkitVersion(LambkitConsts.LAMBKIT_VERSION);
+		node.setLambkitVersion(LambkitConsts.VERSION);
 		return node;
 	}
 	
@@ -94,7 +94,7 @@ public class NodeBuilder {
 		node.setProjectName(config.getName());
 		node.setProjectMode(config.getMode());
 		node.setProjectVersion(config.getVersion());
-		node.setLambkitVersion(LambkitConsts.LAMBKIT_VERSION);
+		node.setLambkitVersion(LambkitConsts.VERSION);
 		return resetNodeInfo(node);
 	}
 

@@ -1,12 +1,14 @@
 
 -----------------------------
-lambkit-0.4.2:
+lambkit-1.0.2:
+新增：新增undertow-websocket支持，默认加入DefaultWebSocketServer，地址/websocket
 优化：增强LambkitCache能力，增加list、set方式的缓存
 优化：更改Upms缓存方式，可选择LambkitCache和Redis两种方式
 优化：优化CommonUtils工具
+优化：移除module中的Lms、Upms，精简lambkit
 
 -----------------------------
-lambkit-0.4.1：
+lambkit-1.0.1：
 
 优化：调整部分关键类的命名，增加Lambkit前缀
 优化：LambkitService增加方法

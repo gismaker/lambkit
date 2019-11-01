@@ -58,12 +58,8 @@ import com.lambkit.db.DbManager;
 import com.lambkit.db.DbWrapper;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.db.datasource.DataSourceConfig;
-import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.distributed.node.NodeManager;
 import com.lambkit.distributed.node.controller.NodeIndexController;
-import com.lambkit.module.lms.LmsModule;
-import com.lambkit.module.lms.controller.IndexHelpController;
-import com.lambkit.module.upms.server.UpmsModule;
 import com.lambkit.web.api.ApiMontiorHandler;
 import com.lambkit.web.cache.ActionCacheHandler;
 import com.lambkit.web.handler.LambkitHandler;
@@ -83,14 +79,6 @@ public class DefaultModule extends LambkitModule {
 	 */
 	public void configConstant(Constants me) {
 		TimeUtils.startTime("start lambkit module");
-		if(Lambkit.isLmsActived()) {
-    		Lambkit.addModule(new UpmsModule());
-        	LambkitModule module = MgrdbManager.me().getLambkitModule();
-        	if(module!=null) {
-        		Lambkit.addModule(module);
-        	}
-    		Lambkit.addModule(new LmsModule());
-		}
 		me.setDevMode(Lambkit.isDevMode());
 		me.setMaxPostSize(1024 * 1024 * 2000);
 		me.setReportAfterInvocation(false);
@@ -132,7 +120,6 @@ public class DefaultModule extends LambkitModule {
 		NodeManager.me().init(routes);
 		
 		routes.add("/lambkit/node", NodeIndexController.class, "/lambkit/node");
-		routes.add("/lambkit/help", IndexHelpController.class, "/lambkit/help");
 		LambkitManager.me().getInfo().setRoutes(routes);
 	}
 	

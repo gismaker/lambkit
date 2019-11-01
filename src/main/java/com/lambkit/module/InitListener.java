@@ -27,6 +27,6 @@ public class InitListener implements EventListener {
 	public void onEvent(Event event) {
 		// TODO Auto-generated method stub
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("Starting Lambkit " + LambkitConsts.LAMBKIT_VERSION);
+		System.out.println("Starting Lambkit " + LambkitConsts.VERSION);
 	}
 }

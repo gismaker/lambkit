@@ -31,6 +31,8 @@ public class LambkitApplication {
 			builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
 			builder.addFilter("shiro", "org.apache.shiro.web.servlet.ShiroFilter");
 			builder.addFilterUrlMapping("shiro", "/*");
+			// 配置 WebSocket，DefaultWebSocketServer 需使用 ServerEndpoint 注解
+	        builder.addWebSocketEndpoint("com.lambkit.web.websocket.DefaultWebSocketServer");
 		}).addHotSwapClassPrefix("org.apache.shiro").start(); 
 	}
 	

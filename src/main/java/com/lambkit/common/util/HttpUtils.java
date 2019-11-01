@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
@@ -26,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
@@ -347,7 +349,7 @@ public class HttpUtils {
     public static String post(String url, RequestEntity requestEntity, String username, String pw) {
         return send(new PostMethod(url), url, requestEntity, username, pw);
     }
-
+    
     /**
      * Send an HTTP request (PUT or POST) to a server. <BR>
      * Basic auth is used if both username and pw are not null.

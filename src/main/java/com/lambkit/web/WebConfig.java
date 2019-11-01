@@ -15,6 +15,11 @@
  */
 package com.lambkit.web;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 
 public class WebConfig {
@@ -23,12 +28,30 @@ public class WebConfig {
 	private String name;
 	private String url;
 	private String path;
+	private String template;//模板
 	private boolean jsonp = false;
 	private boolean excel = false;
+	private List<String> templates = new ArrayList<>();
 	
 	public boolean isConfigOk() {
 		// TODO Auto-generated method stub
 		return StrKit.notBlank(name) && StrKit.notBlank(url) && StrKit.notBlank(path);
+	}
+	
+	private void initTemplates() {
+		templates.clear();
+		String tpath = path;
+		tpath = tpath.startsWith("//") ? tpath.substring(2) : tpath;
+		tpath = tpath.startsWith("/") ? tpath.substring(1) : tpath;
+		String basePath = PathKit.getWebRootPath()
+                .concat(File.separator)
+                .concat(path);
+		File file = new File(basePath);
+		for (File f : file.listFiles()) {
+			if(f.isDirectory()) {
+				templates.add(f.getName());
+			}
+		}
 	}
 	
 	public boolean isExcel() {
@@ -54,12 +77,21 @@ public class WebConfig {
 	}
 	public void setPath(String path) {
 		this.path = path;
+		initTemplates();
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
 	}
 	
 }

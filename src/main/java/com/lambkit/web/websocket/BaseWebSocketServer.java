@@ -28,7 +28,6 @@ import javax.websocket.server.PathParam;
 
 import com.jfinal.kit.StrKit;
 
-
 public abstract class BaseWebSocketServer implements IWebSocketMsg {
 	//与某个客户端的连接会话，需要通过它来给客户端发送数据
     protected Session session;

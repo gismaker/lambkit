@@ -13,30 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.module.upms.server.validator;
+package com.lambkit.web.websocket;
 
-import com.jfinal.core.Controller;
-import com.lambkit.web.validator.LambkitValidator;
+import javax.websocket.server.ServerEndpoint;
 
-import com.lambkit.module.upms.rpc.model.UpmsUser;
-
-/**
- * @author yangyong 
- * @website: www.lambkit.com
- * @email: gismail@foxmail.com
- * @date 2018-12-26
- * @version 1.0
- * @since 1.0
- */
-public class UpmsUserValidator extends LambkitValidator {
+//该注解用来指定一个URI，客户端可以通过这个URI来连接到WebSocket。类似Servlet的注解mapping
+//需要Tomcat8
+@ServerEndpoint(value="/websocket/{userid}",configurator=ServerConfigurator.class)
+public class DefaultWebSocketServer extends BaseWebSocketServer {
 
 	@Override
-	protected String getTableName(Controller c) {
-		return UpmsUser.service().getTableName();
-	}
-	
-	@Override
-	protected String getPrefix() {
-		return "model";//StrKit.firstCharToLowerCase(UpmsUser.class.getSimpleName());
+	public boolean receive(String msg) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

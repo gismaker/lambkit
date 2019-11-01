@@ -12,21 +12,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-package com.lambkit.module.upms.rpc.api;
+ */package com.lambkit.web.websocket.jetty;
 
-import com.lambkit.common.service.LambkitService;
+import java.io.IOException;
 
-import com.lambkit.module.upms.rpc.model.UpmsLog;
+import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 
-/**
- * @author yangyong 
- * @website: www.lambkit.com
- * @email: gismail@foxmail.com
- * @date 2018-10-25
- * @version 1.0
- * @since 1.0
- * ${tbcnn}
- */
-public interface UpmsLogService extends LambkitService<UpmsLog> {
+public class AdapterSocket extends WebSocketAdapter {
+	@Override
+    public void onWebSocketText(String message)
+    {
+        if (isConnected())
+        {
+            try
+            {
+                System.out.printf("Echoing back message [%s]%n",message);
+                // echo the message back
+                getRemote().sendString(message);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace(System.err);
+            }
+        }
+    }
 }
