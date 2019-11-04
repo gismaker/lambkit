@@ -6,6 +6,7 @@ lambkit-1.0.2:
 优化：更改Upms缓存方式，可选择LambkitCache和Redis两种方式
 优化：优化CommonUtils工具
 优化：移除module中的Lms、Upms，精简lambkit
+优化：移除shiro.ini中关于upms的配置
 
 -----------------------------
 lambkit-1.0.1：
