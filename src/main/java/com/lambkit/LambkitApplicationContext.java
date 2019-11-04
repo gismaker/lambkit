@@ -16,7 +16,7 @@
 package com.lambkit;
 
 import com.jfinal.config.*;
-import com.jfinal.json.MixedJsonFactory;
+import com.jfinal.json.FastJsonFactory;
 import com.jfinal.log.Log;
 import com.jfinal.template.Engine;
 import com.lambkit.common.LambkitConsts;
@@ -38,7 +38,8 @@ public abstract class LambkitApplicationContext extends JFinalConfig {
 		//关键配置，请勿改动
     	constants.setControllerFactory(new LambkitControllerFactory());
         //关键配置，请勿改动
-    	constants.setJsonFactory(new MixedJsonFactory());
+    	//constants.setJsonFactory(new MixedJsonFactory());
+    	constants.setJsonFactory(new FastJsonFactory());
 		/**
 		 * 发送初始化通知
 		 */
