@@ -27,8 +27,8 @@ public class WebConfig {
 	
 	private String name;
 	private String url;
-	private String path;
-	private String template;//模板
+	private String path = "/templates";
+	private String template = "default";//模板
 	private boolean jsonp = false;
 	private boolean excel = false;
 	private List<String> templates = new ArrayList<>();
@@ -38,20 +38,31 @@ public class WebConfig {
 		return StrKit.notBlank(name) && StrKit.notBlank(url) && StrKit.notBlank(path);
 	}
 	
-	private void initTemplates() {
+	public void initTemplates(String floder) {
 		templates.clear();
 		String tpath = path;
 		tpath = tpath.startsWith("//") ? tpath.substring(2) : tpath;
 		tpath = tpath.startsWith("/") ? tpath.substring(1) : tpath;
 		String basePath = PathKit.getWebRootPath()
                 .concat(File.separator)
-                .concat(path);
+                .concat(getTemplatePath(floder));
 		File file = new File(basePath);
 		for (File f : file.listFiles()) {
 			if(f.isDirectory()) {
 				templates.add(f.getName());
 			}
 		}
+	}
+	
+	public String getTemplatePath(String floder) {
+		String tpath = path
+                .concat(File.separator)
+                .concat(template);
+		if(StrKit.notBlank(floder)) {
+			tpath = tpath.concat(File.separator)
+	                .concat(floder);
+		}
+		return tpath;
 	}
 	
 	public boolean isExcel() {
@@ -77,8 +88,8 @@ public class WebConfig {
 	}
 	public void setPath(String path) {
 		this.path = path;
-		initTemplates();
 	}
+	
 	public String getName() {
 		return name;
 	}

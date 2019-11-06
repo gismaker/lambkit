@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
+import com.lambkit.common.util.SecurityUtils;
 
 
 public class DataSourceConfig {
@@ -104,7 +105,8 @@ public class DataSourceConfig {
     }
 
     public String getPassword() {
-        return password;
+    	return SecurityUtils.decodePassword(password, name);
+        //return password;
     }
 
     public void setPassword(String password) {

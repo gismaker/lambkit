@@ -1,6 +1,6 @@
 package test.util;
 
-import com.lambkit.common.util.SecurityHelper;
+import com.lambkit.common.util.SecurityUtils;
 
 public class SecurityHelperTest {
 	public static void main(String[] args) {
@@ -8,8 +8,8 @@ public class SecurityHelperTest {
 		String plainTxt = "美国";
 		try {
 			System.out.println(plainTxt);
-			encryptTxt = SecurityHelper.encrypt("lambkit", plainTxt);
-			plainTxt = SecurityHelper.decrypt("lambkit", encryptTxt);
+			encryptTxt = SecurityUtils.encrypt("lambkit", plainTxt);
+			plainTxt = SecurityUtils.decrypt("lambkit", encryptTxt);
 			System.out.println(encryptTxt);
 			System.out.println(plainTxt);
 		} catch (Exception e) {

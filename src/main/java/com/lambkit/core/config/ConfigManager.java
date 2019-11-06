@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ConfigManager {
 
-    private static ConfigManager me = new ConfigManager();
+    private static final ConfigManager me = new ConfigManager();
 
     public static ConfigManager me() {
         return me;

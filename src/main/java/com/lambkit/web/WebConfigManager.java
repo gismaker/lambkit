@@ -13,12 +13,9 @@ public class WebConfigManager {
 
     private static final String DATASOURCE_PREFIX = "lambkit.web.";
 
-    private static WebConfigManager manager = null;
+    private static final WebConfigManager manager = new WebConfigManager();
 
     public static WebConfigManager me() {
-    	if(manager==null) {
-    		manager = new WebConfigManager();
-    	}
         return manager;
     }
 
