@@ -12,19 +12,10 @@
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 	</properties>
 
-	<!-- 使用阿里 maven 库 -->
 	<repositories>
 		<repository>
-			<id>ali-maven</id>
-			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
+			<id>repo1</id>
+			<url>https://repo1.maven.org/maven2</url>
 		</repository>
 	</repositories>
 
@@ -38,7 +29,12 @@
 		<dependency>
 			<groupId>com.lambkit</groupId>
 			<artifactId>lambkit</artifactId>
-			<version>0.2.2</version>
+			<version>0.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jfinal</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>2019.3</version>
 		</dependency>
 	</dependencies>
 

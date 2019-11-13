@@ -97,6 +97,8 @@ public class UpmsManager {
 	
 	private UpmsConfig config;
 	
+	private boolean register = false;
+	
 	public UpmsConfig getConfig() {
 		if(config==null) {
 			config = Lambkit.config(UpmsConfig.class);
@@ -143,6 +145,7 @@ public class UpmsManager {
 		} else {
 			registerLocalService(group, version, port);
 		}
+		register = true;
 	}
 	
 	public void registerLocalService(String group, String version, int port) {
@@ -203,4 +206,8 @@ public class UpmsManager {
 			return AopKit.get(UpmsApiServiceImpl.class);
 		}
     }
+
+	public boolean isRegister() {
+		return register;
+	}
 }

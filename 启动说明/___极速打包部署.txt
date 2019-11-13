@@ -1,14 +1,21 @@
 1：命令行进入项目根目录，然后运行 mvn clean package 即可打包
 
-2：打包完后，进入 lambkit/target/lambkit-release/lambkit
-   目录，windows 下双击 start.bat 启动项目， linux 下运行 start.sh 脚本启动项目，
-   运行 stop.sh 关闭项目
+2：打包完后，进入 [项目名称]/target/[项目名称]-release/[项目名称]
+   目录， linux 下启动、关闭、重启项目的命令分别为：
+   ./lambkit.sh start
+   ./lambkit.sh stop
+   ./lambkit.sh restart
+   
+   windows 下启动、关闭、重启项目的命令分别为：
+   lambkit.bat start
+   lambkit.bat stop
+   lambkit.bat restart
 
-   注意 lambkit/target 目录下面还会有一个 lambkit-release.zip 文件
-   该文件等价于对 target/lambkit-release/lambkit
+   注意 [项目名称]/target 目录下面还会有一个 [项目名称]-release.zip 文件
+   该文件等价于对 target/[项目名称]-release/[项目名称]
     目录进行的压缩，方便上传到服务器上解压即部署，可通过删除 package.xml 中的 <format>zip</format>
    项避免打出该 zip 包，具体用法在 package.xml 中有说明
 
-3：start.sh 脚本中提供了详细的说明，根据说明可选择不同的运行模式
+3：lambkit.sh 脚本中提供了详细的说明，根据说明可选择不同的运行模式
 
 

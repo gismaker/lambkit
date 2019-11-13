@@ -17,17 +17,23 @@ package com.lambkit.module.upms.shiro;
 
 import com.lambkit.common.util.EncryptUtils;
 import com.lambkit.core.aop.AopKit;
-import com.lambkit.core.config.ConfigManager;
 import com.lambkit.core.rpc.RpcKit;
 import com.lambkit.module.upms.rpc.model.UpmsPermission;
 import com.lambkit.module.upms.rpc.model.UpmsRole;
 import com.lambkit.module.upms.rpc.model.UpmsUser;
 import com.lambkit.module.upms.UpmsConfig;
+import com.lambkit.module.upms.UpmsManager;
 import com.lambkit.module.upms.rpc.api.UpmsApiService;
 import com.lambkit.module.upms.rpc.service.impl.UpmsApiServiceImpl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -46,10 +52,9 @@ public class UpmsRealm extends AuthorizingRealm {
 
     private UpmsApiService upmsApiService;
     
-    private UpmsConfig upmsConfig = ConfigManager.me().get(UpmsConfig.class);
-    
     private UpmsApiService getUpmsApiService() {
     	if(upmsApiService==null) {
+    		UpmsConfig upmsConfig = UpmsManager.me().getConfig();
     		if("client".equals(upmsConfig.getType())) {
     			upmsApiService = RpcKit.obtain(UpmsApiService.class);
     		} else {
@@ -65,6 +70,7 @@ public class UpmsRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+    	if(!UpmsManager.me().isRegister()) return null;
         String username = (String) principalCollection.getPrimaryPrincipal();
         System.out.println("realm username: " + username);
         UpmsUser upmsUser = getUpmsApiService().selectUpmsUserByUsername(username);
@@ -109,9 +115,11 @@ public class UpmsRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    	if(!UpmsManager.me().isRegister()) return null;
         String username = (String) authenticationToken.getPrincipal();
         String password = new String((char[]) authenticationToken.getCredentials());
         // client无密认证
+        UpmsConfig upmsConfig = UpmsManager.me().getConfig();
         String upmsType = upmsConfig.getType();
         if ("client".equals(upmsType)) {
             return new SimpleAuthenticationInfo(username, password, getName());

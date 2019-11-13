@@ -44,16 +44,26 @@ public class AuthorizeResult extends Kv {
 
 
     public static AuthorizeResult ok() {
-        return (AuthorizeResult) new AuthorizeResult().setOk();
+        return (AuthorizeResult) by("authorizeResult", true);
     }
 
 
     public static AuthorizeResult fail(int errorCode) {
-        return (AuthorizeResult) new AuthorizeResult().setFail().set("errorCode", errorCode);
+        return (AuthorizeResult) by("authorizeResult", false).set("errorCode", errorCode);
     }
 
     public int getErrorCode() {
         return (int) get("errorCode");
     }
+
+
+	public boolean isFail() {
+		return isFalse("authorizeResult");
+	}
+
+
+	public boolean isOk() {
+		return isTrue("authorizeResult");
+	}
 
 }
