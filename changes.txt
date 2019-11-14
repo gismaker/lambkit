@@ -9,6 +9,8 @@ lambkit-1.0.2:
 优化：优化CommonUtils工具
 优化：移除module中的Lms、Upms，精简lambkit
 优化：移除shiro.ini中关于upms的配置
+优化：升级JFinal到4.7
+优化：ehcache升级到2.6.11
 
 -----------------------------
 lambkit-1.0.1：
