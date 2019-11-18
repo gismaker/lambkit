@@ -16,7 +16,7 @@
 package com.lambkit.core.gateway;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.message.BasicNameValuePair;
 
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
@@ -37,44 +36,35 @@ import com.jfinal.kit.StrKit;
  */
 public class GatewayService {
 
-	public GatewayService by(HttpServletRequest request) {
+	public static GatewayService by(HttpServletRequest request) {
 		return new GatewayService(request);
 	}
 	
-	public GatewayService by(Controller controller) {
+	public static GatewayService by(Controller controller) {
 		return new GatewayService(controller);
 	}
 	
 	public GatewayService(HttpServletRequest request) {
 		// TODO Auto-generated constructor stub
-		this.request = request;
+		this.servletRequest = request;
 	}
 	
 	public GatewayService(Controller controller) {
 		// TODO Auto-generated constructor stub
-		this.request = controller.getRequest();
+		this.servletRequest = controller.getRequest();
 	}
 
-	private List<NameValuePair> params;
-	private HttpServletRequest request;
+	private Map<String, String> mapParams = null;
+	private HttpServletRequest servletRequest;
 
-	public GatewayService addParam(String name, String value) {
-		addParam(new BasicNameValuePair(name, value));
-		return this;
-	}
-
-	public GatewayService addParam(NameValuePair param) {
-		getParams().add(param);
-		return this;
-	}
-
-	public List<NameValuePair> getParams() {
-		if (params == null) {
-			params = new ArrayList<>();
+	public GatewayService set(String name, String value) {
+		if(mapParams==null) {
+			mapParams = new HashMap<String, String>();
 		}
-		return params;
+		mapParams.put(name, value);
+		return this;
 	}
-	
+
 	private String getContxtPath() {
 		String cp = JFinal.me().getContextPath();
 		return ("".equals(cp) || "/".equals(cp)) ? null : cp;
@@ -112,7 +102,7 @@ public class GatewayService {
 		}
 		if (StrKit.notBlank(targetName) && StrKit.notBlank(targetUri)) {
 			// JFinal特有的链接方式处理
-			String uri = request.getRequestURI();
+			String uri = servletRequest.getRequestURI();
 			int tid = uri.indexOf(targetName);
 			if (tid > -1) {
 				String tu = uri.substring(tid + targetName.length());
@@ -125,7 +115,7 @@ public class GatewayService {
 			
 			// 支持 https 协议下的重定向
 			if (!targetUri.startsWith("http")) {	// 跳过 http/https 已指定过协议类型的 url
-				String serverUrl = getServerUrl(request);
+				String serverUrl = getServerUrl(servletRequest);
 				//System.out.println("proxy serverUrl: " + serverUrl);
 				if (targetUri.charAt(0) != '/') {
 					targetUri = serverUrl + "/" + targetUri;
@@ -138,19 +128,19 @@ public class GatewayService {
 	}
 
 	public String get(String targetName, String targetUri) {
-		return GatewayManager.me().getGateway().get(processTargetUri(targetName, targetUri), params);
+		return GatewayManager.me().getGateway().get(processTargetUri(targetName, targetUri), mapParams);
 	}
 
 	public HttpResponse httpGet(String targetName, String targetUri) throws ClientProtocolException, IOException {
-		return GatewayManager.me().getGateway().httpGet(processTargetUri(targetName, targetUri), params);
+		return GatewayManager.me().getGateway().httpGet(processTargetUri(targetName, targetUri), mapParams);
 	}
 
 	public String post(String targetName, String targetUri) {
-		return GatewayManager.me().getGateway().post(processTargetUri(targetName, targetUri), params);
+		return GatewayManager.me().getGateway().post(processTargetUri(targetName, targetUri), mapParams);
 	}
 
 	public HttpResponse httpPost(String targetName, String targetUri) throws ClientProtocolException, IOException {
-		return GatewayManager.me().getGateway().httpPost(processTargetUri(targetName, targetUri), params);
+		return GatewayManager.me().getGateway().httpPost(processTargetUri(targetName, targetUri), mapParams);
 	}
 	
 	///////////////////////////////////////////////////////////////
@@ -215,11 +205,11 @@ public class GatewayService {
 		return null;
 	}
 	
-	public String accessStr(String targetName, String targetUri, HttpServletRequest servletRequest) {
-		return accessStr(targetName, targetUri, servletRequest, null);
+	public String accessStr(String targetName, String targetUri) {
+		return accessStr(targetName, targetUri, null);
 	}
 
-	public String accessStr(String targetName, String targetUri, HttpServletRequest servletRequest, Map<String, String> params) {
+	public String accessStr(String targetName, String targetUri, Map<String, String> params) {
 		return GatewayManager.me().getGateway().accessStr(processTargetUri(targetName, targetUri), servletRequest, params);
 	}
 	
@@ -228,8 +218,8 @@ public class GatewayService {
 	 * @param servletRequest
 	 * @return
 	 */
-	public HttpResponse access(String targetName, String targetUri, HttpServletRequest servletRequest) {
-		return access(targetName, targetUri, servletRequest, null);
+	public HttpResponse access(String targetName, String targetUri) {
+		return access(targetName, targetUri, null);
 	}
 
 	/**
@@ -238,7 +228,7 @@ public class GatewayService {
 	 * @param params
 	 * @return
 	 */
-	public HttpResponse access(String targetName, String targetUri, HttpServletRequest servletRequest, Map<String, String> params) {
+	public HttpResponse access(String targetName, String targetUri, Map<String, String> params) {
 		return GatewayManager.me().getGateway().access(processTargetUri(targetName, targetUri), servletRequest, params);
 	}
 }

@@ -24,11 +24,11 @@ import com.lambkit.core.event.EventKit;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.web.LambkitControllerFactory;
 
-public abstract class LambkitApplicationContext extends JFinalConfig {
+public class LambkitApplicationContext extends JFinalConfig {
 
     static final Log log = Log.getLog(LambkitApplicationContext.class);
     
-    public abstract void configModule(LambkitModule module);
+    public void configModule(LambkitModule module) {}
     
     @Override
 	public void configConstant(Constants constants) {
