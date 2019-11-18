@@ -17,6 +17,7 @@ package com.lambkit.core.rpc;
 
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.ConfigManager;
+import com.lambkit.core.rpc.dubbo.DubboRpc;
 import com.lambkit.core.rpc.motan.MotanRpc;
 
 public class RpcManager {
@@ -49,6 +50,8 @@ public class RpcManager {
         switch (config.getType()) {
             case RpcConfig.TYPE_MOTAN:
                 return new MotanRpc();
+            case RpcConfig.TYPE_DUBBO:
+                return new DubboRpc();
             //case RpcConfig.TYPE_ZBUS:
             //    return new ZbusRpc();
             default:

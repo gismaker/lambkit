@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.rpc;
+package com.lambkit.core.api.url;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +35,6 @@ import com.weibo.api.motan.util.MotanFrameworkUtil;
  * 
  * 对于getXXX，当不带defaultValue时，如果不存在就返回null
  * </pre>
- * 
- * @author fishermen
- * @version V1.0 created at: 2013-5-16
  */
 
 public class URL {

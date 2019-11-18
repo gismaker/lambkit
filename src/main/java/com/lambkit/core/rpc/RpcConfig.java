@@ -23,7 +23,7 @@ import com.lambkit.core.config.annotation.PropertieConfig;
 @PropertieConfig(prefix = "lambkit.rpc")
 public class RpcConfig {
 
-    //public static final String TYPE_DUBBO = "dubbo";
+    public static final String TYPE_DUBBO = "dubbo";
     //public static final String TYPE_GRPC = "grpc";
     public static final String TYPE_MOTAN = "motan";
     //public static final String TYPE_THRIFT = "thrift";
@@ -41,7 +41,7 @@ public class RpcConfig {
      * RPC的调用模式：registry 注册中心，redirect直连模式
      */
     public static final String CALL_MODE_REGISTRY = "registry";
-    public static final String CALL_MODE_REDIRECT = "redirect";
+    public static final String CALL_MODE_DIRECT = "direct";
     private String callMode = CALL_MODE_REGISTRY;
 
 
@@ -53,6 +53,7 @@ public class RpcConfig {
     private String registryName = "lambkit";
     private String registryUserName;
     private String registryPassword;
+    private String registryFile;
 
     /**
      * 启动检查
@@ -79,6 +80,7 @@ public class RpcConfig {
     private String proxy = "lambkit";
     private String filter;  //多个过滤器请用英文逗号（,）隔开，默认添加opentracing过滤器，用于对rpc分布式调用的追踪
     private String serialization;//SerializerManager.FST2;
+    private Integer retries;
 
     /**
      * RPC Hystrix 相关的配置
@@ -187,8 +189,8 @@ public class RpcConfig {
         this.directUrl = directUrl;
     }
 
-    public boolean isRedirectCallMode() {
-        return CALL_MODE_REDIRECT.equals(getCallMode());
+    public boolean isDirectCallMode() {
+        return CALL_MODE_DIRECT.equals(getCallMode());
     }
 
     public boolean isRegistryCallMode() {
@@ -313,5 +315,21 @@ public class RpcConfig {
 
 	public void setHystrixTimeout(int hystrixTimeout) {
 		this.hystrixTimeout = hystrixTimeout;
+	}
+
+	public String getRegistryFile() {
+		return registryFile;
+	}
+
+	public void setRegistryFile(String registryFile) {
+		this.registryFile = registryFile;
+	}
+
+	public Integer getRetries() {
+		return retries;
+	}
+
+	public void setRetries(Integer retries) {
+		this.retries = retries;
 	}
 }

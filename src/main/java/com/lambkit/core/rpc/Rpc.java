@@ -17,10 +17,10 @@ package com.lambkit.core.rpc;
 
 
 public interface Rpc {
-
-	public <T> T serviceObtain(Class<T> serviceClass, String group, String version, String url);
 	
-    public <T> T serviceObtain(Class<T> serviceClass, String group, String version);
+	public <T> T serviceObtain(Class<T> serviceClass, RpcServiceConfig serviceConfig, String url);
 
-    public <T> boolean serviceExport(Class<T> interfaceClass, Object object, String group, String version, int port);
+    public <T> T serviceObtain(Class<T> serviceClass, RpcServiceConfig serviceConfig);
+
+    public <T> boolean serviceExport(Class<T> interfaceClass, Object object, RpcServiceConfig serviceConfig);
 }

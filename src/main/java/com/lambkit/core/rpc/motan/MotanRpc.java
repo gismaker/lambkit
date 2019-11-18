@@ -20,9 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.exception.LambkitException;
-import com.lambkit.core.config.ConfigManager;
-import com.lambkit.core.rpc.RpcConfig;
 import com.lambkit.core.rpc.RpcPlugin;
+import com.lambkit.core.rpc.RpcServiceConfig;
 import com.weibo.api.motan.common.MotanConstants;
 import com.weibo.api.motan.config.ProtocolConfig;
 import com.weibo.api.motan.config.RefererConfig;
@@ -32,38 +31,34 @@ import com.weibo.api.motan.util.MotanSwitcherUtil;
 
 /**
  * Motan rpc
- * 
- * @author 孤竹行
  *
  */
 public class MotanRpc extends RpcPlugin {
 
 	private RegistryConfig registryConfig;
 	private ProtocolConfig protocolConfig;
-	private RpcConfig rpcConfig;
+	
 
 	private static final Map<String, Object> singletons = new ConcurrentHashMap<>();
 
 	public MotanRpc() {
 		// TODO Auto-generated constructor stub
-		rpcConfig = ConfigManager.me().get(RpcConfig.class);
 		registryConfig = new RegistryConfig();
-		registryConfig.setCheck(String.valueOf(rpcConfig.isRegistryCheck()));
+		registryConfig.setCheck(String.valueOf(getConfig().isRegistryCheck()));
 
 		/**
 		 * 注册中心的调用模式
 		 */
-		if (rpcConfig.isRegistryCallMode()) {
-
-			registryConfig.setRegProtocol(rpcConfig.getRegistryType());
-			registryConfig.setAddress(rpcConfig.getRegistryAddress());
-			registryConfig.setName(rpcConfig.getRegistryName());
+		if (getConfig().isRegistryCallMode()) {
+			registryConfig.setRegProtocol(getConfig().getRegistryType());
+			registryConfig.setAddress(getConfig().getRegistryAddress());
+			registryConfig.setName(getConfig().getRegistryName());
 		}
 
 		/**
 		 * 直连模式
 		 */
-		else if (rpcConfig.isRedirectCallMode()) {
+		else if (getConfig().isDirectCallMode()) {
 			registryConfig.setRegProtocol("local");
 		}
 
@@ -71,15 +66,17 @@ public class MotanRpc extends RpcPlugin {
 		protocolConfig.setId("motan");
 		protocolConfig.setName("motan");
 		// protocolConfig.setFilter("hystrix,opentracing");
-		if (StrKit.notBlank(rpcConfig.getSerialization())) {
-            protocolConfig.setSerialization(rpcConfig.getSerialization());
+		if (StrKit.notBlank(getConfig().getSerialization())) {
+            protocolConfig.setSerialization(getConfig().getSerialization());
         }
 	}
 	
 	@Override
-	public <T> T serviceObtain(Class<T> serviceClass, String group, String version, String url) {
+	public <T> T serviceObtain(Class<T> serviceClass, RpcServiceConfig serviceConfig, String url) {
 		// TODO Auto-generated method stub
-		String directUrl = StrKit.isBlank(url) ? rpcConfig.getDirectUrl() : url;
+		String directUrl = StrKit.isBlank(url) ? getConfig().getDirectUrl() : url;
+		String group = serviceConfig.getGroup();
+		String version = serviceConfig.getVersion();
 		
 		//System.out.println("url:"+url);
 		//System.out.println("url:"+rpcConfig.getDirectUrl());
@@ -101,7 +98,7 @@ public class MotanRpc extends RpcPlugin {
 		// 配置服务的group以及版本号
 		refererConfig.setGroup(group);
 		refererConfig.setVersion(version);
-		refererConfig.setRequestTimeout(rpcConfig.getRequestTimeOut());
+		refererConfig.setRequestTimeout(getConfig().getRequestTimeOut());
 		refererConfig.setProtocol(protocolConfig);
 		//refererConfig.setProxy(rpcConfig.getProxy());
 		//refererConfig.setCheck(String.valueOf(rpcConfig.isConsumerCheck()));
@@ -113,13 +110,13 @@ public class MotanRpc extends RpcPlugin {
 		/**
 		 * 注册中心模式
 		 */
-		if (rpcConfig.isRegistryCallMode()) {
+		if (getConfig().isRegistryCallMode()) {
 			refererConfig.setRegistry(registryConfig);
 		}
 		/**
 		 * 直连模式
 		 */
-		else if (rpcConfig.isRedirectCallMode()) {
+		else if (getConfig().isDirectCallMode()) {
 			if (StrKit.isBlank(directUrl)) {
 				throw new LambkitException(
 						"directUrl must not be null if you use redirect call mode，please config lambkit.rpc.directUrl value");
@@ -144,18 +141,21 @@ public class MotanRpc extends RpcPlugin {
 	}
 
 	@Override
-	public <T> T serviceObtain(Class<T> serviceClass, String group, String version) {
+	public <T> T serviceObtain(Class<T> serviceClass, RpcServiceConfig serviceConfig) {
 		// TODO Auto-generated method stub
-		return serviceObtain(serviceClass, group, version, rpcConfig.getDirectUrl());
+		return serviceObtain(serviceClass, serviceConfig, getConfig().getDirectUrl());
 	}
 
 	/**
 	 * motan服务export 参考jboot 参考http://www.cnblogs.com/huangll99/p/6694405.html
 	 */
 	@Override
-	public <T> boolean serviceExport(Class<T> interfaceClass, Object object, String group, String version, int port) {
+	public <T> boolean serviceExport(Class<T> interfaceClass, Object object, RpcServiceConfig serviceConfig) {
 		// TODO Auto-generated method stub
-		super.serviceExport(interfaceClass, object, group, version, port);
+		super.serviceExport(interfaceClass, object, serviceConfig);
+		String group = serviceConfig.getGroup();
+		String version = serviceConfig.getVersion();
+		int port = serviceConfig.getPort();
 		synchronized (this) {
 			MotanSwitcherUtil.setSwitcherValue(MotanConstants.REGISTRY_HEARTBEAT_SWITCHER, false);
 
@@ -168,8 +168,8 @@ public class MotanRpc extends RpcPlugin {
 			motanServiceConfig.setRef((T) object);
 
 			// 配置服务的group以及版本号
-			if (StrKit.notBlank(rpcConfig.getHost())) {
-                motanServiceConfig.setHost(rpcConfig.getHost());
+			if (StrKit.notBlank(getConfig().getHost())) {
+                motanServiceConfig.setHost(getConfig().getHost());
             }
 			motanServiceConfig.setGroup(group);// "motan-demo-rpc"
 			motanServiceConfig.setVersion(version);// "1.0"
@@ -196,7 +196,7 @@ public class MotanRpc extends RpcPlugin {
 			// motanDemoService.setApplication("motan");
 			motanServiceConfig.setExport(String.format("motan:%s", port));
 			// 启动检查
-			motanServiceConfig.setCheck(String.valueOf(rpcConfig.isProviderCheck()));
+			motanServiceConfig.setCheck(String.valueOf(getConfig().isProviderCheck()));
 
 			motanServiceConfig.export();
 

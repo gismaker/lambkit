@@ -36,7 +36,7 @@ public class RpcKit {
 	
 	public static <T> T obtain(Class<T> serviceClass, String group, String version) {
 		Rpc rpc = RpcManager.me().getRpc();
-		return rpc.serviceObtain(serviceClass, group, version);
+		return rpc.serviceObtain(serviceClass, new RpcServiceConfig(group, version));
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class RpcKit {
 	 */
 	public static <T> T obtain(Class<T> serviceClass, String group, String version, String url) {
 		Rpc rpc = RpcManager.me().getRpc();
-		return rpc.serviceObtain(serviceClass, group, version, url);
+		return rpc.serviceObtain(serviceClass, new RpcServiceConfig(group, version), url);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class RpcKit {
 	 */
 	public static <T> T obtain(Class<T> serviceClass, Object serviceClassMock, String group, String version) {
 		Rpc rpc = RpcManager.me().getRpc();
-		T service = rpc.serviceObtain(serviceClass, group, version);
+		T service = rpc.serviceObtain(serviceClass, new RpcServiceConfig(group, version));
 		return (T) (service==null ? serviceClassMock : service);
 	}
 	
@@ -90,7 +90,7 @@ public class RpcKit {
 	
 	public static <T> T enhance(Class<T> serviceClass, Class<T> serviceClassMock, String group, String version) {
 		Rpc rpc = RpcManager.me().getRpc();
-		T service = rpc.serviceObtain(serviceClass, group, version);
+		T service = rpc.serviceObtain(serviceClass, new RpcServiceConfig(group, version));
 		return service==null ? AopKit.get(serviceClassMock) : service;
 	}
 	
@@ -104,7 +104,7 @@ public class RpcKit {
 		Rpc rpc = RpcManager.me().getRpc();
 		RpcConfig rpcConfig = ConfigManager.me().get(RpcConfig.class);
 		if(rpc!=null) {
-			return rpc.serviceExport(interfaceClass, object, rpcConfig.getDefaultGroup(), rpcConfig.getDefaultVersion(), rpcConfig.getDefaultPort());
+			return rpc.serviceExport(interfaceClass, object, new RpcServiceConfig(rpcConfig));
 		}
 		return false;
 	}
@@ -121,7 +121,7 @@ public class RpcKit {
 	public static <T> boolean serviceExport(Class<T> interfaceClass, Object object, String group, String version, int port) {
 		Rpc rpc = RpcManager.me().getRpc();
 		if(rpc!=null) {
-			return rpc.serviceExport(interfaceClass, object, group, version, port);
+			return rpc.serviceExport(interfaceClass, object, new RpcServiceConfig(group, version, port));
 		}
 		return false;
 	}

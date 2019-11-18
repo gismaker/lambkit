@@ -7,6 +7,7 @@ import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.rpc.Rpc;
 import com.lambkit.core.rpc.RpcManager;
+import com.lambkit.core.rpc.RpcServiceConfig;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.test.node.ManagerNodeServer;
 
@@ -27,8 +28,9 @@ public class MotanServerDemo {
     		}
     		public void configPlugin(Plugins me) {
     			Rpc rpc = RpcManager.me().getRpc();
-    			rpc.serviceExport(UserService.class, new UserServiceImpl(), "lambkit", "1.0", 8002);
-    			rpc.serviceExport(CategoryService.class, new CategoryServiceImpl(), "lambkit", "1.0", 8002);
+    			RpcServiceConfig config = new RpcServiceConfig("lambkit", "1.0", 8002);
+    			rpc.serviceExport(UserService.class, new UserServiceImpl(), config);
+    			rpc.serviceExport(CategoryService.class, new CategoryServiceImpl(), config);
     			me.add(RpcManager.me().getPlugin());
     		}
 		};

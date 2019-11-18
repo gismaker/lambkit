@@ -16,17 +16,27 @@
 package com.lambkit.core.rpc;
 
 import com.jfinal.plugin.IPlugin;
+import com.lambkit.Lambkit;
 import com.lambkit.common.LambkitManager;
 import com.lambkit.common.bean.RpcBean;
 
 public abstract class RpcPlugin implements IPlugin, Rpc {
 
+	private RpcConfig config = Lambkit.config(RpcConfig.class);
+	
 	@Override
-	public <T> boolean serviceExport(Class<T> interfaceClass, Object object, String group, String version, int port) {
+	public <T> boolean serviceExport(Class<T> interfaceClass, Object object, RpcServiceConfig serviceConfig) {
 		// TODO Auto-generated method stub
-		LambkitManager.me().addRpc(new RpcBean(interfaceClass.getName(), group, version, port));
+		LambkitManager.me().addRpc(new RpcBean(interfaceClass.getName(), serviceConfig.getGroup(), serviceConfig.getVersion(), serviceConfig.getPort()));
 		return false;
 	}
 
+	public RpcConfig getConfig() {
+		return config;
+	}
+
+	public void setConfig(RpcConfig config) {
+		this.config = config;
+	}
 
 }
