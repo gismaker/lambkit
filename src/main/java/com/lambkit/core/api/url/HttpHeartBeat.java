@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.api.url;
 
 import com.jfinal.log.Log;
+import com.lambkit.core.hearbeat.HeartBeatFrequencyMonitorLog;
 import com.lambkit.core.hearbeat.HeartBeat;
 
 public class HttpHeartBeat implements HeartBeat {
@@ -40,8 +41,8 @@ public class HttpHeartBeat implements HeartBeat {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		ApiModel api = null;
-		final FrequencyMonitorLog monitorLog = generateMonitorLog(api);
+		UrlApiModel api = null;
+		final HeartBeatFrequencyMonitorLog monitorLog = generateMonitorLog(api);
 		// instanceRepository.saveOrUpdate(monitorLog);
 		log.debug("Generate and persist FrequencyMonitorLog[" + monitorLog + "]");
 		// reminder
@@ -49,7 +50,7 @@ public class HttpHeartBeat implements HeartBeat {
 	}
 
 	@Override
-	public void remind(FrequencyMonitorLog monitorLog) {
+	public void remind(HeartBeatFrequencyMonitorLog monitorLog) {
 		// TODO Auto-generated method stub
 		log.debug(HttpHeartBeat.class.getName() + ".remind not finish!");
 	}
@@ -57,7 +58,7 @@ public class HttpHeartBeat implements HeartBeat {
 	/*
 	 * 生成 监控日志
 	 */
-	private FrequencyMonitorLog generateMonitorLog(ApiModel instance) {
+	private HeartBeatFrequencyMonitorLog generateMonitorLog(UrlApiModel instance) {
 		FrequencyMonitorLogGenerator monitorLogGenerator = new FrequencyMonitorLogGenerator(instance);
 		return monitorLogGenerator.generate();
 	}

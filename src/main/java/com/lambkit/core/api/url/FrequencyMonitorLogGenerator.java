@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.api.url;
 
 import java.util.List;
 
 import com.jfinal.log.Log;
+import com.lambkit.core.hearbeat.HeartBeatFrequencyMonitorLog;
 
 /**
  * 每一次 监控的 监控日志生成操作类
@@ -28,9 +29,9 @@ import com.jfinal.log.Log;
 public class FrequencyMonitorLogGenerator {
 	static Log log = Log.getLog(FrequencyMonitorLogGenerator.class);
 
-	private ApiModel api;
+	private UrlApiModel api;
 
-	public FrequencyMonitorLogGenerator(ApiModel api) {
+	public FrequencyMonitorLogGenerator(UrlApiModel api) {
 		this.api = api;
 	}
 
@@ -39,12 +40,12 @@ public class FrequencyMonitorLogGenerator {
 	 *
 	 * @return FrequencyMonitorLog api
 	 */
-	public FrequencyMonitorLog generate() {
+	public HeartBeatFrequencyMonitorLog generate() {
 		HttpClientHandler httpClientHandler = createHttpClientHandler();
 		log.debug("Send Request to URL: " + monitorUrl() + " use HttpClientHandler: " + httpClientHandler);
 
-		final FrequencyMonitorLog monitorLog = httpClientHandler.handleAndGenerateFrequencyMonitorLog();
-		monitorLog.setApi(api);
+		final HeartBeatFrequencyMonitorLog monitorLog = httpClientHandler.handleAndGenerateFrequencyMonitorLog();
+		monitorLog.setTarget(api);
 		return monitorLog;
 	}
 

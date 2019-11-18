@@ -15,8 +15,6 @@
  */
 package com.lambkit.core.gateway;
 
-import java.util.List;
-
 import com.jfinal.kit.StrKit;
 
 //@PropertieConfig(prefix = "lambkit.gateway")
@@ -31,10 +29,10 @@ public class GatewayConfig {
 	/** User agents shouldn't send the url fragment but what if it does? */
 	private boolean sendUrlFragment = true;
 	private boolean preserveHost = false;
-	private boolean preserveCookies = false;
+	private boolean preserveCookies = true;
 	private boolean handleRedirects = false;
-	private int connectTimeout = -1;
-	private int readTimeout = -1;
+	private int connectTimeout = 3000;
+	private int readTimeout = 3000;
 
 	// These next 3 are cached here, and should only be referred to in
 	// initialization logic. See the
@@ -42,9 +40,6 @@ public class GatewayConfig {
 	/** From the configured parameter "targetUri". */
 	private String targetUri;
 	
-	private List<GatewayConfig> childProxyConfigs;
-	
-
 	public boolean isConfigOk() {
         return (StrKit.notBlank(targetUri) && StrKit.notBlank(name));
     }
@@ -127,14 +122,6 @@ public class GatewayConfig {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<GatewayConfig> getChildProxyConfigs() {
-		return childProxyConfigs;
-	}
-
-	public void setChildProxyConfigs(List<GatewayConfig> childProxyConfigs) {
-		this.childProxyConfigs = childProxyConfigs;
 	}
 
 	public String getUrlpattern() {

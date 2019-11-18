@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.hearbeat;
 
 import java.io.Serializable;
 
-public class FrequencyMonitorLog implements Serializable {
+public class HeartBeatFrequencyMonitorLog implements Serializable {
 
 	/**
 	 * 
@@ -26,8 +26,8 @@ public class FrequencyMonitorLog implements Serializable {
 	/**
 	 * 所属实例
 	 */
-	private ApiModel api;
-
+	private Object target;
+	
 	/**
 	 * 是否正常
 	 */
@@ -47,14 +47,6 @@ public class FrequencyMonitorLog implements Serializable {
 	 * 备注信息
 	 */
 	private String remark;
-
-	public ApiModel getApi() {
-		return api;
-	}
-
-	public void setApi(ApiModel api) {
-		this.api = api;
-	}
 
 	public boolean isNormal() {
 		return normal;
@@ -86,6 +78,14 @@ public class FrequencyMonitorLog implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Object getTarget() {
+		return target;
+	}
+
+	public void setTarget(Object target) {
+		this.target = target;
 	}
 
 }

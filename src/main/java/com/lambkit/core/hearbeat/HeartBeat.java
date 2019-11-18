@@ -15,8 +15,6 @@
  */
 package com.lambkit.core.hearbeat;
 
-import com.lambkit.core.api.FrequencyMonitorLog;
-
 /**
  * 心跳监测
  * @author 孤竹行
@@ -31,5 +29,5 @@ public interface HeartBeat {
 	 * 处理 监控异常时的 提醒操作
 	 * @param monitorLog
 	 */
-	void remind(FrequencyMonitorLog monitorLog);
+	void remind(HeartBeatFrequencyMonitorLog monitorLog);
 }

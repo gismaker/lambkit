@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.api.url;
 
 import java.io.Serializable;
 
 import com.lambkit.core.hearbeat.HeartBeatFrequency;
 
-public class ApiModel implements Serializable {
+public class UrlApiModel implements Serializable {
 
 	/**
 	 * 
@@ -31,7 +31,7 @@ public class ApiModel implements Serializable {
     private String apiName;
 
 
-    private ApiURL apiURL = new ApiURL();
+    private UrlApi apiURL = new UrlApi();
 
     /**
      * 连接时超时的时间
@@ -97,12 +97,12 @@ public class ApiModel implements Serializable {
 		return apiURL.getUrl();
 	}
 
-	public ApiURL getApiURL() {
+	public UrlApi getApiURL() {
 		return apiURL;
 	}
 
 
-	public void setApiURL(ApiURL apiURL) {
+	public void setApiURL(UrlApi apiURL) {
 		this.apiURL = apiURL;
 	}
 

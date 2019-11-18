@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.api.url;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApiURL implements Serializable {
+public class UrlApi implements Serializable {
 	/**
 	 * 
 	 */

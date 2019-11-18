@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.api.url;
 
 /**
  * 外部Api接口管理
  * @author yangyong
  */
-public class ApiManager {
+public class UrlApiManager {
 
 }

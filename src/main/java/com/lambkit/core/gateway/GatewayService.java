@@ -18,11 +18,18 @@ package com.lambkit.core.gateway;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.message.BasicNameValuePair;
+
+import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
+import com.jfinal.kit.StrKit;
 
 /**
  * 反向代理服务
@@ -30,18 +37,35 @@ import org.apache.http.message.BasicNameValuePair;
  */
 public class GatewayService {
 
-	public GatewayService createService() {
-		return new GatewayService();
+	public GatewayService by(HttpServletRequest request) {
+		return new GatewayService(request);
+	}
+	
+	public GatewayService by(Controller controller) {
+		return new GatewayService(controller);
+	}
+	
+	public GatewayService(HttpServletRequest request) {
+		// TODO Auto-generated constructor stub
+		this.request = request;
+	}
+	
+	public GatewayService(Controller controller) {
+		// TODO Auto-generated constructor stub
+		this.request = controller.getRequest();
 	}
 
 	private List<NameValuePair> params;
+	private HttpServletRequest request;
 
-	public void addParam(String name, String value) {
+	public GatewayService addParam(String name, String value) {
 		addParam(new BasicNameValuePair(name, value));
+		return this;
 	}
 
-	public void addParam(NameValuePair param) {
+	public GatewayService addParam(NameValuePair param) {
 		getParams().add(param);
+		return this;
 	}
 
 	public List<NameValuePair> getParams() {
@@ -50,24 +74,171 @@ public class GatewayService {
 		}
 		return params;
 	}
-
-	public String get(String targetUri) {
-		GatewayRender proxy = new GatewayRender(null, targetUri);
-		return proxy.get(params);
+	
+	private String getContxtPath() {
+		String cp = JFinal.me().getContextPath();
+		return ("".equals(cp) || "/".equals(cp)) ? null : cp;
 	}
 
-	public HttpResponse httpGet(String targetUri) throws ClientProtocolException, IOException {
-		GatewayRender proxy = new GatewayRender(null, targetUri);
-		return proxy.httpGet(params);
+	private String getServerUrl(HttpServletRequest servletRequest) {
+		/*
+		String serverUrl = servletRequest.getServerName() + ":" + servletRequest.getServerPort();
+		if (servletRequest.getScheme().equals("https")) {
+			serverUrl = "https://" + serverUrl;
+		} else if (servletRequest.getScheme().equals("http")) {
+			serverUrl = "http://" + serverUrl;
+		}
+		return serverUrl;
+		*/
+		StringBuffer url = servletRequest.getRequestURL();
+		String serverUrl = url.toString();
+		serverUrl = serverUrl.replace(servletRequest.getRequestURI(), "");
+		return serverUrl;
+	}
+	
+
+	private String processTargetUri(String targetName, String targetUri) {
+		if(targetUri.startsWith("//")) {
+			targetUri = targetUri.substring(1);
+		}
+		if(StrKit.isBlank(targetUri)) {
+			targetUri = "/";
+		}
+		String contextPath = getContxtPath();
+		// 如果一个url为/login/connect?goto=http://www.jfinal.com，则有错误
+		// ^((https|http|ftp|rtsp|mms)?://)$   ==> indexOf 取值为 (3, 5)
+		if (contextPath != null && (targetUri.indexOf("://") == -1 || targetUri.indexOf("://") > 5)) {
+			targetUri = contextPath + targetUri;
+		}
+		if (StrKit.notBlank(targetName) && StrKit.notBlank(targetUri)) {
+			// JFinal特有的链接方式处理
+			String uri = request.getRequestURI();
+			int tid = uri.indexOf(targetName);
+			if (tid > -1) {
+				String tu = uri.substring(tid + targetName.length());
+				if (targetUri.endsWith("/")) {
+					targetUri += tu.substring(1);
+				} else {
+					targetUri += tu;
+				}
+			}
+			
+			// 支持 https 协议下的重定向
+			if (!targetUri.startsWith("http")) {	// 跳过 http/https 已指定过协议类型的 url
+				String serverUrl = getServerUrl(request);
+				//System.out.println("proxy serverUrl: " + serverUrl);
+				if (targetUri.charAt(0) != '/') {
+					targetUri = serverUrl + "/" + targetUri;
+				} else {
+					targetUri = serverUrl + targetUri;
+				}
+			}
+		}
+		return targetUri;
 	}
 
-	public String post(String targetUri) {
-		GatewayRender proxy = new GatewayRender(null, targetUri);
-		return proxy.post(params);
+	public String get(String targetName, String targetUri) {
+		return GatewayManager.me().getGateway().get(processTargetUri(targetName, targetUri), params);
 	}
 
-	public HttpResponse httpPost(String targetUri) throws ClientProtocolException, IOException {
-		GatewayRender proxy = new GatewayRender(null, targetUri);
-		return proxy.httpPost(params);
+	public HttpResponse httpGet(String targetName, String targetUri) throws ClientProtocolException, IOException {
+		return GatewayManager.me().getGateway().httpGet(processTargetUri(targetName, targetUri), params);
+	}
+
+	public String post(String targetName, String targetUri) {
+		return GatewayManager.me().getGateway().post(processTargetUri(targetName, targetUri), params);
+	}
+
+	public HttpResponse httpPost(String targetName, String targetUri) throws ClientProtocolException, IOException {
+		return GatewayManager.me().getGateway().httpPost(processTargetUri(targetName, targetUri), params);
+	}
+	
+	///////////////////////////////////////////////////////////////
+	
+	public String get(String targetName, String targetUri, Map<String, String> params) {
+		return GatewayManager.me().getGateway().get(processTargetUri(targetName, targetUri), params);
+    }
+	
+	public String get(String targetName, String targetUri, List<NameValuePair> params) {
+		return GatewayManager.me().getGateway().get(processTargetUri(targetName, targetUri), params);
+    }
+
+	public HttpResponse httpGet(String targetName, String targetUri, Map<String, String> params) {
+		try {
+			return GatewayManager.me().getGateway().httpGet(processTargetUri(targetName, targetUri), params);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public HttpResponse httpGet(String targetName, String targetUri, List<NameValuePair> params) {
+		try {
+			return GatewayManager.me().getGateway().httpGet(processTargetUri(targetName, targetUri), params);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public String post(String targetName, String targetUri, Map<String, String> params) {
+		return GatewayManager.me().getGateway().post(processTargetUri(targetName, targetUri), params);
+	}
+	
+	public String post(String targetName, String targetUri, List<NameValuePair> params) {
+		return GatewayManager.me().getGateway().post(processTargetUri(targetName, targetUri), params);
+	}
+	
+	public HttpResponse httpPost(String targetName, String targetUri, Map<String, String> params) {
+		try {
+			return GatewayManager.me().getGateway().httpPost(processTargetUri(targetName, targetUri), params);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public HttpResponse httpPost(String targetName, String targetUri, List<NameValuePair> params) {
+		try {
+			return GatewayManager.me().getGateway().httpPost(processTargetUri(targetName, targetUri), params);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String accessStr(String targetName, String targetUri, HttpServletRequest servletRequest) {
+		return accessStr(targetName, targetUri, servletRequest, null);
+	}
+
+	public String accessStr(String targetName, String targetUri, HttpServletRequest servletRequest, Map<String, String> params) {
+		return GatewayManager.me().getGateway().accessStr(processTargetUri(targetName, targetUri), servletRequest, params);
+	}
+	
+	/**
+	 * 在现有的代理中，加入自己的参数，再转发
+	 * @param servletRequest
+	 * @return
+	 */
+	public HttpResponse access(String targetName, String targetUri, HttpServletRequest servletRequest) {
+		return access(targetName, targetUri, servletRequest, null);
+	}
+
+	/**
+	 * 在现有的代理中，加入自己的参数，再转发
+	 * @param servletRequest
+	 * @param params
+	 * @return
+	 */
+	public HttpResponse access(String targetName, String targetUri, HttpServletRequest servletRequest, Map<String, String> params) {
+		return GatewayManager.me().getGateway().access(processTargetUri(targetName, targetUri), servletRequest, params);
 	}
 }

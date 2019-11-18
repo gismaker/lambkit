@@ -22,24 +22,30 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.AbortableHttpRequest;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
-import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
 import org.apache.http.message.BasicHttpRequest;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.message.HeaderGroup;
 import org.apache.http.util.EntityUtils;
 
-import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
 import com.lambkit.Lambkit;
 import com.lambkit.common.exception.LambkitException;
-import com.lambkit.common.util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -50,118 +56,40 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpCookie;
 import java.net.URI;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Map;
 
 /**
- * An HTTP reverse proxy/gateway JFinal Handler. It is designed to be extended
- * for customization
+ * 网关服务
  */
-public class GetewayHandler extends Handler {
-	static Log log = Log.getLog(GetewayHandler.class);
+public class Gateway {
+	static Log log = Log.getLog(Gateway.class);
 
-	/** The parameter name for the target (destination) URI to proxy to. */
-	protected static final String P_TARGET_URI = "targetUri";
-	protected static final String ATTR_TARGET_URI = GetewayHandler.class.getSimpleName() + ".targetUri";
-	protected static final String ATTR_TARGET_HOST = GetewayHandler.class.getSimpleName() + ".targetHost";
+	protected static final String ATTR_TARGET_URI = Gateway.class.getSimpleName() + ".targetUri";
+	protected static final String ATTR_TARGET_HOST = Gateway.class.getSimpleName() + ".targetHost";
 
-	/* MISC */
-	protected boolean doLog = false;
+	protected boolean doLog = true;
 	protected boolean doForwardIP = true;
 	/** User agents shouldn't send the url fragment but what if it does? */
 	protected boolean doSendUrlFragment = true;
 	protected boolean doPreserveHost = false;
-	protected boolean doPreserveCookies = false;
+	protected boolean doPreserveCookies = true;//true, shiro of upms success
 	protected boolean doHandleRedirects = false;
-	protected int connectTimeout = -1;
-	protected int readTimeout = -1;
-
-	protected String sourceUrlpattern;
-	protected String targetName;
-	// These next 3 are cached here, and should only be referred to in
-	// initialization logic. See the
-	// ATTR_* parameters.
-	/** From the configured parameter "targetUri". */
-	protected String targetUri;
-	protected URI targetUriObj;// new URI(targetUri)
-	protected HttpHost targetHost;// URIUtils.extractHost(targetUriObj);
+	protected int connectTimeout = 3000;
+	protected int readTimeout = 3000;
 
 	private HttpClient proxyClient;
 	
-	private static final ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>() {
-		protected SimpleDateFormat initialValue() {
-			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		}
-	};
-
-	public GetewayHandler(GatewayConfig config) {
+	public Gateway() {
 		// TODO Auto-generated constructor stub
-		init(config);
+		proxyClient = createHttpClient(buildRequestConfig());
 	}
 	
-	@Override
-	public void handle(String target, HttpServletRequest request, HttpServletResponse response,
-			boolean[] isHandled) {
-		// TODO Auto-generated method stub
-		if(targetUri != null && StringUtils.isMatch(target, sourceUrlpattern)) {
-			String turl = targetUri.endsWith("/")  ? "" : "/";
-			turl = targetUri + turl;
-			String surl = target.replace(sourceUrlpattern.replace("*", ""), "");
-			turl += surl;
-			String originTargetUri = targetUri;
-			if(!targetUri.equals(turl)) {
-				try {
-					targetUriObj = new URI(turl);
-				} catch (Exception e) {
-					throw new LambkitException("Trying to process targetUri init parameter: " + e, e);
-				}
-				targetHost = URIUtils.extractHost(targetUriObj);
-				targetUri = turl;
-			}
-			if(Lambkit.isDevMode()) {
-				System.out.println();
-				System.out.println("Lambkit http proxy report -------- " + sdf.get().format(new Date()) + " -------------------------");
-				//System.out.println("http-proxy: " + targetName + " from " + sourceUrlpattern + " to " + targetUri);
-				System.out.println("name    : " + targetName);
-				System.out.println("from    : " + target);
-				System.out.println("pattern : " + sourceUrlpattern);
-				System.out.println("to      : " + targetUri);
-				System.out.println("--------------------------------------------------------------------------------");
-				/*
-				StringBuilder sb = new StringBuilder("\nLambkit http proxy report -------- ").append(sdf.get().format(new Date())).append(" ------------------------------\n");
-				sb.append("name : ").append(targetName).append("\n");
-				sb.append("from : ").append(sourceUrlpattern).append("\n");
-				sb.append("to   : ").append(targetUri).append("\n");
-				sb.append("--------------------------------------------------------------------------------\n");
-				*/
-			}
-			service(request, response);
-			isHandled[0] = true;
-			targetUri = originTargetUri;
-		} else {
-			next.handle(target, request, response, isHandled);
-		}
-	}
-
-	public String getServletInfo() {
-		return "A proxy servlet by David Smiley, dsmiley@apache.org";
-	}
-
-	protected String getTargetUri(HttpServletRequest servletRequest) {
-		return (String) servletRequest.getAttribute(ATTR_TARGET_URI);
-	}
-
-	protected HttpHost getTargetHost(HttpServletRequest servletRequest) {
-		return (HttpHost) servletRequest.getAttribute(ATTR_TARGET_HOST);
-	}
-
-	public void init(GatewayConfig config) throws LambkitException {
-		this.targetName = config.getName();
-		this.sourceUrlpattern = config.getUrlpattern();
+	public Gateway(GatewayConfig config) {
 		this.doLog = config.isLog();
 		this.doForwardIP = config.isForwardip();
 		this.doPreserveHost = config.isPreserveHost();
@@ -169,24 +97,34 @@ public class GetewayHandler extends Handler {
 		this.doHandleRedirects = config.isHandleRedirects();
 		this.connectTimeout = config.getConnectTimeout();
 		this.readTimeout = config.getReadTimeout();
-		// sets target*
-		targetUri = config.getTargetUri();
-		if (targetUri == null)
-			throw new LambkitException(P_TARGET_URI + " is required.");
-		// test it's valid
+		proxyClient = createHttpClient(buildRequestConfig());
+	}
+	
+	protected String getTargetUri(HttpServletRequest servletRequest) {
+		return (String) servletRequest.getAttribute(ATTR_TARGET_URI);
+	}
+
+	protected HttpHost getTargetHost(HttpServletRequest servletRequest) {
+		return (HttpHost) servletRequest.getAttribute(ATTR_TARGET_HOST);
+	}
+	
+	public void resetUriAndHost(String targetUri, HttpServletRequest servletRequest) {
+		URI targetUriObj;// new URI(targetUri)
+		HttpHost targetHost;// URIUtils.extractHost(targetUriObj);
+		//System.out.println("gateway targetUri: " + targetUri);
 		try {
 			targetUriObj = new URI(targetUri);
 		} catch (Exception e) {
 			throw new LambkitException("Trying to process targetUri init parameter: " + e, e);
 		}
 		targetHost = URIUtils.extractHost(targetUriObj);
-		// httpClient
-		proxyClient = createHttpClient(buildRequestConfig());
+		
+		servletRequest.setAttribute(ATTR_TARGET_URI, targetUri);
+		servletRequest.setAttribute(ATTR_TARGET_HOST, targetHost);
 	}
 
 	/**
 	 * Sub-classes can override specific behaviour of
-	 * {@link org.apache.http.client.config.RequestConfig}.
 	 */
 	protected RequestConfig buildRequestConfig() {
 		RequestConfig.Builder builder = RequestConfig.custom().setRedirectsEnabled(doHandleRedirects)
@@ -197,20 +135,10 @@ public class GetewayHandler extends Handler {
 		return builder.build();
 	}
 
-	/**
-	 * Called from {@link #init(javax.servlet.ServletConfig)}. HttpClient offers
-	 * many opportunities for customization. In any case, it should be
-	 * thread-safe.
-	 **/
 	protected HttpClient createHttpClient(final RequestConfig requestConfig) {
 		return HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();
 	}
 
-	/**
-	 * The http client used.
-	 * 
-	 * @see #createHttpClient(RequestConfig)
-	 */
 	protected HttpClient getProxyClient() {
 		return proxyClient;
 	}
@@ -221,7 +149,7 @@ public class GetewayHandler extends Handler {
 			try {
 				((Closeable) proxyClient).close();
 			} catch (IOException e) {
-				log.error("While destroying servlet, shutting down HttpClient: " + e, e);
+				log.error("While destroying gateway, shutting down HttpClient: " + e, e);
 			}
 		} else {
 			// Older releases require we do this:
@@ -230,68 +158,217 @@ public class GetewayHandler extends Handler {
 		}
 	}
 
-	protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
-		// initialize request attributes from caches if unset by a subclass by
-		// this point
-		if (servletRequest.getAttribute(ATTR_TARGET_URI) == null) {
-			servletRequest.setAttribute(ATTR_TARGET_URI, targetUri);
+	public String get(String targetUri, Map<String, String> params) {
+		HttpResponse httpResponse = null;
+		String result = null;
+		try {
+			httpResponse = httpGet(targetUri, params);
+			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				HttpEntity httpEntity = httpResponse.getEntity();
+				result = EntityUtils.toString(httpEntity);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (httpResponse != null)
+				consumeQuietly(httpResponse.getEntity());
 		}
-		if (servletRequest.getAttribute(ATTR_TARGET_HOST) == null) {
-			servletRequest.setAttribute(ATTR_TARGET_HOST, targetHost);
+		return result;
+    }
+	
+	public String get(String targetUri, List<NameValuePair> params) {
+		HttpResponse httpResponse = null;
+		String result = null;
+		try {
+			httpResponse = httpGet(targetUri, params);
+			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				HttpEntity httpEntity = httpResponse.getEntity();
+				result = EntityUtils.toString(httpEntity);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (httpResponse != null)
+				consumeQuietly(httpResponse.getEntity());
 		}
+		return result;
+    }
 
-		// Make the Request
-		// note: we won't transfer the protocol version because I'm not sure it
-		// would truly be compatible
+	public HttpResponse httpGet(String targetUri, Map<String, String> params) throws ClientProtocolException, IOException {
+		List<NameValuePair> nameValuePairs = new ArrayList<>();
+		for (String key : params.keySet()) {
+			nameValuePairs.add(new BasicNameValuePair(key, params.get(key)));
+		}
+		return httpGet(targetUri, nameValuePairs);
+	}
+	
+	public HttpResponse httpGet(String targetUri, List<NameValuePair> params) throws ClientProtocolException, IOException {
+		StringBuffer server_url = new StringBuffer(targetUri);
+        HttpGet httpGet = new HttpGet(server_url.toString());
+        String param = URLEncodedUtils.format(params, "UTF-8");
+        httpGet.setURI(URI.create(targetUri + "?" + param));
+		return proxyClient.execute(httpGet);
+	}
+
+	public String post(String targetUri, Map<String, String> params) {
+		HttpResponse httpResponse = null;
+		String result = null;
+		try {
+			httpResponse = httpPost(targetUri, params);
+			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				HttpEntity httpEntity = httpResponse.getEntity();
+				result = EntityUtils.toString(httpEntity);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (httpResponse != null)
+				consumeQuietly(httpResponse.getEntity());
+		}
+		return result;
+	}
+	
+	public String post(String targetUri, List<NameValuePair> params) {
+		HttpResponse httpResponse = null;
+		String result = null;
+		try {
+			httpResponse = httpPost(targetUri, params);
+			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				HttpEntity httpEntity = httpResponse.getEntity();
+				result = EntityUtils.toString(httpEntity);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (httpResponse != null)
+				consumeQuietly(httpResponse.getEntity());
+		}
+		return result;
+	}
+	
+	public HttpResponse httpPost(String targetUri, Map<String, String> params) throws ClientProtocolException, IOException {
+		List<NameValuePair> nameValuePairs = new ArrayList<>();
+		for (String key : params.keySet()) {
+			nameValuePairs.add(new BasicNameValuePair(key, params.get(key)));
+		}
+		return httpPost(targetUri, nameValuePairs);
+	}
+	
+	public HttpResponse httpPost(String targetUri, List<NameValuePair> params) throws ClientProtocolException, IOException {
+		StringBuffer server_url = new StringBuffer(targetUri);
+        HttpPost httpPost = new HttpPost(server_url.toString());
+		httpPost.setEntity(new UrlEncodedFormEntity(params));
+		return proxyClient.execute(httpPost);
+	}
+	
+	public String accessStr(String targetUri, HttpServletRequest servletRequest) {
+		return accessStr(targetUri, servletRequest, null);
+	}
+
+	public String accessStr(String targetUri, HttpServletRequest servletRequest, Map<String, String> params) {
+		HttpResponse httpResponse = access(targetUri, servletRequest, params);
+		String result = null;
+		if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+			HttpEntity httpEntity = httpResponse.getEntity();
+			try {
+				result = EntityUtils.toString(httpEntity);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (httpResponse != null)
+					consumeQuietly(httpResponse.getEntity());
+			}
+        } 
+		return result;
+	}
+	
+	/**
+	 * 在现有的代理中，加入自己的参数，再转发
+	 * @param servletRequest
+	 * @return
+	 */
+	public HttpResponse access(String targetUri, HttpServletRequest servletRequest) {
+		return access(targetUri, servletRequest, null);
+	}
+	
+	/**
+	 * 在现有的代理中，加入自己的参数，再转发
+	 * @param servletRequest
+	 * @param params
+	 * @return
+	 */
+	public HttpResponse access(String targetUri, HttpServletRequest servletRequest, Map<String, String> params) {
+		resetUriAndHost(targetUri, servletRequest);
 		String method = servletRequest.getMethod();
-		String proxyRequestUri = rewriteUrlFromRequest(servletRequest);
+		String proxyRequestUri = rewriteUrlFromRequest(servletRequest, params);
 		HttpRequest proxyRequest = null;
 		HttpResponse proxyResponse = null;
-
 		try {
-			// spec: RFC 2616, sec 4.3: either of these two headers signal that
-			// there is a message body.
 			if (servletRequest.getHeader(HttpHeaders.CONTENT_LENGTH) != null
 					|| servletRequest.getHeader(HttpHeaders.TRANSFER_ENCODING) != null) {
 				proxyRequest = newProxyRequestWithEntity(method, proxyRequestUri, servletRequest);
 			} else {
 				proxyRequest = new BasicHttpRequest(method, proxyRequestUri);
 			}
-
 			copyRequestHeaders(servletRequest, proxyRequest);
-
 			setXForwardedForHeader(servletRequest, proxyRequest);
+			proxyResponse = doExecute(servletRequest, proxyRequest);
+		} catch (Exception e) {
+			try {
+				handleRequestException(proxyRequest, e);
+			} catch (ServletException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return proxyResponse;
+	}
 
-			// Execute the request
-			proxyResponse = doExecute(servletRequest, servletResponse, proxyRequest);
+	protected void service(String targetUri, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+		resetUriAndHost(targetUri, servletRequest);
+		String method = servletRequest.getMethod();
+		String proxyRequestUri = rewriteUrlFromRequest(servletRequest, null);
+		HttpRequest proxyRequest = null;
+		HttpResponse proxyResponse = null;
 
-			// Process the response:
-
-			// Pass the response code. This method with the "reason phrase" is
-			// deprecated but it's the
-			// only way to pass the reason along too.
+		try {
+			if (servletRequest.getHeader(HttpHeaders.CONTENT_LENGTH) != null
+					|| servletRequest.getHeader(HttpHeaders.TRANSFER_ENCODING) != null) {
+				proxyRequest = newProxyRequestWithEntity(method, proxyRequestUri, servletRequest);
+			} else {
+				proxyRequest = new BasicHttpRequest(method, proxyRequestUri);
+			}
+			copyRequestHeaders(servletRequest, proxyRequest);
+			setXForwardedForHeader(servletRequest, proxyRequest);
+			proxyResponse = doExecute(servletRequest, proxyRequest);
 			int statusCode = proxyResponse.getStatusLine().getStatusCode();
-			// noinspection deprecation
 			servletResponse.setStatus(statusCode, proxyResponse.getStatusLine().getReasonPhrase());
-
-			// Copying response headers to make sure SESSIONID or other Cookie
-			// which comes from the remote
-			// server will be saved in client when the proxied url was
-			// redirected to another one.
-			// See issue
-			// [#51](https://github.com/mitre/HTTP-Proxy-Servlet/issues/51)
 			copyResponseHeaders(proxyResponse, servletRequest, servletResponse);
-
 			if (statusCode == HttpServletResponse.SC_NOT_MODIFIED) {
-				// 304 needs special handling. See:
-				// http://www.ics.uci.edu/pub/ietf/http/rfc1945.html#Code304
-				// Don't send body entity/content!
 				servletResponse.setIntHeader(HttpHeaders.CONTENT_LENGTH, 0);
 			} else {
-				// Send the content to the client
 				copyResponseEntity(proxyResponse, servletResponse, proxyRequest, servletRequest);
 			}
-
 		} catch (Exception e) {
 			try {
 				handleRequestException(proxyRequest, e);
@@ -300,12 +377,27 @@ public class GetewayHandler extends Handler {
 				e1.printStackTrace();
 			}
 		} finally {
-			// make sure the entire entity was consumed, so the connection is
-			// released
 			if (proxyResponse != null)
 				consumeQuietly(proxyResponse.getEntity());
-			// Note: Don't need to close servlet outputStream:
-			// http://stackoverflow.com/questions/1159168/should-one-call-close-on-httpservletresponse-getoutputstream-getwriter
+		}
+	}
+	
+	protected void service(String targetUri, HttpResponse proxyResponse, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+		resetUriAndHost(targetUri, servletRequest);
+		try {
+			int statusCode = proxyResponse.getStatusLine().getStatusCode();
+			servletResponse.setStatus(statusCode, proxyResponse.getStatusLine().getReasonPhrase());
+			copyResponseHeaders(proxyResponse, servletRequest, servletResponse);
+			if (statusCode == HttpServletResponse.SC_NOT_MODIFIED) {
+				servletResponse.setIntHeader(HttpHeaders.CONTENT_LENGTH, 0);
+			} else {
+				copyResponseEntity(proxyResponse, servletResponse);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (proxyResponse != null)
+				consumeQuietly(proxyResponse.getEntity());
 		}
 	}
 
@@ -325,34 +417,30 @@ public class GetewayHandler extends Handler {
 		throw new RuntimeException(e);
 	}
 
-	protected HttpResponse doExecute(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
-			HttpRequest proxyRequest) throws IOException {
+	protected HttpResponse doExecute(HttpServletRequest servletRequest, HttpRequest proxyRequest) throws IOException {
 		if (doLog) {
 			log.info("proxy " + servletRequest.getMethod() + " uri: " + servletRequest.getRequestURI() + " -- "
 					+ proxyRequest.getRequestLine().getUri());
 		}
+		if (getTargetHost(servletRequest) == null)
+			System.out.println("getTargetHost(servletRequest)==null");
 		return proxyClient.execute(getTargetHost(servletRequest), proxyRequest);
 	}
 
 	protected HttpRequest newProxyRequestWithEntity(String method, String proxyRequestUri,
 			HttpServletRequest servletRequest) throws IOException {
 		HttpEntityEnclosingRequest eProxyRequest = new BasicHttpEntityEnclosingRequest(method, proxyRequestUri);
-		// Add the input entity (streamed)
-		// note: we don't bother ensuring we close the servletInputStream since
-		// the container handles it
-		eProxyRequest
-				.setEntity(new InputStreamEntity(servletRequest.getInputStream(), getContentLength(servletRequest)));
+		
+		Enumeration<String> names = servletRequest.getParameterNames();
+		List<NameValuePair> nameValuePairs = new ArrayList<>();
+		while(names.hasMoreElements()){
+	         String key = names.nextElement();
+	         nameValuePairs.add(new BasicNameValuePair(key, servletRequest.getParameter(key)));
+	     }
+		eProxyRequest.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		//servletRequest.getInputStream()只能被调用一次，JFinal在Controller前已调用，故此失效。
+		//eProxyRequest.setEntity(new InputStreamEntity(servletRequest.getInputStream(), getContentLength(servletRequest)));
 		return eProxyRequest;
-	}
-
-	// Get the header value as a long in order to more correctly proxy very
-	// large requests
-	private long getContentLength(HttpServletRequest request) {
-		String contentLengthHeader = request.getHeader("Content-Length");
-		if (contentLengthHeader != null) {
-			return Long.parseLong(contentLengthHeader);
-		}
-		return -1L;
 	}
 
 	protected void closeQuietly(Closeable closeable) {
@@ -364,9 +452,7 @@ public class GetewayHandler extends Handler {
 	}
 
 	/**
-	 * HttpClient v4.1 doesn't have the
-	 * {@link org.apache.http.util.EntityUtils#consumeQuietly(org.apache.http.HttpEntity)}
-	 * method.
+	 * HttpClient v4.1 doesn't have the method.
 	 */
 	protected void consumeQuietly(HttpEntity entity) {
 		try {
@@ -398,7 +484,6 @@ public class GetewayHandler extends Handler {
 	 */
 	protected void copyRequestHeaders(HttpServletRequest servletRequest, HttpRequest proxyRequest) {
 		// Get an Enumeration of all of the header names sent by the client
-		@SuppressWarnings("unchecked")
 		Enumeration<String> enumerationOfHeaderNames = servletRequest.getHeaderNames();
 		while (enumerationOfHeaderNames.hasMoreElements()) {
 			String headerName = enumerationOfHeaderNames.nextElement();
@@ -417,7 +502,6 @@ public class GetewayHandler extends Handler {
 		if (hopByHopHeaders.containsHeader(headerName))
 			return;
 
-		@SuppressWarnings("unchecked")
 		Enumeration<String> headers = servletRequest.getHeaders(headerName);
 		while (headers.hasMoreElements()) {// sometimes more than one value
 			String headerValue = headers.nextElement();
@@ -504,7 +588,7 @@ public class GetewayHandler extends Handler {
 			Cookie servletCookie = new Cookie(proxyCookieName, cookie.getValue());
 			servletCookie.setComment(cookie.getComment());
 			servletCookie.setMaxAge((int) cookie.getMaxAge());
-			servletCookie.setPath(path); // set to the path of the proxy servlet
+			//servletCookie.setPath(path); // set to the path of the proxy servlet
 			// don't set cookie domain
 			servletCookie.setSecure(cookie.getSecure());
 			servletCookie.setVersion(cookie.getVersion());
@@ -522,6 +606,7 @@ public class GetewayHandler extends Handler {
 		StringBuilder escapedCookie = new StringBuilder();
 		String cookies[] = cookieValue.split("[;,]");
 		for (String cookie : cookies) {
+			System.out.println("cookie:" + cookie);
 			String cookieSplit[] = cookie.split("=");
 			if (cookieSplit.length == 2) {
 				String cookieName = cookieSplit[0].trim();
@@ -539,7 +624,7 @@ public class GetewayHandler extends Handler {
 
 	/** The string prefixing rewritten cookies. */
 	protected String getCookieNamePrefix(String name) {
-		return "!Proxy!" + this.targetName;
+		return "!lambkit_proxy!";//"!Proxy!" + name;
 	}
 
 	/**
@@ -554,12 +639,20 @@ public class GetewayHandler extends Handler {
 			entity.writeTo(servletOutputStream);
 		}
 	}
+	
+	protected void copyResponseEntity(HttpResponse proxyResponse, HttpServletResponse servletResponse) throws IOException {
+		HttpEntity entity = proxyResponse.getEntity();
+		if (entity != null) {
+			OutputStream servletOutputStream = servletResponse.getOutputStream();
+			entity.writeTo(servletOutputStream);
+		}
+	}
 
 	/**
 	 * Reads the request URI from {@code servletRequest} and rewrites it,
 	 * considering targetUri. It's used to make the new request.
 	 */
-	protected String rewriteUrlFromRequest(HttpServletRequest servletRequest) {
+	protected String rewriteUrlFromRequest(HttpServletRequest servletRequest, Map<String, String> params) {
 		StringBuilder uri = new StringBuilder(500);
 		uri.append(getTargetUri(servletRequest));
 		// Handle the path given to the servlet
@@ -582,13 +675,27 @@ public class GetewayHandler extends Handler {
 				queryString = queryString.substring(0, fragIdx);
 			}
 		}
-
+		
+		int uritype = 0;
 		queryString = rewriteQueryStringFromRequest(servletRequest, queryString);
 		if (queryString != null && queryString.length() > 0) {
 			uri.append('?');
 			// queryString is not decoded, so we need encodeUriQuery not to
 			// encode "%" characters, to avoid double-encoding
 			uri.append(encodeUriQuery(queryString, false));
+			uritype = 1;
+		}
+		
+		if(params!=null) {
+			for (String key : params.keySet()) {
+				if(uritype==0) {
+					uri.append('?');
+					uritype = 1;
+				} else if(uritype==1) {
+					uri.append("&");
+				}
+				uri.append(key).append("=").append(encodeUriQuery(params.get(key),false));
+			}
 		}
 
 		if (doSendUrlFragment && fragment != null) {
@@ -597,7 +704,9 @@ public class GetewayHandler extends Handler {
 			// "%" characters, to avoid double-encoding
 			uri.append(encodeUriQuery(fragment, false));
 		}
-		System.out.println("request url: " + uri.toString());
+		if (Lambkit.isDevMode()) {
+			System.out.println("proxy request url: " + uri.toString());
+		}
 		return uri.toString();
 	}
 
@@ -642,11 +751,6 @@ public class GetewayHandler extends Handler {
 			theUrl = curUrl.toString();
 		}
 		return theUrl;
-	}
-
-	/** The target URI as configured. Not null. */
-	public String getTargetUri() {
-		return targetUri;
 	}
 
 	/**
@@ -718,4 +822,5 @@ public class GetewayHandler extends Handler {
 		asciiQueryChars.set((int) '%');// leave existing percent escapes in
 										// place
 	}
+
 }

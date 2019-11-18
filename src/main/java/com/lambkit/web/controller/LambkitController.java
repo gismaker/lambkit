@@ -35,7 +35,7 @@ import com.lambkit.common.AjaxResult;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.RequestUtils;
 import com.lambkit.common.util.StringUtils;
-import com.lambkit.core.gateway.GatewayKit;
+import com.lambkit.core.gateway.GatewayRender;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrdbManager;
@@ -818,7 +818,11 @@ public abstract class LambkitController extends Controller {
 	
 	@NotAction
 	public void renderProxy(String targetName, String targetUri) {
-		render(GatewayKit.render(targetName, targetUri));
+		render(GatewayRender.by(targetName, targetUri));
+	}
+	
+	public void renderGateway(String targetName, String targetUri) {
+		render(GatewayRender.by(targetName, targetUri));
 	}
 	
 	@NotAction

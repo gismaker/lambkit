@@ -4,6 +4,7 @@ lambkit-1.0.2:
 新增：新增undertow-websocket支持，默认加入DefaultWebSocketServer，地址/websocket
 新增：SecurityUtils新增AES加密解密
 新增：数据库密码加密
+新增：新增Api路由，可直接发布service中的方法
 优化：增强LambkitCache能力，增加list、set方式的缓存
 优化：更改Upms缓存方式，可选择LambkitCache和Redis两种方式
 优化：优化CommonUtils工具
@@ -11,6 +12,7 @@ lambkit-1.0.2:
 优化：移除shiro.ini中关于upms的配置
 优化：升级JFinal到4.7
 优化：ehcache升级到2.6.11
+优化：优化网关服务GatewayService
 
 -----------------------------
 lambkit-1.0.1：

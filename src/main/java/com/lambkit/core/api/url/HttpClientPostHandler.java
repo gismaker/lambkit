@@ -13,31 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.api.url;
 
-public enum UrlRequestMethod {
-	GET("Get"),
-    POST("Post");
+import org.apache.http.client.methods.RequestBuilder;
 
-    private String label;
+public class HttpClientPostHandler extends HttpClientHandler {
 
-    private UrlRequestMethod(String label) {
-        this.label = label;
+    public HttpClientPostHandler(String url) {
+        super(url);
     }
 
-    public String getLabel() {
-        return label;
-    }
 
-    public String getValue() {
-        return name();
-    }
-
-    public boolean isGet() {
-        return GET.equals(this);
-    }
-
-    public boolean isPost() {
-        return POST.equals(this);
+    protected RequestBuilder createRequestBuilder() {
+        return RequestBuilder.post();
     }
 }

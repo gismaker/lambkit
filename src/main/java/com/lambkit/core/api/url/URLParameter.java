@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.api.url;
 
 public class URLParameter {
 
@@ -26,7 +26,7 @@ public class URLParameter {
 	 */
 	private boolean randomValue = false;
 
-	private ApiModel api;
+	private UrlApiModel api;
 
 	public String getKey() {
 		return key;
@@ -52,11 +52,11 @@ public class URLParameter {
 		this.randomValue = randomValue;
 	}
 
-	public ApiModel getApi() {
+	public UrlApiModel getApi() {
 		return api;
 	}
 
-	public void setApi(ApiModel api) {
+	public void setApi(UrlApiModel api) {
 		this.api = api;
 	}
 

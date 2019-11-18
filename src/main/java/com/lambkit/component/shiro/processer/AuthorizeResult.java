@@ -15,7 +15,10 @@
  */
 package com.lambkit.component.shiro.processer;
 
+import java.util.Map;
+
 import com.jfinal.kit.Kv;
+import com.jfinal.kit.StrKit;
 
 /**
  * 认证处理器 执行后的认证结果。
@@ -42,14 +45,55 @@ public class AuthorizeResult extends Kv {
      */
     public static final int ERROR_CODE_SESSION_FORCE_LOGOUT = 3;
 
+    public static AuthorizeResult by(Object key, Object value) {
+		return new AuthorizeResult().set(key, value);
+	}
+	
+	public static AuthorizeResult create() {
+		return new AuthorizeResult();
+	}
+	
+	public AuthorizeResult set(Object key, Object value) {
+		super.set(key, value);
+		return this;
+	}
+	
+	public AuthorizeResult setIfNotBlank(Object key, String value) {
+		if (StrKit.notBlank(value)) {
+			set(key, value);
+		}
+		return this;
+	}
+	
+	public AuthorizeResult setIfNotNull(Object key, Object value) {
+		if (value != null) {
+			set(key, value);
+		}
+		return this;
+	}
+	
+	public AuthorizeResult set(Map map) {
+		super.set(map);
+		return this;
+	}
+	
+	public AuthorizeResult set(Kv kv) {
+		super.set(kv);
+		return this;
+	}
+	
+	public AuthorizeResult delete(Object key) {
+		super.delete(key);
+		return this;
+	}
 
     public static AuthorizeResult ok() {
-        return (AuthorizeResult) by("authorizeResult", true);
+        return by("authorizeResult", true);
     }
 
 
     public static AuthorizeResult fail(int errorCode) {
-        return (AuthorizeResult) by("authorizeResult", false).set("errorCode", errorCode);
+        return by("authorizeResult", false).set("errorCode", errorCode);
     }
 
     public int getErrorCode() {

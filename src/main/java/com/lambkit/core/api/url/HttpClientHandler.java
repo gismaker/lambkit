@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.core.api;
+package com.lambkit.core.api.url;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -28,6 +28,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.lambkit.core.hearbeat.HeartBeatFrequencyMonitorLog;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
@@ -111,8 +113,8 @@ public class HttpClientHandler {
         return this;
     }
 
-    public FrequencyMonitorLog handleAndGenerateFrequencyMonitorLog() {
-        FrequencyMonitorLog monitorLog = new FrequencyMonitorLog();
+    public HeartBeatFrequencyMonitorLog handleAndGenerateFrequencyMonitorLog() {
+        HeartBeatFrequencyMonitorLog monitorLog = new HeartBeatFrequencyMonitorLog();
 
         final long start = System.currentTimeMillis();
         try {

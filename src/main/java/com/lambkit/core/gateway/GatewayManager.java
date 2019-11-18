@@ -17,6 +17,7 @@ package com.lambkit.core.gateway;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ import com.google.common.collect.Maps;
 import com.jfinal.config.Handlers;
 import com.jfinal.kit.StrKit;
 import com.lambkit.Lambkit;
+import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.config.ConfigManager;
 
 /**
@@ -41,12 +43,16 @@ public class GatewayManager {
     }
     
 	private Map<String, GatewayConfig> gatewayConfigs = Maps.newHashMap();
+	private  Gateway gateway;
     
 	public GatewayManager() {
 		GatewayConfig config = ConfigManager.me().get(GatewayConfig.class, "lambkit.http.proxy");
 		config.setName(GatewayConfig.NAME_DEFAULT);
         if (config.isConfigOk()) {
         	gatewayConfigs.put(config.getName(), config);
+        	gateway = new Gateway(config);
+        } else {
+        	gateway = new Gateway();
         }
 
         Properties prop = ConfigManager.me().getProperties();
@@ -72,15 +78,6 @@ public class GatewayManager {
         }
 	}
 	
-	public void init(Handlers me) {
-		for (GatewayConfig config : gatewayConfigs.values()) {
-			if(Lambkit.isDevMode()) {
-				System.out.println("Gateway: " + config.getName() + " from " + config.getUrlpattern() + " to " + config.getTargetUri());
-			}
-			me.add(new GetewayHandler(config));
-		}
-	}
-	
 	public Map<String, GatewayConfig> getConfigs() {
 		return gatewayConfigs;
 	}
@@ -89,7 +86,26 @@ public class GatewayManager {
 		this.gatewayConfigs = gatewayConfigs;
 	}
 	
-	public GatewayConfig getDefaultConfigs() {
+	public GatewayConfig getDefaultConfig() {
     	return gatewayConfigs.get(GatewayConfig.NAME_DEFAULT);
     }
+	
+	public GatewayConfig getConfig(String target) {
+		if(StrKit.isBlank(target)) return null;
+		for (GatewayConfig config : gatewayConfigs.values()) {
+			if(config!=null && StringUtils.isMatch(target, config.getUrlpattern())) {
+				return config;
+			}
+		}
+    	return null;
+    }
+
+	public Gateway getGateway() {
+		return gateway;
+	}
+
+	public void setGateway(Gateway gateway) {
+		this.gateway = gateway;
+	}
+	
 }

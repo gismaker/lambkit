@@ -48,6 +48,10 @@ public class ServiceManager {
     public ServiceObject get(Class<?> interfaceClass) {
     	return getServices().get(interfaceClass.getName());
     }
+    
+    public ServiceObject get(String interfaceClassName) {
+    	return getServices().get(interfaceClassName);
+    }
     /**
      * 获取一个非null的接口服务对象
      * @param interfaceClass
@@ -132,6 +136,18 @@ public class ServiceManager {
     	put(service);
 	}
     
+    /**
+     * 获取服务接口
+     * @param interfaceClass
+     * @return
+     */
+    public <T> T inject(String interfaceClassName) {
+    	ServiceObject service = getServices().get(interfaceClassName);
+    	if(service!=null) {
+    		return service.inject();
+    	}
+    	return null;
+    }
     /**
      * 获取服务接口
      * @param interfaceClass

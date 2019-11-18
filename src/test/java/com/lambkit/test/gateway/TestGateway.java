@@ -5,7 +5,7 @@ import com.jfinal.config.Routes;
 import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
-import com.lambkit.core.gateway.GatewayManager;
+import com.lambkit.core.gateway.GatewayHandler;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.test.web.controller.TestController;
 
@@ -16,7 +16,7 @@ public class TestGateway {
 			@Override
 			public void configHandler(Handlers me) {
 				// TODO Auto-generated method stub
-				GatewayManager.me().init(me);
+				me.add(new GatewayHandler());
 			}
 			@Override
     		public void configRoute(Routes me) {
