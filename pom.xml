@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.lambkit</groupId>
 	<artifactId>lambkit</artifactId>
-	<version>0.2.3</version>
+	<version>1.0.2</version>
 	<name>lambkit</name>
 	<url>http://maven.apache.org</url>
 
@@ -369,14 +370,14 @@
 					<groupId>log4j</groupId>
 					<artifactId>log4j</artifactId>
 				</exclusion>
-				<exclusion>  
-           			<artifactId>jdk.tools</artifactId>  
-            		<groupId>jdk.tools</groupId>  
-        		</exclusion>  
+				<exclusion>
+					<artifactId>jdk.tools</artifactId>
+					<groupId>jdk.tools</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		
+
+
 		<!--<dependency> -->
 		<!--<groupId>org.apache.dubbo</groupId> -->
 		<!--<artifactId>dubbo</artifactId> -->
@@ -449,10 +450,39 @@
 		</dependency>
 		<!-- 用于支持 dubbo 的 restful 注解 end -->
 
+		<!-- zookeeper -->
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.4.14</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.3</version>
+		</dependency>
+		<!-- zookeeper end -->
+
+		<!-- consul -->
+		<dependency>
+			<groupId>com.orbitz.consul</groupId>
+			<artifactId>consul-client</artifactId>
+			<version>0.12.3</version>
+		</dependency>
+		<!-- consul end -->
 	</dependencies>
 
 	<build>
-
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
@@ -533,7 +563,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 	<distributionManagement>
 		<snapshotRepository>

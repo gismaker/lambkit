@@ -2,7 +2,7 @@
 
 undertow.devMode=true
 undertow.host=0.0.0.0
-undertow.port=8080
+undertow.port=80
 
 # 打成 fatjar 部署的项目开启下面的配置
 # undertow.resourcePath=src/main/webapp, classpath:webapp

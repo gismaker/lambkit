@@ -16,39 +16,21 @@
 package com.lambkit.test.rpc.motan;
 
 import com.jfinal.config.Routes;
-import com.jfinal.core.Controller;
-import com.jfinal.core.JFinal;
 import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
-import com.lambkit.core.rpc.RpcKit;
-import com.lambkit.distributed.node.ManagerNodeService;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.test.node.ServiceNodeServer;
-import com.lambkit.web.controller.annotation.RequestMapping;
-import com.weibo.api.motan.config.ProtocolConfig;
-import com.weibo.api.motan.config.RefererConfig;
-import com.weibo.api.motan.config.RegistryConfig;
 
-import test.service.CategoryService;
-import test.service.User;
-import test.service.UserService;
-
-
-//@RequestMapping("/rpc")
-public class MotanClientDemo extends Controller {
-    /**
-     * 请先启动 MotanServerDemo 后，再启动
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
+public class MotanClientDemo extends LambkitApplicationContext {
+	
+	@Override
+	public void configModule(LambkitModule module) {
 		LambkitModule config = new LambkitModule() {
     		@Override
     		public void configRoute(Routes me) {
     			// TODO Auto-generated method stub
     			super.configRoute(me);
-    			me.add("rpc", MotanClientDemo.class);
+    			me.add("rpc", MotanController.class);
     		}
 		};
 		Lambkit.addModule(config);
@@ -58,8 +40,16 @@ public class MotanClientDemo extends Controller {
 		Lambkit.setArg("lambkit.node.manager.id", "lambkit-manager-node");
 		Lambkit.setArg("lambkit.node.manager.rpcPort", "8002");
 		Lambkit.setArg("lambkit.node.manager.port", "9527");
-		Lambkit.setArg("lambkit.server.port", 8088);
-		LambkitApplication.run(LambkitApplicationContext.class, args);
+	}
+	
+    /**
+     * 请先启动 MotanServerDemo 后，再启动
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+		
+		LambkitApplication.run(MotanClientDemo.class, 8088, args);
 		
 		/*
     	RefererConfig<UserService> motanDemoServiceReferer = new RefererConfig<UserService>();
@@ -140,72 +130,4 @@ public class MotanClientDemo extends Controller {
 		return refererConfig.getRef();
 	}
 	*/
-
-
-    public void index() {
-    	renderText("rpc controller.");
-    }
-    
-    public void node() {
-    	ManagerNodeService service = RpcKit.obtain(ManagerNodeService.class, "lambkit", "1.0", "127.0.0.1:8002");
-		if(service!=null) {
-			System.out.println(service.getToken());
-		} else {
-			System.out.println("fail");
-		}
-    }
-    
-    public void helloUser() {
-    	//Rpc rpc = RpcManager.me().getRpc();
-
-        long time = System.currentTimeMillis();
-        UserService service = RpcKit.obtain(UserService.class, "lambkit", "1.0");
-        System.out.println("obtain:" + (System.currentTimeMillis() - time) + "---" + service);
-
-
-        for (int i = 0; i < 10; i++) {
-            // 使用服务
-            System.out.println(service.hello("lambkit" + i));
-        }
-
-
-        renderText("ok");
-    }
-    
-    public void hello() {
-        CategoryService service = RpcKit.obtain(CategoryService.class, "lambkit", "1.0");
-        System.out.println(service.hello("lambkit"));
-    }
-
-
-    public void exception() {
-    	//Rpc rpc = RpcManager.me().getRpc();
-    	
-        long time = System.currentTimeMillis();
-        UserService service = RpcKit.obtain(UserService.class, "lambkit", "1.0");
-
-//        try {
-        String string = service.exception("1");
-//        } catch (LambkitException e) {
-//            System.out.println("exception : " + e.getMessage());
-//        }
-
-        renderText("exception:" + string);
-
-    }
-    
-    public void find() {
-    	//Rpc rpc = RpcManager.me().getRpc();
-    	
-        long time = System.currentTimeMillis();
-        UserService service = RpcKit.obtain(UserService.class, "lambkit", "1.0");
-        System.out.println("obtain:" + (System.currentTimeMillis() - time) + "---" + service);
-
-        User user = service.findUserById("1");
-
-        renderText("get user name :" + user.getName() + ", id: "+user.getId());
-    }
-
-
-
 }

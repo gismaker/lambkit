@@ -23,6 +23,7 @@ import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.config.annotation.PropertieConfig;
+import com.lambkit.distributed.node.info.NodeType;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -34,6 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 用于读取配置信息，包括本地配置信息和分布式远程配置信息
  */
 public class ConfigManager {
+	private static final Log log = Log.getLog(ConfigManager.class);
 
     private static final ConfigManager me = new ConfigManager();
 
@@ -42,11 +44,9 @@ public class ConfigManager {
     }
 
     private Prop prop;
-
     private PropInfoMap propInfoMap = new PropInfoMap();
-
+    private Map<String, String> argMap;
     private ConcurrentHashMap<String, Object> configs = new ConcurrentHashMap<>();
-    private static final Log log = Log.getLog(ConfigManager.class);
 
     public ConfigManager() {
         prop = PropKit.use("lambkit.properties");
@@ -260,12 +260,45 @@ public class ConfigManager {
         if (type == byte[].class) {
             return s.getBytes();
         }
-
+        
+        if(type == NodeType.class) {
+        	return NodeType.valueOf(s);
+        }
         throw new LambkitException(type.getName() + " can not be converted, please use other type in your config class!");
     }
 
     public PropInfoMap getPropInfoMap() {
         return propInfoMap;
+    }
+    
+    
+    public void setArg(String key, Object value) {
+        if (argMap == null) {
+            argMap = new HashMap<>();
+        }
+        argMap.put(key, value.toString());
+    }
+
+    /**
+     * 获取启动参数
+     *
+     * @param key
+     * @return
+     */
+    public String getArg(String key) {
+        if (argMap == null) return null;
+        return argMap.get(key);
+    }
+    
+    public String getArg(String key, String defaultValue) {
+        if (argMap == null) return defaultValue;
+        String value = argMap.get(key);
+        if(StrKit.isBlank(value)) return defaultValue;
+        return value;
+    }
+    
+    public Map<String, String> getArgs() {
+        return argMap;
     }
 
 }

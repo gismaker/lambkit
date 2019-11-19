@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.lambkit.test.web.controller;
+package test.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -59,6 +59,10 @@ import com.lambkit.web.controller.WidgetManager;
 //@Before(AppLoginInterceptor.class)
 @RequiresRoles(value={"superadmin","super","admin"}, logical=Logical.OR)
 public class CommonController extends LambkitController {
+	
+	public void hello() {
+		renderText("hello world!");
+	}
 	
 	//@Before({RuleRoleInterceptor.class,UserAuthInterceptor.class})
 	public void index() {

@@ -95,13 +95,9 @@ public class Lambkit {
     
     private static LambkitModule module;
     private static Boolean isRunInjar = null;
-    private static Map<String, String> argMap;
     
     public static void setArg(String key, Object value) {
-        if (argMap == null) {
-            argMap = new HashMap<>();
-        }
-        argMap.put(key, value.toString());
+        ConfigManager.me().setArg(key, value);
     }
 
     /**
@@ -111,19 +107,15 @@ public class Lambkit {
      * @return
      */
     public static String getArg(String key) {
-        if (argMap == null) return null;
-        return argMap.get(key);
+        return ConfigManager.me().getArg(key);
     }
     
     public static String getArg(String key, String defaultValue) {
-        if (argMap == null) return defaultValue;
-        String value = argMap.get(key);
-        if(StrKit.isBlank(value)) return defaultValue;
-        return value;
+        return ConfigManager.me().getArg(key, defaultValue);
     }
     
     public static Map<String, String> getArgs() {
-        return argMap;
+        return ConfigManager.me().getArgs();
     }
     
     public static void addModule(LambkitModule module) {

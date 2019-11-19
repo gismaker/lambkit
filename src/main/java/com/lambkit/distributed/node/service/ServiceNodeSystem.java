@@ -84,6 +84,7 @@ public class ServiceNodeSystem {
 				Node node = nodes.getNodes().get(list.get(i));
 				//System.out.println("send from node: " + node.getId());
 				ManagerNodeService mns = getRpcService(node);
+				if(mns==null) continue;
 				NodeGlobalInfo ngi = sendNodeAndApi(mns);
 				if(NodeManager.me().isMajorManagerNode(node)) {
 					String token = ngi.getToken();

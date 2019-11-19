@@ -36,7 +36,7 @@ public class RpcKit {
 	
 	public static <T> T obtain(Class<T> serviceClass, String group, String version) {
 		Rpc rpc = RpcManager.me().getRpc();
-		return rpc.serviceObtain(serviceClass, new RpcServiceConfig(group, version));
+		return rpc==null ? null : rpc.serviceObtain(serviceClass, new RpcServiceConfig(group, version));
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class RpcKit {
 	 */
 	public static <T> T obtain(Class<T> serviceClass, String group, String version, String url) {
 		Rpc rpc = RpcManager.me().getRpc();
-		return rpc.serviceObtain(serviceClass, new RpcServiceConfig(group, version), url);
+		return rpc==null ? null : rpc.serviceObtain(serviceClass, new RpcServiceConfig(group, version), url);
 	}
 	
 	/**

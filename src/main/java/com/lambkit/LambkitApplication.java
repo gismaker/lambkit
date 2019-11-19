@@ -1,10 +1,13 @@
 package com.lambkit;
 
 import com.jfinal.config.Plugins;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.IPlugin;
+import com.jfinal.server.undertow.UndertowConfig;
 import com.jfinal.server.undertow.UndertowServer;
 import com.lambkit.common.util.TimeUtils;
 import com.lambkit.core.aop.AopKit;
+import com.lambkit.core.config.ConfigManager;
 import com.lambkit.module.LambkitModule;
 
 public class LambkitApplication {
@@ -22,23 +25,28 @@ public class LambkitApplication {
 		run(LambkitApplicationContext.class, args);
 	}
 	
+	public static void run(String[] args) {
+		parseArgs(args);
+		String jfinalConfig = ConfigManager.me().getValue("lambkit.starter");
+		createServer(new UndertowConfig(jfinalConfig)).start(); 
+	}
+	
 	public static void run(Class<? extends LambkitApplicationContext> jfinalConfigClass, String[] args) {
 		parseArgs(args);
 		if(jfinalConfigClass==null) {
 			jfinalConfigClass = LambkitApplicationContext.class;
 		}
-		UndertowServer.create(jfinalConfigClass).configWeb(builder->{
-			builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
-			builder.addFilter("shiro", "org.apache.shiro.web.servlet.ShiroFilter");
-			builder.addFilterUrlMapping("shiro", "/*");
-			// 配置 WebSocket，DefaultWebSocketServer 需使用 ServerEndpoint 注解
-	        builder.addWebSocketEndpoint("com.lambkit.web.websocket.DefaultWebSocketServer");
-		}).addHotSwapClassPrefix("org.apache.shiro").start(); 
+		createServer(new UndertowConfig(jfinalConfigClass)).start(); 
 	}
 	
-	public void run(String[] args) {
+	public static void run(Class<? extends LambkitApplicationContext> jfinalConfigClass, int port, String[] args) {
 		parseArgs(args);
-		run();
+		if(jfinalConfigClass==null) {
+			jfinalConfigClass = LambkitApplicationContext.class;
+		}
+		UndertowConfig config = new UndertowConfig(jfinalConfigClass);
+		config.setPort(port);
+		createServer(config).start(); 
 	}
 	
 	public void run() {
@@ -46,11 +54,7 @@ public class LambkitApplication {
 			contextClass = LambkitApplicationContext.class;
 		}
 		if(isWebEnvironment) {
-			UndertowServer.create(contextClass).configWeb(builder->{
-				builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
-				builder.addFilter("shiro", "org.apache.shiro.web.servlet.ShiroFilter");
-				builder.addFilterUrlMapping("shiro", "/*");
-			}).addHotSwapClassPrefix("org.apache.shiro").start(); 
+			createServer(new UndertowConfig(contextClass)).start(); 
 		} else {
 			if(plugins==null) {
 				plugins = new Plugins();
@@ -76,6 +80,16 @@ public class LambkitApplication {
 			plugins.getPluginList().clear();
 			plugins = null;
 		}
+	}
+	
+	private static UndertowServer createServer(UndertowConfig config) {
+		return UndertowServer.create(config).configWeb(builder->{
+			builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
+			builder.addFilter("shiro", "org.apache.shiro.web.servlet.ShiroFilter");
+			builder.addFilterUrlMapping("shiro", "/*");
+			// 配置 WebSocket，DefaultWebSocketServer 需使用 ServerEndpoint 注解
+	        builder.addWebSocketEndpoint("com.lambkit.web.websocket.DefaultWebSocketServer");
+		}).addHotSwapClassPrefix("org.apache.shiro");
 	}
 	
 	/**
@@ -115,9 +129,5 @@ public class LambkitApplication {
     
     public void addModule(LambkitModule module) {
     	Lambkit.addModule(module);
-	}
-
-	public void setModule(LambkitModule module) {
-		Lambkit.setModule(module);
 	}
 }

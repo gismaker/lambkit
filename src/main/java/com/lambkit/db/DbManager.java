@@ -15,7 +15,7 @@
  */
 package com.lambkit.db;
 
-import com.beust.jcommander.internal.Maps;
+import com.google.common.collect.Maps;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;

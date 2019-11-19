@@ -3,15 +3,14 @@ package com.lambkit.test.gateway;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Routes;
 import com.lambkit.LambkitApplicationContext;
-import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.gateway.GatewayHandler;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.test.web.controller.TestController;
 
-public class TestGateway {
+public class TestGatewayServer extends LambkitApplicationContext {
 	
-	public static void main(String[] args) {
+	@Override
+	public void configModule(LambkitModule module) {
 		LambkitModule config = new LambkitModule() {
 			@Override
 			public void configHandler(Handlers me) {
@@ -22,13 +21,13 @@ public class TestGateway {
     		public void configRoute(Routes me) {
     			// TODO Auto-generated method stub
     			super.configRoute(me);
-    			me.add("/", TestController.class, "");
+    			me.add("/", TestGatewayController.class, "");
     		}
 		};
-		Lambkit.addModule(config);
-		
-		Lambkit.setArg("lambkit.server.webAppDir", "src/main/webapp");
-		Lambkit.setArg("lambkit.server.port", 8080);
-		LambkitApplication.run(LambkitApplicationContext.class, args);
+		module.addModule(config);
+	}
+	
+	public static void main(String[] args) {
+		LambkitApplication.run(TestGatewayServer.class, 9090, args);
 	}
 }

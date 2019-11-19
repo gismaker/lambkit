@@ -20,9 +20,7 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.common.util.DateTimeUtils;
-import com.lambkit.web.directive.annotation.JFinalDirective;
 
-@JFinalDirective("long2date")
 public class DateDirective extends LambkitDirective {
 	@Override
 	public void onRender(Env env, Scope scope, Writer writer) {
