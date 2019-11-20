@@ -172,7 +172,7 @@ public class GeneratorManager {
 		LambkitApplication application = new LambkitApplication(LambkitApplicationContext.class);
 		application.setWebEnvironment(false);
 		//启动应用
-		application.run(null);
+		application.run();
 		//创建生成器
 		Generator g = GeneratorManager.me().getDefaultGenerator();
 		//执行
