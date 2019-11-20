@@ -10,7 +10,7 @@ public class CodeGeneratorTest {
 	public static void main(String[] args) {
 		LambkitApplication application = new LambkitApplication(LambkitApplicationContext.class);
 		application.setWebEnvironment(false);
-		application.run(args);
+		application.run();
 		
 		Kv data = Kv.by("tableRemovePrefixes", "upms_");
 		data.set("includedTables", "upms_log");

@@ -2,7 +2,7 @@ package com.lambkit.test.db.mgr.meta;
 
 import java.util.Map;
 
-import com.beust.jcommander.internal.Maps;
+import com.google.common.collect.Maps;
 import com.lambkit.db.mgr.MgrdbConfig;
 import com.lambkit.db.mgr.MgrdbManager;
 

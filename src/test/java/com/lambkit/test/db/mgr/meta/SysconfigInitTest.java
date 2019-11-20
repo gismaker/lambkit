@@ -2,7 +2,7 @@ package com.lambkit.test.db.mgr.meta;
 
 import java.util.Map;
 
-import com.beust.jcommander.internal.Maps;
+import com.google.common.collect.Maps;
 import com.lambkit.db.mgr.MgrdbConfig;
 import com.lambkit.db.mgr.MgrdbManager;
 
@@ -28,7 +28,7 @@ public class SysconfigInitTest {
 		LambkitApplication application = new LambkitApplication(Application.class);
 		application.addModule(new MetaMgrModule());
 		application.setWebEnvironment(false);
-		application.run(args);
+		application.run();
 
 		SysconfigInitTest metaHelp = new SysconfigInitTest();
 		MgrdbService service = MgrdbManager.me().getService();
