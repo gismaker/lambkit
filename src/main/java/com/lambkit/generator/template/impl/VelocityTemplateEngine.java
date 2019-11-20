@@ -96,10 +96,17 @@ public class VelocityTemplateEngine extends TemplateEngine {
 		velocityEngine.setProperty("class.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.FileResourceLoader");
 		boolean flag = templatePath.length() > 2 && templatePath.substring(1, 2).equals(":") ? false : true;
-		if(flag) fileVMPath = templatePath + fileVMPath;
-		else velocityEngine.setProperty("file.resource.loader.path", templatePath);
+		if(flag) {
+			fileVMPath = templatePath + fileVMPath;
+		} else {
+			//去掉模板文件夹名称
+			templatePath = PathUtils.replacePath(templatePath);
+			templatePath = templatePath.endsWith("/") ? templatePath.substring(0, templatePath.length()-1) : templatePath;
+			String respath = templatePath.substring(0, templatePath.lastIndexOf("/"));
+			velocityEngine.setProperty("file.resource.loader.path", respath);
+		}
 		velocityEngine.init();
-		Template template = velocityEngine.getTemplate(fileVMPath);//(fileVMPath.replace("D:\\web\\workspace\\psms", ""));
+		Template template = velocityEngine.getTemplate(fileVMPath);
 		// 实例化一个VelocityContext
 		VelocityContext velocityContext = new VelocityContext();
 		//velocityContext.put("bean", bean);

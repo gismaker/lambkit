@@ -7,8 +7,8 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import com.lambkit.common.util.StringUtils;
-import $!{basepackage}.rpc.api.${classname}Service;
-import $!{basepackage}.rpc.model.${classname};
+import $!{basepackage}.service.${classname}Service;
+import $!{basepackage}.model.${classname};
 import com.lambkit.web.directive.LambkitDirective;
 
 public class ${classname}Directive extends LambkitDirective {

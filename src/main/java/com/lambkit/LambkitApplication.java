@@ -1,7 +1,6 @@
 package com.lambkit;
 
 import com.jfinal.config.Plugins;
-import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.IPlugin;
 import com.jfinal.server.undertow.UndertowConfig;
 import com.jfinal.server.undertow.UndertowServer;
@@ -50,17 +49,17 @@ public class LambkitApplication {
 	}
 	
 	public void run() {
-		if(contextClass==null) {
-			contextClass = LambkitApplicationContext.class;
-		}
 		if(isWebEnvironment) {
+			if(contextClass==null) {
+				contextClass = LambkitApplicationContext.class;
+			}
 			createServer(new UndertowConfig(contextClass)).start(); 
 		} else {
 			if(plugins==null) {
 				plugins = new Plugins();
 			}
 			TimeUtils.startTime("start lambkit app");
-			LambkitApplicationContext context = AopKit.singleton(contextClass);
+			LambkitApplicationContext context = AopKit.singleton(LambkitApplicationContext.class);
 			context.configPlugin(plugins);
 			for(IPlugin plugin : plugins.getPluginList()) {
 				plugin.start();
