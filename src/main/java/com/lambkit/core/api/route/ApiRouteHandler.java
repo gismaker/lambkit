@@ -61,7 +61,7 @@ public class ApiRouteHandler extends Handler {
 		// 系统参数验证
 		String params = request.getParameter(PARAMS);
 		String method = request.getParameter(METHOD);
-		Object result;
+		ApiResult result;
 
 		ApiRunnable apiRunable = null;
 		ApiRequest apiRequest = null;
@@ -80,13 +80,14 @@ public class ApiRouteHandler extends Handler {
 			// 用户登录验证
 			if (apiRunable.getApiMapping().useLogin()) {
 				if (apiRequest.isLogin()) {
-					throw new ApiException("009", "调用失败：用户未登陆");
+					throw new ApiException(402, "调用失败：用户未登陆");
 				}
 			}
 
 			log.info("请求接口={" + method + "} 参数=" + params + "");
 			Object[] args = buildParams(apiRunable, params, request, response, apiRequest);
-			result = apiRunable.run(args);
+			Object data = apiRunable.run(args);
+			result = ApiResult.ok(data);
 		} catch (ApiException e) {
 			response.setStatus(500);// 封装异常并返回
 			log.error("调用接口={" + method + "}异常  参数=" + params + "", e);
@@ -111,21 +112,13 @@ public class ApiRouteHandler extends Handler {
 	 * @param throwable
 	 * @return
 	 */
-	private Object handleError(Throwable throwable) {
-		String code = "";
-		String message = "";
-
+	private ApiResult handleError(Throwable throwable) {
+		ApiResult result;
 		if (throwable instanceof ApiException) {
-			code = "0001";
-			message = throwable.getMessage();
+			result = ApiResult.by((ApiException) throwable);
 		} else {
-			code = "0002";
-			message = throwable.getMessage();
+			result = ApiResult.fail(throwable.getMessage(), null);
 		}
-
-		Map<String, Object> result = new HashMap<>();
-		result.put("error", code);
-		result.put("msg", message);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		PrintStream stream = new PrintStream(out);
 		throwable.printStackTrace(stream);
@@ -179,10 +172,10 @@ public class ApiRouteHandler extends Handler {
 		}
 		Token token = tokenService.getToken(apiRequest.getAccessToken());
 		if (token == null) {
-			throw new ApiException("验证失败：指定'token'不存在");
+			throw new ApiException(402, "验证失败：指定'token'不存在");
 		}
 		if (token.getExpiresTime().before(new Date())) {
-			throw new ApiException("验证失败：指定'token'已失效");
+			throw new ApiException(402, "验证失败：指定'token'已失效");
 		}
 
 		// 生成签名
@@ -195,12 +188,12 @@ public class ApiRouteHandler extends Handler {
 
 		// 比较两次签名，防止数据篡改
 		if (!sign.toUpperCase().equals(apiRequest.getSign())) {
-			throw new ApiException("验证失败：签名非法");
+			throw new ApiException(402, "验证失败：签名非法");
 		}
 
 		// 时间验证:防止第三者伪造同样的请求
 		if (Math.abs(Long.valueOf(timestamp) - System.currentTimeMillis()) > 10 * 60 * 1000) {
-			throw new ApiException("验证失败：签名失效");
+			throw new ApiException(402, "验证失败：签名失效");
 		}
 
 		apiRequest.setLogin(true);

@@ -4,7 +4,7 @@ lambkit-1.0.2:
 新增：新增undertow-websocket支持，默认加入DefaultWebSocketServer，地址/websocket
 新增：SecurityUtils新增AES加密解密
 新增：数据库密码加密
-新增：新增Api路由，可直接发布service中的方法
+新增：新增ApiRoute路由，可直接发布service中的方法
 新增：新增Dubbo实现的RPC功能
 新增：集成zookeeper和consul服务注册和发现功能
 优化：增强LambkitCache能力，增加list、set方式的缓存
@@ -15,6 +15,10 @@ lambkit-1.0.2:
 优化：升级JFinal到4.7
 优化：ehcache升级到2.6.11
 优化：优化网关服务GatewayService
+优化：ApiRoute统一返回接口格式
+修复：修复generator模板地址错误问题
+修复：修复LambkitApplication.run使用错误问题
+修复：去除com.beust.jcommander.internal包的引用
 
 -----------------------------
 lambkit-1.0.1：

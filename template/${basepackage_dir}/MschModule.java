@@ -52,9 +52,9 @@ public class MschModule extends LambkitModule  {
 	public void onStart() {
 		// TODO Auto-generated method stub
 		addTag(this);
-		if("server".equals(getConfig().getDbconfig())) {
+		if("server".equals(getConfig().getServerType())) {
 			registerLocalService();
-		} else if("client".equals(getConfig().getDbconfig())) {
+		} else if("client".equals(getConfig().getServerType())) {
 			registerRemoteService();
 		} 
 	}
