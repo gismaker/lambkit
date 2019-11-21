@@ -4,10 +4,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.lambkit.common.service.ServiceManager;
 import com.lambkit.common.service.ServiceObject;
@@ -21,7 +21,7 @@ import com.lambkit.common.service.ServiceObject;
 public class ApiStore {
 
 	// API 接口住的地方
-	private Map<String, ApiRunnable> apiMap = new HashMap<String, ApiRunnable>();
+	private ConcurrentHashMap<String, ApiRunnable> apiMap = new ConcurrentHashMap<String, ApiRunnable>();
 
 	public void loadApiFromSerices() {
 		// 获取所有calss
@@ -34,7 +34,7 @@ public class ApiStore {
 				ApiMapping apiMapping = method.getAnnotation(ApiMapping.class);
 				if (apiMapping != null) {
 					// 找到了目标方法
-					addApiItem(apiMapping, service.getKey(), method);
+					addApiItem(apiMapping, service.getKey(), clazz, method);
 				}
 			}
 		}
@@ -54,15 +54,14 @@ public class ApiStore {
 	 * 添加api <br/>
 	 *
 	 * @param apiMapping api配置
-	 * @param beanName   spring context中的名称
+	 * @param beanName
 	 * @param method
 	 */
-	private void addApiItem(ApiMapping apiMapping, String beanName, Method method) {
-		ApiRunnable apiRun = new ApiRunnable();
-		apiRun.apiName = apiMapping.value();
-		apiRun.targetMethod = method;
-		apiRun.targetName = beanName;
-		apiRun.apiMapping = apiMapping;
+	private void addApiItem(ApiMapping apiMapping, String beanName, Class<?> serviceClas, Method method) {
+		String apiName = apiMapping.value();
+		String targetName = beanName;
+		ApiInterceptor[] methodInters = ApiInterceptorManager.me().buildServiceMethodInterceptor(serviceClas, method);
+		ApiRunnable apiRun = new ApiRunnable(apiName, targetName, method, apiMapping, methodInters);
 		apiMap.put(apiMapping.value(), apiRun);
 	}
 
@@ -76,7 +75,7 @@ public class ApiStore {
 		}
 		List<ApiRunnable> list = new ArrayList<ApiRunnable>(20);
 		for (ApiRunnable api : apiMap.values()) {
-			if (api.apiName.equals(apiName)) {
+			if (api.getApiName().equals(apiName)) {
 				list.add(api);
 			}
 		}

@@ -2,8 +2,10 @@ package com.lambkit.core.api.route;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 import com.lambkit.common.service.ServiceManager;
+import com.lambkit.common.service.ServiceObject;
 
 /**
  * 用于执行对应的API方法
@@ -13,20 +15,57 @@ import com.lambkit.common.service.ServiceManager;
  */
 public class ApiRunnable {
 
-	String apiName; // lambkit.api.user.getUser
-	String targetName; // interface Service 名称
-	// ServiceObject target; // UserServiceImpl 实例
-	Method targetMethod; // 目标方法 getUser
-	ApiMapping apiMapping;
+	private String apiName; // lambkit.api.user.getUser
+	private String targetName; // interface Service 名称
+	//Object target; // UserServiceImpl 实例
+	private Method targetMethod; // 目标方法 getUser
+	private ApiMapping apiMapping;
+	private final ApiInterceptor[] interceptors;
+	
+	public ApiRunnable(String apiName, String targetName, Method targetMethod, ApiMapping apiMapping, ApiInterceptor[] interceptors) {
+		this.apiName = apiName;
+		this.targetName = targetName;
+		this.targetMethod = targetMethod;
+		this.apiMapping = apiMapping;
+		this.interceptors = interceptors;
+	}
 
 	public Object run(Object... args)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object target = ServiceManager.me().inject(targetName);
 		return targetMethod.invoke(target, args);
 	}
-
+	
 	public Class<?>[] getParamTypes() {
 		return targetMethod.getParameterTypes();
+	}
+	
+	public String[] getParamNames() {
+		final int paraCount = targetMethod.getParameterCount();
+		String[] resultList = new String[paraCount];
+		if (paraCount == 0) {
+			return resultList;
+		}
+		Parameter[] paras = targetMethod.getParameters();
+		for (int i = 0; i < paraCount; i++) {
+			Parameter p = paras[i];
+			String parameterName = p.getName();
+			System.out.println("method param: " + parameterName);
+			resultList[i] = parameterName;
+		}
+		return resultList;
+	}
+	
+	public Object getTarget() {
+		return ServiceManager.me().inject(targetName);
+	}
+	
+	public ServiceObject getServiceObject() {
+		return ServiceManager.me().get(targetName);
+	}
+	
+	public String getMethodName() {
+		return targetMethod.getName();
 	}
 
 	public String getApiName() {
@@ -37,15 +76,15 @@ public class ApiRunnable {
 		return targetName;
 	}
 
-	public Object getTarget() {
-		return ServiceManager.me().inject(targetName);
-	}
-
-	public Method getTargetMethod() {
+	public Method getMethod() {
 		return targetMethod;
 	}
 
 	public ApiMapping getApiMapping() {
 		return apiMapping;
+	}
+
+	public ApiInterceptor[] getInterceptors() {
+		return interceptors;
 	}
 }
