@@ -5,11 +5,12 @@ import java.lang.reflect.Method;
 
 public class ApiInvocation {
 
-	private ApiRunnable action;
+	private ApiAction action;
 	private Object target;
 	private Method method;
 	private Object[] args;
 	private ApiInterceptor[] inters;
+	private Object errorValue;
 	private Object returnValue;
 	
 	private int index = 0;
@@ -19,7 +20,7 @@ public class ApiInvocation {
 		this.action = null;
 	}
 	
-	public ApiInvocation(ApiRunnable action, Object[] args) {
+	public ApiInvocation(ApiAction action, Object[] args) {
 		this.action = action;
 		this.inters = action.getInterceptors();
 		this.target = action.getTarget();
@@ -51,7 +52,7 @@ public class ApiInvocation {
 		}
 	}
 	
-	public ApiRunnable getAction() {
+	public ApiAction getAction() {
 		return action;
 	}
 	
@@ -133,5 +134,13 @@ public class ApiInvocation {
 	 */
 	public boolean isActionInvocation() {
 		return action != null;
+	}
+
+	public Object getErrorValue() {
+		return errorValue;
+	}
+
+	public void setErrorValue(Object errorValue) {
+		this.errorValue = errorValue;
 	}
 }

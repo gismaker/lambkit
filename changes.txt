@@ -7,7 +7,8 @@ lambkit-1.0.2:
 新增：新增ApiRoute路由，可直接发布service中的方法
 新增：新增Dubbo实现的RPC功能
 新增：集成zookeeper和consul服务注册和发现功能
-新增：ApiRoute新增拦截器ApiInterceptor、验证器ApiValidator
+新增: ApiRoute新增拦截器ApiInterceptor、验证器ApiValidator
+新增: ApiRoute新增ApiRender渲染器，可自定义输出方式
 优化：增强LambkitCache能力，增加list、set方式的缓存
 优化：更改Upms缓存方式，可选择LambkitCache和Redis两种方式
 优化：优化CommonUtils工具

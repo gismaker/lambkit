@@ -3,6 +3,9 @@ package com.lambkit.core.api.route;
 import com.lambkit.common.LambkitResult;
 
 public class ApiResult extends LambkitResult {
+	
+	// 错误信息
+    public Object error;
 
 	public ApiResult(int code, String message, Object data) {
 		super(code, message, data);
@@ -38,6 +41,29 @@ public class ApiResult extends LambkitResult {
 	
 	public static ApiResult by(ApiException exception) {
 		return new ApiResult(exception.getCode(), exception.getMessage(), null);
+	}
+
+	public Object getError() {
+		return error;
+	}
+
+	public ApiResult setError(Object error) {
+		this.error = error;
+		return this;
 	} 
 	
+	public ApiResult setCode(int code) {
+        this.code = code;
+        return this;
+    }
+
+    public ApiResult setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public ApiResult setData(Object data) {
+        this.data = data;
+        return this;
+    }
 }

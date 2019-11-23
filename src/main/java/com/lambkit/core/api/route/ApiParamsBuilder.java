@@ -25,7 +25,7 @@ public class ApiParamsBuilder {
 	 * @return
 	 * @throws ApiException
 	 */
-	public Object[] buildParams(ApiRunnable apiRunnable, String jsonParam, HttpServletRequest request, ApiRequest apiRequest) throws ApiException {
+	public Object[] buildParams(ApiAction apiRunnable, String jsonParam, HttpServletRequest request, ApiRequest apiRequest) throws ApiException {
 		Map<String, Object> paramMap = null;
 		try {
 			paramMap = JsonUtils.toMapValue(jsonParam);

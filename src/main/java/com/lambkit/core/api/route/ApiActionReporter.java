@@ -58,7 +58,7 @@ public class ApiActionReporter {
 	/**
 	 * Report the action
 	 */
-	public static final void report(String target, HttpServletRequest request, ApiRunnable action) {
+	public static final void report(String target, HttpServletRequest request, ApiAction action) {
 		StringBuilder sb = new StringBuilder(title).append(sdf.get().format(new Date())).append(" --------------------------\n");
 		sb.append("Url         : ").append(request.getMethod()).append(" ").append(target).append("\n");
 		ServiceObject so = action.getServiceObject();

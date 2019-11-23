@@ -1,20 +1,18 @@
 package com.lambkit.core.api.route;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
 import com.lambkit.Lambkit;
 import com.lambkit.common.service.ServiceKit;
 import com.lambkit.common.util.EncryptUtils;
-import com.lambkit.common.util.JsonUtils;
+import com.lambkit.core.aop.AopKit;
 import com.lambkit.core.api.Token;
 import com.lambkit.core.api.TokenService;
 
@@ -55,11 +53,11 @@ public class ApiRouteHandler extends Handler {
 		String method = request.getParameter(ApiRoute.METHOD);
 		ApiResult result;
 
-		ApiRunnable apiRunable = null;
+		ApiAction apiAction = null;
 		ApiRequest apiRequest = null;
 		try {
 			// 校验请求参数
-			apiRunable = sysParamsValidate(request);
+			apiAction = requestParamsValidate(request);
 
 			// 构建apiRequest
 			apiRequest = buildApiRequest(request);
@@ -70,29 +68,34 @@ public class ApiRouteHandler extends Handler {
 			}
 
 			// 用户登录验证
-			if (apiRunable.getApiMapping().useLogin()) {
+			if (apiAction.getMapping().useLogin()) {
 				if (apiRequest.isLogin()) {
 					throw new ApiException(402, "调用失败：用户未登陆");
 				}
 			}
 			
 			log.info("请求接口={" + method + "} 参数=" + params + "");
-			Object[] args = ApiRoute.me().getParamsBuilder().buildParams(apiRunable, params, request, apiRequest);
-			ApiInvocation inv = new ApiInvocation(apiRunable, args);
+			Object[] args = ApiRoute.me().getParamsBuilder().buildParams(apiAction, params, request, apiRequest);
+			ApiInvocation inv = new ApiInvocation(apiAction, args);
 			if (Lambkit.isDevMode()) {
 				if (ApiActionReporter.isReportAfterInvocation(request)) {
 					inv.invoke();
-					ApiActionReporter.report(target, request, apiRunable);
+					ApiActionReporter.report(target, request, apiAction);
 				} else {
-					ApiActionReporter.report(target, request, apiRunable);
+					ApiActionReporter.report(target, request, apiAction);
 					inv.invoke();
 				}
 			}
 			else {
 				inv.invoke();
 			}
+			Object error = inv.getErrorValue();
 			Object data = inv.getReturnValue();
-			result = ApiResult.ok(data);
+			if(error!=null) {
+				result = ApiResult.fail("校验失败", data).setError(error);
+			} else {
+				result = ApiResult.ok(data);
+			}
 		} catch (ApiException e) {
 			response.setStatus(500);// 封装异常并返回
 			log.error("调用接口={" + method + "}异常  参数=" + params + "", e);
@@ -104,7 +107,7 @@ public class ApiRouteHandler extends Handler {
 		}
 
 		// 统一返回结果
-		returnResult(result, response);
+		returnResult(result, apiAction, request, response);
 	}
 
 	/**
@@ -126,11 +129,11 @@ public class ApiRouteHandler extends Handler {
 		return result;
 	}
 
-	private ApiRunnable sysParamsValidate(HttpServletRequest request) throws ApiException {
+	private ApiAction requestParamsValidate(HttpServletRequest request) throws ApiException {
 		String apiName = request.getParameter(ApiRoute.METHOD);
 		String apiParam = request.getParameter(ApiRoute.PARAMS);
 
-		ApiRunnable apiRunnable;
+		ApiAction apiRunnable;
 		if (apiName == null || apiName.trim().equals("")) {
 			throw new ApiException("调用失败：参数'method'为空");
 		} else if (apiParam == null) {
@@ -208,21 +211,14 @@ public class ApiRouteHandler extends Handler {
 	 * @param result
 	 * @param response
 	 */
-	private void returnResult(Object result, HttpServletResponse response) {
-		try {
-			JsonUtils.JSON_MAPPER.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true);
-			String json = JsonUtils.writeValueAsString(result);
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html/json;charset=utf-8");
-			response.setHeader("Cache-Control", "no-cache");
-			response.setHeader("Pragma", "no-cache");
-			response.setDateHeader("Expires", 0);
-			if (json != null) {
-				response.getWriter().write(json);
-			}
-		} catch (IOException e) {
-			log.error("服务中心响应异常", e);
-			throw new RuntimeException(e);
+	private void returnResult(ApiResult result, ApiAction action, HttpServletRequest request, HttpServletResponse response) {
+		ApiBody body = action.getBody();
+		if(body==null) {
+			AopKit.singleton(ApiRenderJson.class).Render(result, request, response);
+		} else {
+			ApiRender render = AopKit.singleton(body.value());
+			render.setView(body.view());
+			render.Render(result, request, response);
 		}
 	}
 

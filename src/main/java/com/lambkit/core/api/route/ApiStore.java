@@ -21,7 +21,7 @@ import com.lambkit.common.service.ServiceObject;
 public class ApiStore {
 
 	// API 接口住的地方
-	private ConcurrentHashMap<String, ApiRunnable> apiMap = new ConcurrentHashMap<String, ApiRunnable>();
+	private ConcurrentHashMap<String, ApiAction> apiMap = new ConcurrentHashMap<String, ApiAction>();
 
 	public void loadApiFromSerices() {
 		// 获取所有calss
@@ -46,7 +46,7 @@ public class ApiStore {
 	 * @param apiName
 	 * @return
 	 */
-	public ApiRunnable findApiRunnable(String apiName) {
+	public ApiAction findApiRunnable(String apiName) {
 		return apiMap.get(apiName);
 	}
 
@@ -61,20 +61,21 @@ public class ApiStore {
 		String apiName = apiMapping.value();
 		String targetName = beanName;
 		ApiInterceptor[] methodInters = ApiInterceptorManager.me().buildServiceMethodInterceptor(serviceClas, method);
-		ApiRunnable apiRun = new ApiRunnable(apiName, targetName, method, apiMapping, methodInters);
+		ApiBody apiBody = method.getAnnotation(ApiBody.class);
+		ApiAction apiRun = new ApiAction(apiName, targetName, method, apiMapping, apiBody, methodInters);
 		apiMap.put(apiMapping.value(), apiRun);
 	}
 
-	public ApiRunnable findApiRunnable(String apiName, String version) {
+	public ApiAction findApiRunnable(String apiName, String version) {
 		return apiMap.get(apiName + "_" + version);
 	}
 
-	public List<ApiRunnable> findApiRunnables(String apiName) {
+	public List<ApiAction> findApiRunnables(String apiName) {
 		if (apiName == null) {
 			throw new IllegalArgumentException("api name must not null!");
 		}
-		List<ApiRunnable> list = new ArrayList<ApiRunnable>(20);
-		for (ApiRunnable api : apiMap.values()) {
+		List<ApiAction> list = new ArrayList<ApiAction>(20);
+		for (ApiAction api : apiMap.values()) {
 			if (api.getApiName().equals(apiName)) {
 				list.add(api);
 			}
@@ -82,11 +83,11 @@ public class ApiStore {
 		return list;
 	}
 
-	public List<ApiRunnable> getAll() {
-		List<ApiRunnable> list = new ArrayList<ApiRunnable>(20);
+	public List<ApiAction> getAll() {
+		List<ApiAction> list = new ArrayList<ApiAction>(20);
 		list.addAll(apiMap.values());
-		Collections.sort(list, new Comparator<ApiRunnable>() {
-			public int compare(ApiRunnable o1, ApiRunnable o2) {
+		Collections.sort(list, new Comparator<ApiAction>() {
+			public int compare(ApiAction o1, ApiAction o2) {
 				return o1.getApiName().compareTo(o2.getApiName());
 			}
 		});

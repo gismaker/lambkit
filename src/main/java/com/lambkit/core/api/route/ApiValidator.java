@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,28 +33,14 @@ public abstract class ApiValidator implements ApiInterceptor {
 	protected void addError(String errorKey, String errorMessage) {
 		invalid = true;
 		
-		if (ret != null) {
-			ret.set(errorKey, errorMessage);
+		if (ret == null) {
+			ret = Ret.fail();
 		}
+		ret.set(errorKey, errorMessage);
 		
 		if (shortCircuit) {
 			throw new ValidateException();
 		}
-	}
-	
-	/**
-	 * 注入 Ret 对象，验证结果将被存放在其中，以便在 handleError 中使用 getRet()：
-	 *     controller.renderJson(getRet());
-	 * 
-	 * <pre>
-	 * 用法：
-	 * validate(Controller c) 中调用 setRet(Ret.fail());
-	 * handleError(Controller c) 中调用 c.renderJson(getRet());
-	 * </pre>
-	 */
-	protected void setRet(Ret ret) {
-		Objects.requireNonNull(ret, "ret can not be null");
-		this.ret = ret;
 	}
 	
 	/**
@@ -118,7 +103,7 @@ public abstract class ApiValidator implements ApiInterceptor {
 	/**
 	 * Use validateXxx method to validate the parameters of this action.
 	 */
-	protected abstract void validate(ApiRunnable apiRunnable);
+	protected abstract void validate(ApiAction apiRunnable);
 	
 	/**
 	 * Handle the validate error.
@@ -126,7 +111,7 @@ public abstract class ApiValidator implements ApiInterceptor {
 	 * keepPara();<br>
 	 * render("register.html");
 	 */
-	protected abstract void handleError(ApiRunnable apiRunnable);
+	protected abstract void handleError(ApiAction apiRunnable);
 	
 	
 	public Object getPara(String field) {

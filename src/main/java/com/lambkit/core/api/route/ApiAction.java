@@ -13,20 +13,22 @@ import com.lambkit.common.service.ServiceObject;
  * @version 1.0
  * @Package com.lambkit.core.api.route
  */
-public class ApiRunnable {
+public class ApiAction {
 
 	private String apiName; // lambkit.api.user.getUser
 	private String targetName; // interface Service 名称
 	//Object target; // UserServiceImpl 实例
 	private Method targetMethod; // 目标方法 getUser
-	private ApiMapping apiMapping;
+	private ApiMapping mapping;
+	private ApiBody body;
 	private final ApiInterceptor[] interceptors;
 	
-	public ApiRunnable(String apiName, String targetName, Method targetMethod, ApiMapping apiMapping, ApiInterceptor[] interceptors) {
+	public ApiAction(String apiName, String targetName, Method targetMethod, ApiMapping apiMapping, ApiBody apiBody, ApiInterceptor[] interceptors) {
 		this.apiName = apiName;
 		this.targetName = targetName;
 		this.targetMethod = targetMethod;
-		this.apiMapping = apiMapping;
+		this.mapping = apiMapping;
+		this.body = apiBody;
 		this.interceptors = interceptors;
 	}
 
@@ -80,11 +82,15 @@ public class ApiRunnable {
 		return targetMethod;
 	}
 
-	public ApiMapping getApiMapping() {
-		return apiMapping;
+	public ApiMapping getMapping() {
+		return mapping;
 	}
 
 	public ApiInterceptor[] getInterceptors() {
 		return interceptors;
+	}
+
+	public ApiBody getBody() {
+		return body;
 	}
 }
