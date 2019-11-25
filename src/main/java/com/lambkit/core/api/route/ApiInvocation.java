@@ -3,12 +3,15 @@ package com.lambkit.core.api.route;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class ApiInvocation {
 
 	private ApiAction action;
 	private Object target;
 	private Method method;
 	private Object[] args;
+	private HttpServletRequest request;
 	private ApiInterceptor[] inters;
 	private Object errorValue;
 	private Object returnValue;
@@ -20,10 +23,11 @@ public class ApiInvocation {
 		this.action = null;
 	}
 	
-	public ApiInvocation(ApiAction action, Object[] args) {
+	public ApiInvocation(ApiAction action, HttpServletRequest request, Object[] args) {
 		this.action = action;
 		this.inters = action.getInterceptors();
 		this.target = action.getTarget();
+		this.request = request;
 		this.args = args;
 	}
 	
@@ -70,6 +74,10 @@ public class ApiInvocation {
 	
 	public Object[] getArgs() {
 		return args;
+	}
+	
+	public String getParams() {
+		return request.getParameter(ApiRoute.PARAMS);
 	}
 	
 	/**

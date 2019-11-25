@@ -76,7 +76,7 @@ public class ApiRouteHandler extends Handler {
 			
 			log.info("请求接口={" + method + "} 参数=" + params + "");
 			Object[] args = ApiRoute.me().getParamsBuilder().buildParams(apiAction, params, request, apiRequest);
-			ApiInvocation inv = new ApiInvocation(apiAction, args);
+			ApiInvocation inv = new ApiInvocation(apiAction, request, args);
 			if (Lambkit.isDevMode()) {
 				if (ApiActionReporter.isReportAfterInvocation(request)) {
 					inv.invoke();

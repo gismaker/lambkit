@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,6 +78,60 @@ public class JsonUtils {
 		} catch (IOException e) {
 			throw new IllegalArgumentException(e);
 		}
+	}
+	
+	/**
+	 * 获取节点值
+	 * @author mengfeiyang
+	 * @param jsonContent
+	 * @param jsonPath
+	 * @return
+	 * @throws Exception
+	 */
+	public static synchronized String getNodeValue(String jsonContent, String jsonPath) throws Exception {
+		String[] nodes = jsonPath.split("\\.");
+		JSONObject obj = new JSONObject(jsonContent);
+
+		for (int i = 1; i < nodes.length; i++) {
+			if (obj != null) {
+				obj = getObj(obj, nodes[i]);
+			}
+
+			if ((i + 1) == nodes.length) {
+				try{
+					return obj.getString(nodes[i]);
+				}catch(Exception e){
+					return "JSONException:"+e.getMessage()+",NodeString:"+obj.toString();
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 对节点进行解析
+	 * 
+	 * @author mengfeiyang
+	 * @param obj
+	 * @param node
+	 * @return
+	 */
+	private static JSONObject getObj(JSONObject obj, String node) {
+		try {
+			if (node.contains("[")) {
+				JSONArray arr = obj.getJSONArray(node.substring(0,node.indexOf("[")));
+				for (int i = 0; i < arr.length(); i++) {
+					if ((i + "").equals(node.substring(node.indexOf("["),node.indexOf("]")).replace("[", ""))) {
+						return arr.getJSONObject(i);
+					}
+				}
+			} else {
+				return obj.getJSONObject(node);
+			}
+		} catch (Exception e) {
+			return obj;
+		}
+		return null;
 	}
 
 	/**

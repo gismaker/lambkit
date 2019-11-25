@@ -7,16 +7,16 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.jfinal.kit.Kv;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.kit.StrKit;
 import com.jfinal.validate.ValidateException;
+import com.lambkit.common.util.JsonUtils;
 
 public abstract class ApiValidator implements ApiInterceptor {
 
 	protected ApiInvocation invocation;
-	protected Kv paras;
+	protected String jsonParams;
 	protected boolean shortCircuit = false;
 	protected boolean invalid = false;
 	protected String datePattern = null;
@@ -75,16 +75,8 @@ public abstract class ApiValidator implements ApiInterceptor {
 	public void intercept(ApiInvocation inv) {
 		// TODO Auto-generated method stub
 		invocation = inv;
-		
-		paras = Kv.create();
-		String[] names = invocation.getAction().getParamNames();
-		if(names.length > 0) {
-			Object[] args = invocation.getArgs();
-			for(int i=0; i<names.length && i<args.length; i++) {
-				paras.set(names[i], args[i]);
-			}
-		}
-		
+		//json参数
+		jsonParams = invocation.getParams();
 		try {
 			validate(inv.getAction());
 		} catch (ValidateException e) {
@@ -114,8 +106,13 @@ public abstract class ApiValidator implements ApiInterceptor {
 	protected abstract void handleError(ApiAction apiRunnable);
 	
 	
-	public Object getPara(String field) {
-		return paras.get(field);
+	public String getPara(String field) {
+		try {
+			return JsonUtils.getNodeValue(jsonParams, field);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public Object getPara(int index) {
