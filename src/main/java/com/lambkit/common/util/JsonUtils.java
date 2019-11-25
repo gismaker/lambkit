@@ -92,7 +92,7 @@ public class JsonUtils {
 		String[] nodes = jsonPath.split("\\.");
 		JSONObject obj = new JSONObject(jsonContent);
 
-		for (int i = 1; i < nodes.length; i++) {
+		for (int i = 0; i < nodes.length; i++) {
 			if (obj != null) {
 				obj = getObj(obj, nodes[i]);
 			}
