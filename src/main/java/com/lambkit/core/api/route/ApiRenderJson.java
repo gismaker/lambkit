@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.jfinal.log.Log;
 import com.lambkit.common.util.JsonUtils;
 
@@ -16,7 +16,7 @@ public class ApiRenderJson implements ApiRender {
 	public void Render(ApiResult result, HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		try {
-			JsonUtils.JSON_MAPPER.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true);
+			JsonUtils.JSON_MAPPER.setSerializationInclusion(Include.ALWAYS);;
 			String json = JsonUtils.writeValueAsString(result);
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html/json;charset=utf-8");

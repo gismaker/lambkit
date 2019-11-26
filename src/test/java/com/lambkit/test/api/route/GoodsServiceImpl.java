@@ -10,7 +10,11 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	public Goods getGodds(Integer id) {
-		return new Goods("vvv", id.toString());
+		if(id==0) {
+			return null;
+		} else {
+			return new Goods("vvv", id.toString());
+		}
 	}
 
 }

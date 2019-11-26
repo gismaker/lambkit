@@ -25,6 +25,7 @@ lambkit-1.0.2:
 修复：去除com.beust.jcommander.internal包的引用
 修复：修复ApiRoute调用时ApiStore未装载完成的错误
 修复：修复ApiRoute运行method方法
+修复：修复ApiRenderJson输出null值
 
 -----------------------------
 lambkit-1.0.1：
