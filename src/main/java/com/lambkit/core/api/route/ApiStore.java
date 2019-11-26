@@ -39,6 +39,35 @@ public class ApiStore {
 			}
 		}
 	}
+	
+	public void addService(Class<?> service) {
+		if(service==null) return;
+		ServiceObject serviceObject = ServiceManager.me().get(service);
+		if(serviceObject==null) {
+			ServiceManager.me().mapping(service, service, null);
+		}
+		for (Method method : service.getDeclaredMethods()) {
+			// 通过反谢拿到APIMapping注解
+			ApiMapping apiMapping = method.getAnnotation(ApiMapping.class);
+			if (apiMapping != null) {
+				// 找到了目标方法
+				addApiItem(apiMapping, service.getName(), service, method);
+			}
+		}
+	}
+	
+	public void addService(Class<?> service, Class<?> implementClass) {
+		if(service == null || implementClass == null) return;
+		ServiceManager.me().getOrNew(service, implementClass);
+		for (Method method : service.getDeclaredMethods()) {
+			// 通过反谢拿到APIMapping注解
+			ApiMapping apiMapping = method.getAnnotation(ApiMapping.class);
+			if (apiMapping != null) {
+				// 找到了目标方法
+				addApiItem(apiMapping, service.getName(), service, method);
+			}
+		}
+	}
 
 	/**
 	 * 通过apiName获取apiRunable
@@ -68,19 +97,6 @@ public class ApiStore {
 
 	public ApiAction findApiRunnable(String apiName, String version) {
 		return apiMap.get(apiName + "_" + version);
-	}
-
-	public List<ApiAction> findApiRunnables(String apiName) {
-		if (apiName == null) {
-			throw new IllegalArgumentException("api name must not null!");
-		}
-		List<ApiAction> list = new ArrayList<ApiAction>(20);
-		for (ApiAction api : apiMap.values()) {
-			if (api.getApiName().equals(apiName)) {
-				list.add(api);
-			}
-		}
-		return list;
 	}
 
 	public List<ApiAction> getAll() {

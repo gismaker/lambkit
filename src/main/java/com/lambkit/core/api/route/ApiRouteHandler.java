@@ -29,18 +29,15 @@ public class ApiRouteHandler extends Handler {
 
 	public ApiRouteHandler(String targetName) {
 		this.targetName = targetName;
+		apiStore = ApiRoute.me().getApiStore();
 	}
 
 	@Override
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 		// TODO Auto-generated method stub
 		if (targetName.equals(target)) {
-			System.out.println("Api handle: " + target);
+			//System.out.println("Api handle: " + target);
 			isHandled[0] = true;
-			if (apiStore == null) {
-				apiStore = new ApiStore();
-				apiStore.loadApiFromSerices();
-			}
 			handleApiRequest(target, request, response);
 		} else {
 			next.handle(target, request, response, isHandled);
@@ -49,8 +46,8 @@ public class ApiRouteHandler extends Handler {
 
 	private void handleApiRequest(String target, HttpServletRequest request, HttpServletResponse response) {
 		// 系统参数验证
-		String params = request.getParameter(ApiRoute.PARAMS);
-		String method = request.getParameter(ApiRoute.METHOD);
+		String params = request.getParameter(ApiRoute.API_PARAMS);
+		String method = request.getParameter(ApiRoute.API_METHOD);
 		ApiResult result;
 
 		ApiAction apiAction = null;
@@ -130,8 +127,8 @@ public class ApiRouteHandler extends Handler {
 	}
 
 	private ApiAction requestParamsValidate(HttpServletRequest request) throws ApiException {
-		String apiName = request.getParameter(ApiRoute.METHOD);
-		String apiParam = request.getParameter(ApiRoute.PARAMS);
+		String apiName = request.getParameter(ApiRoute.API_METHOD);
+		String apiParam = request.getParameter(ApiRoute.API_PARAMS);
 
 		ApiAction apiRunnable;
 		if (apiName == null || apiName.trim().equals("")) {
@@ -212,10 +209,10 @@ public class ApiRouteHandler extends Handler {
 	 * @param response
 	 */
 	private void returnResult(ApiResult result, ApiAction action, HttpServletRequest request, HttpServletResponse response) {
-		ApiBody body = action.getBody();
-		if(body==null) {
+		if(action==null || action.getBody()==null) {
 			AopKit.singleton(ApiRenderJson.class).Render(result, request, response);
 		} else {
+			ApiBody body = action.getBody();
 			ApiRender render = AopKit.singleton(body.value());
 			render.setView(body.view());
 			render.Render(result, request, response);

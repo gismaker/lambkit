@@ -9,6 +9,7 @@ lambkit-1.0.2:
 新增：集成zookeeper和consul服务注册和发现功能
 新增：ApiRoute新增拦截器ApiInterceptor、验证器ApiValidator
 新增：ApiRoute新增ApiRender渲染器，可自定义输出方式
+新增：新增ApiRoute测试代码
 优化：增强LambkitCache能力，增加list、set方式的缓存
 优化：更改Upms缓存方式，可选择LambkitCache和Redis两种方式
 优化：优化CommonUtils工具
@@ -22,6 +23,8 @@ lambkit-1.0.2:
 修复：修复generator模板地址错误问题
 修复：修复LambkitApplication.run使用错误问题
 修复：去除com.beust.jcommander.internal包的引用
+修复：修复ApiRoute调用时ApiStore未装载完成的错误
+修复：修复ApiRoute运行method方法
 
 -----------------------------
 lambkit-1.0.1：

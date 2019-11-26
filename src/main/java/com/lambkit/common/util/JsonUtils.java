@@ -88,7 +88,7 @@ public class JsonUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static synchronized String getNodeValue(String jsonContent, String jsonPath) throws Exception {
+	public static synchronized Object getNodeValue(String jsonContent, String jsonPath) throws Exception {
 		String[] nodes = jsonPath.split("\\.");
 		JSONObject obj = new JSONObject(jsonContent);
 
@@ -99,7 +99,7 @@ public class JsonUtils {
 
 			if ((i + 1) == nodes.length) {
 				try{
-					return obj.getString(nodes[i]);
+					return obj.get(nodes[i]);
 				}catch(Exception e){
 					return "JSONException:"+e.getMessage()+",NodeString:"+obj.toString();
 				}

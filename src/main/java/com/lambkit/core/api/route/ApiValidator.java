@@ -106,7 +106,7 @@ public abstract class ApiValidator implements ApiInterceptor {
 	protected abstract void handleError(ApiAction apiRunnable);
 	
 	
-	public String getPara(String field) {
+	public Object getPara(String field) {
 		try {
 			return JsonUtils.getNodeValue(jsonParams, field);
 		} catch (Exception e) {

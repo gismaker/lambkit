@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Lambkit管理平台</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/libs/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="#(ctx)/lambkit/assets/css/style.css">
+		<script src="#(ctx)/lambkit/assets/jquery.min.js" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Lambkit管理平台</div>
+			</div>
+		</div>
+		<div class="layui-container">
+			<div class="layui-row" style="background: white; height: 40px;">
+			</div>
+			<div class="layui-row" style="background: white;">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header"><h1 style="">Request:id=999</h1></div>
+						<div class="layui-card-body mp1">
+						<script>
+						$.ajax({
+				            //请求方式
+				            type : "POST",
+				            //请求地址
+				            url : "http://127.0.0.1/api?method=lambkit.api.goods.get&params={id:999}",
+				            //请求成功
+				            success : function(result) {
+				                console.log(result);
+				                $(".mp1").html(result);
+				            },
+				            //请求失败，包含具体的错误信息
+				            error : function(e){
+				                console.log(e.status);
+				                console.log(e.responseText);
+				            }
+				        });
+						</script>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header"><h1 style="">Request:id=1111</h1></div>
+						<div class="layui-card-body mp2">
+						<script>
+						$.ajax({
+				            //请求方式
+				            type : "POST",
+				            //请求地址
+				            url : "http://127.0.0.1/api?method=lambkit.api.goods.get&params={id:1111}",
+				            //请求成功
+				            success : function(result) {
+				                console.log(result);
+				                $(".mp2").html(result);
+				            },
+				            //请求失败，包含具体的错误信息
+				            error : function(e){
+				                console.log(e.status);
+				                console.log(e.responseText);
+				            }
+				        });
+						</script>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header"><h1 style="">Request:id=3333</h1></div>
+						<div class="layui-card-body mp3">
+						<script>
+						$.ajax({
+				            //请求方式
+				            type : "POST",
+				            //请求地址
+				            url : "http://127.0.0.1/api?method=lambkit.api.goods.get&params={id:3333}",
+				            //请求成功
+				            success : function(result) {
+				                console.log(result);
+				                $(".mp3").html(result);
+				            },
+				            //请求失败，包含具体的错误信息
+				            error : function(e){
+				                console.log(e.status);
+				                console.log(e.responseText);
+				            }
+				        });
+						</script>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header"><h1 style="">Request:id=4343</h1></div>
+						<div class="layui-card-body mp4">
+						<script>
+						$.ajax({
+				            //请求方式
+				            type : "POST",
+				            //请求地址
+				            url : "http://127.0.0.1/api?method=lambkit.api.goods.get&params={id:4343}",
+				            //请求成功
+				            success : function(result) {
+				                console.log(result);
+				                $(".mp4").html(result);
+				            },
+				            //请求失败，包含具体的错误信息
+				            error : function(e){
+				                console.log(e.status);
+				                console.log(e.responseText);
+				            }
+				        });
+						</script>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header"><h1 style="">Request:id=8080</h1></div>
+						<div class="layui-card-body mp5">
+						<script>
+						$.ajax({
+				            //请求方式
+				            type : "POST",
+				            //请求地址
+				            url : "http://127.0.0.1/api?method=lambkit.api.goods.get&params={id:8080}",
+				            //请求成功
+				            success : function(result) {
+				                console.log(result);
+				                $(".mp5").html(result);
+				            },
+				            //请求失败，包含具体的错误信息
+				            error : function(e){
+				                console.log(e.status);
+				                console.log(e.responseText);
+				            }
+				        });
+						</script>
+						</div>
+					</div>
+					
+					<div class="layui-card">
+						<div class="layui-card-header"><h1 style="">Request:id=7766</h1></div>
+						<div class="layui-card-body mp6">
+						<script>
+						$.ajax({
+				            //请求方式
+				            type : "POST",
+				            //请求地址
+				            url : "http://127.0.0.1/api?method=lambkit.api.goods.get&params={id:7766}",
+				            //请求成功
+				            success : function(result) {
+				                console.log(result);
+				                $(".mp6").html(result);
+				            },
+				            //请求失败，包含具体的错误信息
+				            error : function(e){
+				                console.log(e.status);
+				                console.log(e.responseText);
+				            }
+				        });
+						</script>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="#(ctx)/lambkit/assets/libs/layui/layui.js" charset="utf-8"></script>
+		<script>
+			//JavaScript代码区域
+			layui.use('element', function() {
+				var element = layui.element;
+			});
+		</script>
+	</body>
+
+</html>

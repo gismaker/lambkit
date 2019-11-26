@@ -42,15 +42,6 @@ public class ServiceObject implements Serializable {
 	private int port;
 	private String type;
 	
-	public ServiceObject(Class<?> interfaceClass) {
-		this.interfaceClass = interfaceClass;
-		RpcConfig rpcConfig = ConfigManager.me().get(RpcConfig.class);
-		this.group = rpcConfig.getDefaultGroup();
-		this.version = rpcConfig.getDefaultVersion();
-		this.port = rpcConfig.getDefaultPort();
-		this.type = SERVER;
-	}
-	
 	public ServiceObject(Class<?> interfaceClass, Class<?> implementClass) {
 		this.interfaceClass = interfaceClass;
 		this.implementClass = implementClass;
@@ -58,7 +49,7 @@ public class ServiceObject implements Serializable {
 		this.group = rpcConfig.getDefaultGroup();
 		this.version = rpcConfig.getDefaultVersion();
 		this.port = rpcConfig.getDefaultPort();
-		this.type = SERVER;
+		this.type = implementClass==null ? CLIENT : SERVER;
 	}
 	
 	public ServiceObject(Class<?> interfaceClass, Class<?> implementClass, Class<?> mockClass, String group, String version, int port) {
@@ -68,7 +59,7 @@ public class ServiceObject implements Serializable {
 		this.group = group;
 		this.version = version;
 		this.port = port;
-		this.type = SERVER;
+		this.type = implementClass==null ? CLIENT : SERVER;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -84,6 +75,26 @@ public class ServiceObject implements Serializable {
 		} else if(type.equals(CLIENT)) {
 			if(mockClass!=null) {
 				t = (T) RpcKit.obtain(interfaceClass, AopKit.singleton(mockClass));
+			} else {
+				t = (T) RpcKit.obtain(interfaceClass);
+			}
+		}
+		return t;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T instance() {
+		T t = null;
+		if(type.equals(SERVER)) {
+			if(implementClass!=null) {
+				t = (T) AopKit.instance(implementClass);
+			}
+			if(t==null && mockClass!=null) {
+				t = (T) AopKit.instance(mockClass);
+			}
+		} else if(type.equals(CLIENT)) {
+			if(mockClass!=null) {
+				t = (T) RpcKit.obtain(interfaceClass, AopKit.instance(mockClass));
 			} else {
 				t = (T) RpcKit.obtain(interfaceClass);
 			}

@@ -39,7 +39,7 @@ public class ApiInvocation {
 			try {
 				// Invoke the action
 				if (action != null) {
-					returnValue = action.getMethod().invoke(target, args);
+					returnValue = action.run(args);
 				}
 			}
 			catch (InvocationTargetException e) {
@@ -77,7 +77,7 @@ public class ApiInvocation {
 	}
 	
 	public String getParams() {
-		return request.getParameter(ApiRoute.PARAMS);
+		return request.getParameter(ApiRoute.API_PARAMS);
 	}
 	
 	/**

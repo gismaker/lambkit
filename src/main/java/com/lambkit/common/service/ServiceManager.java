@@ -57,10 +57,10 @@ public class ServiceManager {
      * @param interfaceClass
      * @return
      */
-    protected ServiceObject getOrNew(Class<?> interfaceClass) {
+    public ServiceObject getOrNew(Class<?> interfaceClass, Class<?> implementClass) {
     	ServiceObject service = getServices().get(interfaceClass.getName());
     	if(service==null) {
-    		service = new ServiceObject(interfaceClass);
+    		service = new ServiceObject(interfaceClass, implementClass);
     	}
     	return service;
     }
@@ -70,7 +70,10 @@ public class ServiceManager {
      * @param implementClass
      */
     public void setImpl(Class<?> interfaceClass, Class<?> implementClass) {
-    	getOrNew(interfaceClass).setImplementClass(implementClass);
+    	ServiceObject service = getServices().get(interfaceClass.getName());
+    	if(service!=null) {
+    		service.setImplementClass(implementClass);
+    	}
     }
     /**
      * 设置接口服务的mock类
@@ -78,7 +81,10 @@ public class ServiceManager {
      * @param mockClass
      */
     public void setMock(Class<?> interfaceClass, Class<?> mockClass) {
-    	getOrNew(interfaceClass).setMockClass(mockClass);
+    	ServiceObject service = getServices().get(interfaceClass.getName());
+    	if(service!=null) {
+    		service.setMockClass(mockClass);
+    	}
     }
     /**
      * server端或者本地自用的接口服务注册
@@ -104,7 +110,7 @@ public class ServiceManager {
     public <T> boolean mapping(Class<?> interfaceClass, Class<?> implementClass, Class<?> mockClass, String group, String version, int port) {
     	ServiceObject service = new ServiceObject(interfaceClass, implementClass, mockClass, group, version, port);
     	put(service);
-    	if(implementClass!=null) {
+    	if(implementClass!=null && implementClass!=interfaceClass) {
     		return RpcKit.serviceExport(interfaceClass, service.inject(), group, version, port);
     	}
     	return false;
@@ -135,6 +141,19 @@ public class ServiceManager {
     	service.setType(ServiceObject.CLIENT);
     	put(service);
 	}
+    
+    /**
+     * 获取服务接口
+     * @param interfaceClass
+     * @return
+     */
+    public <T> T instance(String interfaceClassName) {
+    	ServiceObject service = getServices().get(interfaceClassName);
+    	if(service!=null) {
+    		return service.instance();
+    	}
+    	return null;
+    }
     
     /**
      * 获取服务接口

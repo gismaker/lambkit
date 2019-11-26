@@ -62,7 +62,7 @@ public class ApiActionReporter {
 		StringBuilder sb = new StringBuilder(title).append(sdf.get().format(new Date())).append(" --------------------------\n");
 		sb.append("Url         : ").append(request.getMethod()).append(" ").append(target).append("\n");
 		ServiceObject so = action.getServiceObject();
-		sb.append("Service  : ").append(action.getTargetName()).append(".(").append(so.getImplementClass().getSimpleName()).append(".java:1)");
+		sb.append("Service     : ").append(action.getTargetName()).append(".(").append(so.getImplementClass().getSimpleName()).append(".java:1)");
 		sb.append("\nMethod      : ").append(action.getMethodName()).append("\n");
 		
 		/*

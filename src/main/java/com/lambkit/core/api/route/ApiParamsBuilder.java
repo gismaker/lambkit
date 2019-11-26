@@ -85,7 +85,7 @@ public class ApiParamsBuilder {
 		for (int i = 0; i < paraCount; i++) {
 			Parameter p = paras[i];
 			String parameterName = p.getName();
-			System.out.println("method param: " + parameterName);
+			//System.out.println("method param: " + parameterName);
 			resultList.add(parameterName);
 		}
 
