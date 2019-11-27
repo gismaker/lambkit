@@ -28,6 +28,8 @@ import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.JXLExcelUtils;
 import com.lambkit.core.config.ConfigManager;
+import com.lambkit.db.dialect.LambkitDialect;
+import com.lambkit.db.dialect.LambkitPostgreSqlDialect;
 import com.lambkit.db.meta.MetaKit;
 import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.mgr.IField;
@@ -182,7 +184,7 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		String fldnames = "";
 		List<? extends IField> flds = tbc.getFieldList();
 		for(int i=0; i<flds.size();i++) {
-			fldnames += "," + alis + flds.get(i).getName();
+			fldnames += "," + alis + settingNameOfDialect(flds.get(i).getName(), tbc.getDialect());
 		}
 		return fldnames.substring(1);
 	}
@@ -193,7 +195,10 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		List<? extends IField> flds = tbc.getFieldList();
 		for(int i=0; i<flds.size();i++) {
 			if(flds.get(i).getIskey().equals("Y") || flds.get(i).getIsview().equals("Y")) {
-				sb.append(",").append(alis).append(flds.get(i).getName());
+				if(flds.get(i)==null || StrKit.isBlank(flds.get(i).getName())) {
+					continue;
+				}
+				sb.append(",").append(alis).append(settingNameOfDialect(flds.get(i).getName(), tbc.getDialect()));
 			}
 		}
 		String fldnames = sb.toString();
@@ -209,14 +214,30 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		List<? extends IField> flds = tbc.getFieldList();
 		for(int i=0; i<flds.size();i++) {
 			if(flds.get(i).getIskey().equals("N") && flds.get(i).getIsview().equals("Y")) {
-				sb.append(",").append(alis).append(flds.get(i).getName());
-				if(StrKit.notBlank(ren)) sb.append(" as ").append(ren).append(flds.get(i).getName());
+				if(flds.get(i)==null || StrKit.isBlank(flds.get(i).getName())) {
+					continue;
+				}
+				sb.append(",").append(alis).append(settingNameOfDialect(flds.get(i).getName(), tbc.getDialect()));
+				if(StrKit.notBlank(ren)) {
+					String rename = settingNameOfDialect(ren + flds.get(i).getName(), tbc.getDialect());
+					sb.append(" as ").append(rename);
+				}
 			}
 		}
 		String fldnames = sb.toString();
 		if(fldnames.length() > 1) fldnames = fldnames.substring(1);
 		if(fldnames.trim().length() < 1) fldnames = alis+"*";
 		return fldnames;
+	}
+	
+	protected String settingNameOfDialect(String name, LambkitDialect dialect) {
+		if(StrKit.isBlank(name)) return name;
+		if(dialect!=null) {
+			if(dialect instanceof LambkitPostgreSqlDialect) {
+				return "\"" + name + "\"";
+			}
+		}
+		return name;
 	}
 	
 	public String getSelectNamesOfView(MgrTable tbc, String fld, Object val)
@@ -226,7 +247,7 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		for(int i=0; i<flds.size();i++) {
 			if(flds.get(i).getIskey().equals("Y") || flds.get(i).getAttr(fld).equals(val)) {
 				sb.append(",");
-				sb.append(flds.get(i).getName());
+				sb.append(settingNameOfDialect(flds.get(i).getName(), tbc.getDialect()));
 			}
 		}
 		String fldnames = sb.toString();
@@ -266,7 +287,8 @@ public abstract class BaseMgrdbService implements MgrdbService {
 			IField fld = flds.get(i);
 			if(fld.getIsselect().toUpperCase().equals("Y"))
 			{
-				builder.append(fld.getName(), c.getParaTrans(fld.getName()), fld.getDatatype());
+				String tname = settingNameOfDialect(fld.getName(), tbc.getDialect());
+				builder.append(tname, c.getParaTrans(fld.getName()), fld.getDatatype());
 			}
 		}
 		//ConditonsParam sqlParam = builder.get(prefix);
@@ -301,7 +323,7 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		if(selectSQL.equals("*")) {
 			String fldnames = "";
 			for(int i=0; i<flds.size();i++) {
-				fldnames += "," + flds.get(i).getName();
+				fldnames += "," + settingNameOfDialect(flds.get(i).getName(), tbc.getDialect());
 			}
 			selectSQL = fldnames.substring(1);
 		}

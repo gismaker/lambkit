@@ -234,7 +234,7 @@ public final class StringUtils {
 		String res = "";
 		String[] strs = str.split("_");
 		for (String s : strs) {
-			res += getUppercaseChar(s);
+			res += uppercaseChar(s);
 		}
 		return res;
 	}
@@ -248,7 +248,7 @@ public final class StringUtils {
 	 * @param str
 	 * @return
 	 */
-	public static String getUppercaseChar(String str) {
+	public static String uppercaseChar(String str) {
 		int strLen;
 		if (str == null || (strLen = str.length()) == 0) {
 			return str;
@@ -267,7 +267,7 @@ public final class StringUtils {
 	 * @param str
 	 * @return
 	 */
-	public static String getLowercaseChar(String str) {
+	public static String lowercaseChar(String str) {
 		int strLen;
 		if (str == null || (strLen = str.length()) == 0) {
 			return str;
@@ -831,23 +831,40 @@ public final class StringUtils {
 		return null;
 	}
 
-	public static String getFirstCat(String s) {
-		String[] sb = s.split(" ");
-		StringBuffer ss = new StringBuffer("");
-		for (int i = 0; i < sb.length; i++) {
-			sb[i] = sb[i].substring(0, 1).toUpperCase() + sb[i].substring(1);
+	public static String toCamelCase(String stringWithUnderline) {
+		if (stringWithUnderline.indexOf('_') == -1) {
+			return stringWithUnderline;
 		}
-		for (int i = 0; i < sb.length; i++) {
-			ss.append(sb[i]);
-			ss.append(" ");
+		
+		stringWithUnderline = stringWithUnderline.toLowerCase();
+		char[] fromArray = stringWithUnderline.toCharArray();
+		char[] toArray = new char[fromArray.length];
+		int j = 0;
+		for (int i=0; i<fromArray.length; i++) {
+			if (fromArray[i] == '_') {
+				// 当前字符为下划线时，将指针后移一位，将紧随下划线后面一个字符转成大写并存放
+				i++;
+				if (i < fromArray.length) {
+					toArray[j++] = Character.toUpperCase(fromArray[i]);
+				}
+			}
+			else {
+				toArray[j++] = fromArray[i];
+			}
 		}
-		return ss.toString();
+		return new String(toArray, 0, j);
 	}
 
-	public static String getClassName(String s) {
-		s = s.replace("_", " ");
-		s = getFirstCat(s.toLowerCase());
-		s = s.replace(" ", "");
+	public static String className(String s) {
+		s = toCamelCase(s);
+		s = uppercaseChar(s);
+		return s;
+	}
+	
+	public static String paramName(String s) {
+		s = s.toLowerCase();
+		s = toCamelCase(s);
+		s = lowercaseChar(s);
 		return s;
 	}
 	

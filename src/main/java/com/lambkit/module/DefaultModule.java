@@ -130,8 +130,8 @@ public class DefaultModule extends LambkitModule {
          */
         addDirective(engine, "now", NowDirective.class);
         addDirective(engine, "long2date", com.lambkit.web.directive.DateDirective.class);
-        engine.addSharedMethod(new StringUtils());
-        engine.addSharedMethod(new DateTimeUtils());
+        engine.addSharedObject("str", new StringUtils());
+        engine.addSharedObject("dt", new DateTimeUtils());
         //自动扫描加入JFinalDirective
         if(StrKit.notBlank(Lambkit.getLambkitConfig().getAutoRegisterTagPackages())) {
         	autoRegisterEngine(engine);

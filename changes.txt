@@ -20,6 +20,7 @@ lambkit-1.0.2:
 优化：优化网关服务GatewayService
 优化：ApiRoute统一返回接口格式
 优化：ApiValidator验证器通过key直接验证params参数，通过index验证method参数值
+优化：mgrdb支持PostgreSQL大写字段
 修复：修复generator模板地址错误问题
 修复：修复LambkitApplication.run使用错误问题
 修复：去除com.beust.jcommander.internal包的引用
@@ -39,7 +40,7 @@ lambkit-1.0.1：
 优化：优化lambkitService中QueryPara
 优化：优化lambkitModel中SqlPara查询
 新增：WebConfigManager管理webconfig
-修复: 默认LambkitControllerContext加入到运行时中
+修复：默认LambkitControllerContext加入到运行时中
 
 -----------------------------
 lambkit-0.3.1：

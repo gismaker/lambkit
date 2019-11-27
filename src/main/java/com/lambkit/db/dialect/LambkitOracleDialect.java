@@ -31,7 +31,7 @@ import com.lambkit.common.util.ArrayUtils;
 import java.util.List;
 
 
-public class LambkitOracleDialect extends OracleDialect implements IModelDialect, IManagerDialect {
+public class LambkitOracleDialect extends OracleDialect implements LambkitDialect, IManagerDialect {
 	
 	@Override
 	public SqlPara forDeleteByExample(Example example) {

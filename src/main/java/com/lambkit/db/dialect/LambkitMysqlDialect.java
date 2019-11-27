@@ -30,7 +30,7 @@ import com.lambkit.common.util.ArrayUtils;
 
 import java.util.List;
 
-public class LambkitMysqlDialect extends MysqlDialect implements IModelDialect, IManagerDialect {
+public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect, IManagerDialect {
 
 	public String forLimitSql(Object limit) {
 		StringBuilder sqlBuilder = new StringBuilder();

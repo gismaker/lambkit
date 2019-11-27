@@ -17,6 +17,7 @@ package com.lambkit.db.mgr;
 
 import java.util.List;
 
+import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.meta.TableMeta;
 
 public class MgrTable {
@@ -25,6 +26,7 @@ public class MgrTable {
 	private ITable model;
 	private TableMeta meta;
 	private List<? extends IField> fieldList;
+	private LambkitDialect dialect;
 
 	public ITable getModel() {
 		return model;
@@ -81,5 +83,13 @@ public class MgrTable {
 		} else {
 			return null;
 		}
+	}
+
+	public LambkitDialect getDialect() {
+		return dialect;
+	}
+
+	public void setDialect(LambkitDialect dialect) {
+		this.dialect = dialect;
 	}
 }

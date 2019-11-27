@@ -27,7 +27,7 @@ import com.lambkit.db.sql.column.Example;
 
 import java.util.List;
 
-public class LambkitSqlite3Dialect extends Sqlite3Dialect implements IModelDialect {
+public class LambkitSqlite3Dialect extends Sqlite3Dialect implements LambkitDialect {
 
 	public String forLimitSql(Object limit) {
 		StringBuilder sqlBuilder = new StringBuilder();

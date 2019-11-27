@@ -30,7 +30,7 @@ import com.lambkit.common.util.ArrayUtils;
 import java.util.List;
 
 
-public class LambkitPostgreSqlDialect extends PostgreSqlDialect implements IModelDialect, IManagerDialect {
+public class LambkitPostgreSqlDialect extends PostgreSqlDialect implements LambkitDialect, IManagerDialect {
 
 	public String forLimitSql(Object limit) {
 		// TODO Auto-generated method stub

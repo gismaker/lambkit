@@ -32,7 +32,7 @@ import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.cache.CacheManager;
 import com.lambkit.core.event.EventKit;
-import com.lambkit.db.dialect.IModelDialect;
+import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.sql.QueryParas;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.db.sql.column.Columns;
@@ -442,8 +442,8 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
     	return _getConfig().getName();
     }
     
-    private IModelDialect getDialect() {
-        return (IModelDialect) _getConfig().getDialect();
+    public LambkitDialect dialect() {
+        return (LambkitDialect) _getConfig().getDialect();
     }
 
     /**
@@ -485,7 +485,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
      * @return
      */
     public M findFirstByColumn(String column, Object value) {
-        String sql = getDialect().forFindByColumns(tableName(), "*", Columns.create(column, value).getList(), null, 1);
+        String sql = dialect().forFindByColumns(tableName(), "*", Columns.create(column, value).getList(), null, 1);
         return findFirst(sql, value);
     }
     
@@ -496,7 +496,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
      * @return
      */
     public M findFirstByColumn(Column column) {
-        String sql = getDialect().forFindByColumns(tableName(), "*", Columns.create(column).getList(), null, 1);
+        String sql = dialect().forFindByColumns(tableName(), "*", Columns.create(column).getList(), null, 1);
         //return findFirst(sql, column.getValue());
         LinkedList<Object> params = new LinkedList<Object>();
         column.addValueToParam(params);
@@ -510,7 +510,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
      * @return
      */
     public M findFirstByColumns(Columns columns) {
-        String sql = getDialect().forFindByColumns(tableName(), "*", columns.getList(), null, 1);
+        String sql = dialect().forFindByColumns(tableName(), "*", columns.getList(), null, 1);
         LinkedList<Object> params = new LinkedList<Object>();
 
         if (ArrayUtils.isNotEmpty(columns.getList())) {
@@ -522,7 +522,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
     }
     
     public M findFirstByColumns(Columns columns, String orderby) {
-        String sql = getDialect().forFindByColumns(tableName(), "*", columns.getList(), orderby, 1);
+        String sql = dialect().forFindByColumns(tableName(), "*", columns.getList(), orderby, 1);
         LinkedList<Object> params = new LinkedList<Object>();
 
         if (ArrayUtils.isNotEmpty(columns.getList())) {
@@ -540,7 +540,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
      * @return
      */
     public List<M> findAll() {
-        String sql = getDialect().forFindByColumns(tableName(), "*", null, null, null);
+        String sql = dialect().forFindByColumns(tableName(), "*", null, null, null);
         return find(sql);
     }
     
@@ -659,7 +659,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
             }
         }
 
-        String sql = getDialect().forFindByColumns(tableName(), "*", columns, orderBy, count);
+        String sql = dialect().forFindByColumns(tableName(), "*", columns, orderBy, count);
         return params.isEmpty() ? find(sql) : find(sql, params.toArray());
     }
 
@@ -712,8 +712,8 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
      * @return
      */
     public Page<M> paginateByColumns(int pageNumber, int pageSize, List<Column> columns, String orderBy) {
-        String selectPartSql = getDialect().forPaginateSelect("*");
-        String fromPartSql = getDialect().forPaginateFrom(tableName(), columns, orderBy);
+        String selectPartSql = dialect().forPaginateSelect("*");
+        String fromPartSql = dialect().forPaginateFrom(tableName(), columns, orderBy);
 
         LinkedList<Object> params = new LinkedList<Object>();
 
@@ -740,22 +740,22 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
     
     
     public M findFirst(Example example) {
-    	 SqlPara sqlPara = getDialect().forFindByExample(example, null);
+    	 SqlPara sqlPara = dialect().forFindByExample(example, null);
          return findFirst(sqlPara);
     }
     
     public List<M> find(Example example) {
-    	SqlPara sqlPara = getDialect().forFindByExample(example, null);
+    	SqlPara sqlPara = dialect().forFindByExample(example, null);
         return find(sqlPara);
     }
     
     public List<M> find(Example example, Integer count) {
-    	SqlPara sqlPara = getDialect().forFindByExample(example, count);
+    	SqlPara sqlPara = dialect().forFindByExample(example, count);
         return find(sqlPara);
     }
     
     public Page<M> paginate(int pageNumber, int pageSize, Example example) {
-    	SqlPara sqlPara = getDialect().forPaginateByExample(example);
+    	SqlPara sqlPara = dialect().forPaginateByExample(example);
         return paginate(pageNumber, pageSize, sqlPara);
     }
     
@@ -806,7 +806,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
 		if(q.getParas()==null) {
 			return find(q.getSql());
 		}
-		String sql = getDialect().forFindBySql(q.getSql(), orderBy, count);
+		String sql = dialect().forFindBySql(q.getSql(), orderBy, count);
 		return find(sql, q.getParas());
     }
 	
@@ -840,13 +840,13 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
 	
 	public List<M> find(SqlPara sqlPara, Integer count) {
     	if(sqlPara==null) return null;
-		sqlPara = getDialect().forFindBySqlPara(sqlPara, null, count);
+		sqlPara = dialect().forFindBySqlPara(sqlPara, null, count);
 		return find(sqlPara);
     }
 	
 	public List<M> find(SqlPara sqlPara, String orderBy, Integer count) {
     	if(sqlPara==null) return null;
-		sqlPara = getDialect().forFindBySqlPara(sqlPara, orderBy, count);
+		sqlPara = dialect().forFindBySqlPara(sqlPara, orderBy, count);
 		return find(sqlPara);
     }
 

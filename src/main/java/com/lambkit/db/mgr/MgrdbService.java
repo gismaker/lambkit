@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Record;
+import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.db.sql.condition.SqlBuilder;

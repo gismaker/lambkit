@@ -29,7 +29,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.lambkit.common.util.ArrayUtils;
-import com.lambkit.db.dialect.IModelDialect;
+import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.sql.IQuery;
 import com.lambkit.db.sql.Query;
 import com.lambkit.db.sql.QueryParas;
@@ -655,11 +655,11 @@ public abstract class ModelServiceImpl<M extends Model<M>> implements LambkitSer
 		return getDialect().forPaginateByExample(example);
 	}
 	
-	private IModelDialect getDialect() {
+	private LambkitDialect getDialect() {
     	if(StrKit.notBlank(configName())) {
-    		return (IModelDialect) DbKit.getConfig(configName()).getDialect();
+    		return (LambkitDialect) DbKit.getConfig(configName()).getDialect();
     	} else {
-    		return (IModelDialect) DbKit.getConfig().getDialect();
+    		return (LambkitDialect) DbKit.getConfig().getDialect();
     	}
 	}
 }

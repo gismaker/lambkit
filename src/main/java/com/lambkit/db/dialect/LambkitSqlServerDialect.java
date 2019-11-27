@@ -29,7 +29,7 @@ import com.lambkit.common.util.ArrayUtils;
 
 import java.util.List;
 
-public class LambkitSqlServerDialect extends SqlServerDialect implements IModelDialect, IManagerDialect {
+public class LambkitSqlServerDialect extends SqlServerDialect implements LambkitDialect, IManagerDialect {
 
 	@Override
 	public SqlPara forDeleteByExample(Example example) {

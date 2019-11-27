@@ -29,7 +29,7 @@ import com.lambkit.db.sql.column.Example;
 import java.util.List;
 
 
-public class LambkitAnsiSqlDialect extends AnsiSqlDialect implements IModelDialect {
+public class LambkitAnsiSqlDialect extends AnsiSqlDialect implements LambkitDialect {
 
 	@Override
 	public SqlPara forDeleteByExample(Example example) {

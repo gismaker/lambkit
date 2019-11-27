@@ -23,7 +23,7 @@ import com.lambkit.db.sql.QueryParas;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.db.sql.column.Example;
 
-public interface IModelDialect {
+public interface LambkitDialect {
 
 	public String forFindBySql(String sql, String orderBy, Object limit);
     public String forFindByColumns(String table, String loadColumns, List<Column> columns, String orderBy, Object limit);

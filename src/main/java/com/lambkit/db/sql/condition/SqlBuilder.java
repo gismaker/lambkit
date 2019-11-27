@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.db.mgr.MgrdbManager;
+import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.mgr.MgrTable;
 
 public class SqlBuilder {
@@ -46,6 +47,20 @@ public class SqlBuilder {
 	public SqlBuilder appendSelect(MgrTable tbc) {
 		strBuilder.append("select ");
 		strBuilder.append(MgrdbManager.me().getService().getSelectNamesOfView(tbc, ""));
+		return this;
+	}
+	
+	public SqlBuilder appendSelect(MgrTable tbc, LambkitDialect dialect) {
+		strBuilder.append("select ");
+		tbc.setDialect(dialect);
+		strBuilder.append(MgrdbManager.me().getService().getSelectNamesOfView(tbc, ""));
+		return this;
+	}
+	
+	public SqlBuilder appendSelect(MgrTable tbc, String alis, LambkitDialect dialect) {
+		strBuilder.append("select ");
+		tbc.setDialect(dialect);
+		strBuilder.append(MgrdbManager.me().getService().getSelectNamesOfView(tbc, alis));
 		return this;
 	}
 	
