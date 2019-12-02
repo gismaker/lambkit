@@ -13,6 +13,12 @@ public class GoodsServiceImpl implements GoodsService {
 		if(id==0) {
 			return null;
 		} else {
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return new Goods("vvv", id.toString());
 		}
 	}

@@ -23,7 +23,7 @@ public class ApiStore {
 	// API 接口住的地方
 	private ConcurrentHashMap<String, ApiAction> apiMap = new ConcurrentHashMap<String, ApiAction>();
 
-	public void loadApiFromSerices() {
+	public void loadApiFromSerices() throws ApiException {
 		// 获取所有calss
 		Class<?> clazz;
 		Map<String, ServiceObject> map = ServiceManager.me().getServices();
@@ -40,7 +40,7 @@ public class ApiStore {
 		}
 	}
 	
-	public void addService(Class<?> service) {
+	public void addService(Class<?> service) throws ApiException {
 		if(service==null) return;
 		ServiceObject serviceObject = ServiceManager.me().get(service);
 		if(serviceObject==null) {
@@ -56,7 +56,7 @@ public class ApiStore {
 		}
 	}
 	
-	public void addService(Class<?> service, Class<?> implementClass) {
+	public void addService(Class<?> service, Class<?> implementClass) throws ApiException {
 		if(service == null || implementClass == null) return;
 		ServiceManager.me().getOrNew(service, implementClass);
 		for (Method method : service.getDeclaredMethods()) {
@@ -78,6 +78,10 @@ public class ApiStore {
 	public ApiAction findApiRunnable(String apiName) {
 		return apiMap.get(apiName);
 	}
+	
+	public boolean containsApi(String apiName) {
+		return apiMap.containsKey(apiName);
+	}
 
 	/**
 	 * 添加api <br/>
@@ -85,8 +89,12 @@ public class ApiStore {
 	 * @param apiMapping api配置
 	 * @param beanName
 	 * @param method
+	 * @throws ApiException 
 	 */
-	private void addApiItem(ApiMapping apiMapping, String beanName, Class<?> serviceClas, Method method) {
+	private void addApiItem(ApiMapping apiMapping, String beanName, Class<?> serviceClas, Method method) throws ApiException {
+		if(containsApi(apiMapping.value())) {
+			throw new ApiException("Api store has exist [" + apiMapping.value() + "] method api, please check it!");
+		}
 		String apiName = apiMapping.value();
 		String targetName = beanName;
 		ApiInterceptor[] methodInters = ApiInterceptorManager.me().buildServiceMethodInterceptor(serviceClas, method);
@@ -94,11 +102,8 @@ public class ApiStore {
 		ApiAction apiRun = new ApiAction(apiName, targetName, method, apiMapping, apiBody, methodInters);
 		apiMap.put(apiMapping.value(), apiRun);
 	}
-
-	public ApiAction findApiRunnable(String apiName, String version) {
-		return apiMap.get(apiName + "_" + version);
-	}
-
+	
+	
 	public List<ApiAction> getAll() {
 		List<ApiAction> list = new ArrayList<ApiAction>(20);
 		list.addAll(apiMap.values());
@@ -109,8 +114,14 @@ public class ApiStore {
 		});
 		return list;
 	}
+	
+	/*
+	public ApiAction findApiRunnable(String apiName, String version) {
+		return apiMap.get(apiName + "_" + version);
+	}
 
 	public boolean containsApi(String apiName, String version) {
 		return apiMap.containsKey(apiName + "_" + version);
 	}
+	*/
 }

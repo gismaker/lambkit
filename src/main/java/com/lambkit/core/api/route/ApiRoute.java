@@ -24,15 +24,27 @@ public class ApiRoute {
 	}
 	
 	public void onStart() {
-		apiStore.loadApiFromSerices();
+		try {
+			apiStore.loadApiFromSerices();
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void addService(Class<?> service) {
-		apiStore.addService(service);
+		try {
+			apiStore.addService(service);
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void addService(Class<?> service, Class<?> implementClass) {
-		apiStore.addService(service, implementClass);
+		try {
+			apiStore.addService(service, implementClass);
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ApiParamsBuilder getParamsBuilder() {

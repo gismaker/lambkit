@@ -6,7 +6,6 @@ import com.lambkit.LambkitApplication;
 import com.lambkit.LambkitApplicationContext;
 import com.lambkit.common.service.ServiceManager;
 import com.lambkit.core.api.route.ApiRoute;
-import com.lambkit.core.api.route.ApiRouteHandler;
 import com.lambkit.module.LambkitModule;
 
 /**

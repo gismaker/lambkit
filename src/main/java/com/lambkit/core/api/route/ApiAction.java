@@ -35,7 +35,9 @@ public class ApiAction {
 	public Object run(Object... args)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object target = ServiceManager.me().inject(targetName);
-		return targetMethod.invoke(target, args);
+		Object result = targetMethod.invoke(target, args);
+		target = null;
+		return result;
 	}
 	
 	public Class<?>[] getParamTypes() {
