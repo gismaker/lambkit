@@ -20,36 +20,54 @@ public class SqlJoinOn extends Columns {
 	private static final long serialVersionUID = -8250834881745500656L;
 	
 	private SqlJoinMode type = SqlJoinMode.INNER_JOIN;
-	private String tableName;
-	private String onMainTableField;
-	private String onMyTableField;
+	private String mainTableName;
+	private String joinTableName;
+	private String mainField;
+	private String joinField;
 	
-	public SqlJoinOn(String tableName, Columns cols) {
-		this.tableName = tableName;
+	public SqlJoinOn(String mainTableName, String mainTableField, String joinTableName, String joinTableField, SqlJoinMode type, Columns cols) {
+		this.type = type;
+		this.mainTableName = mainTableName;
+		this.joinTableName = joinTableName;
+		this.mainField = mainTableField;
+		this.joinField = joinTableField;
 		this.addAll(cols.getList());
 	}
 	
-	public SqlJoinOn(String tableName) {
-		this.tableName = tableName;
+	public SqlJoinOn(String mainTableName, String mainTableField, String joinTableName, String joinTableField, Columns cols) {
+		this.mainTableName = mainTableName;
+		this.joinTableName = joinTableName;
+		this.mainField = mainTableField;
+		this.joinField = joinTableField;
+		this.addAll(cols.getList());
 	}
 	
-	public SqlJoinOn on(String mainTableField, String myTableField) {
-		this.onMainTableField = mainTableField;
-		this.onMyTableField = myTableField;
-		return this;
+	public SqlJoinOn(String mainTableName, String mainTableField, String joinTableName, String joinTableField, SqlJoinMode type) {
+		this.type = type;
+		this.mainTableName = mainTableName;
+		this.joinTableName = joinTableName;
+		this.mainField = mainTableField;
+		this.joinField = joinTableField;
 	}
 	
+	public SqlJoinOn(String mainTableName, String mainTableField, String joinTableName, String joinTableField) {
+		this.mainTableName = mainTableName;
+		this.joinTableName = joinTableName;
+		this.mainField = mainTableField;
+		this.joinField = joinTableField;
+	}
+
 	public SqlJoinOn mode(SqlJoinMode type) {
 		this.type = type;
 		return this;
 	}
 	
-	public String getTableName() {
-		return tableName;
+	public String getJoinTableName() {
+		return joinTableName;
 	}
 	
-	public SqlJoinOn setTableName(String tableName) {
-		this.tableName = tableName;
+	public SqlJoinOn setJoinTableName(String joinTableName) {
+		this.joinTableName = joinTableName;
 		return this;
 	}
 
@@ -62,21 +80,28 @@ public class SqlJoinOn extends Columns {
 		return this;
 	}
 
-	public String getOnMainTableField() {
-		return onMainTableField;
+	public String getMainField() {
+		return mainField;
 	}
 
-	public SqlJoinOn setOnMainTableField(String onMainTableField) {
-		this.onMainTableField = onMainTableField;
+	public SqlJoinOn setMainField(String mainField) {
+		this.mainField = mainField;
 		return this;
 	}
 
-	public String getOnMyTableField() {
-		return onMyTableField;
+	public String getJoinField() {
+		return joinField;
 	}
 
-	public SqlJoinOn setOnMyTableField(String onMyTableField) {
-		this.onMyTableField = onMyTableField;
-		return this;
+	public void setJoinField(String joinField) {
+		this.joinField = joinField;
+	}
+
+	public String getMainTableName() {
+		return mainTableName;
+	}
+
+	public void setMainTableName(String mainTableName) {
+		this.mainTableName = mainTableName;
 	}
 }

@@ -19,7 +19,7 @@ undertow.devMode=false
 # 避免项目中的 .class 打成 jar 包以后，同时在使用 devMode 时报的异常
 # 只要 underto.devMode 设置为 false，或者不打包就不会有异常
 # 添加此配置以后则无需关心上面这类事情，多个前缀用逗号分隔开
-undertow.hotSwapClassPrefix=com.jfinal.club.
+undertow.hotSwapClassPrefix=com.lambkit.
 
 
 undertow.port=80

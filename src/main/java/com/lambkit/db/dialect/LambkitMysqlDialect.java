@@ -22,10 +22,11 @@ import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.sql.ConditionMode;
 import com.lambkit.db.sql.QueryParas;
+import com.lambkit.db.sql.SqlJoinMode;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.db.sql.column.Columns;
 import com.lambkit.db.sql.column.Example;
-import com.lambkit.common.exception.LambkitException;
+import com.lambkit.db.sql.column.SqlJoinOn;
 import com.lambkit.common.util.ArrayUtils;
 
 import java.util.List;
@@ -66,8 +67,8 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
 		SqlPara sqlPara = new SqlPara();
 		String[] columnNames = record.getColumnNames();
         if (columnNames.length > 0) {
-    		StringBuilder sqlBuilder = new StringBuilder("UPDATE ");
-    		sqlBuilder.append(tableName).append(" SET ");
+    		StringBuilder sqlBuilder = new StringBuilder("UPDATE `");
+    		sqlBuilder.append(tableName).append("` SET ");
     		int i=0;
     		for (String name : columnNames) {
     			sqlBuilder.append(name).append("=?");
@@ -95,8 +96,10 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
 		SqlPara sqlPara = new SqlPara();
 		String[] columnNames = record.getColumnNames();
         if (columnNames.length > 0) {
-    		StringBuilder sqlBuilder = new StringBuilder("UPDATE ");
-    		sqlBuilder.append(example.getTableName()).append(" SET ");
+    		StringBuilder sqlBuilder = new StringBuilder("UPDATE `");
+    		sqlBuilder.append(example.getTableName()).append("` ");
+    		appIfJoinNotEmpty(example, sqlBuilder);
+    		sqlBuilder.append(" SET ");
     		int i=0;
     		for (String name : columnNames) {
     			sqlBuilder.append(name).append("=?");
@@ -108,17 +111,10 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
     			i++;
     			sqlPara.addPara(record.get(name));
 			}
-    		appConditions(example.getColumnsList(), sqlBuilder);
+    		appExampleConditions(example, sqlBuilder);
+    		//appConditions(example.getTableName(), example.getColumnsList(), sqlBuilder);
     		sqlPara.setSql(sqlBuilder.toString());
-            if (ArrayUtils.isNotEmpty(example.getColumnsList())) {
-                for (Columns columns : example.getColumnsList()) {
-                	if (ArrayUtils.isNotEmpty(columns.getList())) {
-                        for (Column column : columns.getList()) {
-                            column.addValueToParam(sqlPara);
-                        }
-                    }
-                }
-            }
+            example.addValueToParam(sqlPara);
         }
 		return sqlPara;
 	}
@@ -126,19 +122,13 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
 	@Override
 	public SqlPara forDeleteByExample(Example example) {
 		SqlPara sqlPara = new SqlPara();
-		StringBuilder sqlBuilder = new StringBuilder("DELETE FROM ");
-		sqlBuilder.append(example.getTableName()).append(" ");
-		appConditions(example.getColumnsList(), sqlBuilder);
+		StringBuilder sqlBuilder = new StringBuilder("DELETE FROM `");
+		sqlBuilder.append(example.getTableName()).append("` ");
+		appIfJoinNotEmpty(example, sqlBuilder);
+		appExampleConditions(example, sqlBuilder);
+		//appConditions(example.getTableName(), example.getColumnsList(), sqlBuilder);
 		sqlPara.setSql(sqlBuilder.toString());
-        if (ArrayUtils.isNotEmpty(example.getColumnsList())) {
-            for (Columns columns : example.getColumnsList()) {
-            	if (ArrayUtils.isNotEmpty(columns.getList())) {
-                    for (Column column : columns.getList()) {
-                        column.addValueToParam(sqlPara);
-                    }
-                }
-            }
-        }
+		example.addValueToParam(sqlPara);
 		return sqlPara;
 	}
 	
@@ -147,27 +137,21 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
 		SqlPara sqlPara = new SqlPara();
 		StringBuilder sqlBuilder = new StringBuilder("SELECT ");
 		sqlBuilder.append(example.getSelectSql());
-		sqlBuilder.append(" FROM ");
-		sqlBuilder.append(example.getTableName()).append(" ");
+		sqlBuilder.append(" FROM  `");
+		sqlBuilder.append(example.getTableName()).append("` ");
 
-		appConditions(example.getColumnsList(), sqlBuilder);
+		appIfJoinNotEmpty(example, sqlBuilder);
+		appExampleConditions(example, sqlBuilder);
+		//appConditions(example.getTableName(), example.getColumnsList(), sqlBuilder);
 
 		if (example.getOrderBy() != null) {
-			sqlBuilder.append(" ORDER BY ").append(example.getOrderBy());
+			sqlBuilder.append(" ORDER BY ").append(getOrderby(example.getTableName(),example.getOrderBy()));
 		}
 		
 		sqlBuilder.append(forLimitSql(limit));
 		sqlPara.setSql(sqlBuilder.toString());
 		
-        if (ArrayUtils.isNotEmpty(example.getColumnsList())) {
-            for (Columns columns : example.getColumnsList()) {
-            	if (ArrayUtils.isNotEmpty(columns.getList())) {
-                    for (Column column : columns.getList()) {
-                        column.addValueToParam(sqlPara);
-                    }
-                }
-            }
-        }
+		example.addValueToParam(sqlPara);
 		return sqlPara;
 	}
 	
@@ -185,17 +169,20 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
 	@Override
 	public SqlPara forPaginateFormByExample(Example example) {
 		SqlPara sqlPara = new SqlPara();
-		StringBuilder sqlBuilder = new StringBuilder(" FROM ");
-		sqlBuilder.append(example.getTableName()).append(" ");
+		StringBuilder sqlBuilder = new StringBuilder();
+		sqlBuilder.append(" FROM  `");
+		sqlBuilder.append(example.getTableName()).append("` ");
 		
-		appConditions(example.getColumnsList(), sqlBuilder);
+		appIfJoinNotEmpty(example, sqlBuilder);
+		appExampleConditions(example, sqlBuilder);
+		//appConditions(example.getTableName(), example.getColumnsList(), sqlBuilder);
 
 		if (example.getOrderBy() != null) {
-			sqlBuilder.append(" ORDER BY ").append(example.getOrderBy());
+			sqlBuilder.append(" ORDER BY ").append(getOrderby(example.getTableName(),example.getOrderBy()));
 		}
 		
 		sqlPara.setSql(sqlBuilder.toString());
-		
+		/*
         if (ArrayUtils.isNotEmpty(example.getColumnsList())) {
             for (Columns columns : example.getColumnsList()) {
             	if (ArrayUtils.isNotEmpty(columns.getList())) {
@@ -205,6 +192,14 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
                 }
             }
         }
+        if (example.getJoinOn()!=null) {
+			if (ArrayUtils.isNotEmpty(example.getJoinOn().getList())) {
+                for (Column column : example.getJoinOn().getList()) {
+                    column.addValueToParam(sqlPara);
+                }
+            }
+        }*/
+		example.addValueToParam(sqlPara);
 		return sqlPara;
 	}
 	
@@ -214,49 +209,42 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
         sqlBuilder.append(loadColumns)
                 .append(" FROM  `")
                 .append(table).append("` ");
-
-        appIfNotEmpty(columns, sqlBuilder, true);
-
-
+        appIfNotEmpty(table, columns, sqlBuilder, true);
         if (orderBy != null) {
-            sqlBuilder.append(" ORDER BY ").append(orderBy);
+            sqlBuilder.append(" ORDER BY ").append(getOrderby(table,orderBy));
         }
-
         if (limit != null) {
             sqlBuilder.append(" LIMIT " + limit);
         }
-
         return sqlBuilder.toString();
     }
-
 
     @Override
     public String forPaginateSelect(String loadColumns) {
         return "SELECT " + loadColumns;
     }
 
-
     @Override
     public String forPaginateFrom(String table, List<Column> columns, String orderBy) {
         StringBuilder sqlBuilder = new StringBuilder(" FROM `").append(table).append("`");
 
-        appIfNotEmpty(columns, sqlBuilder, true);
+        appIfNotEmpty(table, columns, sqlBuilder, true);
 
         if (orderBy != null) {
-            sqlBuilder.append(" ORDER BY ").append(orderBy);
+            sqlBuilder.append(" ORDER BY ").append(getOrderby(table,orderBy));
         }
 
         return sqlBuilder.toString();
     }
-
-    private void appConditions(List<Columns> columns, StringBuilder sqlBuilder) {
+    
+    private boolean appConditions(String alias, List<Columns> columns, StringBuilder sqlBuilder) {
     	StringBuilder wsb = new StringBuilder();
         if (ArrayUtils.isNotEmpty(columns)) {
             int index = 0;
             for (Columns column : columns) {
             	if (ArrayUtils.isNotEmpty(column.getList())) {
             		wsb.append("(");
-                    appIfNotEmpty(column.getList(), wsb, false);
+                    appIfNotEmpty(alias, column.getList(), wsb, false);
                     wsb.append(")");
                     if (index != columns.size() - 1) {
                     	wsb.append(" OR ");
@@ -268,22 +256,64 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
         if(wsb.length() > 3) {
         	sqlBuilder.append(" WHERE ");
             sqlBuilder.append(wsb);
+            return true;
         }
+        return false;
     }
 
-    private void appIfNotEmpty(List<Column> columns, StringBuilder sqlBuilder, boolean bAppendWhere) {
+    private void appIfNotEmpty(String alias, List<Column> columns, StringBuilder sqlBuilder, boolean bAppendWhere) {
         if (ArrayUtils.isNotEmpty(columns)) {
             if(bAppendWhere) sqlBuilder.append(" WHERE ");
 
             int index = 0;
             for (Column column : columns) {
-                sqlBuilder.append(String.format(" `%s` %s ", column.getName(), getCondition(column)));
+                sqlBuilder.append(String.format(" `%s`.`%s` %s ", alias, column.getName(), getCondition(column)));
                 if (index != columns.size() - 1) {
                     sqlBuilder.append(" AND ");
                 }
                 index++;
             }
         }
+    }
+    
+    private void appExampleConditions(Example example, StringBuilder sqlBuilder) {
+    	boolean flag = appConditions(example.getTableName(), example.getColumnsList(), sqlBuilder);
+    	if (ArrayUtils.isNotEmpty(example.getJoinOnList())) {
+        	int i=0;
+        	for (SqlJoinOn join : example.getJoinOnList()) {
+        		if(i==0) appIfNotEmpty(join.getJoinTableName(), join.getList(), sqlBuilder, !flag);
+        		else  appIfNotEmpty(join.getJoinTableName(), join.getList(), sqlBuilder, false);
+        		i++;
+        	}
+    	}
+    }
+    
+    private void appIfJoinNotEmpty(Example example, StringBuilder sqlBuilder) {
+    	if (ArrayUtils.isNotEmpty(example.getJoinOnList())) {
+        	for (SqlJoinOn join : example.getJoinOnList()) {
+        		if(join.getType()==SqlJoinMode.LEFT_JOIN) {
+            		sqlBuilder.append(" LEFT JOIN ");
+            	} else if(join.getType()==SqlJoinMode.RIGHT_JOIN) {
+            		sqlBuilder.append(" RIGHT JOIN ");
+            	} else {
+            		sqlBuilder.append(" INNER JOIN ");
+            	}
+            	sqlBuilder.append(" `").append(join.getJoinTableName()).append("` ON ");
+            	String mainAlias = join.getMainTableName();
+            	sqlBuilder.append(" `").append(mainAlias).append("`.`").append(join.getMainField()).append("` ");
+            	String alias = join.getJoinTableName();
+            	sqlBuilder.append("=");
+            	sqlBuilder.append(" `").append(alias).append("`.`").append(join.getJoinField()).append("` ");
+        	}
+        }
+    }
+    
+    private String getOrderby(String table, String orderby) {
+    	StringBuilder sqlBuilder = new StringBuilder();
+    	sqlBuilder.append("`").append(table).append("`.");
+    	orderby = orderby.replaceAll(",", "`"+table+"`.");
+    	sqlBuilder.append(orderby);
+    	return sqlBuilder.toString();
     }
     
     private String getCondition(Column column) {

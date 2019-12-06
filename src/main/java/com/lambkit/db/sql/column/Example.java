@@ -16,14 +16,17 @@
 
 import java.util.List;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
+import com.jfinal.plugin.activerecord.SqlPara;
+import com.lambkit.common.util.ArrayUtils;
+import com.lambkit.db.sql.SqlJoinMode;
 
 public class Example implements IExample{
 	private List<Columns> oredColumns;
 	private String loadColumns = "*";
 	private String tableName;
 	//暂未实现，等待完善
-	private SqlJoinOn joinOn;
+	private List<SqlJoinOn> joinOns;
 	private String orderBy;
 	//private int pageSize = 0;
 	//private int pageNumber = 0;
@@ -63,11 +66,66 @@ public class Example implements IExample{
         return criteria;
     }
     
-    public SqlJoinOn createJoinOn(String tableName) {
-    	if(joinOn!=null) joinOn=null;
-    	joinOn = new SqlJoinOn(tableName);
-        return joinOn;
-    }
+    public Example join(String mainField, String joinTableName, String joinField, SqlJoinMode type, Columns cols) {
+    	if(joinOns==null) joinOns = Lists.newArrayList();
+    	SqlJoinOn joinOn = new SqlJoinOn(tableName, mainField, joinTableName, joinField, type, cols);
+    	joinOns.add(joinOn);
+    	return this;
+	}
+    
+    public Example join(String mainField, String joinTableName, String joinField, SqlJoinMode type) {
+    	if(joinOns==null) joinOns = Lists.newArrayList();
+    	SqlJoinOn joinOn = new SqlJoinOn(tableName, mainField, joinTableName, joinField, type);
+    	joinOns.add(joinOn);
+    	return this;
+	}
+    
+    public Example join(String mainField, String joinTableName, String joinField, Columns cols) {
+    	if(joinOns==null) joinOns = Lists.newArrayList();
+    	SqlJoinOn joinOn = new SqlJoinOn(tableName, mainField, joinTableName, joinField, cols);
+    	joinOns.add(joinOn);
+    	return this;
+	}
+    
+    public Example join(String mainField, String joinTableName, String joinField) {
+    	if(joinOns==null) joinOns = Lists.newArrayList();
+    	SqlJoinOn joinOn = new SqlJoinOn(tableName, mainField, joinTableName, joinField);
+    	joinOns.add(joinOn);
+    	return this;
+	}
+    
+    public Example join(String mainTableName, String mainField, String joinTableName, String joinField, SqlJoinMode type, Columns cols) {
+    	if(joinOns==null) joinOns = Lists.newArrayList();
+    	SqlJoinOn joinOn = new SqlJoinOn(mainTableName, mainField, joinTableName, joinField, type, cols);
+    	joinOns.add(joinOn);
+    	return this;
+	}
+    
+    public Example join(String mainTableName, String mainField, String joinTableName, String joinField, SqlJoinMode type) {
+    	if(joinOns==null) joinOns = Lists.newArrayList();
+    	SqlJoinOn joinOn = new SqlJoinOn(mainTableName, mainField, joinTableName, joinField, type);
+    	joinOns.add(joinOn);
+    	return this;
+	}
+    
+    public Example join(String mainTableName, String mainField, String joinTableName, String joinField) {
+    	if(joinOns==null) joinOns = Lists.newArrayList();
+    	SqlJoinOn joinOn = new SqlJoinOn(mainTableName, mainField, joinTableName, joinField);
+    	joinOns.add(joinOn);
+    	return this;
+	}
+	
+	public SqlJoinOn createJoinOn(String mainField, String joinTableName, String joinField, SqlJoinMode type) {
+		SqlJoinOn joinOn = new SqlJoinOn(tableName, mainField, joinTableName, joinField, type);
+    	joinOns.add(joinOn);
+		return joinOn;
+	}
+	
+	public SqlJoinOn createJoinOn(String mainField, String joinTableName, String joinField) {
+		SqlJoinOn joinOn = new SqlJoinOn(tableName, mainField, joinTableName, joinField);
+    	joinOns.add(joinOn);
+		return joinOn;
+	}
 
     public void add(Columns columns) {
     	this.oredColumns.add(columns);
@@ -98,8 +156,8 @@ public class Example implements IExample{
 		return tableName;
 	}
 	
-	public SqlJoinOn getJoinOn() {
-		return joinOn;
+	public List<SqlJoinOn> getJoinOnList() {
+		return joinOns;
 	}
 	
 	public Example addColumns(Columns columns) {
@@ -135,11 +193,6 @@ public class Example implements IExample{
 		return this;
 	}
 	
-	public Example setJoinOn(SqlJoinOn joinOn) {
-		this.joinOn = joinOn;
-		return this;
-	}
-	
 	/*
 	public int getPageSize() {
 		return pageSize;
@@ -171,4 +224,25 @@ public class Example implements IExample{
 		return this;
 	}
 	*/
+	
+	public void addValueToParam(SqlPara sqlPara) {
+        if (ArrayUtils.isNotEmpty(getColumnsList())) {
+            for (Columns columns : getColumnsList()) {
+            	if (ArrayUtils.isNotEmpty(columns.getList())) {
+                    for (Column column : columns.getList()) {
+                        column.addValueToParam(sqlPara);
+                    }
+                }
+            }
+        }
+        if (ArrayUtils.isNotEmpty(getJoinOnList())) {
+        	for (SqlJoinOn jon : getJoinOnList()) {
+        		if (ArrayUtils.isNotEmpty(jon.getList())) {
+                    for (Column column : jon.getList()) {
+                        column.addValueToParam(sqlPara);
+                    }
+                }
+        	}
+        }
+	}
 }

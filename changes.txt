@@ -22,6 +22,7 @@ lambkit-1.0.2:
 优化：ApiRoute统一返回接口格式
 优化：ApiValidator验证器通过key直接验证params参数，通过index验证method参数值
 优化：mgrdb支持PostgreSQL大写字段
+优化：优化Example的join语句
 修复：修复generator模板地址错误问题
 修复：修复LambkitApplication.run使用错误问题
 修复：去除com.beust.jcommander.internal包的引用

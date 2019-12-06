@@ -99,6 +99,7 @@
 			<groupId>com.jfinal</groupId>
 			<artifactId>jetty-server</artifactId>
 			<version>2019.3</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- websocket for server -->
@@ -111,6 +112,7 @@
 			<groupId>org.eclipse.jetty.websocket</groupId>
 			<artifactId>websocket-server</artifactId>
 			<version>9.4.12.v20180830</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.websocket</groupId>
@@ -164,6 +166,7 @@
 			<groupId>com.ibeetl</groupId>
 			<artifactId>beetl</artifactId>
 			<version>2.7.22</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- task -->
@@ -171,6 +174,7 @@
 			<groupId>it.sauronsoftware.cron4j</groupId>
 			<artifactId>cron4j</artifactId>
 			<version>2.2.5</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- log -->
@@ -212,16 +216,19 @@
 			<groupId>io.zbus</groupId>
 			<artifactId>zbus</artifactId>
 			<version>0.10.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-pool</artifactId>
 			<version>5.14.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-clients</artifactId>
 			<version>0.9.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- rpc motan -->
@@ -271,6 +278,7 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
+			<scope>provided</scope>
 		</dependency>
 		<!-- rpc motan end -->
 
@@ -301,6 +309,7 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Excel for JXLExcelUtils -->
@@ -308,6 +317,7 @@
 			<groupId>net.sourceforge.jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
 			<version>2.6.12</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Ueditor for UeditorController -->
@@ -315,6 +325,7 @@
 			<groupId>cn.songxinqiang</groupId>
 			<artifactId>com.baidu.ueditor</artifactId>
 			<version>1.1.2-edit-1.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- mail -->
@@ -329,6 +340,7 @@
 			<groupId>io.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-core</artifactId>
 			<version>3.0.0.M4</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- jwt -->
@@ -348,6 +360,7 @@
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>3.2.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- database -->
@@ -375,13 +388,8 @@
 					<groupId>jdk.tools</groupId>
 				</exclusion>
 			</exclusions>
+			<scope>provided</scope>
 		</dependency>
-
-
-		<!--<dependency> -->
-		<!--<groupId>org.apache.dubbo</groupId> -->
-		<!--<artifactId>dubbo</artifactId> -->
-		<!--<version>2.7.0</version> -->
 
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -405,12 +413,14 @@
 					<artifactId>spring-context</artifactId>
 				</exclusion>
 			</exclusions>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-framework</artifactId>
 			<version>4.2.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- 用于支持 dubbo 的 restful 注解 start -->
@@ -465,11 +475,13 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.101tec</groupId>
 			<artifactId>zkclient</artifactId>
 			<version>0.3</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- zookeeper end -->
 
@@ -478,6 +490,7 @@
 			<groupId>com.orbitz.consul</groupId>
 			<artifactId>consul-client</artifactId>
 			<version>0.12.3</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- consul end -->
 	</dependencies>
