@@ -40,6 +40,10 @@ public class MetaKit {
 	
 	public static Map<String, TableMeta> getTableMetas(Map<String, Object> options) {
 		Config config = DbKit.getConfig();
+		return getTableMetas(config, options);
+	}
+	
+	public static Map<String, TableMeta> getTableMetas(Config config, Map<String, Object> options) {
 		MetaBuilder metaBuilder = new MetaBuilder(config.getDataSource());
 		metaBuilder.setDialect(config.getDialect());
 		metaBuilder.setConfigName(DataSourceConfig.NAME_DEFAULT);
