@@ -7,16 +7,14 @@ public class WebConfigController extends LambkitController {
 
 	private WebConfig webConfig;
 	
-	public WebConfigController() {
-		setWebConfig(WebConfigManager.me().getDefaultWebConfig());
-	}
-	
 	protected String getTemplatePath() {
-		return webConfig.getPath()  + "/" + webConfig.getTemplate();
+		String path = getWebConfig().getPath()  + "/" + getWebConfig().getTemplate();
+		System.out.println("template path: " + path);
+		return path;
 	}
 	
 	protected String getUrl() {
-		return webConfig.getUrl();
+		return getWebConfig().getUrl();
 	}
 	
 	private String getViewPath(String view) {
@@ -25,6 +23,9 @@ public class WebConfigController extends LambkitController {
 	}
 	
 	public WebConfig getWebConfig() {
+		if(webConfig==null) {
+			webConfig = WebConfigManager.me().getDefaultWebConfig();
+		}
 		return webConfig;
 	}
 
@@ -44,6 +45,7 @@ public class WebConfigController extends LambkitController {
 	
 	@Override
 	public void renderTemplate(String view) {
+		System.out.println(getViewPath(view));
 		super.renderTemplate(getViewPath(view));
 	}
 	

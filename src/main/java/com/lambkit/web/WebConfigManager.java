@@ -56,6 +56,10 @@ public class WebConfigManager {
     public WebConfig getWebConfig(String configName) {
     	return webConfigs.get(configName);
     }
+    
+    public void putWebConfig(String configName, WebConfig config) {
+    	webConfigs.put(configName, config);
+    }
 
     public Map<String, WebConfig> getWebConfigs() {
         return webConfigs;
