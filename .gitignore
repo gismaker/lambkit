@@ -1,2 +1,9 @@
 /target/
 /bin/
+/doc/
+/log/
+/.externalToolBuilders/
+/.settings/
+/.classpath
+/.project
+/plans.txt
