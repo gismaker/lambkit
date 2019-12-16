@@ -1,2 +1,7 @@
 /target/
 /bin/
+/log/
+/.settings/
+/.idea/
+/.classpath
+/.project
