@@ -18,8 +18,11 @@ package com.lambkit.db.datasource;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.kit.StrKit;
+import com.lambkit.common.LambkitPasswordCracker;
 import com.lambkit.common.util.SecurityUtils;
+import com.lambkit.core.aop.AopKit;
 
 
 public class DataSourceConfig {
@@ -37,6 +40,7 @@ public class DataSourceConfig {
     private String url;
     private String user;
     private String password;
+    private String passwordClassName = "com.lambkit.db.datasource.DataSourcePasswordCracker";
     private String driverClassName = "com.mysql.jdbc.Driver";
     private String connectionInitSql;
     private String poolName;
@@ -105,8 +109,9 @@ public class DataSourceConfig {
     }
 
     public String getPassword() {
-    	return SecurityUtils.decodePassword(password, name);
-        //return password;
+    	LambkitPasswordCracker lpc = AopKit.get(getPasswordClassName());
+    	lpc = lpc==null ? AopKit.get(DataSourcePasswordCracker.class) : lpc;
+    	return lpc.decode(password, name);
     }
 
     public void setPassword(String password) {
@@ -318,5 +323,13 @@ public class DataSourceConfig {
 
 	public void setDruidMergeSql(boolean druidMergeSql) {
 		this.druidMergeSql = druidMergeSql;
+	}
+
+	public String getPasswordClassName() {
+		return passwordClassName;
+	}
+
+	public void setPasswordClassName(String passwordClassName) {
+		this.passwordClassName = passwordClassName;
 	}
 }
