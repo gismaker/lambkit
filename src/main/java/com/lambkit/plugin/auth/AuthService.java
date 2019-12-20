@@ -34,10 +34,15 @@ public interface AuthService {
 	/**
 	 * 登录
 	 * @param c
+	 */
+	LambkitResult login(HttpServletRequest request);
+	LambkitResult login(Controller controller);
+	LambkitResult login(HttpServletRequest request, String username, String password, boolean rememberMe);
+	/**
+	 * client无密认证
 	 * @param username
 	 */
-	LambkitResult login(HttpServletRequest request, String username, String password, boolean rememberMe);
-	LambkitResult login(Controller controller, String username, String password, boolean rememberMe);
+	void login(HttpServletRequest request, String username);
 	/**
 	 * 退出
 	 * @param c
