@@ -257,6 +257,16 @@ public class SecurityUtils {
         return null;
     }
     
+    public static String encodePassword(String password) {
+    	String encodeRules = "Lambkit@" + EncryptUtils.md5("G1oVJUNg1N91xy63");
+    	return aesEncode(password, encodeRules);
+    }
+    
+    public static String decodePassword(String password) {
+    	String encodeRules = "Lambkit@" + EncryptUtils.md5("G1oVJUNg1N91xy63");
+    	return aesDecode(password, encodeRules);
+    }
+    
     public static String encodePassword(String password, String salt) {
     	String encodeRules = "Lambkit@" + EncryptUtils.md5(salt);
     	return aesEncode(password, encodeRules);

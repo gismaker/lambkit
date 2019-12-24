@@ -14,16 +14,53 @@ Lambkit是在我们项目开发过程中不断学习和积累起来的一个基�
 
 ### Lambkit启动方式
 
+**源码启动**
+
 - 下载lambkit源码
 - 导入Ecplise（import->Existing Maven Projects）,java使用1.8版本
-- MySQL中导入lambkit_opensource.sql数据库
-- lambkit.properties中填写lambkit.db.password=数据库密码
-- 启动Redis
 - 右键com.lambkit.LambkitApplication->Run As->Java Application
 - 启动完成
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0604/163339_1942786c_136253.png "启动完成2.png")
 
+**maven 依赖**
+
+```xml
+<dependency>
+    <groupId>com.lambkit</groupId>
+    <artifactId>lambkit</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
+**Hello World**
+
+```java
+public class IndexController extends LambkitController {
+	public void index() {
+		renderText("hello world!");
+	}
+}
+```
+
+```java
+public class TestApplicationStart extends LambkitApplicationContext {
+	@Override
+	public void configModule(LambkitModule module) {
+		LambkitModule config = new LambkitModule() {
+    		@Override
+    		public void configRoute(Routes me) {
+    			me.add("/", IndexController.class, "");
+    		}
+		};
+		module.addModule(config);
+	}
+	
+	public static void main(String[] args) {
+		LambkitApplication.run(TestApplicationStart.class, null);
+	}
+}
+```
 
 ### Lambkit代码自动生成
 代码自动生成有三部分组成，代码自动生成引擎、代码模板和Mgrdb模块组成。

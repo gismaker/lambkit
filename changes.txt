@@ -1,6 +1,13 @@
+-----------------------------
+lambkit-1.0.3:
+
+新增：新增ShiroRedisSessionDAO
+优化：优化数据库密码加密解密，用户可自定义算法。用户可采用继承LambkitPasswordCracker进行加密解密，默认解密方式时，当密码小于24位时使用明码。
+优化：优化AuthService登录接口
 
 -----------------------------
 lambkit-1.0.2:
+
 新增：新增undertow-websocket支持，默认加入DefaultWebSocketServer，地址/websocket
 新增：SecurityUtils新增AES加密解密
 新增：数据库密码加密
