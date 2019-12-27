@@ -31,4 +31,10 @@ public class LambkitConsts {
      * 启动完成事件
      */
     public static final String EVENT_STARTED = "lambkit:started";
+
+	public static final String ATTR_REQUEST = "request";
+
+	public static final String ATTR_CONTEXT_PATH = "ctx";
+	
+	public static final String ATTR_TEMPLATE_PATH = "lambkit-template-key";
 }
