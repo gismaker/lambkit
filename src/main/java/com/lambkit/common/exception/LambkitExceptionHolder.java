@@ -16,31 +16,37 @@
 package com.lambkit.common.exception;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LambkitExceptionHolder {
 
-    static ThreadLocal<List<Throwable>> throwables = new ThreadLocal<>();
-
-    public static void init() {
-        throwables.set(new ArrayList<Throwable>());
-    }
+    static ThreadLocal<List<Throwable>> throwables = ThreadLocal.withInitial(() -> new LinkedList<>());
+    static ThreadLocal<List<String>> messages = ThreadLocal.withInitial(() -> new LinkedList<>());
 
     public static void release() {
-        throwables.get().clear();
-        throwables.remove();
-    }
-
-    public static void hold(Throwable ex) {
-        List<Throwable> list = throwables.get();
-        if (list != null) {
-            list.add(ex);
+        if (!throwables.get().isEmpty()){
+            throwables.get().clear();
+        }
+        if (!messages.get().isEmpty()){
+            messages.get().clear();
         }
     }
 
-    public static List<Throwable> throwables() {
+    public static void hold(Throwable ex) {
+        throwables.get().add(ex);
+    }
+    public static void hold(String message,Throwable ex) {
+        messages.get().add(message);
+        throwables.get().add(ex);
+    }
+
+    public static List<Throwable> getThrowables() {
         return throwables.get();
     }
 
+    public static List<String> getMessages() {
+        return messages.get();
+    }
 
 }

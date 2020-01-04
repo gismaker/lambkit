@@ -27,7 +27,6 @@ public class XmlFileRender extends Render {
 	private static final String contentType = "text/xml; charset=" + getEncoding();
 
 	public XmlFileRender(String view) {
-		// TODO Auto-generated method stub
 		this.view = view;
 	}
 

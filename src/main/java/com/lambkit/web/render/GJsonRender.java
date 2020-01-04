@@ -80,7 +80,6 @@ public class GJsonRender extends Render {
 	private static final String contentType = "application/json; charset=" + getEncoding();
 	private static final String contentTypeForIE = "text/html; charset=" + getEncoding();
 	private boolean forIE = false;
-	private static int convertDepth = 15;
 	
 	private String jsonText;
 	private String[] attrs;
@@ -118,12 +117,6 @@ public class GJsonRender extends Render {
 	     JsonElement je = jp.parse(gson.toJson(object));
 	     this.jsonText =  gson.toJson(je);
 	     return this;
-	}
-	
-	public static void setConvertDepth(int convertDepth) {
-		if (convertDepth < 2)
-			throw new IllegalArgumentException("convert depth can not less than 2.");
-		GJsonRender.convertDepth = convertDepth;
 	}
 	
 	@Override
@@ -166,7 +159,7 @@ public class GJsonRender extends Render {
 			}
 		}
 		
-		this.jsonText = JsonKit.toJson(map, convertDepth);
+		this.jsonText = JsonKit.toJson(map);
 	}
 	
 	public String[] getAttrs() {
