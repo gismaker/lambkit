@@ -1,6 +1,7 @@
 package com.lambkit;
 
 import com.jfinal.config.Plugins;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.IPlugin;
 import com.jfinal.server.undertow.UndertowConfig;
 import com.jfinal.server.undertow.UndertowServer;
@@ -82,13 +83,21 @@ public class LambkitApplication {
 	}
 	
 	private static UndertowServer createServer(UndertowConfig config) {
-		return UndertowServer.create(config).configWeb(builder->{
-			builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
-			builder.addFilter("shiro", "org.apache.shiro.web.servlet.ShiroFilter");
-			builder.addFilterUrlMapping("shiro", "/*");
-			// 配置 WebSocket，DefaultWebSocketServer 需使用 ServerEndpoint 注解
-	        builder.addWebSocketEndpoint("com.lambkit.web.websocket.DefaultWebSocketServer");
-		}).addHotSwapClassPrefix("org.apache.shiro");
+		String shiro = Lambkit.getArg("shiroEnable");
+		if(StrKit.notBlank(shiro) && "false".equalsIgnoreCase(shiro)) {
+			return UndertowServer.create(config).configWeb(builder->{
+				// 配置 WebSocket，DefaultWebSocketServer 需使用 ServerEndpoint 注解
+		        builder.addWebSocketEndpoint("com.lambkit.web.websocket.DefaultWebSocketServer");
+			});
+		} else {
+			return UndertowServer.create(config).configWeb(builder->{
+				builder.addListener("org.apache.shiro.web.env.EnvironmentLoaderListener");
+				builder.addFilter("shiro", "org.apache.shiro.web.servlet.ShiroFilter");
+				builder.addFilterUrlMapping("shiro", "/*");
+				// 配置 WebSocket，DefaultWebSocketServer 需使用 ServerEndpoint 注解
+		        builder.addWebSocketEndpoint("com.lambkit.web.websocket.DefaultWebSocketServer");
+			}).addHotSwapClassPrefix("org.apache.shiro");
+		}
 	}
 	
 	/**
