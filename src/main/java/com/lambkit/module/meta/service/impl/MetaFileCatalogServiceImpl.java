@@ -59,13 +59,20 @@ public class MetaFileCatalogServiceImpl extends LambkitModelServiceImpl<MetaFile
 	}
 
 	@Override
-	public List<Record> getAll(Long pid) {
+	public List<Record> getAll(Long pid, Long userId) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" SELECT id,title,filesize,'' as path,'' as suffix,'folder' as t FROM meta_file_catalog WHERE pid=? ");
+		if(userId!=null) {
+			sql.append(" and (user_id=? or user_id is null) ");
+		}
 		sql.append(" UNION ");
 		sql.append(" SELECT id,title,filesize,path,suffix,'file' as t ");
 		sql.append(" FROM meta_file_catalog_mapping m LEFT JOIN meta_file f on m.file_id=f.id where m.catalog_id=? ");
-		return Db.find(sql.toString(), pid, pid);
+		if(userId!=null) {
+			return Db.find(sql.toString(), pid, userId, pid);
+		} else {
+			return Db.find(sql.toString(), pid, pid);
+		}
 	}
 
 	@Override

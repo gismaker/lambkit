@@ -8,6 +8,7 @@ lambkit-1.0.3:
 优化：LambkitApplication可通过args配置，取消shiro的支持。
 优化：修改ATTR_TEMPLATE_PATH变量为TPATH
 修复：修复order by查询中Dialect处理错误
+修复：修复MetaFileCatalogService文件夹用户权限
 
 -----------------------------
 lambkit-1.0.2:
