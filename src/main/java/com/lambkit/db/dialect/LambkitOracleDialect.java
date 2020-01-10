@@ -377,7 +377,7 @@ public class LambkitOracleDialect extends OracleDialect implements LambkitDialec
     private String getOrderby(String table, String orderby) {
     	StringBuilder sqlBuilder = new StringBuilder();
     	sqlBuilder.append(table).append(".");
-    	orderby = orderby.replaceAll(",", table+".");
+    	orderby = orderby.replaceAll(",", ","+table+".");
     	sqlBuilder.append(orderby);
     	return sqlBuilder.toString();
     }

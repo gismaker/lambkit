@@ -36,5 +36,5 @@ public class LambkitConsts {
 
 	public static final String ATTR_CONTEXT_PATH = "ctx";
 	
-	public static final String ATTR_TEMPLATE_PATH = "lambkit-template-key";
+	public static final String ATTR_TEMPLATE_PATH = "TPATH";
 }
