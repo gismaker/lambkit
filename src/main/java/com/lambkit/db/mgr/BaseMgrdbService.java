@@ -79,7 +79,10 @@ public abstract class BaseMgrdbService implements MgrdbService {
 			Object tbid = tb.getId();
 			if (tbid != null) {
 				mtb.setFieldList(getFieldDao().findByTbid(tbid, type, orderby));
-				tb.setPrimaryKey(getFieldDao().getPrimaryKey(tbid));
+				if(StrKit.isBlank(tb.getPrimaryKey())) {
+					tb.setPrimaryKey(getFieldDao().getPrimaryKey(tbid));
+					tb.update();
+				}
 			}
 		}
 		MgrdbConfig config = ConfigManager.me().get(MgrdbConfig.class);

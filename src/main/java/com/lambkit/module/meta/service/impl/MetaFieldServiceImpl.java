@@ -29,6 +29,7 @@ import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.db.sql.column.Column;
 import com.lambkit.db.sql.column.Columns;
+import com.lambkit.db.sql.column.Example;
 import com.lambkit.module.meta.service.MetaFieldService;
 import com.lambkit.module.meta.service.MetaThemeService;
 import com.lambkit.module.meta.model.MetaField;
@@ -259,5 +260,18 @@ public class MetaFieldServiceImpl extends LambkitModelServiceImpl<MetaField> imp
 			break;
 		}
 		return metaField;
+	}
+
+	@Override
+	public MetaField getPrimaryKeyField(Long tbid, String keyname) {
+		Example example = MetaField.sql().andTbidEqualTo(tbid).andNameEqualTo(keyname).example();
+		return findFirst(example);
+	}
+
+	@Override
+	public List<MetaField> getByTableId(Long tbid) {
+		// TODO Auto-generated method stub
+		Example example = MetaField.sql().andTbidEqualTo(tbid).example();
+		return find(example);
 	}
 }
