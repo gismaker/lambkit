@@ -18,7 +18,10 @@ package com.lambkit.db;
 import com.google.common.collect.Maps;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.DbPro;
 import com.jfinal.plugin.activerecord.Model;
 import com.lambkit.Lambkit;
 import com.lambkit.common.LambkitManager;
@@ -33,6 +36,7 @@ import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.db.datasource.DataSourceConfig;
 import com.lambkit.db.datasource.DataSourceConfigManager;
 import com.lambkit.db.dialect.LambkitAnsiSqlDialect;
+import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.dialect.LambkitMysqlDialect;
 import com.lambkit.db.dialect.LambkitOracleDialect;
 import com.lambkit.db.dialect.LambkitPostgreSqlDialect;
@@ -229,5 +233,22 @@ public class DbManager {
 			dbWrappers = Maps.newHashMap();
 		}
 		return dbWrappers;
+	}
+	
+	public DbPro db(String datasourceConfigName) {
+		if(StrKit.isBlank(datasourceConfigName)) {
+			return Db.use();
+		} else {
+			return Db.use(datasourceConfigName);
+		}
+	}
+	
+	public LambkitDialect getDialect(String datasourceConfigName) {
+		DbPro dp = db(datasourceConfigName);
+		if(dp!=null) {
+			return (LambkitDialect) dp.getConfig().getDialect();
+		} else {
+			return null;
+		}
 	}
 }

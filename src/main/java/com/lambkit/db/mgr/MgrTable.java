@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.meta.TableMeta;
+import com.lambkit.db.sql.column.Columns;
 
 public class MgrTable {
 
@@ -92,4 +93,15 @@ public class MgrTable {
 	public void setDialect(LambkitDialect dialect) {
 		this.dialect = dialect;
 	}
+	
+	/////////////////////////////////////////////////
+	
+	public String getLoadColumns(String alias) {
+		return MgrdbManager.me().getService().getSelectNamesOfView(this, alias);
+	}
+	
+	protected String sql4FindById(Object id) {
+		String pkname = getPrimaryKey();
+		return dialect.forFindByColumns(getName(), getLoadColumns(""), Columns.create(pkname, id).getList(), "", null);
+	} 
 }
