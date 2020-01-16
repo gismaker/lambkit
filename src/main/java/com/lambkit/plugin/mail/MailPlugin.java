@@ -70,8 +70,8 @@ public class MailPlugin implements IPlugin{
 			LogKit.warn("未设置密码");
 		}
 		if(StrKit.isBlank(props.getProperty("mail.smtp.timeout"))){
-			props.setProperty("mail.smtp.timeout", "10000");
-			LogKit.warn("未设置超时时间，使用默认值mail.smtp.timeout:"+"10000");
+			props.setProperty("mail.smtp.timeout", "1000");
+			LogKit.warn("未设置超时时间，使用默认值mail.smtp.timeout:"+"1000");
 		}
 		MailKit.init(configName, new MailPro(props));
 		return true;
