@@ -12,6 +12,7 @@ lambkit-1.0.3:
 优化：优化MetaTable获取primaryKey方法
 修复：修复order by查询中Dialect处理错误
 修复：修复MetaFileCatalogService文件夹用户权限
+修复：修复mail插件缺少jar包问题
 
 -----------------------------
 lambkit-1.0.2:
