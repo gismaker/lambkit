@@ -17,8 +17,10 @@ package com.lambkit.db.sql.column;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import com.lambkit.common.util.ArrayUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.db.sql.ConditionMode;
 
@@ -204,4 +206,13 @@ public class Columns implements Serializable {
         return cols;
     }
 
+    public LinkedList<Object> getParams() {
+    	LinkedList<Object> params = new LinkedList<Object>();
+        if (ArrayUtils.isNotEmpty(cols)) {
+            for (Column column : cols) {
+                column.addValueToParam(params);
+            }
+        }
+        return params;
+    }
 }

@@ -15,12 +15,20 @@
  */
 package com.lambkit.module.meta.model;
 
+import java.math.BigInteger;
 import java.util.Map;
 
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.SqlPara;
 import com.lambkit.common.service.ServiceKit;
+import com.lambkit.db.DbManager;
 import com.lambkit.db.mgr.ITable;
 import com.lambkit.db.sql.column.Column;
+import com.lambkit.db.sql.column.Columns;
+import com.lambkit.db.sql.column.Example;
 import com.lambkit.db.mgr.MgrdbConfig;
 import com.lambkit.module.meta.MetaMgrManager;
 
@@ -115,5 +123,100 @@ public class MetaTable extends BaseMetaTable<MetaTable> implements ITable {
 	public void configMap() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+
+	public Record getTableDataById(String ids, String sep) {
+		String pkey = getKeyname();
+		if(StrKit.isBlank(pkey)) return null;
+		String[] pkeys = pkey.split(",");
+		String[] pids = ids.split(sep);
+		if(pkeys.length == pids.length) {
+			Example example = Example.create(getName());
+			Columns columns = example.createColumns();
+			for (int i = 0; i < pids.length; i++) {
+				MetaField field = MetaField.service().getPrimaryKeyField(getId(), pkeys[i]);
+				if(field==null) return null;
+				if("java.lang.Integer".equals(field.getDatatype())) {
+					columns.eq(pkeys[i], Integer.valueOf(pids[i]));
+				} else if("java.lang.Long".equals(field.getDatatype())) {
+					columns.eq(pkeys[i], Long.valueOf(pids[i]));
+				} else if("java.math.BigInteger".equals(field.getDatatype())) {
+					columns.eq(pkeys[i], BigInteger.valueOf(Long.valueOf(pids[i])));
+				} else {
+					columns.eq(pkeys[i], pids[i]);
+				}
+			}
+			SqlPara sqlPara = dialect().forFindByExample(example, null);
+			MgrdbConfig config = MetaMgrManager.me().getConfig();
+			String dbconfig = config.getDbconfig();
+			if(StrKit.notBlank(dbconfig)) {
+				return Db.use(dbconfig).findFirst(sqlPara);
+			} else {
+				return Db.findFirst(sqlPara);
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	public Record getTableDataById(String ids, String sep, String dbconfig) {
+		String pkey = getKeyname();
+		if(StrKit.isBlank(pkey)) return null;
+		String[] pkeys = pkey.split(",");
+		String[] pids = ids.split(sep);
+		if(pkeys.length == pids.length) {
+			Example example = Example.create(getName());
+			Columns columns = example.createColumns();
+			for (int i = 0; i < pids.length; i++) {
+				MetaField field = MetaField.service().getPrimaryKeyField(getId(), pkeys[i]);
+				if(field==null) return null;
+				if("java.lang.Integer".equals(field.getDatatype())) {
+					columns.eq(pkeys[i], Integer.valueOf(pids[i]));
+				} else if("java.lang.Long".equals(field.getDatatype())) {
+					columns.eq(pkeys[i], Long.valueOf(pids[i]));
+				} else if("java.math.BigInteger".equals(field.getDatatype())) {
+					columns.eq(pkeys[i], BigInteger.valueOf(Long.valueOf(pids[i])));
+				} else {
+					columns.eq(pkeys[i], pids[i]);
+				}
+			}
+			SqlPara sqlPara = DbManager.me().getDialect(dbconfig).forFindByExample(example, null);
+			if(StrKit.notBlank(dbconfig)) {
+				return Db.use(dbconfig).findFirst(sqlPara);
+			} else {
+				return Db.findFirst(sqlPara);
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	public Page<Record> getTableDataByPaginate(String ids, String sep) {
+		if(StrKit.isBlank(ids)) return null;
+		String[] pids = ids.split(sep);
+		Integer size = 0;
+		Integer page = 1;
+		MgrdbConfig config = MetaMgrManager.me().getConfig();
+		String dbconfig = config.getDbconfig();
+		if(pids.length==1) {
+			if("N".equalsIgnoreCase(pids[0])) {
+				size = config.getLimit();
+			} else {
+				size = Integer.valueOf(pids[0]);
+			}
+		} else if(pids.length == 2) {
+			size = Integer.valueOf(pids[0]);
+			page = Integer.valueOf(pids[1]);
+		}
+		size = size==null ? 0 : size;
+		page = page==null ? 1 : page;
+		Example example = Example.create(getName());
+		SqlPara sqlPara = dialect().forFindByExample(example, null);
+		if(StrKit.notBlank(dbconfig)) {
+			return Db.use(dbconfig).paginate(page, size, sqlPara);
+		} else {
+			return Db.paginate(page, size, sqlPara);
+		}
 	}
 }

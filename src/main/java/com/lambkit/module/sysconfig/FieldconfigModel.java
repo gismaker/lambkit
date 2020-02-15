@@ -468,4 +468,11 @@ public class FieldconfigModel extends Model<FieldconfigModel> implements IField,
 		model.save();
 		return model;
 	}
+
+	@Override
+	public String getAttrName() {
+		// TODO Auto-generated method stub
+		String name = getName();
+		return StrKit.toCamelCase(name);
+	}
 }

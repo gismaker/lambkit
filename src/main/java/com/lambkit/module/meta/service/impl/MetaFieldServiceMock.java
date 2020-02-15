@@ -15,9 +15,14 @@
  */
 package com.lambkit.module.meta.service.impl;
 
-import com.lambkit.common.service.BaseServiceMock;
+import java.util.List;
 
+import com.lambkit.common.service.BaseServiceMock;
+import com.lambkit.db.meta.ColumnMeta;
+import com.lambkit.db.mgr.IField;
+import com.lambkit.db.mgr.ITable;
 import com.lambkit.module.meta.model.MetaField;
+import com.lambkit.module.meta.service.MetaFieldService;
 
 /**
  * @author yangyong 
@@ -27,5 +32,107 @@ import com.lambkit.module.meta.model.MetaField;
  * @version 1.0
  * @since 1.0
  */
-public class MetaFieldServiceMock extends BaseServiceMock<MetaField> {
+public class MetaFieldServiceMock extends BaseServiceMock<MetaField> implements MetaFieldService {
+
+	@Override
+	public List<? extends IField> findByTbid(Object tbid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends IField> findByTbid(Object tbid, int type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends IField> findByTbid(Object tbid, String orderby) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<? extends IField> findByTbid(Object tbid, int type, String orderby) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPrimaryKey(Object tbid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IField findById(Object fldid, int type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int deleteByTbid(Object fldid) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public IField findFirstByTbName(String tbname, String fld, Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IField findFirstByTbName(String tbname, int type, String fld, Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IField findFirstByTbid(Object tbid, String fld, Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IField findFirstByTbid(Object tbid, int type, String fld, Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IField findGeomField(Object tbid, int type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IField getAddOrEditModel(Object id, int type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IField columnToField(ColumnMeta column, ITable tbc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MetaField joinSubModel(MetaField metaField, int type, Long tmid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MetaField getPrimaryKeyField(Long tbid, String keyname) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MetaField> getByTableId(Long tbid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -300,7 +300,7 @@ public class LambkitSqlite3Dialect extends Sqlite3Dialect implements LambkitDial
     private String getOrderby(String table, String orderby) {
     	StringBuilder sqlBuilder = new StringBuilder();
     	sqlBuilder.append(table).append(".");
-    	orderby = orderby.replaceAll(",", table+".");
+    	orderby = orderby.replaceAll(",", ","+table+".");
     	sqlBuilder.append(orderby);
     	return sqlBuilder.toString();
     }

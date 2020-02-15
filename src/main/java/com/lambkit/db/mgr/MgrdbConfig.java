@@ -30,6 +30,8 @@ public class MgrdbConfig {
 	private String serverType = "server";
 	private String version = "1.0";
 	private String dbconfig;
+	
+	private int limit = 500;//最大全表获取条数
 
 	public String getTableRemovePrefixes() {
 		return tableRemovePrefixes;
@@ -77,5 +79,13 @@ public class MgrdbConfig {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
 	}
 }

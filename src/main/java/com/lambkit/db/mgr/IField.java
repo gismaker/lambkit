@@ -23,6 +23,8 @@ public interface IField {
 	
 	String getName();
 	
+	String getAttrName();
+	
 	String getTitle();
 	
 	String getDatatype();

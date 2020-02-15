@@ -65,6 +65,13 @@ public class MetaField extends BaseMetaField<MetaField> implements IField {
 	}
 	
 	@Override
+	public String getAttrName() {
+		// TODO Auto-generated method stub
+		String name = getName();
+		return StrKit.toCamelCase(name);
+	}
+	
+	@Override
 	public String getDefault() {
 		// TODO Auto-generated method stub
 		return getFlddefault();

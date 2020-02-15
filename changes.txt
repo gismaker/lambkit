@@ -5,6 +5,15 @@ lambkit-1.0.3:
 新增：新增ShiroRedisSessionDAO
 优化：优化数据库密码加密解密，用户可自定义算法。用户可采用继承LambkitPasswordCracker进行加密解密，默认解密方式时，当密码小于24位时使用明码。
 优化：优化AuthService登录接口
+优化：LambkitApplication可通过args配置，取消shiro的支持。
+优化：修改ATTR_TEMPLATE_PATH变量为TPATH
+优化：DbManager增加db和dialect获取接口
+优化：Columns加入参数值获取接口
+优化：优化MetaTable获取primaryKey方法
+优化：IField增加getAttrName方法，返回驼峰命名的字段名称，配合json序列化方法
+修复：修复order by查询中Dialect处理错误
+修复：修复MetaFileCatalogService文件夹用户权限
+修复：修复mail插件缺少jar包问题
 
 -----------------------------
 lambkit-1.0.2:

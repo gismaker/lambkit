@@ -54,7 +54,7 @@ public interface MetaFileCatalogService extends LambkitService<MetaFileCatalog> 
 	 * @param id
 	 * @return
 	 */
-	List<Record> getAll(Long id);
+	List<Record> getAll(Long id, Long userId);
 	/**
 	 * 移除目录，但不删除
 	 * @param id

@@ -40,7 +40,7 @@ public class MetaFileCatalogServiceMock extends BaseServiceMock<MetaFileCatalog>
 	}
 
 	@Override
-	public List<Record> getAll(Long pid) {
+	public List<Record> getAll(Long pid, Long userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

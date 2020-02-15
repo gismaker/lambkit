@@ -29,5 +29,13 @@ public class StringUtilsTest {
 			System.out.println("2017-08-01 12:01是日期");
 		}
 		
+		if(StringUtils.isEmail("yangyong@caep.org.cn")) {
+			System.out.println("yangyong@caep.org.cn是邮箱");
+		}
+		
+		if(StringUtils.isMobileNumber("18511240544")) {
+			System.out.println("18511240544是手机号");
+		}
+		
 	}
 }
