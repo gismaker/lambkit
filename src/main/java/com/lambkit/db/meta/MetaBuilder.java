@@ -23,7 +23,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -155,6 +154,7 @@ public class MetaBuilder {
 		// 移除表名前缀仅用于生成 modelName、baseModelName，而 tableMeta.name 表名自身不能受影响
 		if (removedTableNamePrefixes != null) {
 			for (String prefix : removedTableNamePrefixes) {
+				if(StrKit.isBlank(prefix)) continue;
 				if (tableName.startsWith(prefix)) {
 					tableName = tableName.replaceFirst(prefix, "");
 					break;
@@ -181,6 +181,7 @@ public class MetaBuilder {
 		// 移除表名前缀仅用于生成 modelName、baseModelName，而 tableMeta.name 表名自身不能受影响
 		if (removedTableNamePrefixes != null) {
 			for (String prefix : removedTableNamePrefixes) {
+				if(StrKit.isBlank(prefix)) continue;
 				if (tableName.startsWith(prefix)) {
 					tableName = tableName.replaceFirst(prefix, "");
 					break;

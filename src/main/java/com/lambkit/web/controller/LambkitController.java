@@ -46,6 +46,7 @@ import com.lambkit.plugin.auth.IUser;
 import com.lambkit.plugin.auth.cache.UserInfo;
 import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.web.controller.Widget;
+import com.lambkit.web.render.MimeTypeRender;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -906,6 +907,10 @@ public abstract class LambkitController extends Controller {
 			System.out.println(string);
 		}*/
 		super.renderJson();
+	}
+	
+	public void renderImage(String imageFileName) {
+		render(new MimeTypeRender(imageFileName));
 	}
 	
 	@NotAction

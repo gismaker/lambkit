@@ -20,6 +20,7 @@ import java.util.List;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.validate.Validator;
+import com.lambkit.common.ResultKit;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.mgr.MgrConstants;
@@ -83,14 +84,15 @@ public abstract class LambkitValidator extends Validator {
 
 	@Override
 	protected void handleError(Controller c) {
-		if(c.getPara("at")!=null && c.getPara("at").equalsIgnoreCase("json")) {
-			c.setAttr("error", true);
-			c.renderJson();
-		} else {
+		if(c.getPara("at")!=null && !c.getPara("at").equalsIgnoreCase("json")) {
 			c.keepPara();
 			c.setAttr("token", "1");
-			//CommonService.bo.setAttr(c, null);
-			c.render("edit.html");
+			c.render(c.getPara("at"));
+		} else {
+			c.setAttr("code", 0);
+			c.setAttr("error", true);
+			c.setAttr("message", "验证失败");
+			c.renderJson();
 		}
 	}
 	
