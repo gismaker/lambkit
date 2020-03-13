@@ -1,7 +1,5 @@
 package com.lambkit.core.api.route;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -120,9 +118,9 @@ public class ApiRouteHandler extends Handler {
 		} else {
 			result = ApiResult.fail(throwable.getMessage(), null);
 		}
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		PrintStream stream = new PrintStream(out);
-		throwable.printStackTrace(stream);
+		//ByteArrayOutputStream out = new ByteArrayOutputStream();
+		//PrintStream stream = new PrintStream(out);
+		//throwable.printStackTrace(stream);
 		return result;
 	}
 

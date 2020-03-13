@@ -25,9 +25,9 @@ public class LambkitRenderFactory extends RenderFactory {
 		case FREE_MARKER:
 			mainRenderFactory = new FreeMarkerRenderFactory();
 			break ;
-		case JSP:
-			mainRenderFactory = new JspRenderFactory();
-			break ;
+//		case JSP:
+//			mainRenderFactory = new JspRenderFactory();
+//			break ;
 		case VELOCITY:
 			mainRenderFactory = new VelocityRenderFactory();
 			break ;
@@ -56,11 +56,11 @@ public class LambkitRenderFactory extends RenderFactory {
  		}
  	}
  	
- 	private static class JspRenderFactory extends MainRenderFactory {
- 		public Render getRender(String view) {
- 			return new LambkitJspRender(view);
- 		}
- 	}
+// 	private static class JspRenderFactory extends MainRenderFactory {
+// 		public Render getRender(String view) {
+// 			return new LambkitJspRender(view);
+// 		}
+// 	}
  	
  	private static class VelocityRenderFactory extends MainRenderFactory {
  		public Render getRender(String view) {
