@@ -3,6 +3,7 @@ lambkit-1.0.3:
 
 新增：新增LambkitRenderFactory,可动态确定render模板，应用于cms的模板管理中
 新增：新增ShiroRedisSessionDAO
+新增：Api网关支持时间格式为yyyy-MM-dd HH:mm:ss
 优化：优化数据库密码加密解密，用户可自定义算法。用户可采用继承LambkitPasswordCracker进行加密解密，默认解密方式时，当密码小于24位时使用明码。
 优化：优化AuthService登录接口
 优化：LambkitApplication可通过args配置，取消shiro的支持。

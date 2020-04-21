@@ -2,6 +2,8 @@ package com.lambkit.core.api.route;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +109,11 @@ public class ApiParamsBuilder {
 			if (val.toString().matches("[0-9]+")) {
 				result = new Date(Long.parseLong(val.toString()));
 			} else {
-				throw new IllegalArgumentException("日期必须是长整型的时间戳");
+				try {
+					result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(val.toString());
+				} catch (ParseException e) {
+					throw new IllegalArgumentException("日期必须是长整型的时间戳");
+				}
 			}
 		} else if (String.class.equals(targetClass)) {
 			if (val instanceof String) {

@@ -18,6 +18,7 @@ package com.lambkit.common.util;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -38,7 +39,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  */
 public class JsonUtils {
 
-	public static final ObjectMapper JSON_MAPPER = newObjectMapper(), JSON_MAPPER_WEB = newObjectMapper();
+	public static final ObjectMapper JSON_MAPPER = newObjectMapper();
 
 	private static ObjectMapper newObjectMapper() {
 		ObjectMapper result = new ObjectMapper();
@@ -48,6 +49,7 @@ public class JsonUtils {
 		result.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false); // 不输出value=null的属性
 		result.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		result.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+		result.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		return result;
 	}
 

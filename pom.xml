@@ -518,10 +518,14 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
 				<configuration>
-					<!-- <compilerArgument>-parameters</compilerArgument> -->
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>UTF-8</encoding>
+					<!-- java8 保留参数名编译参数 -->
+					<compilerArgument>-parameters</compilerArgument>
+					<compilerArguments>
+						<verbose />
+					</compilerArguments>
 				</configuration>
 			</plugin>
 

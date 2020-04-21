@@ -184,14 +184,14 @@ public class DefaultModule extends LambkitModule {
 	
 	public EhCachePlugin createEhCachePlugin(EhcacheConfig ehc) {
 		if(StrKit.notBlank(ehc.getPath())) {
-			String ehcacheDiskStorePath = PathKit.getWebRootPath();
+			String ehcacheDiskStorePath = ehc.getPath();
 			if("webrootpath".equalsIgnoreCase(ehc.getPath())){
 				ehcacheDiskStorePath = PathKit.getWebRootPath();
 			} else if("classpath".equalsIgnoreCase(ehc.getPath())) {
 				ehcacheDiskStorePath = PathKit.getRootClassPath();
 			}
 			File pathFile = new File(ehcacheDiskStorePath, ".ehcache");
-
+			
 			Configuration cfg = ConfigurationFactory.parseConfiguration();
 			cfg.addDiskStore(new DiskStoreConfiguration().path(pathFile.getAbsolutePath()));
 			
