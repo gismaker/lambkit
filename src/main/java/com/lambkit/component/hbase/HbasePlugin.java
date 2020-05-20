@@ -20,7 +20,6 @@ import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.coprocessor.AggregationClient;
 
 import com.jfinal.log.Log;
 import com.jfinal.plugin.IPlugin;
@@ -28,7 +27,6 @@ import com.jfinal.plugin.IPlugin;
 public class HbasePlugin implements IPlugin {
 	private static final Log logger = Log.getLog(Thread.currentThread().getClass());
 	private String quorum;
-	private String znode = "/hbase";
 	private String encoding = "UTF-8";
 
 	public HbasePlugin(String quorum) {
@@ -39,14 +37,13 @@ public class HbasePlugin implements IPlugin {
 	public boolean start() {
 		Configuration config = HBaseConfiguration.create();
 		config.set("hbase.zookeeper.quorum", quorum);
-		config.set("hbase.zookeeper.znode.parent", znode);
+		config.set("hbase.zookeeper.property.client", "2181");
 		config.set("hbase.encoding", encoding);
 		try {
 			Hbase.connection = ConnectionFactory.createConnection(config);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Hbase.aggregationClient = new AggregationClient(config);
 		return true;
 	}
 
@@ -58,11 +55,6 @@ public class HbasePlugin implements IPlugin {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		try {
-			Hbase.aggregationClient.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		return true;
 	}

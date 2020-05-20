@@ -19,9 +19,6 @@ import java.io.Serializable;
 
 public class ActionCacheContent implements Serializable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -3344798798427067134L;
 	private String contentType;
     private String content;
