@@ -151,4 +151,9 @@ public class ApiInvocation {
 	public void setErrorValue(Object errorValue) {
 		this.errorValue = errorValue;
 	}
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	
 }
