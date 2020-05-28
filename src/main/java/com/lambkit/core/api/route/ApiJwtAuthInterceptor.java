@@ -32,6 +32,7 @@ public class ApiJwtAuthInterceptor implements ApiInterceptor {
         } else {
         	inv.setErrorValue("token error");
         }
+		inv.getRequest().removeAttribute("me");// 移除避免暴露当前角色信息
 	}
 	
 	/**
