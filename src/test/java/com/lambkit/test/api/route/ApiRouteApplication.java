@@ -5,6 +5,7 @@ import com.jfinal.config.Routes;
 import com.lambkit.LambkitApplication;
 import com.lambkit.LambkitApplicationContext;
 import com.lambkit.common.service.ServiceManager;
+import com.lambkit.core.api.route.ApiInterceptorManager;
 import com.lambkit.core.api.route.ApiRoute;
 import com.lambkit.module.LambkitModule;
 
@@ -41,6 +42,7 @@ public class ApiRouteApplication extends LambkitApplicationContext {
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+		//ApiInterceptorManager.me().addGlobalServiceInterceptor(inters);
 		ApiRoute.me().onStart();
 	}
 	

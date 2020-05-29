@@ -29,7 +29,7 @@ Lambkit是在我们项目开发过程中不断学习和积累起来的一个基�
 <dependency>
     <groupId>com.lambkit</groupId>
     <artifactId>lambkit</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 

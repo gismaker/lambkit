@@ -15,24 +15,56 @@
  */
 package com.lambkit.test.hbase;
 
-import org.apache.hadoop.hbase.HTableDescriptor;
-import org.apache.hadoop.hbase.client.Delete;
-import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import com.lambkit.component.hbase.Hbase;
 import com.lambkit.component.hbase.HbasePlugin;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestHbase {
+	
+	public static void main(String[] args) throws IOException {
+		Connection connection = null;
+		Configuration config = HBaseConfiguration.create();
+		config.set("hbase.zookeeper.quorum", "127.0.0.1");
+		config.set("hbase.zookeeper.property.client", "2181");
+		try {
+			connection = ConnectionFactory.createConnection(config);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Put put = new Put(Bytes.toBytes("first"));
+		put.addColumn(Bytes.toBytes("info"), Bytes.toBytes("name"), Bytes.toBytes("lambkit"));
+		List<Put> puts = new ArrayList<Put>();
+		puts.add(put);
+		Table table = null;
+		try {
+			table = connection.getTable(TableName.valueOf("user"));
+			table.put(puts);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(table!=null) table.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		connection.close();
+	}
 	/*
 	private static HbasePlugin p;
 

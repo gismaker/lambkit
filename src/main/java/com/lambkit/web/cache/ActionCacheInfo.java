@@ -19,9 +19,6 @@ import java.io.Serializable;
 
 public class ActionCacheInfo implements Serializable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -7409160147802228292L;
 	private String key;
     private String group;
