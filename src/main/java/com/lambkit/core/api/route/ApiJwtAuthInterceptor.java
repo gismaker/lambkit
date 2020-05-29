@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.jfinal.kit.Kv;
 import com.jfinal.kit.StrKit;
 import com.lambkit.Lambkit;
 import com.lambkit.plugin.jwt.Auth;
@@ -27,10 +28,11 @@ public class ApiJwtAuthInterceptor implements ApiInterceptor {
 		// TODO Auto-generated method stub
 		//获取接口
 		Method method = inv.getMethod();
-		if (handleMethod(method, inv.getRequest())) {
+		Kv kv = Kv.by("code", 301);
+		if (handleMethod(method, inv.getRequest(), kv)) {
             inv.invoke();
         } else {
-        	inv.setErrorValue("token error");
+        	inv.setErrorValue(kv);
         }
 		inv.getRequest().removeAttribute("me");// 移除避免暴露当前角色信息
 	}
@@ -42,57 +44,34 @@ public class ApiJwtAuthInterceptor implements ApiInterceptor {
      * @param controller
      * @return
      */
-    private boolean handleMethod(Method method, HttpServletRequest request) {
+    private boolean handleMethod(Method method, HttpServletRequest request, Kv kv) {
         // 判断是否有这个注解
         if (method.isAnnotationPresent(Auth.class)) {
             Auth auth = method.getAnnotation(Auth.class);
             IJwtAble jwt_me = (IJwtAble) getMe(request); // 从请求头解析出me
-            if (jwt_me == null) return false;            // 直接无权访问
+            if (jwt_me == null) {
+            	kv.set("code", 401).set("type", 1).set("msg", "user error");
+            	return false;            // 直接无权访问
+            }
 
             String[] handlerArray = auth.withForces();
-            if (handlerArray != null && handlerArray.length > 0) return withForcesHandle(handlerArray, jwt_me);
+            if (handlerArray != null && handlerArray.length > 0) {
+            	return withForcesHandle(handlerArray, jwt_me, kv);
+            }
 
             handlerArray = auth.withRoles();
-            if (handlerArray != null && handlerArray.length > 0) return withRolesHandle(handlerArray, jwt_me);
+            if (handlerArray != null && handlerArray.length > 0) {
+            	return withRolesHandle(handlerArray, jwt_me, kv);
+            }
 
             handlerArray = auth.hasForces();
-            if (handlerArray != null && handlerArray.length > 0)
-                return hasForcesHandle(handlerArray, jwt_me);
+            if (handlerArray != null && handlerArray.length > 0) {
+                return hasForcesHandle(handlerArray, jwt_me, kv);
+            }
             handlerArray = auth.hasRoles();
-            return hasRolesHandle(handlerArray, jwt_me);
-        }
-        // 没有这个注解直接放行
-        return true;
-    }
-
-    /**
-     * 类级别判断机制
-     *
-     * @param clazz
-     * @param controller
-     * @return
-     */
-    private boolean handleClass(Class clazz, Method method, HttpServletRequest request) {
-        // 方法上如果有了以方法上的为准
-        if ( !method.isAnnotationPresent(Auth.class) && clazz.isAnnotationPresent(Auth.class)) {
-            Auth auth = (Auth) clazz.getAnnotation(Auth.class);
-            IJwtAble jwt_me = (IJwtAble) getMe(request); // 从请求头解析出me
-            if (jwt_me == null) return false;   // 直接无权访问
-
-            String[] handlerArray = auth.withForces();
-            if (handlerArray != null && handlerArray.length > 0)
-                return withForcesHandle(handlerArray, jwt_me);
-
-            handlerArray = auth.withRoles();
-            if (handlerArray != null && handlerArray.length > 0)
-                return withRolesHandle(handlerArray, jwt_me);
-
-            handlerArray = auth.hasForces();
-            if (handlerArray != null && handlerArray.length > 0)
-                return hasForcesHandle(handlerArray, jwt_me);
-
-            handlerArray = auth.hasRoles();
-            return hasRolesHandle(handlerArray, jwt_me);
+            if (handlerArray != null && handlerArray.length > 0) {
+            	return hasRolesHandle(handlerArray, jwt_me, kv);
+            }
         }
         // 没有这个注解直接放行
         return true;
@@ -105,10 +84,13 @@ public class ApiJwtAuthInterceptor implements ApiInterceptor {
      * @param me
      * @return
      */
-    private boolean withForcesHandle(String[] withForces, IJwtAble me) {
+    private boolean withForcesHandle(String[] withForces, IJwtAble me, Kv kv) {
     	Set<String> forces = me.getForces();
         if (null != forces && forces.size() > 0 && forces.containsAll(Arrays.asList(withForces))) return true;
-        return false;
+        else {
+        	kv.set("code", 401).set("type", 3).set("msg", "permission error");
+        	return false;
+        }
     }
 
     /**
@@ -118,10 +100,13 @@ public class ApiJwtAuthInterceptor implements ApiInterceptor {
      * @param me
      * @return
      */
-    private boolean withRolesHandle(String[] withRoles, IJwtAble me) {
+    private boolean withRolesHandle(String[] withRoles, IJwtAble me, Kv kv) {
         Set<String> roles = me.getRoles();
         if (null != roles && roles.containsAll(Arrays.asList(withRoles))) return true;
-        return false;
+        else {
+        	kv.set("code", 401).set("type", 2).set("msg", "role error");
+        	return false;
+        }
     }
 
     /**
@@ -131,12 +116,14 @@ public class ApiJwtAuthInterceptor implements ApiInterceptor {
      * @param me
      * @return
      */
-    private boolean hasForcesHandle(String[] hasForces, IJwtAble me) {
+    private boolean hasForcesHandle(String[] hasForces, IJwtAble me, Kv kv) {
     	Set<String> forces = me.getForces();
-        for (String force : hasForces)
+        for (String force : hasForces) {
             if (forces.contains(force)) {
                 return true;
             }
+        }
+        kv.set("code", 401).set("type", 3).set("msg", "permission error");
         return false;
     }
 
@@ -147,12 +134,14 @@ public class ApiJwtAuthInterceptor implements ApiInterceptor {
      * @param me
      * @return
      */
-    private boolean hasRolesHandle(String[] hasRoles, IJwtAble me) {
+    private boolean hasRolesHandle(String[] hasRoles, IJwtAble me, Kv kv) {
     	Set<String> roles = me.getRoles();
-        for (String role : hasRoles)
+        for (String role : hasRoles) {
             if (roles.contains(role)) {
                 return true;
             }
+        }
+        kv.set("code", 401).set("type", 2).set("msg", "role error");
         return false;
     }
     
