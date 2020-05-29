@@ -100,4 +100,84 @@ public interface IUser {
 	 * @return
 	 */
 	public IUser removeSecretInfo();
+	
+	/**
+	 * 验证当前用户是否属于该角色？
+	 *
+	 * @param roleid
+	 *            角色id
+	 * @return 属于该角色：true，否则false
+	 */
+	Boolean hasRole(int roleid);
+	/**
+	 * 验证当前用户是否属于该角色？,使用时与lacksRole 搭配使用
+	 *
+	 * @param roleName
+	 *            角色名
+	 * @return 属于该角色：true，否则false
+	 */
+	Boolean hasRole(String roleName);
+	/**
+	 * 与hasRole标签逻辑相反，当用户不属于该角色时验证通过。
+	 *
+	 * @param roleName
+	 *            角色名
+	 * @return 不属于该角色：true，否则false
+	 */
+	Boolean lacksRole(String roleName);
+	/**
+	 * 验证当前用户是否属于以下任意一个角色。
+	 *
+	 * @param roleNames
+	 *            角色列表
+	 * @return 属于:true,否则false
+	 */
+	boolean hasAnyRoles(String roleNames);
+	/**
+	 * 验证当前用户是否属于以下所有角色。
+	 *
+	 * @param roleNames
+	 *            角色列表
+	 * @return 属于:true,否则false
+	 */
+	boolean hasAllRoles(String roleNames);
+	/**
+	 * 验证当前用户是否拥有指定权限
+	 * @param ruleid
+	 * @return
+	 */
+	Boolean hasRule(int ruleid);
+	/**
+	 * 验证当前用户是否拥有指定权限,使用时与lacksPermission 搭配使用
+	 *
+	 * @param permission
+	 *            权限名
+	 * @return 拥有权限：true，否则false
+	 */
+	boolean hasRule(String permission);
+	/**
+	 * 与hasPermission标签逻辑相反，当前用户没有制定权限时，验证通过。
+	 *
+	 * @param permission
+	 *            权限名
+	 * @return 拥有权限：true，否则false
+	 */
+	boolean lacksRule(String permission);
+	
+	/**
+	 * 验证当前用户是否属于以下任意一个权限。
+	 *
+	 * @param permissions
+	 *            权限列表
+	 * @return 属于:true,否则false
+	 */
+	boolean hasAnyRules(String permissions);
+	/**
+	 * 验证当前用户是否属于以下所有权限。
+	 *
+	 * @param permissions
+	 *            权限列表
+	 * @return 属于:true,否则false
+	 */
+	boolean hasAllRules(String roleNames);
 }

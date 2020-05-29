@@ -50,6 +50,14 @@ public interface AuthService {
 	LambkitResult logout(HttpServletRequest request);
 	LambkitResult logout(Controller controller);
 	/**
+	 * token验证用户
+	 * @param appid 注册系统名称，单点登陆时需要
+	 * @param username 用户名称
+	 * @param sessionId 用户的token
+	 * @return
+	 */
+	IUser authenticate(String appid, String username, String sessionId);
+	/**
 	 * 已登录的用户
 	 *
 	 * @return
@@ -97,7 +105,7 @@ public interface AuthService {
 	 * @param controlkey
 	 * @return
 	 */
-	Boolean isGuestRule(String controlkey);
+	Boolean isGuestRule(String permission);
 	/**
 	 * 验证当前用户是否属于该角色？
 	 *
@@ -160,6 +168,22 @@ public interface AuthService {
 	 * @return 拥有权限：true，否则false
 	 */
 	boolean lacksRule(String permission);
+	/**
+	 * 验证当前用户是否属于以下任意一个权限。
+	 *
+	 * @param permissions
+	 *            权限列表
+	 * @return 属于:true,否则false
+	 */
+	boolean hasAnyRules(String permissions);
+	/**
+	 * 验证当前用户是否属于以下所有权限。
+	 *
+	 * @param permissions
+	 *            权限列表
+	 * @return 属于:true,否则false
+	 */
+	boolean hasAllRules(String roleNames);
 	/**
 	 * 获取角色列表
 	 * @param id
