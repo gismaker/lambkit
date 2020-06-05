@@ -15,6 +15,7 @@
  */
 package com.lambkit.db.mgr;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -34,6 +35,7 @@ public class MgrdbManager {
 
 	private MgrdbService mgrdbService;
 	private MgrdbConfig config = ConfigManager.me().get(MgrdbConfig.class);
+	private Map<String, MgrdbService> serviceMap;
 
 	private MgrdbManager() {
 	}
@@ -51,7 +53,20 @@ public class MgrdbManager {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void init(String name, Class<? extends MgrdbService> cacheClazz) {
+		if(serviceMap==null) {
+			serviceMap = new HashMap<String, MgrdbService>();
+		}
+		try {
+			serviceMap.put(name, cacheClazz.newInstance());
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	void destroy() {
 	}
 
@@ -60,6 +75,13 @@ public class MgrdbManager {
 			setService(new MgrdbServiceImpl());
 		}
 		return mgrdbService;
+	}
+	
+	public MgrdbService getService(String name) {
+		if(serviceMap==null) {
+			return null;
+		}
+		return serviceMap.get(name);
 	}
 
 	public void setService(MgrdbService mgrdbService) {
@@ -116,5 +138,13 @@ public class MgrdbManager {
         }
 		System.out.println("-------over-------");
 		application.stop();
+	}
+
+	public Map<String, MgrdbService> getServiceMap() {
+		return serviceMap;
+	}
+
+	public void setServiceMap(Map<String, MgrdbService> serviceMap) {
+		this.serviceMap = serviceMap;
 	}
 }

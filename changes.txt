@@ -5,6 +5,7 @@ lambkit-1.0.4:
 新增：新增Auth插件实现的Api路由的用户和权限控制
 新增：新增Api路由的用户和权限控制接口
 优化：优化ApiJwtAuthInterceptor，Auth无参数注解默认为登陆用户才能访问。
+优化：优化Mgedb功能，提供多mgrdb服务管理能力
 
 -----------------------------
 lambkit-1.0.3:

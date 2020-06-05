@@ -164,8 +164,14 @@ public abstract class LambkitController extends Controller {
 		return getBase(type, true, orderby);
 	}
 	
-	private MgrdbService getTableConfigService() {
-		return MgrdbManager.me().getService();
+	String mgrdbName = null;
+	
+	protected void setMgrdbName(String mgrdbName) {
+		this.mgrdbName = mgrdbName;
+	}
+	
+	protected MgrdbService getTableConfigService() {
+		return StrKit.isBlank(mgrdbName) ? MgrdbManager.me().getService() : MgrdbManager.me().getService(mgrdbName);
 	}
 	
 	protected MgrTable getTableDefault(Object tbid, boolean attr) {
