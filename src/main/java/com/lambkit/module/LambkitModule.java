@@ -112,7 +112,6 @@ public abstract class LambkitModule {
 	 * @param routes
 	 */
 	public void autoRegisterRequestMapping(Routes routes) {
-		
         LambkitConfig config = Lambkit.getLambkitConfig();
     	if(StrKit.notBlank(config.getAutoRegisterControllerPackages())) {
     		WebConfig web = WebConfigManager.me().getWebConfig("admin");
@@ -137,14 +136,38 @@ public abstract class LambkitModule {
     	}
 	}
 	
+	public void registerRequestMapping(Routes routes, String packageName, String preControllerKey) {
+    	if(StrKit.notBlank(packageName)) {
+    		Set<Class<?>> ctrlClassSet = ClassUtils.scanPackageByAnnotation(packageName, true, RequestMapping.class);
+            for (Class<?> clazz : ctrlClassSet) {
+                RequestMapping mapping = clazz.getAnnotation(RequestMapping.class);
+                if (mapping == null || mapping.value() == null) {
+                    continue;
+                }
+                String urlstr = mapping.value();
+                urlstr = preControllerKey + urlstr;
+                Class<Controller> controller = (Class<Controller>) clazz;
+                if (StrKit.notBlank(mapping.viewPath())) {
+                    routes.add(urlstr, controller, mapping.viewPath());
+                } else {
+                    routes.add(urlstr, controller);
+                }
+            }
+    	}
+	}
+	
 	/**
 	 * 自动扫描加入JFinalDirective
 	 * @param engine
 	 */
 	public void autoRegisterEngine(Engine engine) {
 		LambkitConfig config = Lambkit.getLambkitConfig();
-        if(StrKit.notBlank(config.getAutoRegisterTagPackages())) {
-        	Set<Class<?>> directiveClasses = ClassUtils.scanPackageByAnnotation(config.getAutoRegisterTagPackages(), true, JFinalDirective.class);
+		registerEngine(engine, config.getAutoRegisterTagPackages());
+	}
+	
+	public void registerEngine(Engine engine, String packageName) {
+        if(StrKit.notBlank(packageName)) {
+        	Set<Class<?>> directiveClasses = ClassUtils.scanPackageByAnnotation(packageName, true, JFinalDirective.class);
             for (Class<?> clazz : directiveClasses) {
                 JFinalDirective jFinalDirective = (JFinalDirective) clazz.getAnnotation(JFinalDirective.class);
                 if (jFinalDirective != null) {

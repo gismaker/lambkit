@@ -11,6 +11,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
 
+import com.jfinal.kit.Kv;
+
 /**
  * Api的用户权限处理
  * @author Henry Yang 杨勇 (gismail@foxmail.com)
@@ -51,8 +53,8 @@ public abstract class ApiAuthInterceptor implements ApiInterceptor {
 			inv.invoke();
 		} else {
 			Object error = inv.getErrorValue();
-			if(error!=null) {
-				inv.setErrorValue("auth error");
+			if(error==null) {
+				inv.setErrorValue(Kv.by("code", 301).set("type", 0).set("msg", "auth error"));
 			}
 		}
 	}
