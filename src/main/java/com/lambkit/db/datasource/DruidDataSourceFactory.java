@@ -43,6 +43,11 @@ public class DruidDataSourceFactory implements DataSourceFactory {
 		String dbtype = dataSourceConfig.getType();
 		wall.setDbType(dbtype);
 		druidPlugin.addFilter(wall);
+		
+		druidPlugin.setInitialSize(dataSourceConfig.getInitialSize());
+		druidPlugin.setMinIdle(dataSourceConfig.getMinIdle());
+		druidPlugin.setMaxActive(dataSourceConfig.getMaxActive());
+		druidPlugin.setMaxWait(dataSourceConfig.getMaxWait());
 		if(plugin!=null) {
 			plugin.add(druidPlugin);
 		}
@@ -66,6 +71,11 @@ public class DruidDataSourceFactory implements DataSourceFactory {
 		String dbtype = dataSourceConfig.getType();
 		wall.setDbType(dbtype);
 		druidPlugin.addFilter(wall);
+		
+		druidPlugin.setInitialSize(dataSourceConfig.getInitialSize());
+		druidPlugin.setMinIdle(dataSourceConfig.getMinIdle());
+		druidPlugin.setMaxActive(dataSourceConfig.getMaxActive());
+		druidPlugin.setMaxWait(dataSourceConfig.getMaxWait());
 		if(plugin!=null) {
 			plugin.add(druidPlugin);
 		}

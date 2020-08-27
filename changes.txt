@@ -8,6 +8,7 @@ lambkit-1.0.4:
 优化：优化ApiJwtAuthInterceptor，Auth无参数注解默认为登陆用户才能访问。
 优化：优化Mgedb功能，提供多mgrdb服务管理能力
 优化：LambkitModule加入registerEngine，registerRequestMapping注册函数，方便注解的注册
+优化：数据库连接池增加连接数配置，可增加并发配置能力
 
 -----------------------------
 lambkit-1.0.3:

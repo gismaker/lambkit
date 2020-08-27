@@ -37,6 +37,7 @@ public class HikariDataSourceFactory implements DataSourceFactory {
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", dataSourceConfig.getPrepStmtCacheSqlLimit());
         hikariConfig.setDriverClassName(dataSourceConfig.getDriverClassName());
         hikariConfig.setPoolName(dataSourceConfig.getPoolName());
+        hikariConfig.setMinimumIdle(dataSourceConfig.getMinIdle());
         if (hikariConfig.getConnectionInitSql() != null) {
             hikariConfig.setConnectionInitSql(dataSourceConfig.getConnectionInitSql());
         }

@@ -18,6 +18,7 @@ package com.lambkit.db.datasource;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.jfinal.aop.Aop;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.LambkitPasswordCracker;
@@ -48,6 +49,14 @@ public class DataSourceConfig {
     private int prepStmtCacheSize = 500;
     private int prepStmtCacheSqlLimit = 2048;
     private int maximumPoolSize = 100;
+    
+    // 初始连接池大小、最小空闲连接数、最大活跃连接数
+ 	private int initialSize = 1;
+ 	private int minIdle = 10;
+ 	private int maxActive = 32;
+ 	
+ 	// 配置获取连接等待超时的时间
+ 	private long maxWait = DruidDataSource.DEFAULT_MAX_WAIT;
     
     private String dbname;
     private String schema;
@@ -331,5 +340,37 @@ public class DataSourceConfig {
 
 	public void setPasswordClassName(String passwordClassName) {
 		this.passwordClassName = passwordClassName;
+	}
+
+	public int getInitialSize() {
+		return initialSize;
+	}
+
+	public void setInitialSize(int initialSize) {
+		this.initialSize = initialSize;
+	}
+
+	public int getMinIdle() {
+		return minIdle;
+	}
+
+	public void setMinIdle(int minIdle) {
+		this.minIdle = minIdle;
+	}
+
+	public int getMaxActive() {
+		return maxActive;
+	}
+
+	public void setMaxActive(int maxActive) {
+		this.maxActive = maxActive;
+	}
+
+	public long getMaxWait() {
+		return maxWait;
+	}
+
+	public void setMaxWait(long maxWait) {
+		this.maxWait = maxWait;
 	}
 }
