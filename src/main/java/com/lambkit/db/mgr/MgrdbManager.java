@@ -27,7 +27,6 @@ import com.lambkit.core.config.ConfigManager;
 import com.lambkit.db.meta.MetaKit;
 import com.lambkit.db.meta.TableMeta;
 import com.lambkit.module.LambkitModule;
-import com.lambkit.module.meta.MetaMgrModule;
 import com.lambkit.module.sysconfig.SysconfigModule;
 
 public class MgrdbManager {
@@ -36,6 +35,7 @@ public class MgrdbManager {
 	private MgrdbService mgrdbService;
 	private MgrdbConfig config = ConfigManager.me().get(MgrdbConfig.class);
 	private Map<String, MgrdbService> serviceMap;
+	private Map<String, Class<? extends LambkitModule>> mgrdbModule;
 
 	private MgrdbManager() {
 	}
@@ -52,6 +52,7 @@ public class MgrdbManager {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+		registModule(MgrdbConfig.SYSCONFIG, SysconfigModule.class);
 	}
 	
 	public void init(String name, Class<? extends MgrdbService> cacheClazz) {
@@ -65,6 +66,14 @@ public class MgrdbManager {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+		registModule(MgrdbConfig.SYSCONFIG, SysconfigModule.class);
+	}
+	
+	public void registModule(String name, Class<? extends LambkitModule> moduleClass) {
+		if(mgrdbModule==null) {
+			mgrdbModule = new HashMap<String, Class<? extends LambkitModule>>();
+		}
+		mgrdbModule.put(name, moduleClass);
 	}
 	
 	void destroy() {
@@ -103,13 +112,19 @@ public class MgrdbManager {
 	public LambkitModule getLambkitModule(String type) {
 		LambkitModule module = null;
 		if(StrKit.isBlank(type)) return module;
-		switch (type) {
-		case MgrdbConfig.SYSCONFIG:
-			module = new SysconfigModule();
-			break;
-		case MgrdbConfig.META:
-			module = new MetaMgrModule();
-			break;
+		if(mgrdbModule!=null) {
+			Class<? extends LambkitModule> moduleClass = mgrdbModule.get(type);
+			if(moduleClass!=null) {
+				try {
+					module = moduleClass.newInstance();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		return module;
 	}
@@ -117,17 +132,30 @@ public class MgrdbManager {
 	public void run(Map<String, Object> options, String type) {
 		LambkitApplication application = new LambkitApplication(LambkitApplicationContext.class);
 		application.setWebEnvironment(false);
-		switch (type) {
-		case MgrdbConfig.SYSCONFIG:
-			Lambkit.addModule(new SysconfigModule());
-			break;
-		case MgrdbConfig.META:
-			Lambkit.addModule(new MetaMgrModule());
-			break;
-		case MgrdbConfig.ALL:
-			Lambkit.addModule(new SysconfigModule());
-			Lambkit.addModule(new MetaMgrModule());
-			break;
+		if(MgrdbConfig.ALL.equals(type)) {
+			if(mgrdbModule!=null) {
+				for (Class<? extends LambkitModule> moduleClass : mgrdbModule.values()) {
+					if(moduleClass!=null) {
+						try {
+							LambkitModule module = moduleClass.newInstance();
+							if(module!=null) {
+								Lambkit.addModule(module);
+							}
+						} catch (InstantiationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		} else {
+			LambkitModule module = getLambkitModule(type);
+			if(module!=null) {
+				Lambkit.addModule(module);
+			}
 		}
 		application.run();
 		MgrdbService service = MgrdbManager.me().getService();

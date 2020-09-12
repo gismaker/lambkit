@@ -21,6 +21,7 @@ import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
 import com.lambkit.core.aop.AopKit;
+import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.generator.impl.CommonGenerator;
 import com.lambkit.generator.impl.DatabaseGenerator;
 import com.lambkit.generator.impl.MgrdbGenerator;
@@ -29,7 +30,7 @@ import com.lambkit.generator.template.impl.BeetleTemplateEngine;
 import com.lambkit.generator.template.impl.FreemarkerTemplateEngine;
 import com.lambkit.generator.template.impl.JFinalTemplateEngine;
 import com.lambkit.generator.template.impl.VelocityTemplateEngine;
-import com.lambkit.module.meta.MetaMgrModule;
+import com.lambkit.module.LambkitModule;
 import com.lambkit.module.sysconfig.SysconfigModule;
 
 public class GeneratorManager {
@@ -69,9 +70,16 @@ public class GeneratorManager {
         	Lambkit.addModule(new SysconfigModule());
         	break;
         case "meta":
-        	Lambkit.addModule(new MetaMgrModule());
+        	LambkitModule module = MgrdbManager.me().getLambkitModule("meta");
+			if(module!=null) {
+				Lambkit.addModule(module);
+			}
         	break;
         default:
+        	LambkitModule moduleMgrdb = MgrdbManager.me().getLambkitModule(mgrdb);
+			if(moduleMgrdb!=null) {
+				Lambkit.addModule(moduleMgrdb);
+			}
         	break;
 		}
 		hasInit = true;

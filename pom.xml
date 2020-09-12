@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.lambkit</groupId>
 	<artifactId>lambkit</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<name>lambkit</name>
 	<url>http://maven.apache.org</url>
 
@@ -65,14 +65,14 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-		
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-lang3</artifactId>
-    <version>3.6</version>
-</dependency>
-		
-		
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.6</version>
+		</dependency>
+
+
 		<!--jfinal -->
 		<dependency>
 			<groupId>com.jfinal</groupId>
