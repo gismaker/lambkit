@@ -519,7 +519,7 @@
 				<filtering>false</filtering>
 			</resource>
 		</resources>
-
+<pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -547,6 +547,7 @@
 					<encoding>UTF-8</encoding>
 					<outputDirectory>${basedir}/doc</outputDirectory>
 					<reportOutputDirectory>${basedir}/doc</reportOutputDirectory>
+					<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home/bin/javadoc</javadocExecutable>
 				</configuration>
 				<executions>
 					<execution>
@@ -592,6 +593,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		</pluginManagement>
 	</build>
 
 	<distributionManagement>

@@ -38,6 +38,7 @@ public class MgrdbManager {
 	private Map<String, Class<? extends LambkitModule>> mgrdbModule;
 
 	private MgrdbManager() {
+		registModule(MgrdbConfig.SYSCONFIG, SysconfigModule.class);
 	}
 
 	public static MgrdbManager me() {
@@ -52,7 +53,6 @@ public class MgrdbManager {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		registModule(MgrdbConfig.SYSCONFIG, SysconfigModule.class);
 	}
 	
 	public void init(String name, Class<? extends MgrdbService> cacheClazz) {
@@ -66,7 +66,6 @@ public class MgrdbManager {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		registModule(MgrdbConfig.SYSCONFIG, SysconfigModule.class);
 	}
 	
 	public void registModule(String name, Class<? extends LambkitModule> moduleClass) {
