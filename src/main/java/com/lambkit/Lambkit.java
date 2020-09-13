@@ -18,6 +18,7 @@ package com.lambkit;
 import java.util.Map;
 
 import com.lambkit.common.LambkitConfig;
+import com.lambkit.common.service.ServiceKit;
 import com.lambkit.core.cache.CacheManager;
 import com.lambkit.core.cache.LambkitCache;
 import com.lambkit.core.config.ConfigManager;
@@ -37,6 +38,10 @@ public class Lambkit {
      */
     public static LambkitConfig getLambkitConfig() {
         return config(LambkitConfig.class);
+    }
+    
+    public static <T> T service(Class<T> interfaceClass) {
+    	return ServiceKit.inject(interfaceClass);
     }
 
     /**

@@ -10,6 +10,8 @@ lambkit-1.0.4:
 优化：LambkitModule加入registerEngine，registerRequestMapping注册函数，方便注解的注册
 优化：数据库连接池增加连接数配置，可增加并发配置能力
 优化：移除meta模块
+优化：MetaBuilder支持生成VIEW视图信息
+优化：LambkitController增加isPOST、isGET判断
 修复：修复mgedb移除meta后的注册问题
 
 -----------------------------

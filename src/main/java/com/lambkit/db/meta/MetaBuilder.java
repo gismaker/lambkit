@@ -56,6 +56,8 @@ public class MetaBuilder {
 	
 	protected String configName;
 	
+	private String[] tableTypes = new String[] {"TABLE"};
+	
 	public MetaBuilder(DataSource dataSource) {
 		if (dataSource == null) {
 			throw new IllegalArgumentException("dataSource can not be null.");
@@ -219,7 +221,8 @@ public class MetaBuilder {
 			}
 		}
 		// return dbMeta.getTables(conn.getCatalog(), schemaPattern, null, new String[]{"TABLE", "VIEW"});
-		return dbMeta.getTables(conn.getCatalog(), schemaPattern, null, new String[]{"TABLE"});	// 不支持 view 生成
+		return dbMeta.getTables(conn.getCatalog(), schemaPattern, null, tableTypes);
+		//new String[]{"TABLE"});	// 不支持 view 生成
 	}
 	
 	protected void buildTableNames(Map<String, TableMeta> ret) throws SQLException {
@@ -379,5 +382,13 @@ public class MetaBuilder {
 			title += " " + StrKit.firstCharToUpperCase(tbn);
 		}
 		return title.substring(1);
+	}
+
+	public String[] getTableTypes() {
+		return tableTypes;
+	}
+
+	public void setTableTypes(String[] tableTypes) {
+		this.tableTypes = tableTypes;
 	}
 }

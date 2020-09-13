@@ -1012,6 +1012,18 @@ public abstract class LambkitController extends Controller {
 				+ getRequest().getLocalPort() + getRequest().getContextPath();
 	}
 	
+	protected boolean isPOST() {
+		return getRequest().getMethod().equals("POST");
+	}
+	
+	protected boolean isGET() {
+		return getRequest().getMethod().equals("GET");
+	}
+	
+	protected boolean isMethod(String methodName) {
+		return getRequest().getMethod().equals(methodName);
+	}
+	
 	protected String ctx() {
 		return getRequest().getContextPath();
 	}
