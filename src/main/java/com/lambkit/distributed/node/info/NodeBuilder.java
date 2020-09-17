@@ -27,6 +27,7 @@ import com.lambkit.Lambkit;
 import com.lambkit.common.LambkitConsts;
 import com.lambkit.common.LambkitConfig;
 import com.lambkit.common.util.DateTimeUtils;
+import com.lambkit.core.config.ConfigManager;
 
 public class NodeBuilder {
 	static Log log = Log.getLog(NodeBuilder.class);
@@ -37,15 +38,8 @@ public class NodeBuilder {
 
 	public Node createNode(NodeType ntype) {
 		String name = Lambkit.getLambkitConfig().getName();
-		String host = "127.0.0.1";
-		String ip = host;
-		InetAddress localHost;
-		try {
-			localHost = InetAddress.getLocalHost();
-			host = localHost.getHostName();
-			ip = localHost.getHostAddress();
-		} catch (UnknownHostException e) {
-		}
+		String host = ConfigManager.me().getValue("lambkit.node.host");
+		String ip = ConfigManager.me().getValue("lambkit.node.ip");
 		int p = 8080;// RequestManager.me().port();
 		Node node = new Node(name, host, ip, p, ntype);
 		name = StrKit.isBlank(name) ? node.getType() + "-" + node.getId() : name;
@@ -66,24 +60,21 @@ public class NodeBuilder {
 			name = StrKit.isBlank(name) ? node.getType() + "-" + node.getId() : name;
 			node.setName(name);
 		}
-		String host = "127.0.0.1";
-		String ip = host;
-		InetAddress localHost;
-		try {
-			localHost = InetAddress.getLocalHost();
-			host = localHost.getHostName();
-			ip = localHost.getHostAddress();
-		} catch (UnknownHostException e) {
-		}
-		int p = 8080;// RequestManager.me().port();
-		
-		if(StrKit.isBlank(node.getHost())) {
+		if(StrKit.isBlank(node.getHost()) || StrKit.isBlank(node.getIp())) {
+			String host = "localhost";
+			String ip = "127.0.0.1";
+			InetAddress localHost;
+			try {
+				localHost = InetAddress.getLocalHost();
+				host = localHost.getHostName();
+				ip = localHost.getHostAddress();
+			} catch (UnknownHostException e) {
+			}
 			node.setHost(host);
-		}
-		if(StrKit.isBlank(node.getIp())) {
 			node.setIp(ip);
 		}
 		
+		int p = 8080;// RequestManager.me().port();
 		if(node.getType()==null) {
 			node.setType(NodeType.ServiceNode);
 		}

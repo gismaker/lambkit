@@ -93,7 +93,8 @@ public class NodeManager {
 	}
 	
 	public void init() {
-		buse = ConfigManager.me().containsKey("lambkit.node.use");
+		String enable = ConfigManager.me().getValue("lambkit.node.enable");
+		buse = "true".equals(enable) ? true : false; //ConfigManager.me().containsKey("lambkit.node.enable")
 		if(!buse) {
 			NodeBuilder builder = new NodeBuilder();
 			node = builder.createNode(NodeType.ManagerNode);
@@ -160,7 +161,8 @@ public class NodeManager {
 	}
 	
 	public void init(Routes routes) {
-		buse = ConfigManager.me().containsKey("lambkit.node.use");
+		String enable = ConfigManager.me().getValue("lambkit.node.enable");
+		buse = "true".equals(enable) ? true : false; //ConfigManager.me().containsKey("lambkit.node.enable")
 		if(!buse) return;
 		
 		if(apiTable==null) {

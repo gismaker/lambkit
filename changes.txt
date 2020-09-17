@@ -12,6 +12,7 @@ lambkit-1.0.4:
 优化：移除meta模块
 优化：MetaBuilder支持生成VIEW视图信息
 优化：LambkitController增加isPOST、isGET判断
+优化：优化NodeManager初始化效率
 修复：修复mgedb移除meta后的注册问题
 
 -----------------------------

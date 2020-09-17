@@ -68,21 +68,20 @@ public abstract class BaseMgrdbService implements MgrdbService {
 	}
 
 	public MgrTable createTable(ITable tb, int type, String orderby) {
+		if(tb==null) return null;
 		MgrTable mtb = new MgrTable();
-		if (tb != null) {
-			if(type==MgrConstants.MAP || type==MgrConstants.MAP_EDIT) {
-				tb.configMap();
-				type = type==MgrConstants.MAP_EDIT ? MgrConstants.EDIT : type;
-			}
-			mtb.setModel(tb);
-			mtb.setName(tb.getName());
-			Object tbid = tb.getId();
-			if (tbid != null) {
-				mtb.setFieldList(getFieldDao().findByTbid(tbid, type, orderby));
-				if(StrKit.isBlank(tb.getPrimaryKey())) {
-					tb.setPrimaryKey(getFieldDao().getPrimaryKey(tbid));
-					tb.update();
-				}
+		if(type==MgrConstants.MAP || type==MgrConstants.MAP_EDIT) {
+			tb.configMap();
+			type = type==MgrConstants.MAP_EDIT ? MgrConstants.EDIT : type;
+		}
+		mtb.setModel(tb);
+		mtb.setName(tb.getName());
+		Object tbid = tb.getId();
+		if (tbid != null) {
+			mtb.setFieldList(getFieldDao().findByTbid(tbid, type, orderby));
+			if(StrKit.isBlank(tb.getPrimaryKey())) {
+				tb.setPrimaryKey(getFieldDao().getPrimaryKey(tbid));
+				tb.update();
 			}
 		}
 		MgrdbConfig config = ConfigManager.me().get(MgrdbConfig.class);
@@ -93,8 +92,8 @@ public abstract class BaseMgrdbService implements MgrdbService {
 	
 	public MgrTable createTableWithoutMeta(String tableName, int type, String orderby) {
 		ITable tb = getTableDao().findByName(tableName);
-		MgrTable mtb = new MgrTable();
 		if (tb != null) {
+			MgrTable mtb = new MgrTable();
 			if(type==MgrConstants.MAP || type==MgrConstants.MAP_EDIT) {
 				tb.configMap();
 				type = type==MgrConstants.MAP_EDIT ? MgrConstants.EDIT : type;
@@ -106,8 +105,9 @@ public abstract class BaseMgrdbService implements MgrdbService {
 				mtb.setFieldList(getFieldDao().findByTbid(tbid, type, orderby));
 				tb.setPrimaryKey(getFieldDao().getPrimaryKey(tbid));
 			}
+			return mtb;
 		}
-		return mtb;
+		return null;
 	}
 	
 	public MgrTable createTableWithoutModel(String tableName, int type) {
