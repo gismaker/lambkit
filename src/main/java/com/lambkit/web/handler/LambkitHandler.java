@@ -33,11 +33,13 @@ public class LambkitHandler extends Handler {
             return;
         }
         
+        HttpSessionServletRequestWrapper requestWrapper = new HttpSessionServletRequestWrapper(request);
+        
         /**
          * 通过 RequestManager 去保存 request，然后可以在当前线程的任何地方
          * 通过 RequestManager.me().getRequest() 去获取。
          */
-    	RequestManager.me().handle(request, response);
+    	RequestManager.me().handle(requestWrapper, response);
 
         try {
         	
@@ -45,7 +47,7 @@ public class LambkitHandler extends Handler {
              * 执行请求逻辑
              */
         	System.out.println("handler first....");
-            doHandle(target, new HttpSessionServletRequestWrapper(request), response, isHandled);
+            doHandle(target, requestWrapper, response, isHandled);
 
 		} finally {
             try {

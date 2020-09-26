@@ -173,10 +173,10 @@ public class JsonUtils {
 		Map result = new HashMap();
 		Iterator iterator = jsonObject.keys();
 		String key = null;
-		String value = null;
+		Object value = null;
 		while (iterator.hasNext()) {
 			key = (String) iterator.next();
-			value = jsonObject.getString(key);
+			value = jsonObject.get(key);
 			result.put(key, value);
 		}
 		return result;
