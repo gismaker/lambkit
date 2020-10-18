@@ -15,6 +15,7 @@
  */
 package com.lambkit.module;
 
+import com.lambkit.Lambkit;
 import com.lambkit.common.LambkitConsts;
 import com.lambkit.core.event.Event;
 import com.lambkit.core.event.EventListener;
@@ -27,6 +28,6 @@ public class InitListener implements EventListener {
 	public void onEvent(Event event) {
 		// TODO Auto-generated method stub
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("Starting Lambkit " + LambkitConsts.VERSION);
+		System.out.println("Starting " + Lambkit.getLambkitConfig().getName() + " " + LambkitConsts.VERSION);
 	}
 }

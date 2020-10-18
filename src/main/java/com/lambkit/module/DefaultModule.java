@@ -113,9 +113,12 @@ public class DefaultModule extends LambkitModule {
         	autoRegisterRequestMapping(routes);
         }
         
-		for (LambkitModule module : modules) {
-			module.configRoute(routes);
-		}
+        if(modules!=null) {
+        	for (LambkitModule module : modules) {
+				module.configRoute(routes);
+			}
+        }
+        
 		ShiroManager.me().init(routes);
 		NodeManager.me().init(routes);
 		
@@ -136,9 +139,11 @@ public class DefaultModule extends LambkitModule {
         if(StrKit.notBlank(Lambkit.getLambkitConfig().getAutoRegisterTagPackages())) {
         	autoRegisterEngine(engine);
         }
-		for (LambkitModule module : modules) {
-			module.configEngine(engine);
-		}
+        if(modules!=null) {
+        	for (LambkitModule module : modules) {
+    			module.configEngine(engine);
+    		}
+        }
 		ShiroManager.me().configEngine(engine);
 	}
 	
@@ -161,8 +166,10 @@ public class DefaultModule extends LambkitModule {
 			me.add(RpcManager.me().getPlugin());
 		}
 		
-		for (LambkitModule module : modules) {
-			module.configPlugin(me);
+		if(modules!=null) {
+			for (LambkitModule module : modules) {
+				module.configPlugin(me);
+			}
 		}
 		
 		Map<String, DbWrapper> dbs = DbManager.me().init(me);
@@ -170,12 +177,16 @@ public class DefaultModule extends LambkitModule {
         	ActiveRecordPluginWrapper arp = db.getArp();
         	me.add(arp.getPlugin());
         	if(DataSourceConfig.NAME_DEFAULT.equals(arp.getConfig().getName())) {
-        		for (LambkitModule module : modules) {
-        			module.configMapping(arp);
+        		if(modules!=null) {
+        			for (LambkitModule module : modules) {
+        				module.configMapping(arp);
+        			}
         		}
         	} else {
-        		for (LambkitModule module : modules) {
-        			module.configMapping(arp.getConfig().getName(), arp);
+        		if(modules!=null) {
+        			for (LambkitModule module : modules) {
+            			module.configMapping(arp.getConfig().getName(), arp);
+            		}
         		}
         	}
         }
@@ -229,8 +240,10 @@ public class DefaultModule extends LambkitModule {
 	public void onStart() {
 		// TODO Auto-generated method stub
 		NodeManager.me().init();
-		for (LambkitModule module : modules) {
-			module.onStart();
+		if(modules!=null) {
+			for (LambkitModule module : modules) {
+				module.onStart();
+			}
 		}
 		addTag("shiro", new ShiroTags());
 		JsonManager.me().setDefaultDatePattern("yyyy-MM-dd HH:mm:ss");
