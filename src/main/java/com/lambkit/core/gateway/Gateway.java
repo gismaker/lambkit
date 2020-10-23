@@ -344,7 +344,7 @@ public class Gateway {
 		return proxyResponse;
 	}
 
-	protected void service(String targetUri, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+	public void service(String targetUri, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
 		resetUriAndHost(targetUri, servletRequest);
 		String method = servletRequest.getMethod();
 		String proxyRequestUri = rewriteUrlFromRequest(servletRequest, null);

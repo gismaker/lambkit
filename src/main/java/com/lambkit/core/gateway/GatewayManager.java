@@ -17,14 +17,11 @@ package com.lambkit.core.gateway;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
-import com.jfinal.config.Handlers;
 import com.jfinal.kit.StrKit;
-import com.lambkit.Lambkit;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.config.ConfigManager;
 
@@ -34,7 +31,7 @@ import com.lambkit.core.config.ConfigManager;
  * @author 孤竹行
  */
 public class GatewayManager {
-	private static final String DATASOURCE_PREFIX = "lambkit.gateway.";
+	private static final String GATEWAY_PREFIX = "lambkit.gateway.";
 	
 	private static GatewayManager manager = new GatewayManager();
 
@@ -46,7 +43,7 @@ public class GatewayManager {
 	private  Gateway gateway;
     
 	public GatewayManager() {
-		GatewayConfig config = ConfigManager.me().get(GatewayConfig.class, "lambkit.http.proxy");
+		GatewayConfig config = ConfigManager.me().get(GatewayConfig.class, "lambkit.gateway");
 		config.setName(GatewayConfig.NAME_DEFAULT);
         if (config.isConfigOk()) {
         	gatewayConfigs.put(config.getName(), config);
@@ -59,16 +56,16 @@ public class GatewayManager {
         Set<String> names = new HashSet<>();
         for (Map.Entry<Object, Object> entry : prop.entrySet()) {
             String key = entry.getKey().toString();
-            if (key.startsWith(DATASOURCE_PREFIX) && entry.getValue() != null) {
+            if (key.startsWith(GATEWAY_PREFIX) && entry.getValue() != null) {
                 String[] keySplits = key.split("\\.");
-                if (keySplits.length == 4) {
-                	names.add(keySplits[3]);
+                if (keySplits.length == 3) {
+                	names.add(keySplits[2]);
                 }
             }
         }
 
         for (String name : names) {
-        	GatewayConfig dsc = ConfigManager.me().get(GatewayConfig.class, DATASOURCE_PREFIX + name);
+        	GatewayConfig dsc = ConfigManager.me().get(GatewayConfig.class, GATEWAY_PREFIX + name);
             if (StrKit.isBlank(dsc.getName())) {
                 dsc.setName(name);
             }

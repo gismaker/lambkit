@@ -20,7 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
-@WebServlet(name = "Lambkit_WebSocket_Servlet", urlPatterns = { "/websocket" })
+@WebServlet(name = "Lambkit_WebSocket_Servlet", urlPatterns = { "/socket" })
 public class JettyWebSocketServlet extends WebSocketServlet {
 
 	private static final long serialVersionUID = 1L;

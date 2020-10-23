@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * 单个接口的代理，无法整站代理
  * An HTTP reverse proxy/gateway JFinal Handler. It is designed to be extended
  * for customization
  */
