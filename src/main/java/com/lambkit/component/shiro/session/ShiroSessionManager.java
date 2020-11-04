@@ -50,7 +50,7 @@ public class ShiroSessionManager extends DefaultWebSessionManager {
 		//获取请求头中的 AUTH_TOKEN 的值，如果请求头中有 AUTH_TOKEN 则其值为sessionId。shiro就是通过sessionId 来控制的
         String sessionId = WebUtils.toHttp(request).getHeader(header);
         sessionId = StringUtils.isBlank(sessionId) ? request.getParameter("sessionid") : sessionId;
-        System.out.println("shiro session manager [header: " + header + ", sessionId: " + sessionId);
+        //System.out.println("shiro session manager [header: " + header + ", sessionId: " + sessionId);
         if (StringUtils.isBlank(sessionId)){
             //如果没有携带id参数则按照父类的方式在cookie进行获取sessionId
         	return super.getSessionId(request, response);
