@@ -72,7 +72,7 @@ public class LambkitApplication {
 	
 	public void stop() {
 		if(!isWebEnvironment) {
-			LambkitApplicationContext context = AopKit.singleton(contextClass);
+			LambkitApplicationContext context = AopKit.singleton(LambkitApplicationContext.class);
 			context.onStop();
 			for(IPlugin plugin : plugins.getPluginList()) {
 				plugin.stop();

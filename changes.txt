@@ -19,7 +19,7 @@ lambkit-1.0.4:
 优化：优化LambkitHandler中的request，确保RequestManager一致性
 修复：修复mgedb移除meta后的注册问题
 修复：tomcat9下面websocket地址冲突
-修复：修改非网络下启动错误
+修复：修改非网络下启动、停止错误
 
 -----------------------------
 lambkit-1.0.3:

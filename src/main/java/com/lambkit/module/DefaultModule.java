@@ -202,7 +202,7 @@ public class DefaultModule extends LambkitModule {
 				ehcacheDiskStorePath = PathKit.getRootClassPath();
 			}
 			File pathFile = new File(ehcacheDiskStorePath, ".ehcache");
-			
+			System.out.println(pathFile);
 			Configuration cfg = ConfigurationFactory.parseConfiguration();
 			cfg.addDiskStore(new DiskStoreConfiguration().path(pathFile.getAbsolutePath()));
 			
@@ -270,9 +270,11 @@ public class DefaultModule extends LambkitModule {
             }
         }
         NodeManager.me().destroy();
-		for (LambkitModule module : modules) {
-			module.onStop();
-		}
+        if(modules!=null) {
+        	for (LambkitModule module : modules) {
+    			module.onStop();
+    		}
+        }
 	}
 	
 	public void addModule(LambkitModule module) {
