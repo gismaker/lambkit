@@ -29,7 +29,7 @@ public class BufferedImageRender extends Render {
             response.setHeader("Pragma", "no-cache");
             response.setHeader("Cache-Control", "no-cache");
             response.setDateHeader("Expires", 0);
-            response.setContentType(ImageUtils.getMimeType(formatName));
+            response.setContentType(ImageUtils.getMineTypeFormat(formatName));
             sos=response.getOutputStream();
             ImageIO.write(image, formatName, sos);
         	sos.flush();

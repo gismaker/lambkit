@@ -46,6 +46,13 @@ public class ImageUtils {
     
     private static Map<String, String> mapMimeType = new HashMap<>();
     
+    public static String getMineTypeFormat(String formatName) {
+    	String type = mapMimeType.get(formatName.trim().toLowerCase());
+        if (type == null || "".equals(type)) {
+            return "";
+        }
+    	return type;
+    }
     public static String getMimeType(String fileName) {
     	if (fileName == null || "".equals(fileName.trim()) || fileName.indexOf(".") <= 0)
             return "";
