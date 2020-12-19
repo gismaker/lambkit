@@ -143,7 +143,11 @@ public class MotanRpc extends RpcPlugin {
 	@Override
 	public <T> T serviceObtain(Class<T> serviceClass, RpcServiceConfig serviceConfig) {
 		// TODO Auto-generated method stub
-		return serviceObtain(serviceClass, serviceConfig, getConfig().getDirectUrl());
+		if (getConfig().isRegistryCallMode()) {
+			return serviceObtain(serviceClass, serviceConfig, getConfig().getRegistryAddress());
+		} else {
+			return serviceObtain(serviceClass, serviceConfig, getConfig().getDirectUrl());
+		}
 	}
 
 	/**
@@ -161,7 +165,7 @@ public class MotanRpc extends RpcPlugin {
 
 			ServiceConfig<T> motanServiceConfig = new ServiceConfig<T>();
 
-			//System.out.println(interfaceClass.getName() + "," + group + "," + version + "," + port);
+			System.out.println(interfaceClass.getName() + "," + group + "," + version + "," + port);
 			
 			// 设置接口及实现类
 			motanServiceConfig.setInterface(interfaceClass);

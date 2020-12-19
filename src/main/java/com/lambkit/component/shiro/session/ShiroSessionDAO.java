@@ -27,6 +27,7 @@ import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import com.jfinal.kit.LogKit;
 import com.lambkit.Lambkit;
 import com.lambkit.common.util.ArrayUtils;
+import com.lambkit.common.util.DateTimeUtils;
 
 public class ShiroSessionDAO extends AbstractSessionDAO {
 	private static String SHIRO_KEY = "shiro";
