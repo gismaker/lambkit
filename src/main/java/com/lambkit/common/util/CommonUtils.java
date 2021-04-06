@@ -123,16 +123,16 @@ public class CommonUtils {
             return true;
         } else if (obj instanceof String && (obj.equals(""))) {
             return true;
-        } else if (obj instanceof Short && ((Short) obj).shortValue() == 0) {
-            return true;
-        } else if (obj instanceof Integer && ((Integer) obj).intValue() == 0) {
-            return true;
-        } else if (obj instanceof Double && ((Double) obj).doubleValue() == 0) {
-            return true;
-        } else if (obj instanceof Float && ((Float) obj).floatValue() == 0) {
-            return true;
-        } else if (obj instanceof Long && ((Long) obj).longValue() == 0) {
-            return true;
+//        } else if (obj instanceof Short && ((Short) obj).shortValue() == 0) {
+//            return true;
+//        } else if (obj instanceof Integer && ((Integer) obj).intValue() == 0) {
+//            return true;
+//        } else if (obj instanceof Double && ((Double) obj).doubleValue() == 0) {
+//            return true;
+//        } else if (obj instanceof Float && ((Float) obj).floatValue() == 0) {
+//            return true;
+//        } else if (obj instanceof Long && ((Long) obj).longValue() == 0) {
+//            return true;
         } else if (obj instanceof Boolean && !((Boolean) obj)) {
             return true;
         } else if (obj instanceof Collection && ((Collection) obj).isEmpty()) {
