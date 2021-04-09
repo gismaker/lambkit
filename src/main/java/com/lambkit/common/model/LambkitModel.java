@@ -1008,8 +1008,8 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
             return false;
         }
 
-        //Object id = ((LambkitModel) o).get(getPrimaryKey());
-        Object id = getPrimaryKeyValue();
+        Object id = ((LambkitModel) o).getPrimaryKeyValue();
+        //Object id = getPrimaryKeyValue();
         if (id == null) {
             return false;
         }
