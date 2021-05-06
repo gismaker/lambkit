@@ -51,5 +51,4 @@ public class ResultKit {
 		return new PageResult(code, message, count, data);
 	}
 	
-	
 }

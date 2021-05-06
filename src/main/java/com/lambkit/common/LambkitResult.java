@@ -15,6 +15,10 @@
  */
 package com.lambkit.common;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 /**
  * 统一返回结果类
  */
@@ -28,6 +32,9 @@ public class LambkitResult {
 
     // 数据结果集
     public Object data;
+    
+    // 接口注释
+    public List<ParamInfo> info;
 
     public LambkitResult(int code, String message, Object data) {
         this.code = code;
@@ -61,5 +68,46 @@ public class LambkitResult {
         this.data = data;
         return this;
     }
+
+	public List<ParamInfo> getInfo() {
+		return info;
+	}
+
+	public LambkitResult setInfo(List<ParamInfo> info) {
+		this.info = info;
+		return this;
+	}
+
+	public LambkitResult infoList() {
+		if(this.info==null) this.info = Lists.newArrayList();
+		return this;
+	}
+	
+	public LambkitResult info(ParamInfo para) {
+		if(this.info==null) this.info = Lists.newArrayList();
+		this.info.add(para);
+		return this;
+	}
+	
+	public LambkitResult info(String name, String alias, String remark) {
+		if(this.info==null) this.info = Lists.newArrayList();
+		ParamInfo para = new ParamInfo(name, alias, remark);
+		this.info.add(para);
+		return this;
+	}
+	
+	public LambkitResult info(String name, String alias, String type, String remark) {
+		if(this.info==null) this.info = Lists.newArrayList();
+		ParamInfo para = new ParamInfo(name, alias, type, remark);
+		this.info.add(para);
+		return this;
+	}
+	
+	public LambkitResult info(String name, String alias, String type, String required, String remark) {
+		if(this.info==null) this.info = Lists.newArrayList();
+		ParamInfo para = new ParamInfo(name, alias, type, required, remark);
+		this.info.add(para);
+		return this;
+	}
 
 }
