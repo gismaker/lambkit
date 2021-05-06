@@ -35,6 +35,8 @@ public class LambkitResult {
     
     // 接口注释
     public List<ParamInfo> info;
+    
+    public List<CodeInfo> codetable;
 
     public LambkitResult(int code, String message, Object data) {
         this.code = code;
@@ -89,25 +91,55 @@ public class LambkitResult {
 		return this;
 	}
 	
-	public LambkitResult info(String name, String alias, String remark) {
+	public LambkitResult info(String name, String title, String remark) {
 		if(this.info==null) this.info = Lists.newArrayList();
-		ParamInfo para = new ParamInfo(name, alias, remark);
+		ParamInfo para = new ParamInfo(name, title, remark);
 		this.info.add(para);
 		return this;
 	}
 	
-	public LambkitResult info(String name, String alias, String type, String remark) {
+	public LambkitResult info(String name, String title, String type, String remark) {
 		if(this.info==null) this.info = Lists.newArrayList();
-		ParamInfo para = new ParamInfo(name, alias, type, remark);
+		ParamInfo para = new ParamInfo(name, title, type, remark);
 		this.info.add(para);
 		return this;
 	}
 	
-	public LambkitResult info(String name, String alias, String type, String required, String remark) {
+	public LambkitResult info(String name, String title, String type, String required, String remark) {
 		if(this.info==null) this.info = Lists.newArrayList();
-		ParamInfo para = new ParamInfo(name, alias, type, required, remark);
+		ParamInfo para = new ParamInfo(name, title, type, required, remark);
 		this.info.add(para);
 		return this;
 	}
+
+	public List<CodeInfo> getCodetable() {
+		return codetable;
+	}
+
+	public LambkitResult setCodetable(List<CodeInfo> codetable) {
+		this.codetable = codetable;
+		return this;
+	}
+	
+	public LambkitResult code() {
+		if(this.codetable==null) this.codetable = Lists.newArrayList();
+		this.codetable.add(new CodeInfo("1", "成功", ""));
+		this.codetable.add(new CodeInfo("0", "失败", ""));
+		return this;
+	}
+	
+	public LambkitResult code(CodeInfo codeInfo) {
+		if(this.codetable==null) this.codetable = Lists.newArrayList();
+		this.codetable.add(codeInfo);
+		return this;
+	}
+	
+	public LambkitResult code(String code, String title, String remark) {
+		if(this.codetable==null) this.codetable = Lists.newArrayList();
+		CodeInfo codeInfo = new CodeInfo(code, title, remark);
+		this.codetable.add(codeInfo);
+		return this;
+	}
+	
 
 }

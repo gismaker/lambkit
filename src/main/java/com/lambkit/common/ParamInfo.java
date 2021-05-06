@@ -15,7 +15,7 @@ public class ParamInfo {
 	/**
 	 * 别名，含义
 	 */
-	public String alias;
+	public String title;
 	
 	/**
 	 * 类型
@@ -39,22 +39,22 @@ public class ParamInfo {
 	
 	public Object ext;
 	
-	public ParamInfo(String name, String alias, String remark) {
+	public ParamInfo(String name, String title, String remark) {
 		this.name = name;
-		this.alias = alias;
+		this.title = title;
 		this.remark = remark;
 	}
 	
-	public ParamInfo(String name, String alias, String type, String remark) {
+	public ParamInfo(String name, String title, String type, String remark) {
 		this.name = name;
-		this.alias = alias;
+		this.title = title;
 		this.type = type;
 		this.remark = remark;
 	}
 	
-	public ParamInfo(String name, String alias, String type, String required, String remark) {
+	public ParamInfo(String name, String title, String type, String required, String remark) {
 		this.name = name;
-		this.alias = alias;
+		this.title = title;
 		this.type = type;
 		this.required = required;
 		this.remark = remark;
@@ -68,12 +68,12 @@ public class ParamInfo {
 		this.name = name;
 	}
 
-	public String getAlias() {
-		return alias;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setAlias(String alias) {
-		this.alias = alias;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getType() {
