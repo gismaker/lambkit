@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.lambkit.db.meta.TableMeta;
+import com.lambkit.db.mgr.ITable;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrTable;
 import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.generator.GeneratorContext;
-import com.lambkit.module.sysconfig.TableconfigModel;
 
 public class MgrdbGenerator extends DatabaseGenerator {
 
@@ -35,14 +35,16 @@ public class MgrdbGenerator extends DatabaseGenerator {
 	public void generate(String templatePath, Map<String, Object> options) {
 		// TODO Auto-generated method stub
 		if(context==null) return;
-		List<TableconfigModel> tables = TableconfigModel.dao.find("select * from sys_tableconfig " + options.get("where"));
+		//List<TableconfigModel> tables = TableconfigModel.dao.find("select * from sys_tableconfig " + options.get("where"));
+		String where = options.get("where")!=null ? options.get("where").toString() : null;
+		List<? extends ITable> tables =  MgrdbManager.me().getService().getTableDao().findByWhere(where);
 		if(tables==null) return;
 		Map<String, Object> templateModel = context.createTemplateModel();
 		templateModel.put("tables", tables);
 		templateModel.putAll(options);
 		boolean genMgrTable = true;
 		if(options.containsKey("genMgrTable") && options.get("genMgrTable").equals("false")) genMgrTable = false;
-		for(TableconfigModel tb : tables) {
+		for(ITable tb : tables) {
 			String tableName = tb.getName();
 			if(!genMgrTable) {
 				if(tableName.startsWith("meta_") ||

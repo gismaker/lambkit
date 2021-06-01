@@ -25,9 +25,9 @@ public interface ITable {
 	
 	String getTitle();
 	
-	String getPrimaryKey();
+	String getPkey();
 	
-	void setPrimaryKey(String primaryKey);
+	void setPkey(String primaryKey);
 	/**
 	 * 表格类型
 	 * @return
@@ -45,7 +45,7 @@ public interface ITable {
 	Map<String, Object> getAttrs();
 	
 	/**
-	 * for table type of map
+	 * for table type of map(geojson)
 	 */
 	void configMap();
 	

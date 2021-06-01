@@ -284,6 +284,12 @@ public class ImageUtils {
         }
     }
 
+    /**
+     * 等比缩放
+     * @param maxWidth
+     * @param srcImageFile
+     * @param destImageFile
+     */
     public static void zoom(int maxWidth, String srcImageFile, String destImageFile) {
         try {
             BufferedImage srcImage = ImageIO.read(new File(srcImageFile));

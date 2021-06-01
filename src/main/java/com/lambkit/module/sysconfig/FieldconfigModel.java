@@ -137,7 +137,7 @@ public class FieldconfigModel extends Model<FieldconfigModel> implements IField,
 	}
 	
 	@Override
-	public String getPrimaryKey(Object tbid) {
+	public String getPkey(Object tbid) {
 		String sql = "select * from " + TABLE + " where fldtbid=? and iskey='Y'";
 		FieldconfigModel m = FieldconfigModel.dao.findFirst(sql, tbid);
 		if(m!=null) return m.getFldname();

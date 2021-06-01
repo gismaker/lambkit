@@ -15,6 +15,8 @@
  */
 package com.lambkit.db.mgr;
 
+import java.util.List;
+
 public interface ITableDao {
 	
 	ITable findById(Object tbid);
@@ -26,4 +28,8 @@ public interface ITableDao {
 	ITable getAddOrEditModel(Object tbid);
 	
 	ITable getAddOrEditModel(String tbname);
+	
+	List<? extends ITable> findByWhere(String where);
+	
+	List<? extends ITable> findAll();
 }

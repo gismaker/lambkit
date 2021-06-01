@@ -79,8 +79,8 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		Object tbid = tb.getId();
 		if (tbid != null) {
 			mtb.setFieldList(getFieldDao().findByTbid(tbid, type, orderby));
-			if(StrKit.isBlank(tb.getPrimaryKey())) {
-				tb.setPrimaryKey(getFieldDao().getPrimaryKey(tbid));
+			if(StrKit.isBlank(tb.getPkey())) {
+				tb.setPkey(getFieldDao().getPkey(tbid));
 				tb.update();
 			}
 		}
@@ -103,7 +103,7 @@ public abstract class BaseMgrdbService implements MgrdbService {
 			Object tbid = tb.getId();
 			if (tbid != null) {
 				mtb.setFieldList(getFieldDao().findByTbid(tbid, type, orderby));
-				tb.setPrimaryKey(getFieldDao().getPrimaryKey(tbid));
+				tb.setPkey(getFieldDao().getPkey(tbid));
 			}
 			return mtb;
 		}

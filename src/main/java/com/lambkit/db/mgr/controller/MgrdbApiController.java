@@ -210,7 +210,7 @@ public class MgrdbApiController extends LambkitController {
 			return;
 		}
 		System.out.println("tablename:" + tbc.getName());
-		String idname = tbc.getModel().getPrimaryKey();
+		String idname = tbc.getModel().getPkey();
 		Record m = new Record();
 		List<? extends IField> flds = tbc.getFieldList();
 		setRecord(m, flds, true);
@@ -231,13 +231,13 @@ public class MgrdbApiController extends LambkitController {
 					double lon = Double.valueOf(getPara("model.lon", "0"));
 					double lat = Double.valueOf(getPara("model.lat", "0"));
 					String ssql = "UPDATE " + tbc.getName() + " SET geom = st_geomfromtext('POINT(" + lon + " " + lat
-							+ ")') where gid= " + m.get(tbc.getModel().getPrimaryKey());
+							+ ")') where gid= " + m.get(tbc.getModel().getPkey());
 					Db.update(ssql);
 				}
 
 				if (m.getColumns().containsKey("dataid") && m.get("dataid") == null) {
-					m.set("dataid", m.get(tbc.getModel().getPrimaryKey()));
-					Db.update(tbc.getName(), tbc.getModel().getPrimaryKey(), m);
+					m.set("dataid", m.get(tbc.getModel().getPkey()));
+					Db.update(tbc.getName(), tbc.getModel().getPkey(), m);
 				}
 			}
 		} catch (Exception ex) {
@@ -334,9 +334,9 @@ public class MgrdbApiController extends LambkitController {
 		List<? extends IField> flds = tbc.getFieldList();
 		setRecord(m, flds, false);
 		if (m.getColumns().containsKey("dataid") && !StringUtils.hasText(getPara("model.dataid"))) {
-			m.set("dataid", m.get(tbc.getModel().getPrimaryKey()));
+			m.set("dataid", m.get(tbc.getModel().getPkey()));
 		}
-		boolean flag = Db.update(tbc.getName(), tbc.getModel().getPrimaryKey(), m);
+		boolean flag = Db.update(tbc.getName(), tbc.getModel().getPkey(), m);
 		if (flag) {
 			MgrdbService tcs = MgrdbManager.me().getService();
 			IField geomfld = tcs.getFieldDao().findGeomField(tbc.getModel().getId(), MgrConstants.MAP);
@@ -348,7 +348,7 @@ public class MgrdbApiController extends LambkitController {
 				double lon = Double.valueOf(getPara("model.lon", "0"));
 				double lat = Double.valueOf(getPara("model.lat", "0"));
 				String ssql = "UPDATE " + tbc.getName() + " SET " + geomfld.getName() + " = st_geomfromtext('POINT("
-						+ lon + " " + lat + ")') where gid= " + m.get(tbc.getModel().getPrimaryKey());
+						+ lon + " " + lat + ")') where gid= " + m.get(tbc.getModel().getPkey());
 				System.out.println(ssql);
 				Db.update(ssql);
 			}
@@ -368,7 +368,7 @@ public class MgrdbApiController extends LambkitController {
 			return;
 		}
 		int model_id = getParaToInt("id");
-		boolean del = Db.deleteById(tbc.getName(), tbc.getModel().getPrimaryKey(), model_id);
+		boolean del = Db.deleteById(tbc.getName(), tbc.getModel().getPkey(), model_id);
 		if (del) {
 			renderJson(new AjaxResult(0, "fail", "data is not find."));
 		} else {
@@ -386,7 +386,7 @@ public class MgrdbApiController extends LambkitController {
 		String[] ids = getParaValues("id");
 		boolean del = false;
 		for (String model_id : ids) {
-			del = Db.deleteById(tbc.getName(), tbc.getModel().getPrimaryKey(), Integer.parseInt(model_id));
+			del = Db.deleteById(tbc.getName(), tbc.getModel().getPkey(), Integer.parseInt(model_id));
 		}
 		if (del) {
 			renderJson(new AjaxResult(0, "fail", "data is not find."));

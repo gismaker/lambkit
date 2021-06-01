@@ -76,6 +76,19 @@ public class TableconfigModel extends Model<TableconfigModel> implements ITable,
 	public int deleteByTbId(Object tbid) {
 		return deleteById(tbid) ? 0 : -1;
 	}
+	
+	public List<TableconfigModel> findByWhere(String where) {
+		if(StrKit.notBlank(where)) {
+			return find("select * from sys_tableconfig " + where);
+		} else {
+			return findAll();
+		}
+	}
+	
+	public List<TableconfigModel> findAll() {
+		return find("select * from sys_tableconfig ");
+	}
+	
 	// ----------------------------------------
 	// DB Manager Function
 	// ----------------------------------------
@@ -357,13 +370,13 @@ public class TableconfigModel extends Model<TableconfigModel> implements ITable,
 	}
 	
 	@Override
-	public String getPrimaryKey() {
+	public String getPkey() {
 		// TODO Auto-generated method stub
 		return primaryKey;
 	}
 	
 	@Override
-	public void setPrimaryKey(String primaryKey) {
+	public void setPkey(String primaryKey) {
 		this.primaryKey = primaryKey;
 	}
 

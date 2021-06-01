@@ -27,11 +27,11 @@ public interface IFieldDao {
 	List<? extends IField> findByTbid(Object tbid, String orderby);
 	List<? extends IField> findByTbid(Object tbid, int type, String orderby);
 	
-	String getPrimaryKey(Object tbid);
+	String getPkey(Object tbid);
 	
 	IField findById(Object fldid, int type);
 	
-	int deleteByTbid(Object fldid);
+	int deleteByTbid(Object tbid);
 	
 	IField findFirstByTbName(String tbname, String fld, Object value);
 	IField findFirstByTbName(String tbname, int type, String fld, Object value);

@@ -182,7 +182,7 @@ public class MgrdbController extends LambkitController {
 	
 	@NotAction
 	private String getSearchSQL(MgrTable tbc) { 
-		return " from " + tbc.getName() + " " + getThisSearchWhereSQL(tbc, "") + getOrderBy(tbc.getModel().getPrimaryKey());
+		return " from " + tbc.getName() + " " + getThisSearchWhereSQL(tbc, "") + getOrderBy(tbc.getModel().getPkey());
 	} 
 	
 	/***
@@ -455,7 +455,7 @@ public class MgrdbController extends LambkitController {
 			renderError(404);
 			return;
 		}
-		if(StringUtils.hasText(tbc.getModel().getPrimaryKey())) {
+		if(StringUtils.hasText(tbc.getModel().getPkey())) {
 			String model_id = getPara("id");
 			Record rcd = Db.findById(tbc.getName(), model_id);
 			
@@ -487,9 +487,9 @@ public class MgrdbController extends LambkitController {
 			return;
 		}
 		setAttr("link", getPara(1) == null ? getPara("link") : getPara(1));
-		if(StringUtils.hasText(tbc.getModel().getPrimaryKey())) {
+		if(StringUtils.hasText(tbc.getModel().getPkey())) {
 			Integer model_id = getParaToInt(0) == null ? getParaToInt("id") : getParaToInt(0);
-			Record rcd = Db.findById(tbc.getName(),tbc.getModel().getPrimaryKey(), model_id); 
+			Record rcd = Db.findById(tbc.getName(),tbc.getModel().getPkey(), model_id); 
 			boolean flag = AuthManager.me().getRoleService().ownTask(this, rcd.getStr("user_uuid"));
 			//超级管理员也可以编辑
 			flag = flag ? flag : AuthManager.me().getRoleService().isAdmin();
@@ -529,7 +529,7 @@ public class MgrdbController extends LambkitController {
 		System.out.println("tablename:"+tbc.getName());
 		//IField kfld = IField.dao.findFirstByTbid(tbc.getModel().getTbid(), "iskey", "Y");
 		//String id = kfld.getName();
-		String idname = tbc.getModel().getPrimaryKey();
+		String idname = tbc.getModel().getPkey();
 		Record m = new Record();
 		List<? extends IField> flds = tbc.getFieldList();
 		setRecord(m,flds, true);
@@ -574,13 +574,13 @@ public class MgrdbController extends LambkitController {
 					double lon = Double.valueOf(getPara("model.lon", "0"));
 					double lat = Double.valueOf(getPara("model.lat", "0"));
 					//获取geom信息 UPDATE data_busines SET geom = st_geomfromtext('POINT(116.407159 39.90467)',4326) where gid=;
-					String ssql = "UPDATE "+tbc.getName()+" SET geom = st_geomfromtext('POINT("+lon+" "+lat+")') where gid= " + m.get(tbc.getModel().getPrimaryKey());
+					String ssql = "UPDATE "+tbc.getName()+" SET geom = st_geomfromtext('POINT("+lon+" "+lat+")') where gid= " + m.get(tbc.getModel().getPkey());
 					Db.update(ssql);
 				}
 				
 				if(m.getColumns().containsKey("dataid") && m.get("dataid")==null) {
-					m.set("dataid", m.get(tbc.getModel().getPrimaryKey()));
-					Db.update(tbc.getName(), tbc.getModel().getPrimaryKey(),m);
+					m.set("dataid", m.get(tbc.getModel().getPkey()));
+					Db.update(tbc.getName(), tbc.getModel().getPkey(),m);
 				}
 		    }
 		}catch(Exception ex) {
@@ -682,13 +682,13 @@ public class MgrdbController extends LambkitController {
 		
 		if(m.getColumns().containsKey("dataid") &&
 				!StringUtils.hasText(getPara("model.dataid"))) {
-			m.set("dataid", m.get(tbc.getModel().getPrimaryKey()));
+			m.set("dataid", m.get(tbc.getModel().getPkey()));
 		}
 		//recordDateToLong(m, tbc);
 		//IField fld = IField.dao.findFirstByTbid(tbc.getModel().getTbid(), "iskey", "Y");
 		//boolean flag = Db.update(tbc.getModel().getTableName(), fld.getName(),m);
 		System.out.println("Record:"+m);
-		boolean flag = Db.update(tbc.getName(), tbc.getModel().getPrimaryKey(),m);
+		boolean flag = Db.update(tbc.getName(), tbc.getModel().getPkey(),m);
 		if(flag) {
 			//log(tbc.getModel().getTableName(), m.get(tbc.getModel().getPkname()), "data/update", "更新数据");
 			MgrdbService tcs = MgrdbManager.me().getService();
@@ -702,7 +702,7 @@ public class MgrdbController extends LambkitController {
 				double lon = Double.valueOf(getPara("model.lon", "0"));
 				double lat = Double.valueOf(getPara("model.lat", "0"));
 				//获取geom信息 UPDATE data_busines SET geom = st_geomfromtext('POINT(116.407159 39.90467)',4326) where gid=;
-				String ssql = "UPDATE "+tbc.getName()+" SET "+geomfld.getName()+" = st_geomfromtext('POINT("+lon+" "+lat+")') where gid= " + m.get(tbc.getModel().getPrimaryKey());
+				String ssql = "UPDATE "+tbc.getName()+" SET "+geomfld.getName()+" = st_geomfromtext('POINT("+lon+" "+lat+")') where gid= " + m.get(tbc.getModel().getPkey());
 				System.out.println(ssql);
 				Db.update(ssql);
 			}
@@ -720,10 +720,10 @@ public class MgrdbController extends LambkitController {
 		int model_id = getParaToInt("id");
 		//IField fld = IField.dao.findFirstByTbid(tbc.getModel().getTbid(), "iskey", "Y");
 		//Record record = Db.findById(tbc.getModel().getTableName(), fld.getName(),model_id);
-		Record record = Db.findById(tbc.getName(), tbc.getModel().getPrimaryKey(),model_id);
+		Record record = Db.findById(tbc.getName(), tbc.getModel().getPkey(),model_id);
 		record.set(getPara("k", "check_status"), getParaToInt("s", 1));
 		//boolean del = Db.update(tbc.getModel().getTableName(),fld.getName(), record);
-		boolean del = Db.update(tbc.getName(),tbc.getModel().getPrimaryKey(), record);
+		boolean del = Db.update(tbc.getName(),tbc.getModel().getPkey(), record);
 		System.out.println(del);
 		if(del) {
 			renderAt(true);
@@ -740,7 +740,7 @@ public class MgrdbController extends LambkitController {
 			return;
 		}
 		int model_id = getParaToInt("id");
-		boolean del = Db.deleteById(tbc.getName(), tbc.getModel().getPrimaryKey(), model_id);
+		boolean del = Db.deleteById(tbc.getName(), tbc.getModel().getPkey(), model_id);
 		if(del) {
 			renderAt(true);
 			//log(tbc.getModel().getTableName(), model_id, "data/delete", "删除数据"); 
@@ -759,7 +759,7 @@ public class MgrdbController extends LambkitController {
 		boolean del = false;
 		for(String model_id : ids)
 		{
-			del = Db.deleteById(tbc.getName(), tbc.getModel().getPrimaryKey(), Integer.parseInt(model_id));
+			del = Db.deleteById(tbc.getName(), tbc.getModel().getPkey(), Integer.parseInt(model_id));
 			if(del) {
 				//log(tbc.getModel().getTableName(), model_id, "data/delete_pl", "批量删除数据"); 
 			}

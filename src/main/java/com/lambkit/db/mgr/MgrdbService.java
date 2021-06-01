@@ -31,6 +31,8 @@ public interface MgrdbService {
 	ITableDao getTableDao();
 
 	IFieldDao getFieldDao();
+	
+	//List<MgrTable> createTableList();
 
 	MgrTable createTable(Object tbid, int type);
 
