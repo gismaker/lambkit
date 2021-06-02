@@ -919,6 +919,10 @@ public abstract class LambkitController extends Controller {
 		render(new MimeTypeRender(imageFileName));
 	}
 	
+	public void renderMineTypeFile(String fileName) {
+		render(new MimeTypeRender(fileName));
+	}
+	
 	@NotAction
 	public boolean autoList(MgrTable tbc) {
 		if (tbc == null) {
