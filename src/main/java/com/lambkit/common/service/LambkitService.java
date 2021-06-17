@@ -35,6 +35,8 @@ public interface LambkitService<M> {
 	String getTableName();
 	
 	M findById(Object idValue); 
+	M findById(Object idValue, String columns); 
+	M findById(Object[] idValues, String columns); 
 	M findByPrimaryKey(Object id); 
 	
 	M findFirst(QueryParas queryParas);

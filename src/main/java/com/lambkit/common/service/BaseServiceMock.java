@@ -44,6 +44,16 @@ public abstract class BaseServiceMock<M> implements LambkitService<M> {
 	public M findById(Object id) {
 		return null;
 	}
+	
+	@Override
+	public M findById(Object id, String columns) {
+		return null;
+	}
+	
+	@Override
+	public M findById(Object[] ids, String columns) {
+		return null;
+	}
 
 	@Override
 	public M findByPrimaryKey(Object id) {

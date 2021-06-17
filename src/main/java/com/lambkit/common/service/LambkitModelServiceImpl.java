@@ -51,6 +51,14 @@ public abstract class LambkitModelServiceImpl<M extends LambkitModel<M>> impleme
 		return dao().findById(idValue);
 	}
 	
+	public M findById(Object idValue, String columns) {
+		return dao().findById(idValue, columns);
+	}
+	
+	public M findById(Object[] idValues, String columns) {
+		return dao().findById(idValues, columns);
+	}
+	
 	@Override
 	public M findByPrimaryKey(Object id) {
 		return dao().findById(id);

@@ -432,10 +432,44 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
             }
         }) : findByIdWithoutCache(idValue));
     }
-
+	
+	public M findById(final Object idValue, String columns) {
+        return (M) (cacheEnable ? getCache(idValue + "_" + columns, new IDataLoader() {
+            @Override
+            public Object load() {
+                return findByIdWithoutCache(idValue, columns);
+            }
+        }) : findByIdWithoutCache(idValue, columns));
+    }
+	
+	public M findById(final Object[] idValues, String columns) {
+		if(cacheEnable) {
+			StringBuilder sb = new StringBuilder();
+			for(Object obj : idValues) {
+				sb.append(obj).append("_");
+			}
+			sb.append(columns);
+			return (M) (getCache(sb.toString(), new IDataLoader() {
+	            @Override
+	            public Object load() {
+	                return findByIdWithoutCache(idValues, columns);
+	            }
+	        }));
+		} else {
+			return findByIdWithoutCache(idValues, columns);
+		}
+    }
 
     public M findByIdWithoutCache(Object idValue) {
         return super.findById(idValue);
+    }
+    
+    public M findByIdWithoutCache(Object idValue, String columns) {
+        return super.findByIdLoadColumns(idValue, columns);
+    }
+    
+    public M findByIdWithoutCache(Object[] idValues, String columns) {
+        return super.findByIdLoadColumns(idValues, columns);
     }
     
     public String configName() {
