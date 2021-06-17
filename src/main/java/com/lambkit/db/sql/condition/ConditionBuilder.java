@@ -212,7 +212,7 @@ public class ConditionBuilder {
  	
  	private Object getValue(String type, String value) {
  		type = type.toLowerCase();
- 		if(type.startsWith("int"))return Integer.parseInt(value);
+ 		if(type.startsWith("int") || type.startsWith("serial"))return Integer.parseInt(value);
  		else if(type.startsWith("float"))return Float.parseFloat(value);
  		else if(type.startsWith("double"))return Double.parseDouble(value);
  		else if(type.startsWith("num"))return Double.parseDouble(value);//numeric,number
