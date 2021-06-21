@@ -39,6 +39,7 @@ public class GatewayRender extends Render {
 	private String renderType = TYPE_PROXY;
 	protected String targetName;
 	protected String targetUri;
+	protected HttpResponse httpResponse;
 	//private Gateway gateway;
 
 	public GatewayRender(String targetName, String targetUri) {
@@ -123,6 +124,8 @@ public class GatewayRender extends Render {
 		// TODO Auto-generated method stub
 		if(renderType.equals(TYPE_PROXY)) {
 			renderProxy();
+		} else if(renderType.equals(TYPE_RESPONSE)) {
+			renderResponse();
 		}
 	}
 	
@@ -133,12 +136,16 @@ public class GatewayRender extends Render {
 		//gateway.destroy();
 	}
 	
-	public GatewayRender renderResponse(HttpResponse httpResponse) {
+	public GatewayRender forResponse(HttpResponse httpResponse) {
+		this.httpResponse = httpResponse;
+		renderType = TYPE_RESPONSE;
+		return this;
+	}
+	
+	protected void renderResponse() {
 		resetTargetUri(request);
 		GatewayManager.me().getGateway().service(targetUri, httpResponse, request, response);
 		//gateway.service(targetUri, httpResponse, request, response);
-		renderType = TYPE_RESPONSE;
-		return this;
 	}
 
 }

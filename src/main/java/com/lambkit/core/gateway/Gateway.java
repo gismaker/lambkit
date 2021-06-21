@@ -215,6 +215,7 @@ public class Gateway {
         HttpGet httpGet = new HttpGet(server_url.toString());
         String param = URLEncodedUtils.format(params, "UTF-8");
         httpGet.setURI(URI.create(targetUri + "?" + param));
+        //System.out.println("http get: " + httpGet.getURI().toURL().toString());
 		return proxyClient.execute(httpGet);
 	}
 
