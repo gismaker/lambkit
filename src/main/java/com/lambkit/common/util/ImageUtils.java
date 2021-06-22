@@ -21,10 +21,12 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -118,6 +120,23 @@ public class ImageUtils {
         return String.format("%s x %s", width, height);
     }
 
+    /**
+     *  BufferedImage转成 base64
+     * @param bufferedImage
+     * @param imageFormatName
+     * @return
+     * @throws IOException
+     */
+    public static String getBufferedImageToBase64(BufferedImage bufferedImage,String imageFormatName) throws IOException {
+        if(StringUtils.isBlank(imageFormatName)){
+            imageFormatName = "png";
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, imageFormatName, stream);
+        String s = Base64.getEncoder().encodeToString(stream.toByteArray());
+        return s;
+    }
+    
     /**
      * 等比缩放，居中剪切，自动在在当前目录下生产新图
      * 例如：aaa.jpg 宽高为100和200，自动在当前目录下生成新图 aaa_100x200.jpg 的图
