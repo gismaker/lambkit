@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.lambkit.Lambkit;
 import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.JXLExcelUtils;
 import com.lambkit.core.config.ConfigManager;
@@ -59,12 +60,28 @@ public abstract class BaseMgrdbService implements MgrdbService {
 
 	public MgrTable createTable(Object tbid, int type, String orderby) {
 		ITable tb = getTableDao().findById(tbid);
-		return createTable(tb, type, orderby);
+		if(tb==null) return null;
+		String tableName = tb.getName();
+		MgrTable mt = Lambkit.getCache().get(cacheName, "mgrtable_" + tableName);
+		if(mt==null) {
+			mt = createTable(tb, type, orderby);
+			Lambkit.getCache().put(cacheName, "mgrtable_" + tableName, mt, 60*60);//一小时
+		}
+		return mt;
 	}
 
 	public MgrTable createTable(String tableName, int type, String orderby) {
-		ITable tb = getTableDao().findByName(tableName);
-		return createTable(tb, type, orderby);
+		MgrTable mt = Lambkit.getCache().get(cacheName, "mgrtable_" + tableName);
+		if(mt==null) {
+			ITable tb = Lambkit.getCache().get(cacheName, "table_" + tableName);
+			if(tb==null) {
+				tb = getTableDao().findByName(tableName);
+				Lambkit.getCache().put(cacheName, "table_" + tableName, mt, 60*60);//一小时
+			}
+			mt = createTable(tb, type, orderby);
+			Lambkit.getCache().put(cacheName, "mgrtable_" + tableName, mt, 60*60);//一小时
+		}
+		return mt;
 	}
 
 	public MgrTable createTable(ITable tb, int type, String orderby) {
@@ -118,7 +135,16 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		mtb.setName(tableName);
 		return mtb;
 	}
-
+	
+	public void clearCache(String tableName) {
+		Lambkit.getCache().remove(cacheName, "mgrtable_" + tableName);
+		Lambkit.getCache().remove(cacheName, "table_" + tableName);
+	}
+	
+	public void clearCacheAll() {
+		Lambkit.getCache().removeAll(cacheName);
+	}
+	
 	public void recordLongToDate(Record rod,MgrTable tbc)
 	{
 		List<? extends IField> flds = tbc.getFieldList();

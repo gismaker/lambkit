@@ -20,13 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.db.sql.condition.SqlBuilder;
 import com.lambkit.web.controller.LambkitController;
 
 public interface MgrdbService {
+	
+	public static final String cacheName = "mgrdb";
 
 	ITableDao getTableDao();
 
@@ -47,6 +48,9 @@ public interface MgrdbService {
 	MgrTable createTableWithoutMeta(String tableName, int type, String orderby);
 	
 	MgrTable createTableWithoutModel(String tableName, int type);
+	
+	void clearCache(String tableName);
+	void clearCacheAll();
 	
 	/**
 	 * 将对象的日期，Long数据类型转化成date
