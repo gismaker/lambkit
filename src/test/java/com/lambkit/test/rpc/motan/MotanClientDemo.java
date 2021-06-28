@@ -48,8 +48,11 @@ public class MotanClientDemo extends LambkitApplicationContext {
      * @param args
      */
     public static void main(String[] args) {
-		
-		LambkitApplication.run(MotanClientDemo.class, 8088, args);
+    	/**
+    	 * rpc 测试
+    	 * undertow.devMode=false 这个必须是false
+    	 */
+		LambkitApplication.run(MotanClientDemo.class, "undertow8080.txt", args);
 		
 		/*
     	RefererConfig<UserService> motanDemoServiceReferer = new RefererConfig<UserService>();

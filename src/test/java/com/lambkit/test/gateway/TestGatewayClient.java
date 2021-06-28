@@ -28,6 +28,6 @@ public class TestGatewayClient extends LambkitApplicationContext {
 	}
 	
 	public static void main(String[] args) {
-		LambkitApplication.run(TestGatewayClient.class, 8080, args);
+		LambkitApplication.run(TestGatewayClient.class, "undertow8080.txt", args);
 	}
 }

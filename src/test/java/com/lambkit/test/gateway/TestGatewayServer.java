@@ -28,6 +28,6 @@ public class TestGatewayServer extends LambkitApplicationContext {
 	}
 	
 	public static void main(String[] args) {
-		LambkitApplication.run(TestGatewayServer.class, 9090, args);
+		LambkitApplication.run(TestGatewayServer.class, "undertow9090.txt", args);
 	}
 }

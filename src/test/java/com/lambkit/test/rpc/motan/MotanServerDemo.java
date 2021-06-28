@@ -5,8 +5,8 @@ import com.jfinal.config.Routes;
 import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
-import com.lambkit.core.rpc.Rpc;
 import com.lambkit.core.rpc.RpcManager;
+import com.lambkit.core.rpc.RpcPlugin;
 import com.lambkit.core.rpc.RpcServiceConfig;
 import com.lambkit.module.LambkitModule;
 import com.lambkit.test.node.ManagerNodeController;
@@ -28,11 +28,11 @@ public class MotanServerDemo extends LambkitApplicationContext {
     			me.add("/", ManagerNodeController.class, "");
     		}
     		public void configPlugin(Plugins me) {
-    			Rpc rpc = RpcManager.me().getRpc();
+    			RpcPlugin rpc = RpcManager.me().getPlugin();
     			RpcServiceConfig config = new RpcServiceConfig("lambkit", "1.0", 8002);
     			rpc.serviceExport(UserService.class, new UserServiceImpl(), config);
     			rpc.serviceExport(CategoryService.class, new CategoryServiceImpl(), config);
-    			me.add(RpcManager.me().getPlugin());
+    			me.add(rpc);
     		}
 		};
 		Lambkit.addModule(config);
@@ -43,6 +43,6 @@ public class MotanServerDemo extends LambkitApplicationContext {
 	}
 
 	public static void main(String[] args) {
-		LambkitApplication.run(MotanServerDemo.class, 9527, args);
+		LambkitApplication.run(MotanServerDemo.class, "undertow9527.txt", args);
 	}
 }

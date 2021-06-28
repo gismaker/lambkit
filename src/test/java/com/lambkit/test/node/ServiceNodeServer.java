@@ -27,6 +27,6 @@ public class ServiceNodeServer extends LambkitApplicationContext {
 	}
 	
 	public static void main(String[] args) {
-		LambkitApplication.run(ServiceNodeServer.class, 9090, args);
+		LambkitApplication.run(ServiceNodeServer.class, "undertow9090.txt", args);
 	}
 }

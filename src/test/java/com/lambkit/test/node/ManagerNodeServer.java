@@ -25,6 +25,6 @@ public class ManagerNodeServer extends LambkitApplicationContext {
 	}
 	
 	public static void main(String[] args) {
-		LambkitApplication.run(ManagerNodeServer.class, 9527, args);
+		LambkitApplication.run(ManagerNodeServer.class, "undertow9527.txt", args);
 	}
 }

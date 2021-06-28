@@ -165,7 +165,7 @@ public class MotanRpc extends RpcPlugin {
 
 			ServiceConfig<T> motanServiceConfig = new ServiceConfig<T>();
 
-			System.out.println(interfaceClass.getName() + "," + group + "," + version + "," + port);
+			System.out.println("rpc: " + interfaceClass.getName() + "," + group + "," + version + "," + port);
 			
 			// 设置接口及实现类
 			motanServiceConfig.setInterface(interfaceClass);

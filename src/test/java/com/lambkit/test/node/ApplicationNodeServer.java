@@ -26,6 +26,6 @@ public class ApplicationNodeServer  extends LambkitApplicationContext {
 	}
 	
 	public static void main(String[] args) {
-		LambkitApplication.run(ApplicationNodeServer.class, 8080, args);
+		LambkitApplication.run(ApplicationNodeServer.class, "undertow8080.txt", args);
 	}
 }

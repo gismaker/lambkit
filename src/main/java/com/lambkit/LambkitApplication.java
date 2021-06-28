@@ -39,13 +39,12 @@ public class LambkitApplication {
 		createServer(new UndertowConfig(jfinalConfigClass)).start(); 
 	}
 	
-	public static void run(Class<? extends LambkitApplicationContext> jfinalConfigClass, int port, String[] args) {
+	public static void run(Class<? extends LambkitApplicationContext> jfinalConfigClass, String undertowConfig, String[] args) {
 		parseArgs(args);
 		if(jfinalConfigClass==null) {
 			jfinalConfigClass = LambkitApplicationContext.class;
 		}
-		UndertowConfig config = new UndertowConfig(jfinalConfigClass);
-		config.setPort(port);
+		UndertowConfig config = new UndertowConfig(jfinalConfigClass, undertowConfig);
 		createServer(config).start(); 
 	}
 	
