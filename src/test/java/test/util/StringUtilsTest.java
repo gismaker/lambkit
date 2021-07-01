@@ -1,5 +1,6 @@
 package test.util;
 
+import com.jfinal.kit.StrKit;
 import com.lambkit.common.util.StringUtils;
 
 public class StringUtilsTest {
@@ -37,5 +38,8 @@ public class StringUtilsTest {
 			System.out.println("18511240544是手机号");
 		}
 		
+		String attrName = "lambkit_attr_name_test";
+		String attr2 = StrKit.toCamelCase(attrName);
+		System.out.println(attr2);
 	}
 }

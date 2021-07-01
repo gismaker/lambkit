@@ -17,7 +17,9 @@ package com.lambkit.db.mgr;
 
 import java.util.List;
 
+import com.jfinal.kit.StrKit;
 import com.lambkit.db.dialect.LambkitDialect;
+import com.lambkit.db.meta.ColumnMeta;
 import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.sql.column.Columns;
 
@@ -92,6 +94,24 @@ public class MgrTable {
 
 	public void setDialect(LambkitDialect dialect) {
 		this.dialect = dialect;
+	}
+	
+	public boolean hasColumn(String fldName) {
+		if(StrKit.isBlank(fldName)) return false;
+		if(fieldList!=null) {
+			for (IField iField : fieldList) {
+				if(fldName.equals(iField.getName())) {
+					return true;
+				}
+			}
+		} else if(meta!=null && meta.getColumnMetas()!=null) {
+			for (ColumnMeta column : meta.getColumnMetas()) {
+				if(fldName.equals(column.getName())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	/////////////////////////////////////////////////
