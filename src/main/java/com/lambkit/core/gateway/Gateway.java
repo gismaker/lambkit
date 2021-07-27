@@ -214,10 +214,19 @@ public class Gateway {
 		StringBuffer server_url = new StringBuffer(targetUri);
         HttpGet httpGet = new HttpGet(server_url.toString());
         String param = URLEncodedUtils.format(params, "UTF-8");
+        param = param.replace("+", "%20");
+        httpGet.setURI(URI.create(targetUri + "?" + param));
+        System.out.println("http get: " + httpGet.getURI().toURL().toString());
+		return proxyClient.execute(httpGet);
+	}
+	
+	public HttpResponse httpGet(String targetUri, String param) throws ClientProtocolException, IOException {
+		StringBuffer server_url = new StringBuffer(targetUri);
+        HttpGet httpGet = new HttpGet(server_url.toString());
         httpGet.setURI(URI.create(targetUri + "?" + param));
         //System.out.println("http get: " + httpGet.getURI().toURL().toString());
 		return proxyClient.execute(httpGet);
-	}
+	} 
 
 	public String post(String targetUri, Map<String, String> params) {
 		HttpResponse httpResponse = null;
