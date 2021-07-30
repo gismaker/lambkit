@@ -1,14 +1,15 @@
 package com.lambkit.web;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.lambkit.core.session.http.HttpSessionServletRequestWrapper;
+
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import com.lambkit.core.session.http.HttpSessionServletRequestWrapper;
-
-public class LambkitHttpServletRequestWrapper extends HttpSessionServletRequestWrapper {
+public class ParameterRequestWrapper extends HttpSessionServletRequestWrapper {
 	
 	private Map<String, String[]> params = new HashMap<>();
 
@@ -18,7 +19,7 @@ public class LambkitHttpServletRequestWrapper extends HttpSessionServletRequestW
      * @param request
      * @throws IllegalArgumentException if the request is null
      */
-	public LambkitHttpServletRequestWrapper(HttpServletRequest request) {
+	public ParameterRequestWrapper(HttpServletRequest request) {
 		super(request);
         //将参数表，赋予给当前的Map以便于持有request中的参数
         this.params.putAll(request.getParameterMap());
@@ -28,7 +29,7 @@ public class LambkitHttpServletRequestWrapper extends HttpSessionServletRequestW
      * 重载构造方法
      */
 
-    public LambkitHttpServletRequestWrapper(HttpServletRequest request, Map<String, Object> extendParams) {
+    public ParameterRequestWrapper(HttpServletRequest request, Map<String, Object> extendParams) {
         this(request);
         //这里将扩展参数写入参数表
         addAllParameters(extendParams);
