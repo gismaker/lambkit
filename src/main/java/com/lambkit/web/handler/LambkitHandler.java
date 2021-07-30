@@ -18,6 +18,7 @@ package com.lambkit.web.handler;
 import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
 import com.lambkit.core.session.http.HttpSessionServletRequestWrapper;
+import com.lambkit.web.LambkitHttpServletRequestWrapper;
 import com.lambkit.web.RequestManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class LambkitHandler extends Handler {
             return;
         }
         
-        HttpSessionServletRequestWrapper requestWrapper = new HttpSessionServletRequestWrapper(request);
+        LambkitHttpServletRequestWrapper requestWrapper = new LambkitHttpServletRequestWrapper(request);
         
         /**
          * 通过 RequestManager 去保存 request，然后可以在当前线程的任何地方
