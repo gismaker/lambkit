@@ -36,6 +36,8 @@ import com.lambkit.common.util.DateTimeUtils;
 import com.lambkit.common.util.RequestUtils;
 import com.lambkit.common.util.StringUtils;
 import com.lambkit.core.gateway.GatewayRender;
+import com.lambkit.db.meta.ColumnMeta;
+import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.mgr.MgrConstants;
 import com.lambkit.db.mgr.MgrdbManager;
@@ -957,6 +959,19 @@ public abstract class LambkitController extends Controller {
 			{
 				builder.append(fld.getName(), getParaTrans(fld.getName()), fld.getDatatype());
 			}
+		}
+		//ConditonsParam sqlParam = builder.get(prefix);
+        //System.out.println("getConditionsSQL sql:" + sqlParam.getSql());
+		return builder;
+	}
+	
+	protected ConditionBuilder getConditionsSQL(TableMeta tbc) {
+		ConditionBuilder builder = new ConditionBuilder();
+		//ConditonsParam sqlParam = new ConditonsParam(new Conditions());
+		List<ColumnMeta> flds = tbc.getColumnMetas();
+		for(int i=0; i<flds.size(); i++) {
+			ColumnMeta fld = flds.get(i);
+			builder.append(fld.getName(), getParaTrans(fld.getName()), fld.getType());
 		}
 		//ConditonsParam sqlParam = builder.get(prefix);
         //System.out.println("getConditionsSQL sql:" + sqlParam.getSql());

@@ -161,7 +161,7 @@ public class MgrdbManager {
 		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);
 		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
 			System.out.println("table: "+entry.getKey());
-			service.tableToMgrdb(entry.getValue());
+			service.tableToMgrdb(entry.getValue(), options);
         }
 		System.out.println("-------over-------");
 		application.stop();
@@ -178,7 +178,7 @@ public class MgrdbManager {
 		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);
 		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
 			System.out.println("table: "+entry.getKey());
-			service.tableToMgrdb(entry.getValue());
+			service.tableToMgrdb(entry.getValue(), options);
         }
 		System.out.println("-------over-------");
 		application.stop();

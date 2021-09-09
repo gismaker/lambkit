@@ -19,10 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.jfinal.aop.Aop;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.LambkitPasswordCracker;
-import com.lambkit.common.util.SecurityUtils;
 import com.lambkit.core.aop.AopKit;
 
 
@@ -102,6 +101,10 @@ public class DataSourceConfig {
     }
 
     public String getUrl() {
+    	if(url.contains("%s")) {
+    		url = String.format(url, PathKit.getWebRootPath());
+    		System.out.println("DataSourceConfig.jdbc.url: " + url);
+    	}
         return url;
     }
 

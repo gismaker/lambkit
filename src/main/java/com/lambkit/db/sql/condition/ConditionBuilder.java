@@ -21,9 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
-import com.lambkit.db.sql.condition.Conditions;
 import com.lambkit.db.sql.condition.ConditionBuilder;
-import com.lambkit.db.sql.condition.ConditionMap;
 
 public class ConditionBuilder {
 	
@@ -86,6 +84,7 @@ public class ConditionBuilder {
 		return this;
 	}
 	
+	@Deprecated
 	public ConditionBuilder appendCql(String cql) {
 		if(!StrKit.notBlank(cql)) return this;
 		String[] cqls = cql.split("and");
@@ -218,6 +217,7 @@ public class ConditionBuilder {
  		else if(type.startsWith("num"))return Double.parseDouble(value);//numeric,number
  		else if(type.startsWith("date")) return Date.valueOf(value);
  		else if(type.startsWith("datetime")) return Timestamp.valueOf(value);
+ 		else if(type.startsWith("timestamp")) return Timestamp.valueOf(value);
  		else return value;
  	}
  	

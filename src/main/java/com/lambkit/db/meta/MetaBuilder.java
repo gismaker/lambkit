@@ -339,10 +339,15 @@ public class MetaBuilder {
 			
 			if (typeStr == null) {
 				int type = rsmd.getColumnType(i);
+				//System.out.println(columnName + " columnType: " + type);
 				if (type == Types.BINARY || type == Types.VARBINARY || type == Types.LONGVARBINARY || type == Types.BLOB) {
 					typeStr = "byte[]";
 				} else if (type == Types.CLOB || type == Types.NCLOB) {
 					typeStr = "java.lang.String";
+				} else if (type == Types.INTEGER) {
+					typeStr = "java.lang.Integer";
+				} else if (type == Types.NUMERIC || type == Types.REAL) {
+					typeStr = "java.lang.Double";
 				} else {
 					typeStr = "java.lang.String";
 				}

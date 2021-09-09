@@ -96,6 +96,11 @@ public interface MgrdbService {
 	 * @param tbc
 	 */
 	void tableToMgrdb(TableMeta tbc);
+	
+	default public void tableToMgrdb(TableMeta tbc, Map<String, Object> options) {
+		tableToMgrdb(tbc);
+	}
+	
 	/**
 	 * 将多个表格信息写到管理表中
 	 * @param options

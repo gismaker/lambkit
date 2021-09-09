@@ -104,13 +104,17 @@ public class GeneratorManager {
 		return createGenerator(type, context);
 	}
 	
+	public Generator createGenerator() {
+		GeneratorConfig config = Lambkit.config(GeneratorConfig.class);
+		return createGenerator(config);
+	}
 	/**
 	 * 获取指定配置的生成器
 	 * @param config
 	 * @return
 	 */
 	public Generator createGenerator(GeneratorConfig config) {
-		if(config.isHasMgrdb() && context!=null && context.getConfig().isHasMgrdb()) {
+		if(config.isHasMgrdb()) {//&& context!=null && context.getConfig().isHasMgrdb()
 			return null;
 		}
 		GeneratorContext gc = new GeneratorContext(config);

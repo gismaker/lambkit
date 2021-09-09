@@ -39,10 +39,12 @@ public class DruidDataSourceFactory implements DataSourceFactory {
     	// 慢查询目前设置为1s,随着优化一步步进行慢慢更改
     	statFilter.setSlowSqlMillis(dataSourceConfig.getDruidSlowSqlMillis());
     	druidPlugin.addFilter(statFilter);
-		WallFilter wall = new WallFilter();
-		String dbtype = dataSourceConfig.getType();
-		wall.setDbType(dbtype);
-		druidPlugin.addFilter(wall);
+    	String dbtype = dataSourceConfig.getType();
+    	if(!"sqlite".equals(dbtype)) {
+    		WallFilter wall = new WallFilter();
+    		wall.setDbType(dbtype);
+    		druidPlugin.addFilter(wall);
+    	}
 		
 		druidPlugin.setInitialSize(dataSourceConfig.getInitialSize());
 		druidPlugin.setMinIdle(dataSourceConfig.getMinIdle());
@@ -67,10 +69,12 @@ public class DruidDataSourceFactory implements DataSourceFactory {
     	// 慢查询目前设置为1s,随着优化一步步进行慢慢更改
     	statFilter.setSlowSqlMillis(dataSourceConfig.getDruidSlowSqlMillis());
     	druidPlugin.addFilter(statFilter);
-		WallFilter wall = new WallFilter();
-		String dbtype = dataSourceConfig.getType();
-		wall.setDbType(dbtype);
-		druidPlugin.addFilter(wall);
+    	String dbtype = dataSourceConfig.getType();
+    	if(!"sqlite".equals(dbtype)) {
+    		WallFilter wall = new WallFilter();
+    		wall.setDbType(dbtype);
+    		druidPlugin.addFilter(wall);
+    	}
 		
 		druidPlugin.setInitialSize(dataSourceConfig.getInitialSize());
 		druidPlugin.setMinIdle(dataSourceConfig.getMinIdle());
