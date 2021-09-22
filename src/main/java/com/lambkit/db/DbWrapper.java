@@ -18,6 +18,8 @@ package com.lambkit.db;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.jfinal.config.Plugins;
+import com.jfinal.plugin.IPlugin;
 import com.lambkit.db.datasource.ActiveRecordPluginWrapper;
 import com.lambkit.db.datasource.DataSourceConfig;
 import com.lambkit.db.datasource.DataSourceConfigManager;
@@ -25,11 +27,34 @@ import com.lambkit.db.datasource.DataSourceConfigManager;
 public class DbWrapper {
 
 	private String configName; // DataSourceConfig Name from DataSourceConfigManager
+	private Plugins plugins;
 	private ActiveRecordPluginWrapper arp;
 	private List<TableWrapper> tables;
 	
 	public DataSourceConfig getDatasourceConfig() {
 		return DataSourceConfigManager.me().getDatasourceConfig(configName);
+	}
+	
+	public void start() {
+		if(plugins!=null) {
+			for(IPlugin plugin : plugins.getPluginList()) {
+				plugin.start();
+			}
+		}
+		if(arp!=null && arp.getPlugin()!=null) {
+			arp.getPlugin().start();
+		}
+	}
+	
+	public void stop() {
+		if(plugins!=null) {
+			for(IPlugin plugin : plugins.getPluginList()) {
+				plugin.stop();
+			}
+		}
+		if(arp!=null && arp.getPlugin()!=null) {
+			arp.getPlugin().stop();
+		}
 	}
 	
 	public void addTable(TableWrapper table) {
@@ -56,5 +81,13 @@ public class DbWrapper {
 	}
 	public void setArp(ActiveRecordPluginWrapper arp) {
 		this.arp = arp;
+	}
+
+	public Plugins getPlugins() {
+		return plugins;
+	}
+
+	public void setPlugins(Plugins plugins) {
+		this.plugins = plugins;
 	}
 }

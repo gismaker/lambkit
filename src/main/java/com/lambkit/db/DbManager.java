@@ -19,6 +19,7 @@ import com.google.common.collect.Maps;
 import com.jfinal.config.Plugins;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.IPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbPro;
@@ -61,25 +62,42 @@ public class DbManager {
         return manager;
     }
     
-    public void addArp(Plugins plugin, DataSourceConfig datasourceConfig) {
+    public DbWrapper start(DataSourceConfig datasourceConfig) {
+    	if(!datasourceConfig.isConfigOk() || StrKit.isBlank(datasourceConfig.getName())) return null;
+    	Plugins plugins = new Plugins();
+    	addArp(plugins, datasourceConfig);
+    	DbWrapper dbw = getDbWrapper(datasourceConfig.getName());
+    	if(dbw!=null) dbw.start();
+    	return dbw;
+    }
+    
+    public DbWrapper stop(DataSourceConfig datasourceConfig) {
+    	if(StrKit.isBlank(datasourceConfig.getName())) return null;
+    	DbWrapper dbw = getDbWrapper(datasourceConfig.getName());
+    	if(dbw!=null) dbw.start();
+    	return dbw;
+    }
+    
+    public void addArp(Plugins plugins, DataSourceConfig datasourceConfig) {
     	if (datasourceConfig.isConfigOk()) {
-            ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(plugin, datasourceConfig);
+            ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(plugins, datasourceConfig);
             activeRecordPlugin.setShowSql(Lambkit.isDevMode());
             activeRecordPlugin.setCache(CacheManager.me().getCache());
             configSqlTemplate(datasourceConfig, activeRecordPlugin);
             configDialect(activeRecordPlugin, datasourceConfig);
-            addArp(activeRecordPlugin);
+            addArp(plugins, activeRecordPlugin);
         }
     }
     
-    public void addArp(ActiveRecordPlugin arp) {
-    	addArp(new ActiveRecordPluginWrapper(arp));
+    public void addArp(Plugins plugins, ActiveRecordPlugin arp) {
+    	addArp(plugins, new ActiveRecordPluginWrapper(arp));
     }
     
-    public void addArp(ActiveRecordPluginWrapper arp) {
+    public void addArp(Plugins plugins, ActiveRecordPluginWrapper arp) {
     	DbWrapper db = new DbWrapper();
     	db.setArp(arp);
     	db.setConfigName(arp.getConfig().getName());
+    	db.setPlugins(plugins);
     	getDbWrappers().put(arp.getConfig().getName(), db);
     }
     

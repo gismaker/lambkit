@@ -1039,6 +1039,14 @@ public abstract class LambkitController extends Controller {
 		return getRequest().getMethod().equals("GET");
 	}
 	
+	protected boolean isPut() {
+		return getRequest().getMethod().equals("PUT");
+	}
+	
+	protected boolean isDelete() {
+		return getRequest().getMethod().equals("DELETE");
+	}
+	
 	protected boolean isMethod(String methodName) {
 		return getRequest().getMethod().equals(methodName);
 	}
