@@ -15,6 +15,8 @@
  */
 package com.lambkit.db.mgr;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
@@ -61,6 +63,15 @@ public class MgrTable {
 
 	public void setFieldList(List<? extends IField> list) {
 		this.fieldList = list;
+	}
+	
+	public IField getField(String fieldName) {
+		for (IField iField : fieldList) {
+			if(iField.getName().equals(fieldName)) {
+				return iField;
+			}
+		}
+		return null;
 	}
 
 	/******/
@@ -114,6 +125,17 @@ public class MgrTable {
 		return false;
 	}
 	
+	public Object getValue(String type, String value) {
+ 		type = type.toLowerCase();
+ 		if(type.startsWith("int") || type.startsWith("serial"))return Integer.parseInt(value);
+ 		else if(type.startsWith("float"))return Float.parseFloat(value);
+ 		else if(type.startsWith("double"))return Double.parseDouble(value);
+ 		else if(type.startsWith("num"))return Double.parseDouble(value);//numeric,number
+ 		else if(type.startsWith("date")) return Date.valueOf(value);
+ 		else if(type.startsWith("datetime")) return Timestamp.valueOf(value);
+ 		else if(type.startsWith("timestamp")) return Timestamp.valueOf(value);
+ 		else return value;
+ 	}
 	/////////////////////////////////////////////////
 	
 	public String getLoadColumns(String alias) {
