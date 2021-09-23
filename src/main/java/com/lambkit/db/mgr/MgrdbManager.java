@@ -183,6 +183,15 @@ public class MgrdbManager {
 		System.out.println("-------over-------");
 		application.stop();
 	}
+	
+	public void toMgrdb(Map<String, Object> options) {
+		MgrdbService service = MgrdbManager.me().getService();
+		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);
+		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
+			System.out.println("table: "+entry.getKey());
+			service.tableToMgrdb(entry.getValue(), options);
+        }
+	}
 
 	public Map<String, MgrdbService> getServiceMap() {
 		return serviceMap;
