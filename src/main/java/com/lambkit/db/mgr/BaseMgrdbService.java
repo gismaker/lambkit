@@ -33,13 +33,6 @@ import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.dialect.LambkitPostgreSqlDialect;
 import com.lambkit.db.meta.MetaKit;
 import com.lambkit.db.meta.TableMeta;
-import com.lambkit.db.mgr.IField;
-import com.lambkit.db.mgr.IFieldDao;
-import com.lambkit.db.mgr.ITable;
-import com.lambkit.db.mgr.ITableDao;
-import com.lambkit.db.mgr.MgrdbConfig;
-import com.lambkit.db.mgr.MgrTable;
-import com.lambkit.db.mgr.MgrdbService;
 import com.lambkit.db.sql.condition.ConditionBuilder;
 import com.lambkit.db.sql.condition.SqlBuilder;
 import com.lambkit.web.controller.LambkitController;
@@ -56,6 +49,16 @@ public abstract class BaseMgrdbService implements MgrdbService {
 
 	public MgrTable createTable(String tableName, int type) {
 		return createTable(tableName, type, null);
+	}
+	
+	public MgrTable createByAlias(String alias) {
+		return createByAlias(alias, MgrConstants.NONE);
+	}
+	public MgrTable createByAlias(String alias, int type) {
+		return createByAlias(alias, type, null);
+	}
+	public MgrTable createByAlias(String alias, int type, String orderby) {
+		return createTable(alias, type, orderby);
 	}
 
 	public MgrTable createTable(Object tbid, int type, String orderby) {

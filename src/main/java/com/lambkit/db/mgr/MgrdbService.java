@@ -36,18 +36,24 @@ public interface MgrdbService {
 	//List<MgrTable> createTableList();
 
 	MgrTable createTable(Object tbid, int type);
-
-	MgrTable createTable(String tableName, int type);
-	
 	MgrTable createTable(Object tbid, int type, String orderby);
-
+	
+	MgrTable createTable(String tableName, int type);
 	MgrTable createTable(String tableName, int type, String orderby);
 
 	MgrTable createTable(ITable tb, int type, String orderby);
 	
 	MgrTable createTableWithoutMeta(String tableName, int type, String orderby);
-	
 	MgrTable createTableWithoutModel(String tableName, int type);
+	
+	/**
+	 * 使用别名获取MgrTable
+	 * @param alias
+	 * @return
+	 */
+	MgrTable createByAlias(String alias);
+	MgrTable createByAlias(String alias, int type);
+	MgrTable createByAlias(String alias, int type, String orderby);
 	
 	void clearCache(String tableName);
 	void clearCacheAll();

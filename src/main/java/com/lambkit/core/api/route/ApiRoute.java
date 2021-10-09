@@ -1,5 +1,10 @@
 package com.lambkit.core.api.route;
 
+/**
+ * API路由模块的入口
+ * @author yangyong
+ *
+ */
 public class ApiRoute {
 
 	public static final String API_METHOD = "method";
