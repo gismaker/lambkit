@@ -80,7 +80,7 @@ public class MgrdbManager {
 
 	public MgrdbService getService() {
 		if(mgrdbService==null) {
-			setService(new MgrdbServiceImpl());
+			setService(new NoneMgrdbServiceImpl());
 		}
 		return mgrdbService;
 	}

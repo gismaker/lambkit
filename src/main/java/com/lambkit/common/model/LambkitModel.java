@@ -288,7 +288,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
      * @return
      */
     public boolean saveOrUpdate() {
-        if (null == getPrimaryKeyValue()/*get(getPrimaryKey())*/) {
+        if (null == _getPrimaryKeyValue()/*get(getPrimaryKey())*/) {
             return this.save();
         }
         return this.update();
@@ -306,8 +306,8 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
             set(COLUMN_CREATED, new Date());
         }
 
-        if (getPrimaryKeyCount() ==1 && null == get(getPrimaryKey()) && String.class == getPrimaryType()) {
-            set(getPrimaryKey(), StringUtils.uuid());
+        if (_getPrimaryKeyCount() ==1 && null == get(_getPrimaryKey()) && String.class == _getPrimaryType()) {
+            set(_getPrimaryKey(), StringUtils.uuid());
         }
         Boolean autoCopyModel = get(AUTO_COPY_MODEL);
         boolean saveSuccess = autoCopyModel!=null && autoCopyModel == true ? copyModel().saveNormal() : saveNormal();
@@ -331,7 +331,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
         boolean deleted = super.delete();
         if (deleted) {
             if (cacheEnable) {
-                removeCache(getPrimaryKeyValue()/*get(getPrimaryKey())*/);
+                removeCache(_getPrimaryKeyValue()/*get(getPrimaryKey())*/);
             }
             EventKit.sendEvent(deleteAction(), this);
         }
@@ -350,7 +350,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
     	boolean deleted = super.deleteById(idValue);
     	 if (deleted) {
              if (cacheEnable) {
-                 removeCache(getPrimaryKeyValue()/*get(getPrimaryKey())*/);
+                 removeCache(_getPrimaryKeyValue()/*get(getPrimaryKey())*/);
              }
              EventKit.sendEvent(deleteAction(), this);
          }
@@ -367,7 +367,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
     	boolean deleted = super.deleteById(idValue);
     	 if (deleted) {
              if (cacheEnable) {
-                 removeCache(getPrimaryKeyValue()/*get(getPrimaryKey())*/);
+                 removeCache(_getPrimaryKeyValue()/*get(getPrimaryKey())*/);
              }
              EventKit.sendEvent(deleteAction(), this);
          }
@@ -389,10 +389,10 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
         boolean updateSuccess = autoCopyModel!=null && autoCopyModel == true ? copyModel().updateNormal() : updateNormal();
         if (updateSuccess) {
             if (cacheEnable) {
-                removeCache(getPrimaryKeyValue());
+                removeCache(_getPrimaryKeyValue());
             }
-            if(getPrimaryKeyCount()==1) {
-                Object id = get(getPrimaryKey());
+            if(_getPrimaryKeyCount()==1) {
+                Object id = get(_getPrimaryKey());
                 EventKit.sendEvent(updateAction(), findById(id));
             } else {
             	EventKit.sendEvent(updateAction(), this);
@@ -902,16 +902,16 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
 
     private transient String primaryKey;
 
-    protected int getPrimaryKeyCount() {
-        return getPrimaryKeys().length;
+    protected int _getPrimaryKeyCount() {
+        return _getPrimaryKeys().length;
     }
     
-    protected Object getPrimaryKeyValue() {
-        if(getPrimaryKeyCount()==1) {
-        	return get(getPrimaryKey());
-        } else if(getPrimaryKeyCount()>1) {
+    protected Object _getPrimaryKeyValue() {
+        if(_getPrimaryKeyCount()==1) {
+        	return get(_getPrimaryKey());
+        } else if(_getPrimaryKeyCount()>1) {
         	String res="";
-        	String[] primaryKeys = getPrimaryKeys();
+        	String[] primaryKeys = _getPrimaryKeys();
             for (int i = 0; i < primaryKeys.length; i++) {
             	res += ","+get(primaryKeys[0]);
 			}
@@ -922,11 +922,11 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
         }
     }
     
-    protected String getPrimaryKey() {
+    protected String _getPrimaryKey() {
         if (primaryKey != null) {
             return primaryKey;
         }
-        String[] primaryKeys = getPrimaryKeys();
+        String[] primaryKeys = _getPrimaryKeys();
         if (null != primaryKeys && primaryKeys.length == 1) {
             primaryKey = primaryKeys[0];
         }
@@ -937,14 +937,14 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
 
     private transient Class<?> primaryType;
 
-    public Class<?> getPrimaryType() {
+    public Class<?> _getPrimaryType() {
         if (primaryType == null) {
-            primaryType = TableMapping.me().getTable(_getUsefulClass()).getColumnType(getPrimaryKey());
+            primaryType = TableMapping.me().getTable(_getUsefulClass()).getColumnType(_getPrimaryKey());
         }
         return primaryType;
     }
 
-    protected String[] getPrimaryKeys() {
+    protected String[] _getPrimaryKeys() {
         Table t = TableMapping.me().getTable(_getUsefulClass());
         if (t == null) {
             throw new RuntimeException("can't get table of " + _getUsefulClass() + " , maybe install incorrect");
@@ -1042,12 +1042,12 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
             return false;
         }
 
-        Object id = ((LambkitModel) o).getPrimaryKeyValue();
+        Object id = ((LambkitModel) o)._getPrimaryKeyValue();
         //Object id = getPrimaryKeyValue();
         if (id == null) {
             return false;
         }
-        return id.equals(getPrimaryKeyValue());
+        return id.equals(_getPrimaryKeyValue());
         //return id.equals(get(getPrimaryKey()));
     }
 }

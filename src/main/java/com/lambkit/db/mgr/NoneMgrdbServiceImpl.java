@@ -19,7 +19,7 @@ import java.util.Map;
 
 import com.lambkit.db.meta.TableMeta;
 
-public class MgrdbServiceImpl extends BaseMgrdbService {
+public class NoneMgrdbServiceImpl extends BaseMgrdbService {
 
 	@Override
 	public void tableToMgrdb(TableMeta tbc) {
