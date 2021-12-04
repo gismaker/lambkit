@@ -20,11 +20,11 @@ import java.util.List;
 
 import com.jfinal.kit.StrKit;
 import com.lambkit.common.util.StringUtils;
-import com.lambkit.db.mgr.IField;
-import com.lambkit.db.mgr.MgrdbManager;
-import com.lambkit.db.mgr.MgrTable;
 
-
+/**
+ * 图表数据获取
+ * @author yangyong
+ */
 public class Chart {
 	private String classify;
 	private String serias;

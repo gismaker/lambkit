@@ -20,6 +20,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.DbPro;
 import com.lambkit.db.dialect.LambkitDialect;
 import com.lambkit.db.meta.ColumnMeta;
 import com.lambkit.db.meta.TableMeta;
@@ -32,6 +34,10 @@ public class MgrTable {
 	private TableMeta meta;
 	private List<? extends IField> fieldList;
 	private LambkitDialect dialect;
+	
+	public DbPro db() {
+		return Db.use();
+	}
 
 	public ITable getModel() {
 		return model;

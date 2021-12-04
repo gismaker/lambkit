@@ -19,13 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.common.util.StringUtils;
-import com.lambkit.db.mgr.IField;
-import com.lambkit.db.mgr.MgrdbManager;
 import com.lambkit.db.sql.condition.SqlBuilder;
-import com.lambkit.db.mgr.MgrTable;
 
 
 public class Pivot {
@@ -139,7 +135,7 @@ public class Pivot {
 		.append(getWhereSql()).append(" group by ").append(column)
 		.append(" order by ").append(column).append(" desc").build();
 		// System.out.println("getColumn SQL="+sql);
-		List<Record> list = Db.find(sql, getSqlParas());
+		List<Record> list = tbc.db().find(sql, getSqlParas());
 		List<IField> mns = table.getMeasures();
 		List<Record> colHead = new ArrayList<>();
 		for (int m = 0; m < list.size(); m++) {
@@ -165,7 +161,7 @@ public class Pivot {
 		.append(" group by ").append(row)
 		.append(" order by ").append(row).append(" desc").build();
 		// System.out.println("getColumn SQL="+sql);
-		List<Record> list = Db.find(sql);
+		List<Record> list = tbc.db().find(sql);
 		table.setRowCategory(list);
 	}
 
@@ -177,7 +173,7 @@ public class Pivot {
 		.append(" group by ").append(column)
 		.append(" order by ").append(column).append(" desc").build();
 		// System.out.println("getColumn SQL="+sql);
-		List<Record> list = Db.find(sql);
+		List<Record> list = tbc.db().find(sql);
 		List<IField> mns = table.getMeasures();
 		List<Record> cols = new ArrayList<>();
 		sb.clear();
@@ -203,7 +199,7 @@ public class Pivot {
 				.append(getWhereSql()).append(" group by ").append(row)
 				.append(" order by ").append(row).append(" desc").build();
 		// System.out.println("getColumn SQL="+sql);
-		List<Record> list = Db.find(sql, getSqlParas());
+		List<Record> list = tbc.db().find(sql, getSqlParas());
 		table.setData(list);
 	}
 	

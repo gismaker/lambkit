@@ -58,7 +58,7 @@ public class MgrdbValidator extends Validator {
 			} else if(fld.getDatatype().startsWith("long") || fld.getDatatype().startsWith("int8")) {
 				validateLong("model."+fld.getName(), "msg_"+fld.getName(), "请您输入"+fld.getTitle()+"!并且是整数!"); 
 			} else if(fld.getDatatype().startsWith("date")) {
-				validateDate("model."+fld.getName(), "msg_"+fld.getName(), "请您输入"+fld.getTitle()+"!并且是日期!"); 
+				validateDate("model."+fld.getName(), "msg_"+fld.getName(), "请您输入"+fld.getTitle()+"!并且是日期!");
 			} else {
 				validateRequired("model."+fld.getName(), "msg_"+fld.getName(), "请您输入"+fld.getTitle()+"!"); 
 			}

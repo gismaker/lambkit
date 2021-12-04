@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.Lambkit;
 import com.lambkit.common.util.DateTimeUtils;
@@ -332,7 +331,7 @@ public abstract class BaseMgrdbService implements MgrdbService {
 	 * 输出Excel
 	 */
 	public void exportExcel(MgrTable tbc, OutputStream os, String sql) {
-		List<Record> mlist = Db.find(sql);
+		List<Record> mlist = tbc.db().find(sql);
 		toExcel(tbc, os, mlist, "*");
 	}
 	
@@ -340,7 +339,7 @@ public abstract class BaseMgrdbService implements MgrdbService {
 	 * 输出Excel
 	 */
 	public void exportExcel(MgrTable tbc, OutputStream os, String sql, Object[] paras) {
-		List<Record> mlist = Db.find(sql, paras);
+		List<Record> mlist = tbc.db().find(sql, paras);
 		toExcel(tbc, os, mlist, "*");
 	}
 	

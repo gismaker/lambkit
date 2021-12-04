@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.DbKit;
 import com.lambkit.LambkitApplicationContext;
 import com.lambkit.Lambkit;
 import com.lambkit.LambkitApplication;
@@ -176,6 +177,23 @@ public class MgrdbManager {
 		application.run();
 		MgrdbService service = MgrdbManager.me().getService();
 		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(options);
+		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
+			System.out.println("table: "+entry.getKey());
+			service.tableToMgrdb(entry.getValue(), options);
+        }
+		System.out.println("-------over-------");
+		application.stop();
+	}
+	
+	public void run(Map<String, Object> options, LambkitModule module, String configName) {
+		LambkitApplication application = new LambkitApplication(LambkitApplicationContext.class);
+		application.setWebEnvironment(false);
+		if(module!=null) {
+			Lambkit.addModule(module);
+		}
+		application.run();
+		MgrdbService service = MgrdbManager.me().getService();
+		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(DbKit.getConfig(configName), options);
 		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
 			System.out.println("table: "+entry.getKey());
 			service.tableToMgrdb(entry.getValue(), options);
