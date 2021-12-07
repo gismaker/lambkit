@@ -194,7 +194,7 @@ public abstract class LambkitController extends Controller {
 	
 	protected MgrTable getTable(Object tbid, int type, boolean attr, String orderby) {
 		MgrTable t = getAttr("mgrdb");
-		if(t!=null) return t;
+		if(t!=null && t.getId()==tbid) return t;
 		else if(tbid!=null) {
 			MgrTable tbc = getTableConfigService() !=null ? getTableConfigService().createTable(tbid, type, orderby) : null;
 			if(attr) {
@@ -238,7 +238,7 @@ public abstract class LambkitController extends Controller {
 	
 	protected MgrTable getTable(String tbname, int type, boolean attr, String orderby) {
 		MgrTable t = getAttr("mgrdb");
-		if(t!=null) return t;
+		if(t!=null && t.getName().equals(tbname)) return t;
 		else if(StrKit.notBlank(tbname)) {
 			MgrTable tbc = getTableConfigService() !=null ? getTableConfigService().createTable(tbname, type, orderby) : null;
 			if(attr) {
