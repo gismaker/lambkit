@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.Plugins;
+import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
@@ -43,7 +44,10 @@ public class DruidDataSourceFactory implements DataSourceFactory {
     	String dbtype = dataSourceConfig.getType();
     	if(!"sqlite".equals(dbtype)) {
     		WallFilter wall = new WallFilter();
-    		wall.configFromProperties(PropKit.use("druid_wall").getProperties());
+    		Prop prop = PropKit.use("druid_wall.properties");
+    		if(prop!=null) {
+    			wall.configFromProperties(prop.getProperties());
+    		}
     		wall.setDbType(dbtype);
     		druidPlugin.addFilter(wall);
     	}
@@ -74,7 +78,10 @@ public class DruidDataSourceFactory implements DataSourceFactory {
     	String dbtype = dataSourceConfig.getType();
     	if(!"sqlite".equals(dbtype)) {
     		WallFilter wall = new WallFilter();
-    		wall.configFromProperties(PropKit.use("druid_wall").getProperties());
+    		Prop prop = PropKit.use("druid_wall.properties");
+    		if(prop!=null) {
+    			wall.configFromProperties(prop.getProperties());
+    		}
     		wall.setDbType(dbtype);
     		druidPlugin.addFilter(wall);
     	}
