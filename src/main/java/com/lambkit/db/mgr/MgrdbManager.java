@@ -210,6 +210,15 @@ public class MgrdbManager {
 			service.tableToMgrdb(entry.getValue(), options);
         }
 	}
+	
+	public void toMgrdb(Map<String, Object> options, String configName) {
+		MgrdbService service = MgrdbManager.me().getService();
+		Map<String, TableMeta> tableMetas = MetaKit.getTableMetas(DbKit.getConfig(configName), options);
+		for (Entry<String, TableMeta> entry : tableMetas.entrySet()) {
+			System.out.println("table: "+entry.getKey());
+			service.tableToMgrdb(entry.getValue(), options);
+        }
+	}
 
 	public Map<String, MgrdbService> getServiceMap() {
 		return serviceMap;
