@@ -27,7 +27,6 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.lambkit.Lambkit;
 import com.lambkit.db.mgr.Chart;
 import com.lambkit.db.mgr.IField;
 import com.lambkit.db.mgr.MgrConstants;
@@ -419,7 +418,7 @@ public class MgrdbApiController extends LambkitController {
 		}
 		String yuns = getPara("yuns", "SUM");
 		chart.setOperation(yuns);
-		chart.setClassifyName(tbc.getName(), cls);
+		chart.setClassifyName(tbc, cls);
 		chart.setSerias(tbc, serias, "");
 		ConditionBuilder cb = getConditionsSQL(tbc).build("");
 		SqlBuilder sb = new SqlBuilder();

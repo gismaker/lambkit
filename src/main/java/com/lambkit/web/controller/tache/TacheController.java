@@ -794,7 +794,7 @@ public class TacheController extends LambkitController {
 		chart.setOperation(yuns);
 		String sql = getThisSearchWhereSQL(tbc, "");
 		int borg = 1;
-		chart.setClassifyName(tbc.getName(), cls);
+		chart.setClassifyName(tbc, cls);
 		chart.setSerias(tbc, serias, "");
 		sql = "SELECT " + cls + " as cls,"+ chart.getSeriasSQL() + " FROM \"" 
 						+ tbc.getName() + "\" " + sql +" GROUP BY "  + cls + " ORDER BY " + cls;

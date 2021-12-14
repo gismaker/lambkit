@@ -18,7 +18,6 @@ package com.lambkit.db.mgr;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jfinal.kit.StrKit;
 import com.lambkit.common.util.StringUtils;
 
 /**
@@ -34,6 +33,7 @@ public class Chart {
 	private String classifyName;
 	private String dataSQL;
 	private Object[] sqlParas;
+//	private String fldname = "fldname";
 	
 	public Chart() {
 		seriasNames = new ArrayList<String>();
@@ -45,45 +45,47 @@ public class Chart {
 		seriasSQL = "";
 	}
 	
-	private IFieldDao getFieldDao() {
-		return MgrdbManager.me().getService().getFieldDao();
-	}
+//	private IFieldDao getFieldDao() {
+//		return MgrdbManager.me().getService().getFieldDao();
+//	}
 	
-	public void setClassifyName(Object tbid, String classifyName) {
-		if(tbid==null) return;
-		IFieldDao fdao = getFieldDao();
-		if(fdao==null) return;
-		IField fldm = fdao.findFirstByTbid(tbid, MgrConstants.NONE, "fldname", classifyName);
+//	public void setClassifyName(Object tbid, String classifyName) {
+//		if(tbid==null) return;
+//		IFieldDao fdao = getFieldDao();
+//		if(fdao==null) return;
+//		IField fldm = fdao.findFirstByTbid(tbid, MgrConstants.NONE, fldname, classifyName);
+//		classifyName = fldm==null ? classifyName : fldm.getTitle();
+//		setClassifyName(classifyName);
+//	}
+	
+	public void setClassifyName(MgrTable tbc, String classifyName) {
+//		if(StrKit.isBlank(tbname)) return;
+//		IFieldDao fdao = getFieldDao();
+//		if(fdao==null) return;
+//		IField fldm = fdao.findFirstByTbName(tbname, MgrConstants.NONE, fldname, classifyName);
+//		classifyName = fldm==null ? classifyName : fldm.getTitle();
+//		setClassifyName(classifyName);
+		if(tbc==null) return;
+		IField fldm = tbc.getField(classifyName);
 		classifyName = fldm==null ? classifyName : fldm.getTitle();
 		setClassifyName(classifyName);
 	}
 	
-	public void setClassifyName(String tbname, String classifyName) {
-		if(StrKit.isBlank(tbname)) return;
-		IFieldDao fdao = getFieldDao();
-		if(fdao==null) return;
-		IField fldm = fdao.findFirstByTbName(tbname, MgrConstants.NONE, "fldname", classifyName);
-		classifyName = fldm==null ? classifyName : fldm.getTitle();
-		setClassifyName(classifyName);
-	}
-	
-	public void addSerias(Object tbid, String serias_name) {
-		if(tbid==null) return;
-		IFieldDao fdao = getFieldDao();
-		if(fdao==null) return;
-		IField fldserias = fdao.findFirstByTbid(tbid, MgrConstants.NONE, "fldname", serias_name);
+	public void addSerias(MgrTable tbc, String serias_name) {
+		if(tbc==null) return;
+		IField fldserias = tbc.getField(serias_name);
 		serias_name = fldserias!=null ? fldserias.getTitle() : serias_name;
 		addSerias(serias_name);
 	}
 	
-	public void addSerias(String tbname, String serias_name) {
-		if(StrKit.isBlank(tbname)) return;
-		IFieldDao fdao = getFieldDao();
-		if(fdao==null) return;
-		IField fldserias = fdao.findFirstByTbName(tbname, MgrConstants.NONE, "fldname", serias_name);
-		serias_name = fldserias!=null ? fldserias.getTitle() : serias_name;
-		addSerias(serias_name);
-	}
+//	public void addSerias(String tbname, String serias_name) {
+//		if(StrKit.isBlank(tbname)) return;
+//		IFieldDao fdao = getFieldDao();
+//		if(fdao==null) return;
+//		IField fldserias = fdao.findFirstByTbName(tbname, MgrConstants.NONE, fldname, serias_name);
+//		serias_name = fldserias!=null ? fldserias.getTitle() : serias_name;
+//		addSerias(serias_name);
+//	}
 	
 	public void addSerias(String serias_name) {
 		seriasNames.add(serias_name);
@@ -171,7 +173,7 @@ public class Chart {
 						String ssSQL = getOneSerias(tbc, ss, yun, prefix);
 						if(StringUtils.hasText(ss)) {
 							serias += "," + ssSQL + tji;
-							this.addSerias(tbc.getName(), ss);
+							this.addSerias(tbc, ss);
 							tji++;
 						}
 					}
@@ -183,7 +185,7 @@ public class Chart {
 						String ssSQL = getOneSerias(tbc, ss, yuns, prefix);
 						if(StringUtils.hasText(ss)) {
 							serias += "," + ssSQL + tji;
-							this.addSerias(tbc.getName(), ss);
+							this.addSerias(tbc, ss);//tbc.getName()
 							tji++;
 						}
 					}
@@ -192,7 +194,7 @@ public class Chart {
 			this.setSeriasSQL(serias.substring(1));
 		} else {
 			this.setSeriasSQL(getOneSerias(tbc, serias, yuns, prefix)+"0");
-			this.addSerias(tbc.getName(), serias);
+			this.addSerias(tbc, serias);
 		}
 		return this;
 	}
@@ -213,10 +215,11 @@ public class Chart {
 			if(serias_type=="") {
 				return null;
 			}
-			IFieldDao fdao = getFieldDao();
-			if(fdao!=null) {
-				fld = fdao.findFirstByTbid(tbc.getModel().getId(), MgrConstants.NONE, "fldname", serias);
-			}
+//			IFieldDao fdao = getFieldDao();
+//			if(fdao!=null) {
+//				fld = fdao.findFirstByTbid(tbc.getModel().getId(), MgrConstants.NONE, fldname, serias);
+//			}
+			fld = tbc.getField(serias);
 		}
 		if(fld!=null && fld.getIskey().equals("Y")) {
 			yuns = "COUNT";
@@ -244,4 +247,12 @@ public class Chart {
 	public void setSqlParas(Object[] sqlParas) {
 		this.sqlParas = sqlParas;
 	}
+
+//	public String getFldname() {
+//		return fldname;
+//	}
+//
+//	public void setFldname(String fldname) {
+//		this.fldname = fldname;
+//	}
 }
