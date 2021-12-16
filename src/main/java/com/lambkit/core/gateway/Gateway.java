@@ -35,6 +35,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
@@ -81,6 +82,8 @@ public class Gateway {
 	protected boolean doHandleRedirects = false;
 	protected int connectTimeout = 3000;
 	protected int readTimeout = 3000;
+	//保持长连接
+	protected boolean doKeepAlive = false;
 
 	private HttpClient proxyClient;
 	
@@ -97,6 +100,7 @@ public class Gateway {
 		this.doHandleRedirects = config.isHandleRedirects();
 		this.connectTimeout = config.getConnectTimeout();
 		this.readTimeout = config.getReadTimeout();
+		this.doKeepAlive = config.isKeepAlive();
 		proxyClient = createHttpClient(buildRequestConfig());
 	}
 	
@@ -136,7 +140,11 @@ public class Gateway {
 	}
 
 	protected HttpClient createHttpClient(final RequestConfig requestConfig) {
-		return HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();
+		HttpClientBuilder httpBuilder = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig);
+		if(doKeepAlive) {
+			httpBuilder.setKeepAliveStrategy(DefaultConnectionKeepAliveStrategy.INSTANCE);	
+		}
+		return httpBuilder.build();
 	}
 
 	protected HttpClient getProxyClient() {

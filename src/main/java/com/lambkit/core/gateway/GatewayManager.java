@@ -40,16 +40,16 @@ public class GatewayManager {
     }
     
 	private Map<String, GatewayConfig> gatewayConfigs = Maps.newHashMap();
-	private  Gateway gateway;
+//	private  Gateway gateway;
     
 	public GatewayManager() {
 		GatewayConfig config = ConfigManager.me().get(GatewayConfig.class, "lambkit.gateway");
 		config.setName(GatewayConfig.NAME_DEFAULT);
         if (config.isConfigOk()) {
         	gatewayConfigs.put(config.getName(), config);
-        	gateway = new Gateway(config);
+//        	gateway = new Gateway(config);
         } else {
-        	gateway = new Gateway();
+//        	gateway = new Gateway();
         }
 
         Properties prop = ConfigManager.me().getProperties();
@@ -98,11 +98,16 @@ public class GatewayManager {
     }
 
 	public Gateway getGateway() {
-		return gateway;
+		GatewayConfig config = getDefaultConfig();
+		if(config!=null) {
+			return new Gateway(config);
+        } else {
+        	return new Gateway();
+        }
 	}
-
-	public void setGateway(Gateway gateway) {
-		this.gateway = gateway;
-	}
+//
+//	public void setGateway(Gateway gateway) {
+//		this.gateway = gateway;
+//	}
 	
 }

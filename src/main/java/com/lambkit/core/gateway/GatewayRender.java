@@ -131,7 +131,8 @@ public class GatewayRender extends Render {
 	
 	protected void renderProxy() {
 		resetTargetUri(request);
-		GatewayManager.me().getGateway().service(targetUri, request, response);
+		Gateway gateWay = new Gateway();
+		gateWay.service(targetUri, request, response);
 		//gateway.service(targetUri, request, response);
 		//gateway.destroy();
 	}
@@ -144,7 +145,8 @@ public class GatewayRender extends Render {
 	
 	protected void renderResponse() {
 		resetTargetUri(request);
-		GatewayManager.me().getGateway().service(targetUri, httpResponse, request, response);
+		Gateway gateWay = new Gateway();
+		gateWay.service(targetUri, httpResponse, request, response);
 		//gateway.service(targetUri, httpResponse, request, response);
 	}
 

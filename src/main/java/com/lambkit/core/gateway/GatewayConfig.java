@@ -33,6 +33,7 @@ public class GatewayConfig {
 	private boolean handleRedirects = false;
 	private int connectTimeout = 3000;
 	private int readTimeout = 3000;
+	private boolean keepAlive = false;
 
 	// These next 3 are cached here, and should only be referred to in
 	// initialization logic. See the
@@ -130,5 +131,13 @@ public class GatewayConfig {
 
 	public void setUrlpattern(String urlpattern) {
 		this.urlpattern = urlpattern;
+	}
+
+	public boolean isKeepAlive() {
+		return keepAlive;
+	}
+
+	public void setKeepAlive(boolean keepAlive) {
+		this.keepAlive = keepAlive;
 	}
 }
