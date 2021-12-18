@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.dialect.Dialect;
+import com.lambkit.db.dialect.LambkitDialect;
 
 public class TableMeta implements Serializable {
 
@@ -37,6 +39,8 @@ public class TableMeta implements Serializable {
 	public int colTypeMaxLen = "Type".length(); // 字段类型最大宽度，用于辅助生成字典文件样式
 	public int colDefaultValueMaxLen = "Default".length(); // 字段默认值最大宽度，用于辅助生成字典文件样式
 	
+	private Dialect dialect;
+	
 	public boolean isPrimaryKey(String name) {
 		if (StrKit.isBlank(primaryKey)) {
 			return false;
@@ -51,6 +55,15 @@ public class TableMeta implements Serializable {
 
 	public void addColumnMeta(ColumnMeta column) {
 		columnMetas.add(column);
+	}
+	
+	public ColumnMeta getColumn(String column) {
+		for (ColumnMeta columnMeta : columnMetas) {
+			if(columnMeta.getName().equals(column)) {
+				return columnMeta;
+			}
+		}
+		return null;
 	}
 
 	public String getName() {
@@ -131,5 +144,13 @@ public class TableMeta implements Serializable {
 
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
+	}
+
+	public Dialect getDialect() {
+		return dialect;
+	}
+
+	public void setDialect(Dialect dialect) {
+		this.dialect = dialect;
 	}
 }

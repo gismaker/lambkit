@@ -127,6 +127,7 @@ public class MetaBuilder {
 			for (TableMeta tableMeta : ret.values()) {
 				buildPrimaryKey(tableMeta);
 				buildColumnMetas(tableMeta);
+				tableMeta.setDialect(dialect);
 			}
 			return ret;
 		}

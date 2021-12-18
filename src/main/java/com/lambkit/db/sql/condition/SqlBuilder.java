@@ -50,19 +50,19 @@ public class SqlBuilder {
 		return this;
 	}
 	
-	public SqlBuilder appendSelect(MgrTable tbc, LambkitDialect dialect) {
-		strBuilder.append("select ");
-		tbc.setDialect(dialect);
-		strBuilder.append(MgrdbManager.me().getService().getSelectNamesOfView(tbc, ""));
-		return this;
-	}
-	
-	public SqlBuilder appendSelect(MgrTable tbc, String alis, LambkitDialect dialect) {
-		strBuilder.append("select ");
-		tbc.setDialect(dialect);
-		strBuilder.append(MgrdbManager.me().getService().getSelectNamesOfView(tbc, alis));
-		return this;
-	}
+//	public SqlBuilder appendSelect(MgrTable tbc, LambkitDialect dialect) {
+//		strBuilder.append("select ");
+//		tbc.setDialect(dialect);
+//		strBuilder.append(MgrdbManager.me().getService().getSelectNamesOfView(tbc, ""));
+//		return this;
+//	}
+//	
+//	public SqlBuilder appendSelect(MgrTable tbc, String alis, LambkitDialect dialect) {
+//		strBuilder.append("select ");
+//		tbc.setDialect(dialect);
+//		strBuilder.append(MgrdbManager.me().getService().getSelectNamesOfView(tbc, alis));
+//		return this;
+//	}
 	
 	public SqlBuilder appendSelect(MgrTable tbc, String alis) {
 		strBuilder.append("select ");

@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.jfinal.kit.StrKit;
+import com.lambkit.db.dialect.LambkitDialect;
+import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.sql.condition.ConditionGroup;
 
 public class ConditionGroup {
@@ -36,6 +38,13 @@ public class ConditionGroup {
 	public ConditionGroup build(String alias) {
 		this.conditons.build(alias);
 		return this;
+	}
+	
+	public void setDialect(LambkitDialect dialect) {
+		conditons.setDialect(dialect);
+	}
+	public void setTableMeta(TableMeta tableMeta) {
+		conditons.setTableMeta(tableMeta);
 	}
 	
 	public boolean hasSql() {

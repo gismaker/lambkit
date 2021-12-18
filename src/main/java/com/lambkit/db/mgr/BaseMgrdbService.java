@@ -129,11 +129,11 @@ public abstract class BaseMgrdbService implements MgrdbService {
 		return null;
 	}
 	
-	public MgrTable createTableWithoutModel(String tableName, int type) {
+	public MgrTable createTableWithoutModel(String configName, String tableName, int type) {
 		MgrTable mtb = new MgrTable();
 		MgrdbConfig config = ConfigManager.me().get(MgrdbConfig.class);
 		String prefix = config.getTableRemovePrefixes();
-		mtb.setMeta(MetaKit.createTable(null, tableName, prefix));
+		mtb.setMeta(MetaKit.createTable(configName, tableName, prefix));
 		mtb.setName(tableName);
 		return mtb;
 	}

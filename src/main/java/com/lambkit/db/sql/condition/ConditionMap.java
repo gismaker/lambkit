@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jfinal.kit.StrKit;
+import com.lambkit.db.dialect.LambkitDialect;
+import com.lambkit.db.meta.TableMeta;
 import com.lambkit.db.sql.condition.Condition;
 import com.lambkit.db.sql.condition.Conditions;
 
@@ -68,6 +70,14 @@ public class ConditionMap {
         conditions.buildCondition(alias, fieldNames, valueMap);
         //System.out.println(conditions.getSql());
         //System.out.println(conditions.getParamList());
+	}
+	
+	public void setDialect(LambkitDialect dialect) {
+		conditions.setDialect(dialect);
+	}
+	
+	public void setTableMeta(TableMeta tableMeta) {
+		conditions.setTableMeta(tableMeta);
 	}
 	
 	public boolean hasSql() {

@@ -44,7 +44,7 @@ public interface MgrdbService {
 	MgrTable createTable(ITable tb, int type, String orderby);
 	
 	MgrTable createTableWithoutMeta(String tableName, int type, String orderby);
-	MgrTable createTableWithoutModel(String tableName, int type);
+	MgrTable createTableWithoutModel(String configName, String tableName, int type);
 	
 	/**
 	 * 使用别名获取MgrTable

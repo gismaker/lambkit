@@ -66,7 +66,8 @@ public class DatabaseGenerator extends Generator {
 			templateModel.put("primaryKey", tableMeta.getPrimaryKey());
 			templateModel.put("title", tableMeta.getTitle());
 			if(hasMgrTable) {
-				MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutMeta(tableName, MgrConstants.ALL, null);
+				String configName = options.containsKey("configName") ? options.get("configName").toString() : null;
+				MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutModel(configName, tableName, MgrConstants.ALL);
 				templateModel.put("model", mgrtb);
 				templateModel.put("title", mgrtb.getModel().getTitle());
 			}

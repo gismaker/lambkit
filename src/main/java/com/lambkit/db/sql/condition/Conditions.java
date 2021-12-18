@@ -19,9 +19,13 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.dialect.PostgreSqlDialect;
 import com.lambkit.common.util.CommonUtils;
 import com.lambkit.common.util.ModelUtils;
 import com.lambkit.common.util.StringUtils;
+import com.lambkit.db.dialect.LambkitDialect;
+import com.lambkit.db.meta.ColumnMeta;
+import com.lambkit.db.meta.TableMeta;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -114,6 +118,9 @@ public class Conditions {
 	// 用于存放需要排除的字段
 	private ThreadLocal<Map<String, String>> excludeFieldMap = new ThreadLocal<Map<String, String>>();
 
+	private LambkitDialect dialect = null;
+	private TableMeta tableMeta = null;
+
 	// 构造方法(表示没有设置查询类型的字段全部按照等于来处理)
 	public Conditions() {
 		colvaluesMap.set(new HashMap<String, Object>());
@@ -139,10 +146,8 @@ public class Conditions {
 	/***************************************************************************
 	 * 设置字段的查询类型
 	 *
-	 * @param QueryType
-	 *            查询类型
-	 * @param filedName
-	 *            字段名称数组
+	 * @param QueryType 查询类型
+	 * @param filedName 字段名称数组
 	 */
 	public Conditions setFiledQuery(String QueryType, String... filedName) {
 		// if (StringUtils.isNotBlank(QueryType) &&
@@ -208,12 +213,9 @@ public class Conditions {
 	 * <b>传值查询</b><br>
 	 * 注：如果QueryType为<b>in</b>或者<b>not in</b>那么filedValue必须为一个list对象
 	 *
-	 * @param QueryType
-	 *            查询类型
-	 * @param fieldName
-	 *            字段名称
-	 * @param filedValue
-	 *            字段值
+	 * @param QueryType  查询类型
+	 * @param fieldName  字段名称
+	 * @param filedValue 字段值
 	 */
 	public Conditions setValueQuery(String QueryType, String fieldName, Object filedValue) {
 		if (StringUtils.notBlank(QueryType) && StringUtils.notBlank(fieldName)
@@ -235,15 +237,14 @@ public class Conditions {
 	 * @TODO
 	 * @return
 	 * 
-	 * 		public Conditions buildSQL(HashMap<String,Object> val){ //@TODO
-	 *         // buildCondition("", val.keySet().toArray(new
-	 *         String[val.size()]), val); return this; }
+	 *         public Conditions buildSQL(HashMap<String,Object> val){ //@TODO //
+	 *         buildCondition("", val.keySet().toArray(new String[val.size()]),
+	 *         val); return this; }
 	 */
 	/***************************************************************************
 	 * 用于生成SQL条件语句不带别名
 	 *
-	 * @param modelClass
-	 *            必须继承于Model
+	 * @param modelClass 必须继承于Model
 	 */
 	public void modelToCondition(Model<?> modelClass) {
 		modelToCondition(modelClass, null, true);
@@ -252,8 +253,7 @@ public class Conditions {
 	/***************************************************************************
 	 * 用于生成SQL条件语句不带别名
 	 *
-	 * @param recordClass
-	 *            必须是一个Record类
+	 * @param recordClass 必须是一个Record类
 	 */
 	public void recordToCondition(Record recordClass) {
 		recordToCondition(recordClass, null, true);
@@ -262,13 +262,10 @@ public class Conditions {
 	/***************************************************************************
 	 * 用于生成SQL条件语句带别名 生成时以modelClass对象中的非空非null字段为准
 	 * 
-	 * @param modelClass
-	 *            必须继承于Model
-	 * @param alias
-	 *            别名 默认可以为[null or ""]
-	 * @param isAll
-	 *            是否需要以Modelclass中的属性和值为准，默认为true <br>
-	 *            [true 使用conditionMap过滤，false 只用excludeFieldMap 过滤]
+	 * @param modelClass 必须继承于Model
+	 * @param alias      别名 默认可以为[null or ""]
+	 * @param isAll      是否需要以Modelclass中的属性和值为准，默认为true <br>
+	 *                   [true 使用conditionMap过滤，false 只用excludeFieldMap 过滤]
 	 */
 	public void modelToCondition(Model<?> modelClass, String alias, boolean isAll) {
 		alias = StringUtils.notBlank(alias) ? alias + "." : "";
@@ -294,13 +291,10 @@ public class Conditions {
 	/***************************************************************************
 	 * 用于生成SQL条件语句不带别名
 	 *
-	 * @param recordClass
-	 *            必须是一个Record类
-	 * @param alias
-	 *            别名 默认可以为[null or ""]
-	 * @param isAll
-	 *            是否需要以Modelclass中的属性和值为准，默认为true <br>
-	 *            [true 使用conditionMap过滤，false 只用excludeFieldMap 过滤]
+	 * @param recordClass 必须是一个Record类
+	 * @param alias       别名 默认可以为[null or ""]
+	 * @param isAll       是否需要以Modelclass中的属性和值为准，默认为true <br>
+	 *                    [true 使用conditionMap过滤，false 只用excludeFieldMap 过滤]
 	 */
 	public void recordToCondition(Record recordClass, String alias, boolean isAll) {
 		// 别名
@@ -329,12 +323,9 @@ public class Conditions {
 	/***************************************************************************
 	 * 构建条件语句
 	 *
-	 * @param alias
-	 *            别名
-	 * @param fieldNames
-	 *            所有查询的字段名称
-	 * @param valueMap
-	 *            所有的值的map
+	 * @param alias      别名
+	 * @param fieldNames 所有查询的字段名称
+	 * @param valueMap   所有的值的map
 	 */
 	public void buildCondition(String alias, List<String> fieldNames, Map<String, Object> valueMap) {
 		try {
@@ -410,16 +401,11 @@ public class Conditions {
 	/***************************************************************************
 	 * 构建SQL语句
 	 *
-	 * @param sb
-	 *            用于拼接SQL语句
-	 * @param queryType
-	 *            查询类型
-	 * @param fieldName
-	 *            字段名称
-	 * @param fieldValue
-	 *            字段值
-	 * @param alias
-	 *            别名
+	 * @param sb         用于拼接SQL语句
+	 * @param queryType  查询类型
+	 * @param fieldName  字段名称
+	 * @param fieldValue 字段值
+	 * @param alias      别名
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
@@ -446,28 +432,36 @@ public class Conditions {
 				sb.append(" and " + alias + fieldName + " >= ? ");
 				params.add(fieldValue);
 			} else if (FUZZY.equals(queryType)) {
-				sb.append(" and " + alias + fieldName + " like ? ");
+				String tempName = transName(fieldName, alias);
+				sb.append(" and " + tempName + " like ? ");
 				params.add("%" + fieldValue + "%");
 			} else if (FUZZY_MID.equals(queryType)) {
-				sb.append(" and " + alias + fieldName + " like ? ");
+				String tempName = transName(fieldName, alias);
+				sb.append(" and " + tempName + " like ? ");
 				params.add(fieldValue);
 			} else if (FUZZY_LEFT.equals(queryType)) {
-				sb.append(" and " + alias + fieldName + " like ? ");
+				String tempName = transName(fieldName, alias);
+				sb.append(" and " + tempName + " like ? ");
 				params.add("%" + fieldValue);
 			} else if (FUZZY_RIGHT.equals(queryType)) {
-				sb.append(" and " + alias + fieldName + " like ? ");
+				String tempName = transName(fieldName, alias);
+				sb.append(" and " + tempName + " like ? ");
 				params.add(fieldValue + "%");
 			} else if (NOT_FUZZY.equals(queryType)) {
-				sb.append(" and " + alias + fieldName + " not like ? ");
+				String tempName = transName(fieldName, alias);
+				sb.append(" and " + tempName + " not like ? ");
 				params.add("%" + fieldValue + "%");
 			} else if (NOT_FUZZY_MID.equals(queryType)) {
-				sb.append(" and " + alias + fieldName + " not like ? ");
+				String tempName = transName(fieldName, alias);
+				sb.append(" and " + tempName + " not like ? ");
 				params.add(fieldValue);
 			} else if (NOT_FUZZY_LEFT.equals(queryType)) {
-				sb.append(" and " + alias + fieldName + " not like ? ");
+				String tempName = transName(fieldName, alias);
+				sb.append(" and " + tempName + " not like ? ");
 				params.add("%" + fieldValue);
 			} else if (NOT_FUZZY_RIGHT.equals(queryType)) {
-				sb.append(" and " + alias + fieldName + " not like ? ");
+				String tempName = transName(fieldName, alias);
+				sb.append(" and " + tempName + " not like ? ");
 				params.add(fieldValue + "%");
 			} else if (IN.equals(queryType)) {
 				try {
@@ -532,6 +526,21 @@ public class Conditions {
 		}
 	}
 
+	public String transName(String fieldName, String alias) {
+		String tempName = alias + fieldName;
+		System.out.println("Conditions---------------------" + tempName);
+		if (dialect != null && tableMeta != null) {
+			ColumnMeta column = tableMeta.getColumn(fieldName);
+			System.out.println("Conditions---------------------" + column.getType());
+			if (column.getType().contains("time")) {
+				if (dialect instanceof PostgreSqlDialect) {
+					tempName = "to_char(" + alias + fieldName + ", 'yyyy-mm-dd hh24:mi:ss')";
+				}
+			}
+		}
+		return tempName;
+	}
+
 	public boolean hasSql() {
 		if (StrKit.notBlank(getSql()) && getParamList().size() > 0) {
 			return true;
@@ -557,5 +566,21 @@ public class Conditions {
 
 	public void setSelector(String selector) {
 		selectorsql.set(selector);
+	}
+
+	public LambkitDialect getDialect() {
+		return dialect;
+	}
+
+	public void setDialect(LambkitDialect dialect) {
+		this.dialect = dialect;
+	}
+
+	public TableMeta getTableMeta() {
+		return tableMeta;
+	}
+
+	public void setTableMeta(TableMeta tableMeta) {
+		this.tableMeta = tableMeta;
 	}
 }

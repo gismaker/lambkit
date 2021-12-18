@@ -951,6 +951,8 @@ public abstract class LambkitController extends Controller {
 	
 	protected ConditionBuilder getConditionsSQL(MgrTable tbc) {
 		ConditionBuilder builder = new ConditionBuilder();
+		builder.setDialect(tbc.getDialect());
+		builder.setTableMeta(tbc.getMeta());
 		//ConditonsParam sqlParam = new ConditonsParam(new Conditions());
 		List<? extends IField> flds = tbc.getFieldList();
 		for(int i=0; i<flds.size(); i++) {
@@ -967,6 +969,7 @@ public abstract class LambkitController extends Controller {
 	
 	protected ConditionBuilder getConditionsSQL(TableMeta tbc) {
 		ConditionBuilder builder = new ConditionBuilder();
+		builder.setTableMeta(tbc);
 		//ConditonsParam sqlParam = new ConditonsParam(new Conditions());
 		List<ColumnMeta> flds = tbc.getColumnMetas();
 		for(int i=0; i<flds.size(); i++) {

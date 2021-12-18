@@ -33,7 +33,6 @@ public class MgrTable {
 	private ITable model;
 	private TableMeta meta;
 	private List<? extends IField> fieldList;
-	private LambkitDialect dialect;
 	
 	public DbPro db() {
 		return Db.use();
@@ -106,12 +105,12 @@ public class MgrTable {
 	}
 
 	public LambkitDialect getDialect() {
-		return dialect;
+		return (LambkitDialect) meta.getDialect();
 	}
 
-	public void setDialect(LambkitDialect dialect) {
-		this.dialect = dialect;
-	}
+//	public void setDialect(LambkitDialect dialect) {
+//		this.dialect = dialect;
+//	}
 	
 	public boolean hasColumn(String fldName) {
 		if(StrKit.isBlank(fldName)) return false;
@@ -150,6 +149,6 @@ public class MgrTable {
 	
 	protected String sql4FindById(Object id) {
 		String pkname = getPrimaryKey();
-		return dialect.forFindByColumns(getName(), getLoadColumns(""), Columns.create(pkname, id).getList(), "", null);
+		return getDialect().forFindByColumns(getName(), getLoadColumns(""), Columns.create(pkname, id).getList(), "", null);
 	} 
 }

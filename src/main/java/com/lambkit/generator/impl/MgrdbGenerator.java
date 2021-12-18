@@ -51,7 +51,7 @@ public class MgrdbGenerator extends DatabaseGenerator {
 						tableName.equals("sys_tableconfig") || 
 						tableName.equals("sys_fieldconfig")) return; 
 			}
-			MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutModel(tb.getName(), MgrConstants.ALL);
+			MgrTable mgrtb = MgrdbManager.me().getService().createTable(tb.getName(), MgrConstants.ALL);
 			templateModel.put("model", tb); 
 			templateModel.put("table", mgrtb.getMeta());
 			templateModel.put("modelName", mgrtb.getMeta().getModelName());
