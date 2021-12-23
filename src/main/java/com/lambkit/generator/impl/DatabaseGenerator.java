@@ -74,7 +74,7 @@ public class DatabaseGenerator extends Generator {
 					String configName = options.containsKey("configName") ? options.get("configName").toString() : null;
 					MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutModel(configName, tableName, MgrConstants.ALL);
 					templateModel.put("model", mgrtb);
-					templateModel.put("title", mgrtb.getModel().getTitle());
+					if(mgrtb!=null && mgrtb.getModel()!=null) templateModel.put("title", mgrtb.getModel().getTitle());
 				}
 				context.generate(templateModel, templatePath);
 			}
@@ -101,7 +101,7 @@ public class DatabaseGenerator extends Generator {
 					String configName = options.containsKey("configName") ? options.get("configName").toString() : null;
 					MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutModel(configName, tableName, MgrConstants.ALL);
 					table.put("model", mgrtb);
-					table.put("title", mgrtb.getModel().getTitle());
+					if(mgrtb!=null && mgrtb.getModel()!=null) table.put("title", mgrtb.getModel().getTitle());
 				}
 				tables.add(table);
 			}
