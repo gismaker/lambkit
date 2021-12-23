@@ -140,6 +140,4 @@ public class LambkitResult {
 		this.codetable.add(codeInfo);
 		return this;
 	}
-	
-
 }

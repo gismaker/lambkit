@@ -44,6 +44,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.message.HeaderGroup;
 import org.apache.http.util.EntityUtils;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.lambkit.Lambkit;
 import com.lambkit.common.exception.LambkitException;
@@ -232,6 +233,31 @@ public class Gateway {
 		StringBuffer server_url = new StringBuffer(targetUri);
         HttpGet httpGet = new HttpGet(server_url.toString());
         httpGet.setURI(URI.create(targetUri + "?" + param));
+        //System.out.println("http get: " + httpGet.getURI().toURL().toString());
+		return proxyClient.execute(httpGet);
+	} 
+	
+	public HttpResponse httpGet(String targetUri) throws ClientProtocolException, IOException {
+		StringBuffer server_url = new StringBuffer(targetUri);
+        HttpGet httpGet = new HttpGet(server_url.toString());
+        httpGet.setURI(URI.create(targetUri));
+        //System.out.println("http get: " + httpGet.getURI().toURL().toString());
+		return proxyClient.execute(httpGet);
+	} 
+	
+	public HttpResponse httpGet(String targetUri, String params, Map<String, String> header) throws ClientProtocolException, IOException {
+		StringBuffer server_url = new StringBuffer(targetUri);
+        HttpGet httpGet = new HttpGet(server_url.toString());
+        if(StrKit.notBlank(params)) {
+        	httpGet.setURI(URI.create(targetUri + "?" + params));
+        } else {
+        	httpGet.setURI(URI.create(targetUri));
+        }
+        if(header!=null) {
+        	for (String key : header.keySet()) {
+        		httpGet.addHeader(key, header.get(key));
+			}
+        }
         //System.out.println("http get: " + httpGet.getURI().toURL().toString());
 		return proxyClient.execute(httpGet);
 	} 

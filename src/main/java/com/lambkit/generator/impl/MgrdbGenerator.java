@@ -15,6 +15,8 @@
  */
 package com.lambkit.generator.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,30 +42,59 @@ public class MgrdbGenerator extends DatabaseGenerator {
 		List<? extends ITable> tables =  MgrdbManager.me().getService().getTableDao().findByWhere(where);
 		if(tables==null) return;
 		Map<String, Object> templateModel = context.createTemplateModel();
-		templateModel.put("tables", tables);
 		templateModel.putAll(options);
 		boolean genMgrTable = true;
 		if(options.containsKey("genMgrTable") && options.get("genMgrTable").equals("false")) genMgrTable = false;
-		for(ITable tb : tables) {
-			String tableName = tb.getName();
-			if(!genMgrTable) {
-				if(tableName.startsWith("meta_") ||
-						tableName.equals("sys_tableconfig") || 
-						tableName.equals("sys_fieldconfig")) return; 
+		boolean eachTable = options.containsKey("eachTable") && options.get("eachTable").toString().equals("false") ? false : true;
+		if(eachTable) {
+			templateModel.put("tables", tables);
+			for(ITable tb : tables) {
+				String tableName = tb.getName();
+				if(!genMgrTable) {
+					if(tableName.startsWith("meta_") ||
+							tableName.equals("sys_tableconfig") || 
+							tableName.equals("sys_fieldconfig")) return; 
+				}
+				MgrTable mgrtb = MgrdbManager.me().getService().createTable(tb.getName(), MgrConstants.ALL);
+				templateModel.put("model", tb); 
+				templateModel.put("table", mgrtb.getMeta());
+				templateModel.put("modelName", mgrtb.getMeta().getModelName());
+				templateModel.put("classname", mgrtb.getMeta().getModelName());
+				templateModel.put("attrName", mgrtb.getMeta().getAttrName());
+				templateModel.put("columns", mgrtb.getMeta().getColumnMetas());
+				templateModel.put("tableName", mgrtb.getMeta().getName());
+				templateModel.put("tablename", mgrtb.getMeta().getName());
+				templateModel.put("primaryKey", mgrtb.getMeta().getPrimaryKey());
+				templateModel.put("title", tb.getTitle());
+				context.generate(templateModel, templatePath);
 			}
-			MgrTable mgrtb = MgrdbManager.me().getService().createTable(tb.getName(), MgrConstants.ALL);
-			templateModel.put("model", tb); 
-			templateModel.put("table", mgrtb.getMeta());
-			templateModel.put("modelName", mgrtb.getMeta().getModelName());
-			templateModel.put("classname", mgrtb.getMeta().getModelName());
-			templateModel.put("attrName", mgrtb.getMeta().getAttrName());
-			templateModel.put("columns", mgrtb.getMeta().getColumnMetas());
-			templateModel.put("tableName", mgrtb.getMeta().getName());
-			templateModel.put("tablename", mgrtb.getMeta().getName());
-			templateModel.put("primaryKey", mgrtb.getMeta().getPrimaryKey());
-			templateModel.put("title", tb.getTitle());
+		} else {
+			List<Map<String, Object>> tablesList = new ArrayList<Map<String, Object>>();
+			for(ITable tb : tables) {
+				Map<String, Object> tableItem = new HashMap<String, Object>();
+				String tableName = tb.getName();
+				if(!genMgrTable) {
+					if(tableName.startsWith("meta_") ||
+							tableName.equals("sys_tableconfig") || 
+							tableName.equals("sys_fieldconfig")) return; 
+				}
+				MgrTable mgrtb = MgrdbManager.me().getService().createTable(tb.getName(), MgrConstants.ALL);
+				tableItem.put("model", tb); 
+				tableItem.put("table", mgrtb.getMeta());
+				tableItem.put("modelName", mgrtb.getMeta().getModelName());
+				tableItem.put("classname", mgrtb.getMeta().getModelName());
+				tableItem.put("attrName", mgrtb.getMeta().getAttrName());
+				tableItem.put("columns", mgrtb.getMeta().getColumnMetas());
+				tableItem.put("tableName", mgrtb.getMeta().getName());
+				tableItem.put("tablename", mgrtb.getMeta().getName());
+				tableItem.put("primaryKey", mgrtb.getMeta().getPrimaryKey());
+				tableItem.put("title", tb.getTitle());
+				tablesList.add(tableItem);
+			}
+			templateModel.put("tables", tablesList);
 			context.generate(templateModel, templatePath);
 		}
+		
 	}
 	
 	@Override
