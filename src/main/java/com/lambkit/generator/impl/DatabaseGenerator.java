@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jfinal.kit.Kv;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Config;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.lambkit.db.meta.MetaBuilder;
@@ -71,8 +72,7 @@ public class DatabaseGenerator extends Generator {
 				templateModel.put("primaryKey", tableMeta.getPrimaryKey());
 				templateModel.put("title", tableMeta.getTitle());
 				if(hasMgrTable) {
-					String configName = options.containsKey("configName") ? options.get("configName").toString() : null;
-					MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutModel(configName, tableName, MgrConstants.ALL);
+					MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutMeta(tableName, MgrConstants.ALL, null);
 					templateModel.put("model", mgrtb);
 					if(mgrtb!=null && mgrtb.getModel()!=null) templateModel.put("title", mgrtb.getModel().getTitle());
 				}
@@ -98,8 +98,7 @@ public class DatabaseGenerator extends Generator {
 				table.put("primaryKey", tableMeta.getPrimaryKey());
 				table.put("title", tableMeta.getTitle());
 				if(hasMgrTable) {
-					String configName = options.containsKey("configName") ? options.get("configName").toString() : null;
-					MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutModel(configName, tableName, MgrConstants.ALL);
+					MgrTable mgrtb = MgrdbManager.me().getService().createTableWithoutMeta(tableName, MgrConstants.ALL, null);
 					table.put("model", mgrtb);
 					if(mgrtb!=null && mgrtb.getModel()!=null) table.put("title", mgrtb.getModel().getTitle());
 				}
@@ -123,7 +122,8 @@ public class DatabaseGenerator extends Generator {
 	}
 	
 	public Map<String, TableMeta> getTableMetas(Map<String, Object> options) {
-		Config config = DbKit.getConfig();//StrKit.notBlank(configName) ? DbKit.getConfig(configName) : DbKit.getConfig();
+		String configName = options.containsKey("configName") ? options.get("configName").toString() : null;
+		Config config = StrKit.notBlank(configName) ? DbKit.getConfig(configName) : DbKit.getConfig();
 		MetaBuilder metaBuilder = new MetaBuilder(config.getDataSource());
 		metaBuilder.setDialect(config.getDialect());
 		if(options.containsKey("tableRemovePrefixes")) {
