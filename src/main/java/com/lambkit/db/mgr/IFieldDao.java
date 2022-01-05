@@ -39,6 +39,8 @@ public interface IFieldDao {
 	IField findFirstByTbid(Object tbid, String fld, Object value);
 	IField findFirstByTbid(Object tbid, int type, String fld, Object value);
 	
+	IField findFirstByTbidAndName(Object tbid, int type, String fldname);
+	
 	IField findGeomField(Object tbid, int type);
 	
 	IField getAddOrEditModel(Object id, int type);

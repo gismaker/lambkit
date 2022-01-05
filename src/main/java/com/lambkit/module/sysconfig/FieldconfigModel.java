@@ -101,6 +101,13 @@ public class FieldconfigModel extends Model<FieldconfigModel> implements IField,
 		return FieldconfigModel.dao.findFirst(sql, tbid, value);
 	} 
 	
+	@Override
+	public IField findFirstByTbidAndName(Object tbid, int type, String fldname) {
+		// TODO Auto-generated method stub
+		String sql = "select * from " + TABLE + " where fldtbid=? and fldname=?";
+		return FieldconfigModel.dao.findFirst(sql, tbid, fldname);
+	}
+	
 	public FieldconfigModel findGeomField(Object tbid, int type) {
 		String sql = "select * from " + TABLE + " where fldtbid=? and fldname like '%geom%' and datatype='Type'";
 		return FieldconfigModel.dao.findFirst(sql, tbid);
