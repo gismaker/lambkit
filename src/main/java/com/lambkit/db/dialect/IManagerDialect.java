@@ -20,6 +20,12 @@ import java.util.List;
 import com.lambkit.db.mgr.IField;
 
 public interface IManagerDialect {
+	
+	/**
+	 * 数据库version
+	 * @return
+	 */
+	String version();
 
 	String getCreateTableSQL(String tbname, List<? extends IField> tflv);
 

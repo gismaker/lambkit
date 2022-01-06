@@ -587,4 +587,10 @@ public class LambkitMysqlDialect extends MysqlDialect implements LambkitDialect,
 		}
 		return true;
 	}
+	
+	@Override
+	public String version() {
+		// TODO Auto-generated method stub
+		return "select version() as info;";
+	}
 }

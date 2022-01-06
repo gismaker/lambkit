@@ -657,4 +657,10 @@ public class LambkitPostgreSqlDialect extends PostgreSqlDialect implements Lambk
 		return fsql;
 	}
 
+	@Override
+	public String version() {
+		// TODO Auto-generated method stub
+		return "select version() as info;";
+	}
+
 }

@@ -29,6 +29,7 @@ import java.util.Set;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbPro;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.Lambkit;
 import com.lambkit.db.datasource.DataSourceConfig;
@@ -85,6 +86,42 @@ public class MgrDbPro {
 		}
 	}
 	*/
+	
+	//------------------------------------
+	// 数据库信息
+	//------------------------------------	
+	public List<Record> version() {
+		if(dbtool==null) return null;
+		String sql = getDialect() == null ? null : getDialect().version();
+		List<Record> records  = sql == null ? null : dbtool.find(sql);
+		return records ;
+	}
+	
+	public List<Object> query(String sql) {
+		if(dbtool==null) return null;
+		return dbtool.query(sql);
+	}
+	
+	public List<Record> find(String sql) {
+		if(dbtool==null) return null;
+		return dbtool.find(sql);
+	}
+	
+	public Page<Record> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect) {
+		if(dbtool==null) return null;
+		return dbtool.paginate(pageNumber, pageSize, select, sqlExceptSelect);
+	}
+	
+	public int update(String sql) {
+		if(dbtool==null) return -1;
+		return dbtool.update(sql);
+	}
+	
+	public int delete(String sql) {
+		if(dbtool==null) return -1;
+		return dbtool.delete(sql);
+	}
+		
 	//------------------------------------
 	// 查询数据库
 	//------------------------------------	

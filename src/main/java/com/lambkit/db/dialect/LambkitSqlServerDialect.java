@@ -655,5 +655,17 @@ public class LambkitSqlServerDialect extends SqlServerDialect implements Lambkit
 		}
 		return true;
 	}
+	
+	@Override
+	public String version() {
+		// TODO Auto-generated method stub
+		StringBuilder strb = new StringBuilder("SELECT ");
+		strb.append("SERVERPROPERTY('servername') AS name,");//实例名
+		strb.append("SERVERPROPERTY('ProductVersion') AS version,");//实例版本
+		strb.append("SERVERPROPERTY('Edition') AS edition,");//产品版本
+		strb.append("SERVERPROPERTY('ProductLevel') AS level, ");//版本级别
+		strb.append("@@VERSION AS info");//版本信息
+		return strb.toString();
+	}
 
 }

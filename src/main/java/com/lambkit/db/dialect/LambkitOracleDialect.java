@@ -654,4 +654,10 @@ public class LambkitOracleDialect extends OracleDialect implements LambkitDialec
 		return true;
 	}
 
+	@Override
+	public String version() {
+		// TODO Auto-generated method stub
+		return "SELECT * FROM PRODUCT_COMPONENT_VERSION;";
+	}
+
 }

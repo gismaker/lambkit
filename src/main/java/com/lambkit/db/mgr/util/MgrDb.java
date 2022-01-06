@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.jfinal.kit.SyncWriteMap;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.lambkit.db.dialect.IManagerDialect;
 import com.lambkit.db.mgr.IField;
@@ -31,24 +33,55 @@ import com.lambkit.db.mgr.IField;
  */
 public class MgrDb {
 	
-	private final static MgrDb me = new MgrDb();
+	private static MgrDbPro pro = null;
+	private static final Map<String, MgrDbPro> map = new SyncWriteMap<String, MgrDbPro>(32, 0.25F);
 	
-	private MgrDbPro pro;
 	
-	public MgrDb() {
-		pro = new MgrDbPro();
-	}
-	
-	public static MgrDb use() {
-		return me;
+	public static MgrDbPro use() {
+		if(pro==null) {
+			pro = new MgrDbPro();
+		}
+		return pro;
 	}
 	
 	public static MgrDbPro use(String configName) {
-		return new MgrDbPro(configName);
+		MgrDbPro result = map.get(configName);
+		if(result==null) {
+			result = new MgrDbPro(configName);
+			map.put(configName, result);
+		}
+		return result;
 	}
 	
 	public IManagerDialect getDialect() {
 		return pro.getDialect();
+	}
+	
+	//------------------------------------
+	// 数据库信息
+	//------------------------------------	
+	public List<Record> version() {
+		return pro.version();
+	}
+	
+	public List<Object> query(String sql) {
+		return pro.query(sql);
+	}
+	
+	public List<Record> find(String sql) {
+		return pro.find(sql);
+	}
+	
+	public Page<Record> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect) {
+		return pro.paginate(pageNumber, pageSize, select, sqlExceptSelect);
+	}
+	
+	public int update(String sql) {
+		return pro.update(sql);
+	}
+	
+	public int delete(String sql) {
+		return pro.delete(sql);
 	}
 	//------------------------------------
 	// 查询数据库
