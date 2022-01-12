@@ -44,6 +44,14 @@ public class ParameterRequestWrapper extends HttpSessionServletRequestWrapper {
     public Enumeration<String> getParameterNames() {
         return new Vector(params.keySet()).elements();
     }
+    
+    @Override
+    public Map<String, String[]> getParameterMap() {
+    	// TODO Auto-generated method stub
+    	Map<String, String[]> map = super.getParameterMap();
+    	map.putAll(params);
+    	return map;
+    }
 
     /**
      * 重写getParameter方法
