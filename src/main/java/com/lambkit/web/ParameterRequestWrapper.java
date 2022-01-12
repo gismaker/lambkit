@@ -48,9 +48,9 @@ public class ParameterRequestWrapper extends HttpSessionServletRequestWrapper {
     @Override
     public Map<String, String[]> getParameterMap() {
     	// TODO Auto-generated method stub
-    	Map<String, String[]> map = super.getParameterMap();
-    	map.putAll(params);
-    	return map;
+//    	Map<String, String[]> map = super.getParameterMap();
+//    	map.putAll(params);
+    	return params;
     }
 
     /**
