@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.jfinal.core.Controller;
 import com.lambkit.common.LambkitResult;
-import com.lambkit.plugin.auth.IUser;
 
 public interface AuthService {
 	
@@ -35,9 +34,7 @@ public interface AuthService {
 	 * 登录
 	 * @param c
 	 */
-	LambkitResult login(HttpServletRequest request);
 	LambkitResult login(Controller controller);
-	LambkitResult login(HttpServletRequest request, String username, String password, boolean rememberMe);
 	/**
 	 * client无密认证
 	 * @param username
