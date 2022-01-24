@@ -32,6 +32,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.jfinal.kit.JsonKit;
 
 /**
  * 
@@ -39,6 +40,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  */
 public class JsonUtils {
 
+	/*
 	public static final ObjectMapper JSON_MAPPER = newObjectMapper();
 
 	private static ObjectMapper newObjectMapper() {
@@ -56,13 +58,15 @@ public class JsonUtils {
 	public static ObjectMapper getObjectMapper() {
 		return JSON_MAPPER;
 	}
+	*/
 
 	public static String writeValueAsString(Object value) {
-		try {
-			return value == null ? null : JSON_MAPPER.writeValueAsString(value);
-		} catch (IOException e) {
-			throw new IllegalArgumentException(e); // TIP: 原则上，不对异常包装，这里为什么要包装？因为正常情况不会发生IOException
-		}
+		return JsonKit.toJson(value);
+//		try {
+//			return value == null ? null : JSON_MAPPER.writeValueAsString(value);
+//		} catch (IOException e) {
+//			throw new IllegalArgumentException(e); // TIP: 原则上，不对异常包装，这里为什么要包装？因为正常情况不会发生IOException
+//		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -73,13 +77,15 @@ public class JsonUtils {
 	public static <T> T convertValue(Object value, Class<T> clazz) throws IllegalArgumentException {
 		if (StringUtils.isNullOrEmpty(value))
 			return null;
-		try {
-			if (value instanceof String)
-				value = JSON_MAPPER.readTree((String) value);
-			return JSON_MAPPER.convertValue(value, clazz);
-		} catch (IOException e) {
-			throw new IllegalArgumentException(e);
-		}
+		String jsonString = JsonKit.toJson(value);
+		return JsonKit.parse(jsonString, clazz);
+//		try {
+//			if (value instanceof String)
+//				value = JSON_MAPPER.readTree((String) value);
+//			return JSON_MAPPER.convertValue(value, clazz);
+//		} catch (IOException e) {
+//			throw new IllegalArgumentException(e);
+//		}
 	}
 	
 	/**
