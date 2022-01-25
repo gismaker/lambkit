@@ -578,6 +578,16 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
         return find(sql);
     }
     
+    public List<M> findAll(String orderBy) {
+        String sql = dialect().forFindByColumns(tableName(), "*", null, orderBy, null);
+        return find(sql);
+    }
+    
+    public List<M> findAll(String loadColumns, String orderBy) {
+        String sql = dialect().forFindByColumns(tableName(), loadColumns, null, orderBy, null);
+        return find(sql);
+    }
+    
 
     /**
      * 根据列名和值 查询一个列表
