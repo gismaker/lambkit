@@ -59,7 +59,7 @@ public class LambkitModel<M extends LambkitModel<M>> extends Model<M> implements
     /**
      * 是否启用自动缓存
      */
-    private boolean cacheEnable = true;
+    private boolean cacheEnable = false;
     private transient int cacheTime = 60 * 60 * 24; // 1day
 
     /**

@@ -297,11 +297,8 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.79</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.13.1</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>com.fasterxml.jackson.core</groupId> <artifactId>jackson-databind</artifactId> 
+			<version>2.13.1</version> </dependency> -->
 		<dependency>
 			<groupId>de.ruedigermoeller</groupId>
 			<artifactId>fst</artifactId>
@@ -441,40 +438,16 @@
 		</dependency>
 
 		<!-- 用于支持 dubbo 的 restful 注解 start -->
-		<!-- <dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jdk-http</artifactId>
-			<version>3.9.0.Final</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.9.0.Final</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-client</artifactId>
-			<version>3.9.0.Final</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-netty4</artifactId>
-			<version>3.9.0.Final</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>3.9.0.Final</version>
-			<scope>provided</scope>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.jboss.resteasy</groupId> <artifactId>resteasy-jdk-http</artifactId> 
+			<version>3.9.0.Final</version> <scope>provided</scope> </dependency> <dependency> 
+			<groupId>org.jboss.resteasy</groupId> <artifactId>resteasy-jaxrs</artifactId> 
+			<version>3.9.0.Final</version> <scope>provided</scope> </dependency> <dependency> 
+			<groupId>org.jboss.resteasy</groupId> <artifactId>resteasy-client</artifactId> 
+			<version>3.9.0.Final</version> <scope>provided</scope> </dependency> <dependency> 
+			<groupId>org.jboss.resteasy</groupId> <artifactId>resteasy-netty4</artifactId> 
+			<version>3.9.0.Final</version> <scope>provided</scope> </dependency> <dependency> 
+			<groupId>org.jboss.resteasy</groupId> <artifactId>resteasy-jackson-provider</artifactId> 
+			<version>3.9.0.Final</version> <scope>provided</scope> </dependency> -->
 		<!-- 用于支持 dubbo 的 restful 注解 end -->
 
 		<!-- zookeeper -->
@@ -510,6 +483,14 @@
 			<scope>provided</scope>
 		</dependency>
 		<!-- consul end -->
+
+		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -523,80 +504,80 @@
 				<filtering>false</filtering>
 			</resource>
 		</resources>
-<pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>UTF-8</encoding>
-					<!-- java8 保留参数名编译参数 -->
-					<compilerArgument>-parameters</compilerArgument>
-					<compilerArguments>
-						<verbose />
-					</compilerArguments>
-				</configuration>
-			</plugin>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.6.1</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+						<encoding>UTF-8</encoding>
+						<!-- java8 保留参数名编译参数 -->
+						<compilerArgument>-parameters</compilerArgument>
+						<compilerArguments>
+							<verbose />
+						</compilerArguments>
+					</configuration>
+				</plugin>
 
-			<!-- Javadoc -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
-				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
-					<encoding>UTF-8</encoding>
-					<outputDirectory>${basedir}/doc</outputDirectory>
-					<reportOutputDirectory>${basedir}/doc</reportOutputDirectory>
-					<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home/bin/javadoc</javadocExecutable>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+				<!-- Javadoc -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
+					<configuration>
+						<additionalparam>-Xdoclint:none</additionalparam>
+						<encoding>UTF-8</encoding>
+						<outputDirectory>${basedir}/doc</outputDirectory>
+						<reportOutputDirectory>${basedir}/doc</reportOutputDirectory>
+						<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home/bin/javadoc</javadocExecutable>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 
-			<!-- 安装源码到本地仓库 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+				<!-- 安装源码到本地仓库 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.1.2</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.1</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<skip>false</skip>
-				</configuration>
-			</plugin>
-		</plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.1</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<skip>false</skip>
+					</configuration>
+				</plugin>
+			</plugins>
 		</pluginManagement>
 	</build>
 
