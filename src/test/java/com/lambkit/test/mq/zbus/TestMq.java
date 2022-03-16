@@ -1,4 +1,4 @@
-package com.lambkit.test.mq;
+package com.lambkit.test.mq.zbus;
 
 import com.lambkit.core.mq.MqManager;
 import com.lambkit.core.mq.MqPlugin;
