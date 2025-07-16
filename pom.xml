@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.10</version>
+			<version>4.13.1</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -101,7 +101,7 @@
 		<dependency>
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal-undertow</artifactId>
-			<version>1.9</version>
+			<version>3.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jfinal</groupId>
@@ -119,7 +119,7 @@
 		<dependency>
 			<groupId>org.eclipse.jetty.websocket</groupId>
 			<artifactId>websocket-server</artifactId>
-			<version>9.4.12.v20180830</version>
+			<version>9.4.57.v20241219</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -138,7 +138,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.2.6</version>
+			<version>1.2.22</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -244,7 +244,7 @@
 		<dependency>
 			<groupId>com.weibo</groupId>
 			<artifactId>motan-core</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -302,7 +302,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.79</version>
+			<version>1.2.83_noneautotype</version>
 		</dependency>
 		<!-- <dependency> <groupId>com.fasterxml.jackson.core</groupId> <artifactId>jackson-databind</artifactId> 
 			<version>2.13.1</version> </dependency> -->
@@ -315,7 +315,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20160810</version>
+			<version>20231013</version>
 		</dependency>
 		<!-- json for GJsonRender -->
 		<dependency>
@@ -337,7 +337,7 @@
 		<dependency>
 			<groupId>cn.songxinqiang</groupId>
 			<artifactId>com.baidu.ueditor</artifactId>
-			<version>1.1.2-edit-1.0</version>
+			<version>1.1.2-offical</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -415,7 +415,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
-			<version>2.6.7</version>
+			<version>1.2.16</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -440,7 +440,7 @@
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-framework</artifactId>
-			<version>4.2.0</version>
+			<version>5.6.0</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -461,7 +461,7 @@
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
-			<version>3.4.14</version>
+			<version>3.9.3</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -495,7 +495,7 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.4</version>
+			<version>1.11.0</version>
 		</dependency>
 
 	</dependencies>
